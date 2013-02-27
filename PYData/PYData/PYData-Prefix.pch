@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'PYData' target in the 'PYData' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+	#import "PYCore.h"
+#endif

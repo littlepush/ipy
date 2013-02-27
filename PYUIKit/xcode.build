@@ -1,0 +1,107 @@
+#! /bin/sh
+
+function usage() {
+	echo "usage: xcode.build <projectname>"
+}
+
+# make sure the XCode is at least version 4.2
+XPath=$(xcode-select -print-path)
+AppXPath="/Applications/Xcode.app/Contents/Developer"
+if [ "$XPath" != $AppXPath ]; then
+	xcode-select -switch /Applications/Xcode.app
+fi
+
+if [ ! $1 ]; then
+	usage;
+	exit 1
+fi
+ProjectName=$1
+
+XCodeSDKs=$(xcodebuild -showsdks | grep iOS | grep "sdk" | awk -F"-sdk " '{print $2}')
+XCodeSDKsPath=$(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v MacOSX | awk -F": " '{print $2}')
+
+for sdk in $XCodeSDKs; do
+	lsdk=${#sdk}
+	platform=${sdk:0:$((lsdk-3))}
+	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
+		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib
+	if [ $? -ne 0 ]; then
+		exit 1;
+	fi
+done
+
+cd ./build/${ProjectName}-lib
+rm -rf libs
+mkdir -p libs
+libs=$(ls | grep ".a" | sort | uniq)
+#echo $libs
+for lib in $libs; do
+	version=$(echo $lib | grep -o -E "(.{5})$")
+	#echo version: ${version}
+	same_version_lib=$(ls | grep ${version})
+	lib_count=$(ls | grep ${version} | wc -l)
+	if [ $lib_count -ne 2 ]; then
+		continue
+	fi
+	lipo $same_version_lib -create -output libs/lib${ProjectName}-$version
+	rm -rf $same_version_lib
+done
+
+mkdir ./libs/include
+cp -r ../../static-library/components/*.h ./libs/include/
+cp -r ../../static-library/extends/*.h ./libs/include/
+cp -r ../../static-library/PYUIKit.h ./libs/include/
+#mv -f ./local/include ./libs/include
+cd ./libs
+
+includeFiles=$(ls include)
+for headfile in $includeFiles; do
+	filePath=include/${headfile}
+	#echo "process file: $filePath"
+	includes=$(grep "#import \"" ${filePath} | awk -F"#import \"" '{print $2}' | awk -F "\"" '{print $1}')
+	#echo "Find import head: $includes" >> /tmp/aggtarget.log
+	for includePiece in $includes; do
+		filename=$(echo $includePiece | awk -F"." '{print $1}')
+		extension=$(echo $includePiece | awk -F"." '{print $2}')
+		#echo "file: $filename, extension: $extension"
+		sed -i "" "s/\#import\ \"${filename}\.${extension}\"/\#import\ \<${ProjectName}\/${filename}\.${extension}\>/g" $filePath
+	done
+done
+
+mkdir -p /usr/local/lib
+mkdir -p /usr/local/include
+
+rm -rf /usr/local/lib/${ProjectName}*
+rm -rf /usr/local/include/${ProjectName}*
+
+cp -r ./include /usr/local/include/${ProjectName}
+cp ./*.a /usr/local/lib/
+
+highestVersionLib=$(ls lib${ProjectName}* | sort | tail -n 1)
+libs=$(ls lib${ProjectName}*)
+for sdkPath in $XCodeSDKsPath; do
+	sdkVersion=$(echo $sdkPath | grep -o -E "[0-9]\.[0-9]")
+	hasSpecifiedVersion=0
+	for lib in $libs; do
+		libVersion=$(echo $lib | grep -o -E "[0-9]\.[0-9]")
+		if [ "$sdkVersion" != "$libVersion" ]; then
+			continue
+		fi
+		hasSpecifiedVersion=1
+		break
+	done
+	if [ $hasSpecifiedVersion -eq 1 ]; then
+		usingLib=lib${ProjectName}-$sdkVersion.a
+	else
+		usingLib=$highestVersionLib
+	fi
+	sdkFrameworkPath=${sdkPath}/System/Library/Frameworks/${ProjectName}.framework
+	rm -rf $sdkFrameworkPath
+	mkdir -p $sdkFrameworkPath
+	ln -s /usr/local/include/${ProjectName} ${sdkFrameworkPath}/Headers
+	ln -s /usr/local/lib/${usingLib} ${sdkFrameworkPath}/${ProjectName}
+done
+
+cd ../../../
+rm -rf build
+

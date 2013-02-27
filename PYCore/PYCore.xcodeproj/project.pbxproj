@@ -1,0 +1,518 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E68E207F161004EA0092278B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AE342F15B1896100AFBA96 /* Foundation.framework */; };
+		E68E2082161004EA0092278B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E68E2081161004EA0092278B /* main.m */; };
+		E68E2086161004EA0092278B /* coreTest.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E68E2085161004EA0092278B /* coreTest.1 */; };
+		E68E208E161009C60092278B /* NSObject+Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = E62E19F015B33C0E0052FB90 /* NSObject+Extended.m */; };
+		E68E208F161009C90092278B /* PYLRUCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE344F15B1978200AFBA96 /* PYLRUCache.m */; };
+		E68E2090161009CB0092278B /* PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE345115B1978200AFBA96 /* PYCore.m */; };
+		E68E2091161009CD0092278B /* PYListCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE345315B1978200AFBA96 /* PYListCache.m */; };
+		E68E2092161009CF0092278B /* PYTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE345515B1978200AFBA96 /* PYTypes.m */; };
+		E68E2093161009D10092278B /* NSString+PYAppend.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A3870615B544900096A14A /* NSString+PYAppend.m */; };
+		E68E2094161009D30092278B /* NSArray+Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CEE9B15D0132C0024B9B1 /* NSArray+Extended.m */; };
+		E68E2095161009DA0092278B /* PYSharedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E64285A915EA83560096F5F8 /* PYSharedManager.m */; };
+		E68E2096161009DD0092278B /* PYStopWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = E61AAD7215EC64FF00443E41 /* PYStopWatch.m */; };
+		E68E2097161009DF0092278B /* PYCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E61AAD7E15EC909400443E41 /* PYCoder.m */; };
+		E68E2098161009E20092278B /* NSDictionary+Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D57E8915F51B8200C1ED25 /* NSDictionary+Validate.m */; };
+		E68E2099161009E40092278B /* PYFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E692980215F6EEEB00AA0CC3 /* PYFileCache.m */; };
+		E68E209A161009E70092278B /* PYFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E692983A15F77DE500AA0CC3 /* PYFileManager.m */; };
+		E692980315F6EEEB00AA0CC3 /* PYFileCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E692980115F6EEEB00AA0CC3 /* PYFileCache.h */; };
+		E692980415F6EEEB00AA0CC3 /* PYFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E692980215F6EEEB00AA0CC3 /* PYFileCache.m */; };
+		E692983515F76EF200AA0CC3 /* PYMainMacro.h in Headers */ = {isa = PBXBuildFile; fileRef = E692983415F76EF200AA0CC3 /* PYMainMacro.h */; };
+		E692983B15F77DE500AA0CC3 /* PYFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E692983915F77DE400AA0CC3 /* PYFileManager.h */; };
+		E692983C15F77DE500AA0CC3 /* PYFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E692983A15F77DE500AA0CC3 /* PYFileManager.m */; };
+		E69813081647EBF400D984D7 /* PYStreamList.h in Headers */ = {isa = PBXBuildFile; fileRef = E69813061647EBF400D984D7 /* PYStreamList.h */; };
+		E69813091647EBF400D984D7 /* PYStreamList.m in Sources */ = {isa = PBXBuildFile; fileRef = E69813071647EBF400D984D7 /* PYStreamList.m */; };
+		E6D57EDF15F5A6DB00C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AE342F15B1896100AFBA96 /* Foundation.framework */; };
+		E6D57EE915F5A6E800C1ED25 /* NSObject+Extended.h in Headers */ = {isa = PBXBuildFile; fileRef = E62E19EF15B33C0E0052FB90 /* NSObject+Extended.h */; };
+		E6D57EEA15F5A6E800C1ED25 /* NSObject+Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = E62E19F015B33C0E0052FB90 /* NSObject+Extended.m */; };
+		E6D57EEB15F5A6E800C1ED25 /* PYLRUCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E6AE344E15B1978200AFBA96 /* PYLRUCache.h */; };
+		E6D57EEC15F5A6E800C1ED25 /* PYLRUCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE344F15B1978200AFBA96 /* PYLRUCache.m */; };
+		E6D57EED15F5A6E800C1ED25 /* PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E6AE345015B1978200AFBA96 /* PYCore.h */; };
+		E6D57EEE15F5A6E800C1ED25 /* PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE345115B1978200AFBA96 /* PYCore.m */; };
+		E6D57EEF15F5A6E800C1ED25 /* PYListCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E6AE345215B1978200AFBA96 /* PYListCache.h */; };
+		E6D57EF015F5A6E800C1ED25 /* PYListCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE345315B1978200AFBA96 /* PYListCache.m */; };
+		E6D57EF115F5A6E800C1ED25 /* PYTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = E6AE345415B1978200AFBA96 /* PYTypes.h */; };
+		E6D57EF215F5A6E800C1ED25 /* PYTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE345515B1978200AFBA96 /* PYTypes.m */; };
+		E6D57EF315F5A6E800C1ED25 /* NSString+PYAppend.h in Headers */ = {isa = PBXBuildFile; fileRef = E6A3870515B544900096A14A /* NSString+PYAppend.h */; };
+		E6D57EF415F5A6E800C1ED25 /* NSString+PYAppend.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A3870615B544900096A14A /* NSString+PYAppend.m */; };
+		E6D57EF515F5A6E800C1ED25 /* NSArray+Extended.h in Headers */ = {isa = PBXBuildFile; fileRef = E67CEE9A15D0132C0024B9B1 /* NSArray+Extended.h */; };
+		E6D57EF615F5A6E800C1ED25 /* NSArray+Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CEE9B15D0132C0024B9B1 /* NSArray+Extended.m */; };
+		E6D57EF715F5A6E800C1ED25 /* PYSharedManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E64285A815EA83560096F5F8 /* PYSharedManager.h */; };
+		E6D57EF815F5A6E800C1ED25 /* PYSharedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E64285A915EA83560096F5F8 /* PYSharedManager.m */; };
+		E6D57EF915F5A6E800C1ED25 /* PYStopWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = E61AAD7115EC64FE00443E41 /* PYStopWatch.h */; };
+		E6D57EFA15F5A6E800C1ED25 /* PYStopWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = E61AAD7215EC64FF00443E41 /* PYStopWatch.m */; };
+		E6D57EFB15F5A6E800C1ED25 /* PYCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E61AAD7D15EC909400443E41 /* PYCoder.h */; };
+		E6D57EFC15F5A6E800C1ED25 /* PYCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E61AAD7E15EC909400443E41 /* PYCoder.m */; };
+		E6D57EFD15F5A6E800C1ED25 /* NSDictionary+Validate.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D57E8815F51B8200C1ED25 /* NSDictionary+Validate.h */; };
+		E6D57EFE15F5A6E800C1ED25 /* NSDictionary+Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D57E8915F51B8200C1ED25 /* NSDictionary+Validate.m */; };
+		E6F431D21696D04C00571162 /* PYLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F431D01696D04C00571162 /* PYLock.h */; };
+		E6F431D31696D04C00571162 /* PYLock.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F431D11696D04C00571162 /* PYLock.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E68E207B161004EA0092278B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				E68E2086161004EA0092278B /* coreTest.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E61AAD7115EC64FE00443E41 /* PYStopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYStopWatch.h; sourceTree = "<group>"; };
+		E61AAD7215EC64FF00443E41 /* PYStopWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYStopWatch.m; sourceTree = "<group>"; };
+		E61AAD7D15EC909400443E41 /* PYCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCoder.h; sourceTree = "<group>"; };
+		E61AAD7E15EC909400443E41 /* PYCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCoder.m; sourceTree = "<group>"; };
+		E62E19EF15B33C0E0052FB90 /* NSObject+Extended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extended.h"; sourceTree = "<group>"; };
+		E62E19F015B33C0E0052FB90 /* NSObject+Extended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extended.m"; sourceTree = "<group>"; };
+		E64285A815EA83560096F5F8 /* PYSharedManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSharedManager.h; sourceTree = "<group>"; };
+		E64285A915EA83560096F5F8 /* PYSharedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSharedManager.m; sourceTree = "<group>"; };
+		E67CEE9A15D0132C0024B9B1 /* NSArray+Extended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Extended.h"; sourceTree = "<group>"; };
+		E67CEE9B15D0132C0024B9B1 /* NSArray+Extended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extended.m"; sourceTree = "<group>"; };
+		E68E207D161004EA0092278B /* coreTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = coreTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E68E2081161004EA0092278B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E68E2084161004EA0092278B /* coreTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "coreTest-Prefix.pch"; sourceTree = "<group>"; };
+		E68E2085161004EA0092278B /* coreTest.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = coreTest.1; sourceTree = "<group>"; };
+		E692980115F6EEEB00AA0CC3 /* PYFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYFileCache.h; sourceTree = "<group>"; };
+		E692980215F6EEEB00AA0CC3 /* PYFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYFileCache.m; sourceTree = "<group>"; };
+		E692983415F76EF200AA0CC3 /* PYMainMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMainMacro.h; sourceTree = "<group>"; };
+		E692983915F77DE400AA0CC3 /* PYFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYFileManager.h; sourceTree = "<group>"; };
+		E692983A15F77DE500AA0CC3 /* PYFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYFileManager.m; sourceTree = "<group>"; };
+		E69813061647EBF400D984D7 /* PYStreamList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYStreamList.h; sourceTree = "<group>"; };
+		E69813071647EBF400D984D7 /* PYStreamList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYStreamList.m; sourceTree = "<group>"; };
+		E6A3870515B544900096A14A /* NSString+PYAppend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PYAppend.h"; sourceTree = "<group>"; };
+		E6A3870615B544900096A14A /* NSString+PYAppend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PYAppend.m"; sourceTree = "<group>"; };
+		E6AE342D15B1896100AFBA96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E6AE342F15B1896100AFBA96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E6AE343115B1896100AFBA96 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E6AE344E15B1978200AFBA96 /* PYLRUCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLRUCache.h; sourceTree = "<group>"; };
+		E6AE344F15B1978200AFBA96 /* PYLRUCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLRUCache.m; sourceTree = "<group>"; };
+		E6AE345015B1978200AFBA96 /* PYCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PYCore.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		E6AE345115B1978200AFBA96 /* PYCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCore.m; sourceTree = "<group>"; };
+		E6AE345215B1978200AFBA96 /* PYListCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYListCache.h; sourceTree = "<group>"; };
+		E6AE345315B1978200AFBA96 /* PYListCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PYListCache.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E6AE345415B1978200AFBA96 /* PYTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTypes.h; sourceTree = "<group>"; };
+		E6AE345515B1978200AFBA96 /* PYTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYTypes.m; sourceTree = "<group>"; };
+		E6D57E8815F51B8200C1ED25 /* NSDictionary+Validate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Validate.h"; sourceTree = "<group>"; };
+		E6D57E8915F51B8200C1ED25 /* NSDictionary+Validate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Validate.m"; sourceTree = "<group>"; };
+		E6D57EDE15F5A6DB00C1ED25 /* libPYCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6D57EE215F5A6DB00C1ED25 /* PYCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYCore-Prefix.pch"; sourceTree = "<group>"; };
+		E6F431D01696D04C00571162 /* PYLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLock.h; sourceTree = "<group>"; };
+		E6F431D11696D04C00571162 /* PYLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLock.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E68E207A161004EA0092278B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E68E207F161004EA0092278B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6D57EDB15F5A6DB00C1ED25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6D57EDF15F5A6DB00C1ED25 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E68E2080161004EA0092278B /* coreTest */ = {
+			isa = PBXGroup;
+			children = (
+				E68E2081161004EA0092278B /* main.m */,
+				E68E2085161004EA0092278B /* coreTest.1 */,
+				E68E2083161004EA0092278B /* Supporting Files */,
+			);
+			path = coreTest;
+			sourceTree = "<group>";
+		};
+		E68E2083161004EA0092278B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E68E2084161004EA0092278B /* coreTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E6AE341E15B1896000AFBA96 = {
+			isa = PBXGroup;
+			children = (
+				E6AE344D15B1897300AFBA96 /* static-library */,
+				E6D57EE015F5A6DB00C1ED25 /* PYCore */,
+				E68E2080161004EA0092278B /* coreTest */,
+				E6AE342C15B1896100AFBA96 /* Frameworks */,
+				E6AE342A15B1896100AFBA96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E6AE342A15B1896100AFBA96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E6D57EDE15F5A6DB00C1ED25 /* libPYCore.a */,
+				E68E207D161004EA0092278B /* coreTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E6AE342C15B1896100AFBA96 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E6AE342D15B1896100AFBA96 /* UIKit.framework */,
+				E6AE342F15B1896100AFBA96 /* Foundation.framework */,
+				E6AE343115B1896100AFBA96 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E6AE344D15B1897300AFBA96 /* static-library */ = {
+			isa = PBXGroup;
+			children = (
+				E6F431D01696D04C00571162 /* PYLock.h */,
+				E6F431D11696D04C00571162 /* PYLock.m */,
+				E62E19EF15B33C0E0052FB90 /* NSObject+Extended.h */,
+				E62E19F015B33C0E0052FB90 /* NSObject+Extended.m */,
+				E6AE344E15B1978200AFBA96 /* PYLRUCache.h */,
+				E6AE344F15B1978200AFBA96 /* PYLRUCache.m */,
+				E6AE345015B1978200AFBA96 /* PYCore.h */,
+				E6AE345115B1978200AFBA96 /* PYCore.m */,
+				E6AE345215B1978200AFBA96 /* PYListCache.h */,
+				E6AE345315B1978200AFBA96 /* PYListCache.m */,
+				E6AE345415B1978200AFBA96 /* PYTypes.h */,
+				E6AE345515B1978200AFBA96 /* PYTypes.m */,
+				E6A3870515B544900096A14A /* NSString+PYAppend.h */,
+				E6A3870615B544900096A14A /* NSString+PYAppend.m */,
+				E67CEE9A15D0132C0024B9B1 /* NSArray+Extended.h */,
+				E67CEE9B15D0132C0024B9B1 /* NSArray+Extended.m */,
+				E64285A815EA83560096F5F8 /* PYSharedManager.h */,
+				E64285A915EA83560096F5F8 /* PYSharedManager.m */,
+				E61AAD7115EC64FE00443E41 /* PYStopWatch.h */,
+				E61AAD7215EC64FF00443E41 /* PYStopWatch.m */,
+				E61AAD7D15EC909400443E41 /* PYCoder.h */,
+				E61AAD7E15EC909400443E41 /* PYCoder.m */,
+				E6D57E8815F51B8200C1ED25 /* NSDictionary+Validate.h */,
+				E6D57E8915F51B8200C1ED25 /* NSDictionary+Validate.m */,
+				E692980115F6EEEB00AA0CC3 /* PYFileCache.h */,
+				E692980215F6EEEB00AA0CC3 /* PYFileCache.m */,
+				E692983415F76EF200AA0CC3 /* PYMainMacro.h */,
+				E692983915F77DE400AA0CC3 /* PYFileManager.h */,
+				E692983A15F77DE500AA0CC3 /* PYFileManager.m */,
+				E69813061647EBF400D984D7 /* PYStreamList.h */,
+				E69813071647EBF400D984D7 /* PYStreamList.m */,
+			);
+			path = "static-library";
+			sourceTree = "<group>";
+		};
+		E6D57EE015F5A6DB00C1ED25 /* PYCore */ = {
+			isa = PBXGroup;
+			children = (
+				E6D57EE115F5A6DB00C1ED25 /* Supporting Files */,
+			);
+			path = PYCore;
+			sourceTree = "<group>";
+		};
+		E6D57EE115F5A6DB00C1ED25 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E6D57EE215F5A6DB00C1ED25 /* PYCore-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E6D57EDC15F5A6DB00C1ED25 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6D57EE915F5A6E800C1ED25 /* NSObject+Extended.h in Headers */,
+				E6D57EEB15F5A6E800C1ED25 /* PYLRUCache.h in Headers */,
+				E6D57EED15F5A6E800C1ED25 /* PYCore.h in Headers */,
+				E6D57EEF15F5A6E800C1ED25 /* PYListCache.h in Headers */,
+				E6D57EF115F5A6E800C1ED25 /* PYTypes.h in Headers */,
+				E6D57EF315F5A6E800C1ED25 /* NSString+PYAppend.h in Headers */,
+				E6D57EF515F5A6E800C1ED25 /* NSArray+Extended.h in Headers */,
+				E6D57EF715F5A6E800C1ED25 /* PYSharedManager.h in Headers */,
+				E6D57EF915F5A6E800C1ED25 /* PYStopWatch.h in Headers */,
+				E6D57EFB15F5A6E800C1ED25 /* PYCoder.h in Headers */,
+				E6D57EFD15F5A6E800C1ED25 /* NSDictionary+Validate.h in Headers */,
+				E692980315F6EEEB00AA0CC3 /* PYFileCache.h in Headers */,
+				E692983515F76EF200AA0CC3 /* PYMainMacro.h in Headers */,
+				E692983B15F77DE500AA0CC3 /* PYFileManager.h in Headers */,
+				E69813081647EBF400D984D7 /* PYStreamList.h in Headers */,
+				E6F431D21696D04C00571162 /* PYLock.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E68E207C161004EA0092278B /* coreTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E68E2089161004EA0092278B /* Build configuration list for PBXNativeTarget "coreTest" */;
+			buildPhases = (
+				E68E2079161004EA0092278B /* Sources */,
+				E68E207A161004EA0092278B /* Frameworks */,
+				E68E207B161004EA0092278B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = coreTest;
+			productName = coreTest;
+			productReference = E68E207D161004EA0092278B /* coreTest */;
+			productType = "com.apple.product-type.tool";
+		};
+		E6D57EDD15F5A6DB00C1ED25 /* PYCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6D57EE615F5A6DB00C1ED25 /* Build configuration list for PBXNativeTarget "PYCore" */;
+			buildPhases = (
+				E6D57EDA15F5A6DB00C1ED25 /* Sources */,
+				E6D57EDB15F5A6DB00C1ED25 /* Frameworks */,
+				E6D57EDC15F5A6DB00C1ED25 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PYCore;
+			productName = PYCore;
+			productReference = E6D57EDE15F5A6DB00C1ED25 /* libPYCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E6AE342015B1896000AFBA96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PY;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = PushLab;
+			};
+			buildConfigurationList = E6AE342315B1896000AFBA96 /* Build configuration list for PBXProject "PYCore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E6AE341E15B1896000AFBA96;
+			productRefGroup = E6AE342A15B1896100AFBA96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E6D57EDD15F5A6DB00C1ED25 /* PYCore */,
+				E68E207C161004EA0092278B /* coreTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E68E2079161004EA0092278B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E68E2082161004EA0092278B /* main.m in Sources */,
+				E68E208E161009C60092278B /* NSObject+Extended.m in Sources */,
+				E68E208F161009C90092278B /* PYLRUCache.m in Sources */,
+				E68E2090161009CB0092278B /* PYCore.m in Sources */,
+				E68E2091161009CD0092278B /* PYListCache.m in Sources */,
+				E68E2092161009CF0092278B /* PYTypes.m in Sources */,
+				E68E2093161009D10092278B /* NSString+PYAppend.m in Sources */,
+				E68E2094161009D30092278B /* NSArray+Extended.m in Sources */,
+				E68E2095161009DA0092278B /* PYSharedManager.m in Sources */,
+				E68E2096161009DD0092278B /* PYStopWatch.m in Sources */,
+				E68E2097161009DF0092278B /* PYCoder.m in Sources */,
+				E68E2098161009E20092278B /* NSDictionary+Validate.m in Sources */,
+				E68E2099161009E40092278B /* PYFileCache.m in Sources */,
+				E68E209A161009E70092278B /* PYFileManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6D57EDA15F5A6DB00C1ED25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6D57EEA15F5A6E800C1ED25 /* NSObject+Extended.m in Sources */,
+				E6D57EEC15F5A6E800C1ED25 /* PYLRUCache.m in Sources */,
+				E6D57EEE15F5A6E800C1ED25 /* PYCore.m in Sources */,
+				E6D57EF015F5A6E800C1ED25 /* PYListCache.m in Sources */,
+				E6D57EF215F5A6E800C1ED25 /* PYTypes.m in Sources */,
+				E6D57EF415F5A6E800C1ED25 /* NSString+PYAppend.m in Sources */,
+				E6D57EF615F5A6E800C1ED25 /* NSArray+Extended.m in Sources */,
+				E6D57EF815F5A6E800C1ED25 /* PYSharedManager.m in Sources */,
+				E6D57EFA15F5A6E800C1ED25 /* PYStopWatch.m in Sources */,
+				E6D57EFC15F5A6E800C1ED25 /* PYCoder.m in Sources */,
+				E6D57EFE15F5A6E800C1ED25 /* NSDictionary+Validate.m in Sources */,
+				E692980415F6EEEB00AA0CC3 /* PYFileCache.m in Sources */,
+				E692983C15F77DE500AA0CC3 /* PYFileManager.m in Sources */,
+				E69813091647EBF400D984D7 /* PYStreamList.m in Sources */,
+				E6F431D31696D04C00571162 /* PYLock.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E68E2087161004EA0092278B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "coreTest/coreTest-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E68E2088161004EA0092278B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "coreTest/coreTest-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E6AE344815B1896100AFBA96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E6AE344915B1896100AFBA96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E6D57EE715F5A6DB00C1ED25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/PYCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PYCore/PYCore-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
+			};
+			name = Debug;
+		};
+		E6D57EE815F5A6DB00C1ED25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/PYCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PYCore/PYCore-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E68E2089161004EA0092278B /* Build configuration list for PBXNativeTarget "coreTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E68E2087161004EA0092278B /* Debug */,
+				E68E2088161004EA0092278B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6AE342315B1896000AFBA96 /* Build configuration list for PBXProject "PYCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6AE344815B1896100AFBA96 /* Debug */,
+				E6AE344915B1896100AFBA96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6D57EE615F5A6DB00C1ED25 /* Build configuration list for PBXNativeTarget "PYCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6D57EE715F5A6DB00C1ED25 /* Debug */,
+				E6D57EE815F5A6DB00C1ED25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E6AE342015B1896000AFBA96 /* Project object */;
+}

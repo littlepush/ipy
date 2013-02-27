@@ -1,0 +1,392 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E6263F6415B428E500DCF831 /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F6315B428E500DCF831 /* PYCore.framework */; };
+		E62EC1EF15B71A4100A17B56 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E62EC1EE15B71A4100A17B56 /* Reachability.m */; };
+		E62EC1F115B71A5700A17B56 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62EC1F015B71A5700A17B56 /* SystemConfiguration.framework */; };
+		E62EC1F615B71B6400A17B56 /* PYNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E62EC1F515B71B6400A17B56 /* PYNetworkRequest.m */; };
+		E62EC1F915B71B7200A17B56 /* PYNetworkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E62EC1F815B71B7200A17B56 /* PYNetworkResponse.m */; };
+		E62EC1FC15B71B8200A17B56 /* PYNetworkAction.m in Sources */ = {isa = PBXBuildFile; fileRef = E62EC1FB15B71B8200A17B56 /* PYNetworkAction.m */; };
+		E678404215B8FA73002C7FF8 /* PYHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E678404115B8FA73002C7FF8 /* PYHttpRequest.m */; };
+		E678404515B905B9002C7FF8 /* PYNetworkActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E678404415B905B9002C7FF8 /* PYNetworkActionManager.m */; };
+		E6A06AEA15AC94A300D58F33 /* PYBaseSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A06AE915AC94A300D58F33 /* PYBaseSocket.m */; };
+		E6AA32A815A81959007112CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA32A715A81958007112CD /* UIKit.framework */; };
+		E6AA32AA15A81959007112CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA32A915A81959007112CD /* Foundation.framework */; };
+		E6AA32AC15A81959007112CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA32AB15A81959007112CD /* CoreGraphics.framework */; };
+		E6AA32B215A81959007112CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E6AA32B015A81959007112CD /* InfoPlist.strings */; };
+		E6AA32B415A81959007112CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AA32B315A81959007112CD /* main.m */; };
+		E6AA32B815A81959007112CD /* PYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AA32B715A81959007112CD /* PYAppDelegate.m */; };
+		E6AA32BB15A81959007112CD /* PYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AA32BA15A81959007112CD /* PYViewController.m */; };
+		E6AA32BE15A81959007112CD /* PYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6AA32BC15A81959007112CD /* PYViewController.xib */; };
+		E6AE341815AD81D500AFBA96 /* PYNetworkUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE341715AD81D500AFBA96 /* PYNetworkUtility.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E6263F6315B428E500DCF831 /* PYCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PYCore.framework; path = System/Library/Frameworks/PYCore.framework; sourceTree = SDKROOT; };
+		E62EC1ED15B71A4100A17B56 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		E62EC1EE15B71A4100A17B56 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		E62EC1F015B71A5700A17B56 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E62EC1F315B71AFD00A17B56 /* PYNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYNetwork.h; sourceTree = "<group>"; };
+		E62EC1F415B71B6400A17B56 /* PYNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNetworkRequest.h; sourceTree = "<group>"; };
+		E62EC1F515B71B6400A17B56 /* PYNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNetworkRequest.m; sourceTree = "<group>"; };
+		E62EC1F715B71B7200A17B56 /* PYNetworkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNetworkResponse.h; sourceTree = "<group>"; };
+		E62EC1F815B71B7200A17B56 /* PYNetworkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNetworkResponse.m; sourceTree = "<group>"; };
+		E62EC1FA15B71B8200A17B56 /* PYNetworkAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNetworkAction.h; sourceTree = "<group>"; };
+		E62EC1FB15B71B8200A17B56 /* PYNetworkAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNetworkAction.m; sourceTree = "<group>"; };
+		E678403D15B85CCA002C7FF8 /* PYNetworkAction+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYNetworkAction+Internal.h"; sourceTree = "<group>"; };
+		E678404015B8FA73002C7FF8 /* PYHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYHttpRequest.h; sourceTree = "<group>"; };
+		E678404115B8FA73002C7FF8 /* PYHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYHttpRequest.m; sourceTree = "<group>"; };
+		E678404315B905B9002C7FF8 /* PYNetworkActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNetworkActionManager.h; sourceTree = "<group>"; };
+		E678404415B905B9002C7FF8 /* PYNetworkActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNetworkActionManager.m; sourceTree = "<group>"; };
+		E678408015BC633C002C7FF8 /* PYNetworkActionManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYNetworkActionManager+Internal.h"; sourceTree = "<group>"; };
+		E6A06AE815AC94A300D58F33 /* PYBaseSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYBaseSocket.h; sourceTree = "<group>"; };
+		E6A06AE915AC94A300D58F33 /* PYBaseSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYBaseSocket.m; sourceTree = "<group>"; };
+		E6A06AEB15AC999100D58F33 /* PYNetworkUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYNetworkUtility.h; sourceTree = "<group>"; };
+		E6AA32A315A81958007112CD /* PYNetwork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PYNetwork.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6AA32A715A81958007112CD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E6AA32A915A81959007112CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E6AA32AB15A81959007112CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E6AA32AF15A81959007112CD /* PYNetwork-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PYNetwork-Info.plist"; sourceTree = "<group>"; };
+		E6AA32B115A81959007112CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E6AA32B315A81959007112CD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E6AA32B515A81959007112CD /* PYNetwork-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYNetwork-Prefix.pch"; sourceTree = "<group>"; };
+		E6AA32B615A81959007112CD /* PYAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYAppDelegate.h; sourceTree = "<group>"; };
+		E6AA32B715A81959007112CD /* PYAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PYAppDelegate.m; sourceTree = "<group>"; };
+		E6AA32B915A81959007112CD /* PYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYViewController.h; sourceTree = "<group>"; };
+		E6AA32BA15A81959007112CD /* PYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PYViewController.m; sourceTree = "<group>"; };
+		E6AA32BD15A81959007112CD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PYViewController.xib; sourceTree = "<group>"; };
+		E6AE341715AD81D500AFBA96 /* PYNetworkUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNetworkUtility.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E6AA32A015A81958007112CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E62EC1F115B71A5700A17B56 /* SystemConfiguration.framework in Frameworks */,
+				E6263F6415B428E500DCF831 /* PYCore.framework in Frameworks */,
+				E6AA32A815A81959007112CD /* UIKit.framework in Frameworks */,
+				E6AA32AA15A81959007112CD /* Foundation.framework in Frameworks */,
+				E6AA32AC15A81959007112CD /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E62EC1EB15B7191700A17B56 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				E62EC1ED15B71A4100A17B56 /* Reachability.h */,
+				E62EC1EE15B71A4100A17B56 /* Reachability.m */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
+		E62EC1F215B71A7F00A17B56 /* BaseInteractions */ = {
+			isa = PBXGroup;
+			children = (
+				E62EC1F415B71B6400A17B56 /* PYNetworkRequest.h */,
+				E62EC1F515B71B6400A17B56 /* PYNetworkRequest.m */,
+				E62EC1F715B71B7200A17B56 /* PYNetworkResponse.h */,
+				E62EC1F815B71B7200A17B56 /* PYNetworkResponse.m */,
+				E62EC1FA15B71B8200A17B56 /* PYNetworkAction.h */,
+				E62EC1FB15B71B8200A17B56 /* PYNetworkAction.m */,
+				E678403D15B85CCA002C7FF8 /* PYNetworkAction+Internal.h */,
+				E678404315B905B9002C7FF8 /* PYNetworkActionManager.h */,
+				E678404415B905B9002C7FF8 /* PYNetworkActionManager.m */,
+				E678408015BC633C002C7FF8 /* PYNetworkActionManager+Internal.h */,
+			);
+			path = BaseInteractions;
+			sourceTree = "<group>";
+		};
+		E678403F15B8F1AA002C7FF8 /* HTTPRequest */ = {
+			isa = PBXGroup;
+			children = (
+				E678404015B8FA73002C7FF8 /* PYHttpRequest.h */,
+				E678404115B8FA73002C7FF8 /* PYHttpRequest.m */,
+			);
+			path = HTTPRequest;
+			sourceTree = "<group>";
+		};
+		E6A06AE715AC92FD00D58F33 /* AsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				E6A06AE815AC94A300D58F33 /* PYBaseSocket.h */,
+				E6A06AE915AC94A300D58F33 /* PYBaseSocket.m */,
+				E6A06AEB15AC999100D58F33 /* PYNetworkUtility.h */,
+				E6AE341715AD81D500AFBA96 /* PYNetworkUtility.m */,
+			);
+			path = AsyncSocket;
+			sourceTree = "<group>";
+		};
+		E6AA329815A81958007112CD = {
+			isa = PBXGroup;
+			children = (
+				E6AA32C415A8197A007112CD /* static-library */,
+				E6AA32AD15A81959007112CD /* PYNetwork */,
+				E6AA32A615A81958007112CD /* Frameworks */,
+				E6AA32A415A81958007112CD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E6AA32A415A81958007112CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E6AA32A315A81958007112CD /* PYNetwork.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E6AA32A615A81958007112CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E62EC1F015B71A5700A17B56 /* SystemConfiguration.framework */,
+				E6263F6315B428E500DCF831 /* PYCore.framework */,
+				E6AA32A715A81958007112CD /* UIKit.framework */,
+				E6AA32A915A81959007112CD /* Foundation.framework */,
+				E6AA32AB15A81959007112CD /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E6AA32AD15A81959007112CD /* PYNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				E6AA32B615A81959007112CD /* PYAppDelegate.h */,
+				E6AA32B715A81959007112CD /* PYAppDelegate.m */,
+				E6AA32B915A81959007112CD /* PYViewController.h */,
+				E6AA32BA15A81959007112CD /* PYViewController.m */,
+				E6AA32BC15A81959007112CD /* PYViewController.xib */,
+				E6AA32AE15A81959007112CD /* Supporting Files */,
+			);
+			path = PYNetwork;
+			sourceTree = "<group>";
+		};
+		E6AA32AE15A81959007112CD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E6AA32AF15A81959007112CD /* PYNetwork-Info.plist */,
+				E6AA32B015A81959007112CD /* InfoPlist.strings */,
+				E6AA32B315A81959007112CD /* main.m */,
+				E6AA32B515A81959007112CD /* PYNetwork-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E6AA32C415A8197A007112CD /* static-library */ = {
+			isa = PBXGroup;
+			children = (
+				E678403F15B8F1AA002C7FF8 /* HTTPRequest */,
+				E62EC1F215B71A7F00A17B56 /* BaseInteractions */,
+				E62EC1EB15B7191700A17B56 /* Reachability */,
+				E6A06AE715AC92FD00D58F33 /* AsyncSocket */,
+				E62EC1F315B71AFD00A17B56 /* PYNetwork.h */,
+			);
+			path = "static-library";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E6AA32A215A81958007112CD /* PYNetwork */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6AA32C115A81959007112CD /* Build configuration list for PBXNativeTarget "PYNetwork" */;
+			buildPhases = (
+				E6AA329F15A81958007112CD /* Sources */,
+				E6AA32A015A81958007112CD /* Frameworks */,
+				E6AA32A115A81958007112CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PYNetwork;
+			productName = PYNetwork;
+			productReference = E6AA32A315A81958007112CD /* PYNetwork.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E6AA329A15A81958007112CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PY;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Push Lab";
+			};
+			buildConfigurationList = E6AA329D15A81958007112CD /* Build configuration list for PBXProject "PYNetwork" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E6AA329815A81958007112CD;
+			productRefGroup = E6AA32A415A81958007112CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E6AA32A215A81958007112CD /* PYNetwork */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E6AA32A115A81958007112CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6AA32B215A81959007112CD /* InfoPlist.strings in Resources */,
+				E6AA32BE15A81959007112CD /* PYViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E6AA329F15A81958007112CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6AA32B415A81959007112CD /* main.m in Sources */,
+				E6AA32B815A81959007112CD /* PYAppDelegate.m in Sources */,
+				E6AA32BB15A81959007112CD /* PYViewController.m in Sources */,
+				E6A06AEA15AC94A300D58F33 /* PYBaseSocket.m in Sources */,
+				E6AE341815AD81D500AFBA96 /* PYNetworkUtility.m in Sources */,
+				E62EC1EF15B71A4100A17B56 /* Reachability.m in Sources */,
+				E62EC1F615B71B6400A17B56 /* PYNetworkRequest.m in Sources */,
+				E62EC1F915B71B7200A17B56 /* PYNetworkResponse.m in Sources */,
+				E62EC1FC15B71B8200A17B56 /* PYNetworkAction.m in Sources */,
+				E678404215B8FA73002C7FF8 /* PYHttpRequest.m in Sources */,
+				E678404515B905B9002C7FF8 /* PYNetworkActionManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E6AA32B015A81959007112CD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E6AA32B115A81959007112CD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E6AA32BC15A81959007112CD /* PYViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E6AA32BD15A81959007112CD /* en */,
+			);
+			name = PYViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E6AA32BF15A81959007112CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E6AA32C015A81959007112CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E6AA32C215A81959007112CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PYNetwork/PYNetwork-Prefix.pch";
+				INFOPLIST_FILE = "PYNetwork/PYNetwork-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E6AA32C315A81959007112CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PYNetwork/PYNetwork-Prefix.pch";
+				INFOPLIST_FILE = "PYNetwork/PYNetwork-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E6AA329D15A81958007112CD /* Build configuration list for PBXProject "PYNetwork" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6AA32BF15A81959007112CD /* Debug */,
+				E6AA32C015A81959007112CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6AA32C115A81959007112CD /* Build configuration list for PBXNativeTarget "PYNetwork" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6AA32C215A81959007112CD /* Debug */,
+				E6AA32C315A81959007112CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E6AA329A15A81958007112CD /* Project object */;
+}
