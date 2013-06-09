@@ -1,12 +1,10 @@
 //
-//  PYCore.m
+//  NSString+Validation.h
 //  PYCore
 //
 //  Created by Push Chen on 6/10/13.
 //  Copyright (c) 2013 PushLab. All rights reserved.
 //
-
-#import "PYCore.h"
 
 /*
  LISENCE FOR IPY
@@ -24,7 +22,23 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-// Nothing to do in this file.
+#import <Foundation/Foundation.h>
+
+@interface NSString (Validation)
+
+// Check if the string content is an integer
+- (BOOL)isIntager;
+
+// Check if the string is a validate email address
+- (BOOL)isValidateEmailAddress;
+
+// Reform the phone number, remove all '-'
+- (NSString *)reformTelphone;
+
+// Check if self is validate ip address.
+- (BOOL)isValidateIp;
+
+@end
 
 // @littlepush
 // littlepush@gmail.com

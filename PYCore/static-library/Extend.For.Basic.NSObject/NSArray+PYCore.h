@@ -1,12 +1,10 @@
 //
-//  PYCore.m
+//  NSArray+PYCore.h
 //  PYCore
 //
 //  Created by Push Chen on 6/10/13.
 //  Copyright (c) 2013 PushLab. All rights reserved.
 //
-
-#import "PYCore.h"
 
 /*
  LISENCE FOR IPY
@@ -24,7 +22,19 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-// Nothing to do in this file.
+#import <Foundation/Foundation.h>
+
+@interface NSArray (PYCore)
+
+// For Delegated object group, try to perform selector
+- (void)objectsTryToPerformSelector:(SEL)selector;
+- (void)objectsTryToPerformSelector:(SEL)selector withObject:(id)obj;
+- (void)objectsTryToPerformSelector:(SEL)selector withObject:(id)obj1 withObject:(id)obj2;
+
+// Safely to get the object at index.
+- (id)safeObjectAtIndex:(NSUInteger)index;
+
+@end
 
 // @littlepush
 // littlepush@gmail.com
