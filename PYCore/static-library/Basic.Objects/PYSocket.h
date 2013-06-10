@@ -1,8 +1,8 @@
 //
-//  PYCore.h
+//  PYSocket.h
 //  PYCore
 //
-//  Created by Push Chen on 6/10/13.
+//  Created by Push Chen on 6/11/13.
 //  Copyright (c) 2013 PushLab. All rights reserved.
 //
 
@@ -24,25 +24,9 @@
 
 #import <Foundation/Foundation.h>
 
-// Extend
-#import "NSObject+PYCore.h"
-#import "NSArray+PYCore.h"
-#import "NSString+PYCore.h"
+@interface PYSocket : NSObject
 
-// Validation
-#import "NSDictionary+Validation.h"
-#import "NSString+Validation.h"
-
-// Basic
-#import "PYEncoder.h"
-#import "PYNetworkPeerInfo.h"
-#import "PYSocket.h"
-
-// Utility
-#import "PYDate.h"
-#import "PYLocalizedString.h"
-#import "PYStopWatch.h"
-#import "PYMerger.h"
+@end
 
 // @littlepush
 // littlepush@gmail.com

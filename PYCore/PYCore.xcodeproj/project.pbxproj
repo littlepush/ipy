@@ -25,10 +25,12 @@
 		E64EB6AD1764F6D0009294FE /* NSDictionary+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6AB1764F6D0009294FE /* NSDictionary+Validation.m */; };
 		E64EB6B01764F71B009294FE /* NSString+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6AE1764F71B009294FE /* NSString+Validation.h */; };
 		E64EB6B11764F71B009294FE /* NSString+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6AF1764F71B009294FE /* NSString+Validation.m */; };
-		E64EB6B41764F971009294FE /* PYLRU.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6B21764F970009294FE /* PYLRU.h */; };
-		E64EB6B51764F971009294FE /* PYLRU.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6B31764F970009294FE /* PYLRU.m */; };
 		E64EB6B8176583F7009294FE /* PYMerger.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6B6176583F4009294FE /* PYMerger.h */; };
 		E64EB6B9176583F7009294FE /* PYMerger.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6B7176583F6009294FE /* PYMerger.m */; };
+		E64EB6BC176634A5009294FE /* PYNetworkPeerInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6BA176634A5009294FE /* PYNetworkPeerInfo.h */; };
+		E64EB6BD176634A5009294FE /* PYNetworkPeerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6BB176634A5009294FE /* PYNetworkPeerInfo.m */; };
+		E64EB6C01766368B009294FE /* PYSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6BE1766368A009294FE /* PYSocket.h */; };
+		E64EB6C11766368B009294FE /* PYSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6BF1766368A009294FE /* PYSocket.m */; };
 		E64F409C17088CEF0037BB6B /* NSObject+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64F409A17088CEF0037BB6B /* NSObject+PYCore.h */; };
 		E64F409D17088CEF0037BB6B /* NSObject+PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64F409B17088CEF0037BB6B /* NSObject+PYCore.m */; };
 		E6D57EDF15F5A6DB00C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AE342F15B1896100AFBA96 /* Foundation.framework */; };
@@ -54,15 +56,15 @@
 		E64EB6AB1764F6D0009294FE /* NSDictionary+Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Validation.m"; sourceTree = "<group>"; };
 		E64EB6AE1764F71B009294FE /* NSString+Validation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Validation.h"; sourceTree = "<group>"; };
 		E64EB6AF1764F71B009294FE /* NSString+Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Validation.m"; sourceTree = "<group>"; };
-		E64EB6B21764F970009294FE /* PYLRU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLRU.h; sourceTree = "<group>"; };
-		E64EB6B31764F970009294FE /* PYLRU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLRU.m; sourceTree = "<group>"; };
 		E64EB6B6176583F4009294FE /* PYMerger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMerger.h; sourceTree = "<group>"; };
 		E64EB6B7176583F6009294FE /* PYMerger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMerger.m; sourceTree = "<group>"; };
+		E64EB6BA176634A5009294FE /* PYNetworkPeerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNetworkPeerInfo.h; sourceTree = "<group>"; };
+		E64EB6BB176634A5009294FE /* PYNetworkPeerInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNetworkPeerInfo.m; sourceTree = "<group>"; };
+		E64EB6BE1766368A009294FE /* PYSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocket.h; sourceTree = "<group>"; };
+		E64EB6BF1766368A009294FE /* PYSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocket.m; sourceTree = "<group>"; };
 		E64F409A17088CEF0037BB6B /* NSObject+PYCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PYCore.h"; sourceTree = "<group>"; };
 		E64F409B17088CEF0037BB6B /* NSObject+PYCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PYCore.m"; sourceTree = "<group>"; };
-		E6AE342D15B1896100AFBA96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E6AE342F15B1896100AFBA96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		E6AE343115B1896100AFBA96 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E6D57EDE15F5A6DB00C1ED25 /* libPYCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D57EE215F5A6DB00C1ED25 /* PYCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYCore-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,8 +86,10 @@
 			children = (
 				E64EB6931764EF82009294FE /* PYEncoder.h */,
 				E64EB6941764EF82009294FE /* PYEncoder.m */,
-				E64EB6B21764F970009294FE /* PYLRU.h */,
-				E64EB6B31764F970009294FE /* PYLRU.m */,
+				E64EB6BA176634A5009294FE /* PYNetworkPeerInfo.h */,
+				E64EB6BB176634A5009294FE /* PYNetworkPeerInfo.m */,
+				E64EB6BE1766368A009294FE /* PYSocket.h */,
+				E64EB6BF1766368A009294FE /* PYSocket.m */,
 			);
 			name = "Basic Objects";
 			path = Basic.Objects;
@@ -154,9 +158,7 @@
 		E6AE342C15B1896100AFBA96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E6AE342D15B1896100AFBA96 /* UIKit.framework */,
 				E6AE342F15B1896100AFBA96 /* Foundation.framework */,
-				E6AE343115B1896100AFBA96 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -208,8 +210,9 @@
 				E64EB6A81764F61B009294FE /* PYStopWatch.h in Headers */,
 				E64EB6AC1764F6D0009294FE /* NSDictionary+Validation.h in Headers */,
 				E64EB6B01764F71B009294FE /* NSString+Validation.h in Headers */,
-				E64EB6B41764F971009294FE /* PYLRU.h in Headers */,
 				E64EB6B8176583F7009294FE /* PYMerger.h in Headers */,
+				E64EB6BC176634A5009294FE /* PYNetworkPeerInfo.h in Headers */,
+				E64EB6C01766368B009294FE /* PYSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,8 +278,9 @@
 				E64EB6A91764F61B009294FE /* PYStopWatch.m in Sources */,
 				E64EB6AD1764F6D0009294FE /* NSDictionary+Validation.m in Sources */,
 				E64EB6B11764F71B009294FE /* NSString+Validation.m in Sources */,
-				E64EB6B51764F971009294FE /* PYLRU.m in Sources */,
 				E64EB6B9176583F7009294FE /* PYMerger.m in Sources */,
+				E64EB6BD176634A5009294FE /* PYNetworkPeerInfo.m in Sources */,
+				E64EB6C11766368B009294FE /* PYSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +306,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -320,7 +324,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
