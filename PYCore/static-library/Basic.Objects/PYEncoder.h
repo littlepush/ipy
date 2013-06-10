@@ -41,12 +41,6 @@
 // MD5 Sum
 + (NSString *)md5sum:(NSString *)input;
 
-// GZip.
-+ (BOOL)zipFile:(NSString *)sourcePath toDest:(NSString *)destPath
-          error:(NSError **)error;
-+ (BOOL)unzipFile:(NSString *)sourcePath toDest:(NSString *)destPath
-            error:(NSError **)error;
-
 @end
 
 // @littlepush

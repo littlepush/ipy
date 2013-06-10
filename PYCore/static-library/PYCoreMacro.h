@@ -49,85 +49,25 @@ typedef unsigned long long int	Uint64;
 extern "C" {
 #endif
     
-#define PYCORE_TIME_FORMAT_BASIC	@"%04d-%02d-%02d %02d:%02d:%02d,%03d"
+    #define PYCORE_TIME_FORMAT_BASIC	@"%04d-%02d-%02d %02d:%02d:%02d,%03d"
     
     // Get current time in simple format
     NSString * __getCurrentFormatDate();
     
-    static inline
+    // Log fucntions
     void __formatLogLine(const char * __file,
                          const char * __func, Uint32
-                         __line, NSString *__log)
-    {
-        printf("[%s]<%s:%u> %s\n", [__getCurrentFormatDate() UTF8String],
-               __func, __line, [__log UTF8String]);
-    }
+                         __line, NSString *__log);
+    BOOL __qt_print_logHead(const char * __func, Uint32 __line );
+    BOOL __qt_print_bool( const char * _exp, BOOL _bexp );
+    BOOL __qt_print_while( const char * _exp, BOOL _bexp );
+    BOOL __qt_print_else_bool( const char * _exp, BOOL _bexp );
     
-    static inline
-    BOOL __qt_print_logHead(const char * __func, Uint32 __line )
-    {
-        printf("[%s]<%s:%u>", [__getCurrentFormatDate() UTF8String],
-               __func, __line);
-        return YES;
-    }
-    static inline
-    BOOL __qt_print_bool( const char * _exp, BOOL _bexp )
-    {
-        printf("{%s}: %s\n", _exp, (_bexp ? "YES" : "NO"));
-        return _bexp;
-    }
-    static inline
-    BOOL __qt_print_while( const char * _exp, BOOL _bexp )
-    {
-        printf("{WHILE:%s}: %s\n", _exp, (_bexp ? "YES" : "NO"));
-        return _bexp;
-    }
-    static inline
-    BOOL __qt_print_else_bool( const char * _exp, BOOL _bexp )
-    {
-        printf("{else: %s}: %s\n", _exp, (_bexp ? "YES" : "NO"));
-        return _bexp;
-    }
+    // Basic Functions
+    NSString *__qt_doucmentPath( );
+    NSString *__qt_guid( );
+    NSString *__qt_timestampId( );
     
-    static inline
-    NSString *__qt_doucmentPath( ) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains
-        (NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentDirectory = [paths objectAtIndex:0];
-        return documentDirectory;
-    }
-    
-    static inline
-    NSString *__qt_guid( ) {
-        // create a new UUID which you own
-        CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-        
-        // create a new CFStringRef (toll-free bridged to NSString)
-        // that you own
-        NSString *uuidString = (NSString *)CFBridgingRelease
-        (CFUUIDCreateString(kCFAllocatorDefault, uuid));
-        uuidString = [uuidString
-                      stringByReplacingOccurrencesOfString:@"-"
-                      withString:@""];
-        // transfer ownership of the string
-        // to the autorelease pool
-        
-        // release the UUID
-        CFRelease(uuid);
-        
-        return uuidString;
-    }
-    
-    static inline
-    NSString *__qt_timestampId( ) {
-        struct timeval _timenow;
-        gettimeofday( &_timenow, NULL );
-        int64_t _milesecond = _timenow.tv_sec;
-        _milesecond *= 1000;
-        _milesecond += (_timenow.tv_usec / 1000);
-        NSString *_timestamp = [NSString stringWithFormat:@"%lld", _milesecond];
-        return _timestamp;
-    }
 #ifdef __cplusplus
 }
 #endif

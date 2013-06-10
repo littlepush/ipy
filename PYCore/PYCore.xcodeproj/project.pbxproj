@@ -7,31 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68A1764EE1E009294FE /* NSArray+PYCore.h */; };
+		E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68A1764EE1E009294FE /* NSArray+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB68D1764EE1F009294FE /* NSArray+PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB68B1764EE1E009294FE /* NSArray+PYCore.m */; };
-		E64EB6901764EE93009294FE /* NSString+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68E1764EE92009294FE /* NSString+PYCore.h */; };
+		E64EB6901764EE93009294FE /* NSString+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68E1764EE92009294FE /* NSString+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6911764EE93009294FE /* NSString+PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB68F1764EE92009294FE /* NSString+PYCore.m */; };
-		E64EB6951764EF82009294FE /* PYEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6931764EF82009294FE /* PYEncoder.h */; };
+		E64EB6951764EF82009294FE /* PYEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6931764EF82009294FE /* PYEncoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6961764EF82009294FE /* PYEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6941764EF82009294FE /* PYEncoder.m */; };
-		E64EB69A1764F1EF009294FE /* PYDate.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6981764F1EF009294FE /* PYDate.h */; };
+		E64EB69A1764F1EF009294FE /* PYDate.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6981764F1EF009294FE /* PYDate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB69B1764F1EF009294FE /* PYDate.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6991764F1EF009294FE /* PYDate.m */; };
-		E64EB69E1764F27E009294FE /* PYLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB69C1764F27E009294FE /* PYLocalizedString.h */; };
+		E64EB69E1764F27E009294FE /* PYLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB69C1764F27E009294FE /* PYLocalizedString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB69F1764F27E009294FE /* PYLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB69D1764F27E009294FE /* PYLocalizedString.m */; };
-		E64EB6A21764F3A2009294FE /* PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6A01764F39F009294FE /* PYCore.h */; };
+		E64EB6A21764F3A2009294FE /* PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6A01764F39F009294FE /* PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6A31764F3A2009294FE /* PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6A11764F3A1009294FE /* PYCore.m */; };
-		E64EB6A81764F61B009294FE /* PYStopWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6A61764F61A009294FE /* PYStopWatch.h */; };
+		E64EB6A81764F61B009294FE /* PYStopWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6A61764F61A009294FE /* PYStopWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6A91764F61B009294FE /* PYStopWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6A71764F61A009294FE /* PYStopWatch.m */; };
-		E64EB6AC1764F6D0009294FE /* NSDictionary+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6AA1764F6D0009294FE /* NSDictionary+Validation.h */; };
+		E64EB6AC1764F6D0009294FE /* NSDictionary+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6AA1764F6D0009294FE /* NSDictionary+Validation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6AD1764F6D0009294FE /* NSDictionary+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6AB1764F6D0009294FE /* NSDictionary+Validation.m */; };
-		E64EB6B01764F71B009294FE /* NSString+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6AE1764F71B009294FE /* NSString+Validation.h */; };
+		E64EB6B01764F71B009294FE /* NSString+Validation.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6AE1764F71B009294FE /* NSString+Validation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6B11764F71B009294FE /* NSString+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6AF1764F71B009294FE /* NSString+Validation.m */; };
-		E64EB6B8176583F7009294FE /* PYMerger.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6B6176583F4009294FE /* PYMerger.h */; };
+		E64EB6B8176583F7009294FE /* PYMerger.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6B6176583F4009294FE /* PYMerger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6B9176583F7009294FE /* PYMerger.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6B7176583F6009294FE /* PYMerger.m */; };
-		E64EB6BC176634A5009294FE /* PYNetworkPeerInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6BA176634A5009294FE /* PYNetworkPeerInfo.h */; };
+		E64EB6BC176634A5009294FE /* PYNetworkPeerInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6BA176634A5009294FE /* PYNetworkPeerInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6BD176634A5009294FE /* PYNetworkPeerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6BB176634A5009294FE /* PYNetworkPeerInfo.m */; };
-		E64EB6C01766368B009294FE /* PYSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6BE1766368A009294FE /* PYSocket.h */; };
+		E64EB6C01766368B009294FE /* PYSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6BE1766368A009294FE /* PYSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB6C11766368B009294FE /* PYSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6BF1766368A009294FE /* PYSocket.m */; };
-		E64F409C17088CEF0037BB6B /* NSObject+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64F409A17088CEF0037BB6B /* NSObject+PYCore.h */; };
+		E64F409C17088CEF0037BB6B /* NSObject+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64F409A17088CEF0037BB6B /* NSObject+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64F409D17088CEF0037BB6B /* NSObject+PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64F409B17088CEF0037BB6B /* NSObject+PYCore.m */; };
 		E6D57EDF15F5A6DB00C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AE342F15B1896100AFBA96 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -243,7 +243,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PY;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = PushLab;
 			};
 			buildConfigurationList = E6AE342315B1896000AFBA96 /* Build configuration list for PBXProject "PYCore" */;
@@ -292,6 +292,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -317,6 +321,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -342,7 +350,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Debug;
 		};
@@ -356,7 +364,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Release;
 		};

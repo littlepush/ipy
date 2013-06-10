@@ -12,20 +12,33 @@ if [ "$XPath" != $AppXPath ]; then
 fi
 
 if [ ! $1 ]; then
-	usage;
-	exit 1
+	ProjectName=PYCore
+else
+	ProjectName=$1
 fi
-ProjectName=$1
 
 XCodeSDKs=$(xcodebuild -showsdks | grep iOS | grep "sdk" | awk -F"-sdk " '{print $2}')
 echo "Installed SDK(s): " $XCodeSDKs
 XCodeSDKsPath=$(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v MacOSX | awk -F": " '{print $2}')
 
+mkdir -p ._version.temp
+cd ._version.temp
+for sname in $XCodeSDKs; do
+	lsdk=${#sname}
+	version=${sname:$((lsdk-3))}
+	echo "Version: " $version
+	true > $version
+done
+highestSDKVersion=$(ls * | sort | tail -n 1)
+cd ../
+rm -rf ._version.temp
+echo "Highest SDK Version: \""${highestSDKVersion}"\""
+
 for sdk in $XCodeSDKs; do
 	lsdk=${#sdk}
 	platform=${sdk:0:$((lsdk-3))}
 	version=${sdk:$((lsdk-3))}
-	if [ "$version" != "6.0" ]; then continue; fi
+	if [ "$version" != "${highestSDKVersion}" ]; then continue; fi
 	echo "Current Building Platform: " $version
 	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
 		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib
@@ -53,6 +66,7 @@ done
 
 mkdir ./libs/include
 cp -r ../../static-library/*.h ./libs/include/
+cp -r ../../static-library/*/*.h ./libs/include/
 #mv -f ./local/include ./libs/include
 cd ./libs
 

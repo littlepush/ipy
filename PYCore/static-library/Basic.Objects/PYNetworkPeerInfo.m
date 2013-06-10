@@ -63,9 +63,8 @@ extern "C" {
         if ( [_domain isEqual:[NSNull null]] || [_domain length] == 0 )
             return @"";
         char _ipAddress[16] = {0};
-        PYCDomainToIp([_domain cStringUsingEncoding:
-                       NSUTF8StringEncoding], _ipAddress, 16);
-        if ( _ipAddress[0] == '\0' ) return @"";
+        PYCDomainToIp([_domain UTF8String], _ipAddress, 16);
+        if ( _ipAddress[0] == '\0' ) return __AUTO_RELEASE([_domain copy]);
         return [NSString stringWithFormat:@"%s", _ipAddress];
     }
     
