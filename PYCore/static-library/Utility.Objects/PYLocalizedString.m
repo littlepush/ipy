@@ -48,7 +48,7 @@ NSString *const  PYLanguageKorean                   = @"ko";
 {
     @synchronized( self ) {
         if ( _gPYString == nil ) {
-            _gPYString = [[[PYLocalizedString alloc] init] increaseRC];
+            _gPYString = [[PYLocalizedString alloc] init];
         }
         return _gPYString;
     }

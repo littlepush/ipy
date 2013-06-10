@@ -202,10 +202,11 @@ int inf(FILE *source, FILE *dest)
     {
         //truncate data to match actual output length
         outputBytes = realloc(outputBytes, outputLength);
-        return [[NSString alloc] initWithBytesNoCopy:outputBytes
-                                              length:outputLength
-                                            encoding:NSASCIIStringEncoding
-                                        freeWhenDone:YES];
+        return __AUTO_RELEASE([[NSString alloc]
+                               initWithBytesNoCopy:outputBytes
+                               length:outputLength
+                               encoding:NSASCIIStringEncoding
+                               freeWhenDone:YES]);
     }
     else if (outputBytes)
     {
@@ -276,7 +277,7 @@ int inf(FILE *source, FILE *dest)
     NSData *data = [PYEncoder decodeBase64ToData:input];
     if (data)
     {
-        return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        return __AUTO_RELEASE([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     }
     return nil;
 }
@@ -299,7 +300,7 @@ int inf(FILE *source, FILE *dest)
 /* report a zlib or i/o error */
 + (NSError *)_zipErrorInfo:(int)ret
 {
-    NSString *_errMsg;
+    NSString *_errMsg = @"";
     switch (ret) {
         case Z_ERRNO:
             if (ferror(stdin))
@@ -329,7 +330,9 @@ int inf(FILE *source, FILE *dest)
                    fopen(destPath.UTF8String, "w"),
                    Z_DEFAULT_COMPRESSION);
     if ( _ret != Z_OK ) {
-        *error = [PYEncoder _zipErrorInfo:_ret];
+        if ( error != nil ) {
+            *error = [PYEncoder _zipErrorInfo:_ret];
+        }
     }
     return (_ret == Z_OK);
 }
@@ -339,7 +342,9 @@ int inf(FILE *source, FILE *dest)
     int _ret = inf(fopen(sourcePath.UTF8String, "r"),
                    fopen(destPath.UTF8String, "w"));
     if ( _ret != Z_OK ) {
-        *error = [PYEncoder _zipErrorInfo:_ret];
+        if ( error != nil ) {
+            *error = [PYEncoder _zipErrorInfo:_ret];
+        }
     }
     return (_ret == Z_OK);
 }

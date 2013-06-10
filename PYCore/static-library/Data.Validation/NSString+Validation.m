@@ -23,6 +23,7 @@
  */
 
 #import "NSString+Validation.h"
+#import "NSObject+PYCore.h"
 
 @implementation NSString (Validation)
 - (BOOL)isIntager
@@ -51,12 +52,12 @@
 
 - (NSString *)reformTelphone
 {
-    NSString *_newTel = [self copy];
-	_newTel = [_newTel stringByReplacingOccurrencesOfString:@"-" withString:@""];
-	_newTel = [_newTel stringByReplacingOccurrencesOfString:@" " withString:@""];
-	_newTel = [_newTel stringByReplacingOccurrencesOfString:@"(" withString:@""];
-	_newTel = [_newTel stringByReplacingOccurrencesOfString:@")" withString:@""];
-	_newTel = [_newTel stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    NSString *_newTel0 = __AUTO_RELEASE(([self copy]));
+	NSString *_newTel1 = [_newTel0 stringByReplacingOccurrencesOfString:@"-" withString:@""];
+	NSString *_newTel2 = [_newTel1 stringByReplacingOccurrencesOfString:@" " withString:@""];
+	NSString *_newTel3 = [_newTel2 stringByReplacingOccurrencesOfString:@"(" withString:@""];
+	NSString *_newTel4 = [_newTel3 stringByReplacingOccurrencesOfString:@")" withString:@""];
+	NSString *_newTel = [_newTel4 stringByReplacingOccurrencesOfString:@"+" withString:@""];
     
 	if ( [_newTel length] < 2 ) return _newTel;
 	// For Chinese Only
