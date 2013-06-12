@@ -23,8 +23,26 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "PYStopWatch.h"
+#import "PYSocket+Protocol.h"
 
-@interface PYSocket : NSObject
+// The basic Socket object.
+// Rewrite according to the PYBasicSocket<> in the project plib.
+@interface PYSocket : NSObject<PYSocket>
+{
+	SOCKET_T                    _socket;
+	BOOL                        _beBound;
+	BOOL                        _beBoundCloseOnDone;
+	PYNetworkPeerInfo           *_remotePeerInfo;
+	PYNetworkPeerInfo           *_localPeerInfo;
+	
+	// Status
+	PYSocketStatus              _lastSocketStatus;
+	PYSocketStatus              _currentSocketStatus;
+	
+    PYStopWatch                 *_idleTimer;
+	NSError                     *_lastError;
+}
 
 @end
 

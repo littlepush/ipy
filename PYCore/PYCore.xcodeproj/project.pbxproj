@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E644D42517679BB000DFEA20 /* PYSocketJob.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42317679BB000DFEA20 /* PYSocketJob.h */; };
+		E644D42617679BB000DFEA20 /* PYSocketJob.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D42417679BB000DFEA20 /* PYSocketJob.m */; };
+		E644D42917679C6B00DFEA20 /* PYSocketJobQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42717679C6B00DFEA20 /* PYSocketJobQueue.h */; };
+		E644D42A17679C6B00DFEA20 /* PYSocketJobQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D42817679C6B00DFEA20 /* PYSocketJobQueue.m */; };
+		E644D42D1767A59000DFEA20 /* PYSemaphore.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42B1767A59000DFEA20 /* PYSemaphore.h */; };
+		E644D42E1767A59000DFEA20 /* PYSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D42C1767A59000DFEA20 /* PYSemaphore.m */; };
+		E644D4311767A6CC00DFEA20 /* PYMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42F1767A6CC00DFEA20 /* PYMutex.h */; };
+		E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D4301767A6CC00DFEA20 /* PYMutex.m */; };
 		E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68A1764EE1E009294FE /* NSArray+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB68D1764EE1F009294FE /* NSArray+PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB68B1764EE1E009294FE /* NSArray+PYCore.m */; };
 		E64EB6901764EE93009294FE /* NSString+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68E1764EE92009294FE /* NSString+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,6 +45,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E644D4221767993500DFEA20 /* PYSocket+Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYSocket+Protocol.h"; sourceTree = "<group>"; };
+		E644D42317679BB000DFEA20 /* PYSocketJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJob.h; sourceTree = "<group>"; };
+		E644D42417679BB000DFEA20 /* PYSocketJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocketJob.m; sourceTree = "<group>"; };
+		E644D42717679C6B00DFEA20 /* PYSocketJobQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJobQueue.h; sourceTree = "<group>"; };
+		E644D42817679C6B00DFEA20 /* PYSocketJobQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocketJobQueue.m; sourceTree = "<group>"; };
+		E644D42B1767A59000DFEA20 /* PYSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSemaphore.h; sourceTree = "<group>"; };
+		E644D42C1767A59000DFEA20 /* PYSemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSemaphore.m; sourceTree = "<group>"; };
+		E644D42F1767A6CC00DFEA20 /* PYMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMutex.h; sourceTree = "<group>"; };
+		E644D4301767A6CC00DFEA20 /* PYMutex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMutex.m; sourceTree = "<group>"; };
 		E64EB68A1764EE1E009294FE /* NSArray+PYCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PYCore.h"; sourceTree = "<group>"; };
 		E64EB68B1764EE1E009294FE /* NSArray+PYCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PYCore.m"; sourceTree = "<group>"; };
 		E64EB68E1764EE92009294FE /* NSString+PYCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PYCore.h"; sourceTree = "<group>"; };
@@ -90,6 +107,15 @@
 				E64EB6BB176634A5009294FE /* PYNetworkPeerInfo.m */,
 				E64EB6BE1766368A009294FE /* PYSocket.h */,
 				E64EB6BF1766368A009294FE /* PYSocket.m */,
+				E644D4221767993500DFEA20 /* PYSocket+Protocol.h */,
+				E644D42317679BB000DFEA20 /* PYSocketJob.h */,
+				E644D42417679BB000DFEA20 /* PYSocketJob.m */,
+				E644D42717679C6B00DFEA20 /* PYSocketJobQueue.h */,
+				E644D42817679C6B00DFEA20 /* PYSocketJobQueue.m */,
+				E644D42B1767A59000DFEA20 /* PYSemaphore.h */,
+				E644D42C1767A59000DFEA20 /* PYSemaphore.m */,
+				E644D42F1767A6CC00DFEA20 /* PYMutex.h */,
+				E644D4301767A6CC00DFEA20 /* PYMutex.m */,
 			);
 			name = "Basic Objects";
 			path = Basic.Objects;
@@ -213,6 +239,10 @@
 				E64EB6B8176583F7009294FE /* PYMerger.h in Headers */,
 				E64EB6BC176634A5009294FE /* PYNetworkPeerInfo.h in Headers */,
 				E64EB6C01766368B009294FE /* PYSocket.h in Headers */,
+				E644D42517679BB000DFEA20 /* PYSocketJob.h in Headers */,
+				E644D42917679C6B00DFEA20 /* PYSocketJobQueue.h in Headers */,
+				E644D42D1767A59000DFEA20 /* PYSemaphore.h in Headers */,
+				E644D4311767A6CC00DFEA20 /* PYMutex.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +311,10 @@
 				E64EB6B9176583F7009294FE /* PYMerger.m in Sources */,
 				E64EB6BD176634A5009294FE /* PYNetworkPeerInfo.m in Sources */,
 				E64EB6C11766368B009294FE /* PYSocket.m in Sources */,
+				E644D42617679BB000DFEA20 /* PYSocketJob.m in Sources */,
+				E644D42A17679C6B00DFEA20 /* PYSocketJobQueue.m in Sources */,
+				E644D42E1767A59000DFEA20 /* PYSemaphore.m in Sources */,
+				E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +377,7 @@
 		E6D57EE715F5A6DB00C1ED25 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/PYCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -357,6 +392,7 @@
 		E6D57EE815F5A6DB00C1ED25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/PYCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

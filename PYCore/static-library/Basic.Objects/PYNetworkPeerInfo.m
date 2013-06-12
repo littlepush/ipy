@@ -80,8 +80,8 @@ extern "C" {
 }
 #endif
 
-#define kQTSO_PI_ADDRESS	@"kQTSO_PI_ADDRESS"
-#define kQTSO_PI_PORT		@"kQTSO_PI_PORT"
+#define kPYSO_PI_ADDRESS	@"kPYSO_PI_ADDRESS"
+#define kPYSO_PI_PORT		@"kPYSO_PI_PORT"
 
 @implementation PYNetworkPeerInfo
 @synthesize peerAddress, peerPort;
@@ -99,16 +99,16 @@ extern "C" {
 {
 	self = [super init];
 	if ( self ) {
-		self.peerAddress	= [aDecoder decodeObjectForKey:kQTSO_PI_ADDRESS];
-		self.peerPort		= [aDecoder decodeIntForKey:kQTSO_PI_PORT];
+		self.peerAddress	= [aDecoder decodeObjectForKey:kPYSO_PI_ADDRESS];
+		self.peerPort		= [aDecoder decodeIntForKey:kPYSO_PI_PORT];
 	}
 	return self;
 }
 
 -(void) encodeWithCoder:(NSCoder *)aCoder
 {
-	[aCoder encodeObject:peerAddress	forKey:kQTSO_PI_ADDRESS];
-	[aCoder encodeInt:peerPort			forKey:kQTSO_PI_PORT];
+	[aCoder encodeObject:peerAddress	forKey:kPYSO_PI_ADDRESS];
+	[aCoder encodeInt:peerPort			forKey:kPYSO_PI_PORT];
 }
 
 -(NSString *)description

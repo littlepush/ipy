@@ -1,8 +1,8 @@
 //
-//  PYCore.h
+//  PYSocketJob.h
 //  PYCore
 //
-//  Created by Push Chen on 6/10/13.
+//  Created by Push Chen on 6/12/13.
 //  Copyright (c) 2013 PushLab. All rights reserved.
 //
 
@@ -23,31 +23,21 @@
  */
 
 #import <Foundation/Foundation.h>
-
-// Extend
-#import "NSObject+PYCore.h"
-#import "NSArray+PYCore.h"
-#import "NSString+PYCore.h"
-
-// Validation
-#import "NSDictionary+Validation.h"
-#import "NSString+Validation.h"
-
-// Basic
-#import "PYEncoder.h"
-#import "PYNetworkPeerInfo.h"
-#import "PYSocket.h"
-#import "PYMutex.h"
-#import "PYSemaphore.h"
 #import "PYSocket+Protocol.h"
-#import "PYSocketJob.h"
-#import "PYSocketJobQueue.h"
 
-// Utility
-#import "PYDate.h"
-#import "PYLocalizedString.h"
-#import "PYStopWatch.h"
-#import "PYMerger.h"
+@class PYSocketJob;
+typedef void (^PYSocketMain)(PYSocketJob *);
+
+@interface PYSocketJob : NSObject
+
+// The socket bound with the job
+@property (nonatomic, strong)   NSObject<PYSocket>          *socket;
+// The parameters of this job
+@property (nonatomic, strong)   NSArray                     *params;
+// The job block
+@property (nonatomic, strong)   PYSocketMain                main;
+
+@end
 
 // @littlepush
 // littlepush@gmail.com
