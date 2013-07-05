@@ -24,6 +24,7 @@
 
 #import "NSArray+PYCore.h"
 #import "NSObject+PYCore.h"
+#import "PYCoreMacro.h"
 
 @implementation NSArray (PYCore)
 
@@ -54,8 +55,17 @@
 - (id)safeObjectAtIndex:(NSUInteger)index
 {
     @synchronized(self) {
-        if ( index >= [self count] ) return nil;
-        return [self objectAtIndex:index];
+        if ( self == nil ) return nil;
+        if ( [self count] == 0 ) return nil;
+        if ( index >= [self count] ) {
+            return nil;
+        }
+        @try {
+            return [self objectAtIndex:index];
+        } @catch ( NSException *ex ) {
+            PYLog(@"exception: %@\nCall Stack: \n%@", ex.reason, ex.callStackSymbols);
+            return nil;
+        }
     }
 }
 

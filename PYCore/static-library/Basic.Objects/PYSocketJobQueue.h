@@ -24,11 +24,22 @@
 
 #import <Foundation/Foundation.h>
 #import "PYSocketJob.h"
+#import "PYMutex.h"
+#import "PYSemaphore.h"
 
 @interface PYSocketJobQueue : NSObject
 {
+    // Working thread
     NSMutableArray                      *_workingThreadsList;
+    
+    // Socket job cache
     NSMutableDictionary                 *_socketJobQueueDict;
+    PYMutex                             *_socketMutex;
+    
+    // Global Socket job sequence
+    NSMutableArray                      *_jobsSequence;
+    PYSemaphore                         *_jobSemaphore;
+    PYMutex                             *_jobMutex;
 }
 
 // Singleton instance

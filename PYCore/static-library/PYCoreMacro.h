@@ -45,28 +45,119 @@ typedef unsigned long long int	Uint64;
 #define CLR_YELLOW(x)			"\033[1;33m" #x "\033[0m"	//warn
 #define CLR_GREEN(x)			"\033[1;32m" #x "\033[0m"	//info
 
+typedef enum {
+    PYiDeviceUnknow             = 0x00000000,
+    PYiPhoneSimulator           = 0x00000001,
+    PYiPhone                    = 0x00010001,
+    PYiPhone3G                  = 0x00010002,
+    PYiPhone3GS                 = 0x00010003,
+    PYiPhone4                   = 0x00010004,
+    PYiPhone4S                  = 0x00010005,
+    PYiPhone5                   = 0x00010006,
+    PYiPod1                     = 0x00020001,
+    PYiPod2                     = 0x00020002,
+    PYiPod3                     = 0x00020003,
+    PYiPod4                     = 0x00020004,
+    PYiPod5                     = 0x00020005,
+    PYiPad1Gen                  = 0x00031001,
+    PYiPad2Wifi                 = 0x00032000,
+    PYiPad2CDMA                 = 0x00032001,
+    PYiPad2GSM                  = 0x00032002,
+    PYiPad3Wifi                 = 0x00033000,
+    PYiPad3CDMA                 = 0x00033001,
+    PYiPad3GSM                  = 0x00033002,
+    PYiPad4Wifi                 = 0x00034000,
+    PYiPad4CDMA                 = 0x00034001,
+    PYiPad4GSM                  = 0x00034002,
+    PYiPadMini1Wifi             = 0x00041000,
+    PYiPadMini1GSM              = 0x00041001
+} PYDeviceModel;
+
+typedef enum {
+    PYByte                      = 1,
+    PYKiloByte                  = 1024 * PYByte,
+    PYMegaByte                  = 1024 * PYKiloByte,
+    PYGigaByte                  = 1024 * PYMegaByte
+} PYCapacity;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
     
     #define PYCORE_TIME_FORMAT_BASIC	@"%04d-%02d-%02d %02d:%02d:%02d,%03d"
     
-    // Get current time in simple format
+    /*
+     Get current time in simple format
+     the time format is defined as PYCORE_TIME_FORMAT_BASIC above.
+     the function use [struct tm] to get the date of seconds and 
+     type [timeb] to get the millesecond
+     */
     NSString * __getCurrentFormatDate();
     
     // Log fucntions
+    /*
+     Output a formated log line which begin with current time in formate.
+     The log format is following:
+        [TIME]<FUNCTION_NAME:CODE_LINE> LOG
+     Use __FUNCTION__ and __LINE__ macro to get the function name and line number.
+     The [__file] is ignored.
+     */
     void __formatLogLine(const char * __file,
                          const char * __func, Uint32
                          __line, NSString *__log);
+    /*
+     Print only the log head part, not include the log message.
+     As the following:
+        [TIME]<FUNCTION_NAME:CODE_LINE>
+     Always return YES.
+     */
     BOOL __qt_print_logHead(const char * __func, Uint32 __line );
+    /*
+     Print the condition expression and return the result of the condition.
+     Used in the macro [IF].
+     */
     BOOL __qt_print_bool( const char * _exp, BOOL _bexp );
+    /*
+     Print the condition expression the [while] keyword checking and the result.
+     Used in the macro [WHILE].
+     */
     BOOL __qt_print_while( const char * _exp, BOOL _bexp );
+    /*
+     Print the condition expression the [else if] keywork checking and the result.
+     Used in the macro [ELSEIF].
+     */
     BOOL __qt_print_else_bool( const char * _exp, BOOL _bexp );
     
     // Basic Functions
+    /*
+     Get current application's document path.
+     */
     NSString *__qt_doucmentPath( );
+    /*
+     Get a GUID string.
+     */
     NSString *__qt_guid( );
+    /*
+     Get a timestamp string.
+     */
     NSString *__qt_timestampId( );
+    /* 
+     Get the memory in use
+     */
+    NSUInteger __getMemoryInUse();
+    /*
+     Get current device's model.
+     */
+    PYDeviceModel __currentDeviceModel();
+    /*
+     Get free space of current device.
+     */
+    unsigned long long __getFreeSpace();
+    /*
+     Convert the number bytes to a human readable string.
+     1KB = 1024B
+     */
+    NSString *__bytesToHumanReadableString(unsigned long long bytes);
     
 #ifdef __cplusplus
 }
@@ -75,6 +166,10 @@ extern "C" {
 #define PYDOCUMENTPATH      (__qt_doucmentPath())
 #define PYGUID              (__qt_guid())
 #define PYTIMESTAMP         (__qt_timestampId())
+#define PYMEMORYINUSE       (__getMemoryInUse())
+#define PYFREESPACE         (__getFreeSpace())
+#define PYDEVICEMODEL       (__currentDeviceModel())
+#define PYHUMANSIZE(b)      (__bytesToHumanReadableString(b))
 
 #ifdef DEBUG
 #    define PYLog(f, ...)	__formatLogLine(__FILE__, __FUNCTION__,                         \
@@ -91,6 +186,7 @@ extern "C" {
                             printf("{%s}:%f\n", #f, f)
 #	 define DUMPObj(o)      __qt_print_logHead(__FUNCTION__, __LINE__);                     \
                             printf("{%s}:%s\n", #o, [[o description] UTF8String])
+#    define __ON_DEBUG(...) __VA_ARGS__
 #else
 #    define PYLog(f, ...)   /* */
 #	 define IF(exp)         if ( exp )
@@ -99,6 +195,7 @@ extern "C" {
 #	 define DUMPInt(i)      /* */
 #	 define DUMPFloat(f)	/* */
 #	 define DUMPObj(o)      /* */
+#    define __ON_DEBUG(...) /* */
 #endif
 
 // Always Log

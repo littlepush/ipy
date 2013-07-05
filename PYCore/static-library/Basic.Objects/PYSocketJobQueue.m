@@ -24,10 +24,11 @@
 
 #import "PYSocketJobQueue.h"
 #import "NSObject+PYCore.h"
+#import "NSArray+PYCore.h"
 #import "PYCoreMacro.h"
-#import "PYSemaphore.h"
 
-#define PYSocketJobQueueWorkingThreadStopSem    @"PYSocketJobQueueWorkingThreadStopSem"
+#define PYSocketJobQueueWorkingThreadStatus     @"PYSocketJobQueueWorkingThreadStatus"
+#define PYSocketJobQueueWorkingThreadMutex      @"PYSocketJobQueueWorkingThreadMutex"
 
 static PYSocketJobQueue *__gSocketJobQueue = nil;
 
@@ -64,8 +65,12 @@ PYSingletonDefaultImplementation;
                             selector:@selector(_mainThread:)
                             object:nil];
     [_newThread.threadDictionary
-     setObject:[PYSemaphore object]
-     forKey:PYSocketJobQueueWorkingThreadStopSem];
+     setObject:PYBoolToObject(YES)
+     forKey:PYSocketJobQueueWorkingThreadStatus];
+    [_newThread.threadDictionary
+     setObject:[PYMutex object]
+     forKey:PYSocketJobQueueWorkingThreadMutex];
+    
     [_workingThreadsList addObject:_newThread];
     [_newThread start];
 }
@@ -74,14 +79,51 @@ PYSingletonDefaultImplementation;
 {
     NSThread *_lastThread = [_workingThreadsList lastObject];
     [_workingThreadsList removeLastObject];
-    PYSemaphore *_stopSem = [_lastThread.threadDictionary
-                             objectForKey:PYSocketJobQueueWorkingThreadStopSem];
-    [_stopSem give];
+    PYMutex *_mutex = [_lastThread.threadDictionary
+                       objectForKey:PYSocketJobQueueWorkingThreadMutex];
+    [_mutex lockAndDo:^id{
+        [_lastThread.threadDictionary
+         setObject:PYBoolToObject(NO)
+         forKey:PYSocketJobQueueWorkingThreadStatus];
+        return nil;
+    }];
 }
 
 - (void)_mainThread:(id)sender
 {
-    
+    @autoreleasepool {
+        PYMutex *_mutex = [[NSThread currentThread].threadDictionary
+                           objectForKey:PYSocketJobQueueWorkingThreadMutex];
+        NSThread *_self = [NSThread currentThread];
+        NSMutableDictionary *_userInfo = _self.threadDictionary;
+        
+        while (
+               [[_mutex
+                 lockAndDo:^id{
+                     return [_userInfo objectForKey:PYSocketJobQueueWorkingThreadStatus];
+                }] boolValue]
+               ) {
+            if ( ![_jobSemaphore getUntil:1000] ) continue;
+            PYSocketJob *_firstJob = [_jobMutex lockAndDo:^id{
+                PYSocketJob *_f = [_jobsSequence safeObjectAtIndex:0];
+                if ( [_jobsSequence count] > 0 ) {
+                    [_jobsSequence removeObjectAtIndex:0];
+                }
+                return _f;
+            }];
+            if ( _firstJob == nil ) continue;
+            // Execute the job
+            _firstJob.main( _firstJob );
+            [_socketMutex lockAndDo:^id{
+                NSMutableArray *_socketJobSequence = [_socketJobQueueDict
+                                                      objectForKey:_firstJob.socket.sockIdentify];
+                if ([_socketJobSequence count] == 0) return nil;
+                [_socketJobSequence removeObject:_firstJob];
+                return nil;
+            }];
+        }
+        PYLog(@"The Socket Job Queue Working Thread has been terminated.");
+    };
 }
 
 - (id)init
@@ -90,9 +132,14 @@ PYSingletonDefaultImplementation;
     if ( self ) {
         _socketJobQueueDict = __RETAIN([NSMutableDictionary dictionary]);
         _workingThreadsList = __RETAIN([NSMutableArray array]);
+        _jobsSequence = __RETAIN([NSMutableArray array]);
         
-        // Start the first working thread
-        [self _startWorkingThread];
+        _socketMutex = [PYMutex object];
+        _jobMutex = [PYMutex object];
+        _jobSemaphore = [PYSemaphore object];
+        
+        // Start the first two working thread
+        [self setMaxConcurrentCount:2];
     }
     return self;
 }

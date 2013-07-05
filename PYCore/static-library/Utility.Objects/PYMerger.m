@@ -24,6 +24,7 @@
 
 #import "PYMerger.h"
 #import "NSObject+PYCore.h"
+#import "NSArray+PYCore.h"
 
 @implementation PYMergerIterator
 
@@ -38,7 +39,7 @@
 - (id)topObject
 {
     if ( self.isEnd ) return nil;
-    return [self.list objectAtIndex:self.topIndex];
+    return [self.list safeObjectAtIndex:self.topIndex];
 }
 
 - (void)goNext

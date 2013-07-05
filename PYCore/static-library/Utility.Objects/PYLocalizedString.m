@@ -25,6 +25,7 @@
 #import "PYLocalizedString.h"
 #import "PYCoreMacro.h"
 #import "NSObject+PYCore.h"
+#import "NSArray+PYCore.h"
 
 static PYLocalizedString *_gPYString = nil;
 
@@ -60,7 +61,10 @@ PYSingletonDefaultImplementation
 {
     self = [super init];
     if ( self ) {
-        _systemLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
+        _systemLanguage = [[NSLocale preferredLanguages] safeObjectAtIndex:0];
+        if ( [_systemLanguage length] == 0 ) {
+            _systemLanguage = PYLanguageEnglish;
+        }
         _defaultLanguage = _systemLanguage;
         
         // Initialize the dict
