@@ -17,6 +17,19 @@ else
 	ProjectName=$1
 fi
 
+if [ ! $2 ]; then
+	ExecutePart="ALL"
+else
+	ExecutePart="$2"
+fi
+
+if [ "${ExecutePart}" != "ALL" ]; then
+	if [ "${ExecutePart}" != "COMPILE" ]; then
+		echo "The execute part is not validate, only can be ALL/COMPILE"
+		exit 2
+	fi
+fi
+
 XCodeSDKs=$(xcodebuild -showsdks | grep iOS | grep "sdk" | awk -F"-sdk " '{print $2}')
 echo "Installed SDK(s): " $XCodeSDKs
 XCodeSDKsPath=$(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v MacOSX | awk -F": " '{print $2}')
@@ -41,7 +54,8 @@ for sdk in $XCodeSDKs; do
 	if [ "$version" != "${highestSDKVersion}" ]; then continue; fi
 	echo "Current Building Platform: " $version
 	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
-		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib
+		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib \
+		| grep -E "warning|error"
 	if [ $? -ne 0 ]; then
 		exit 1;
 	fi
@@ -84,39 +98,44 @@ for headfile in $includeFiles; do
 	done
 done
 
-mkdir -p /usr/local/lib
-mkdir -p /usr/local/include
+if [ "${ExecutePart}" == "ALL" ]; then
 
-rm -rf /usr/local/lib/${ProjectName}*
-rm -rf /usr/local/include/${ProjectName}*
+	mkdir -p /usr/local/lib
+	mkdir -p /usr/local/include
 
-cp -r ./include /usr/local/include/${ProjectName}
-cp ./*.a /usr/local/lib/
+	rm -rf /usr/local/lib/${ProjectName}*
+	rm -rf /usr/local/include/${ProjectName}*
 
-highestVersionLib=$(ls lib${ProjectName}* | sort | tail -n 1)
-libs=$(ls lib${ProjectName}*)
-for sdkPath in $XCodeSDKsPath; do
-	sdkVersion=$(echo $sdkPath | grep -o -E "[0-9]\.[0-9]")
-	hasSpecifiedVersion=0
-	for lib in $libs; do
-		libVersion=$(echo $lib | grep -o -E "[0-9]\.[0-9]")
-		if [ "$sdkVersion" != "$libVersion" ]; then
-			continue
+	cp -r ./include /usr/local/include/${ProjectName}
+	cp ./*.a /usr/local/lib/
+
+	highestVersionLib=$(ls lib${ProjectName}* | sort | tail -n 1)
+	libs=$(ls lib${ProjectName}*)
+	for sdkPath in $XCodeSDKsPath; do
+		sdkVersion=$(echo $sdkPath | grep -o -E "[0-9]\.[0-9]")
+		hasSpecifiedVersion=0
+		for lib in $libs; do
+			libVersion=$(echo $lib | grep -o -E "[0-9]\.[0-9]")
+			if [ "$sdkVersion" != "$libVersion" ]; then
+				continue
+			fi
+			hasSpecifiedVersion=1
+			break
+		done
+		if [ $hasSpecifiedVersion -eq 1 ]; then
+			usingLib=lib${ProjectName}-$sdkVersion.a
+		else
+			usingLib=$highestVersionLib
 		fi
-		hasSpecifiedVersion=1
-		break
+		sdkFrameworkPath=${sdkPath}/System/Library/Frameworks/${ProjectName}.framework
+		rm -rf $sdkFrameworkPath
+		mkdir -p $sdkFrameworkPath
+		ln -s /usr/local/include/${ProjectName} ${sdkFrameworkPath}/Headers
+		ln -s /usr/local/lib/${usingLib} ${sdkFrameworkPath}/${ProjectName}
 	done
-	if [ $hasSpecifiedVersion -eq 1 ]; then
-		usingLib=lib${ProjectName}-$sdkVersion.a
-	else
-		usingLib=$highestVersionLib
-	fi
-	sdkFrameworkPath=${sdkPath}/System/Library/Frameworks/${ProjectName}.framework
-	rm -rf $sdkFrameworkPath
-	mkdir -p $sdkFrameworkPath
-	ln -s /usr/local/include/${ProjectName} ${sdkFrameworkPath}/Headers
-	ln -s /usr/local/lib/${usingLib} ${sdkFrameworkPath}/${ProjectName}
-done
+fi
+
+echo "Install done"
 
 cd ../../../
 rm -rf build

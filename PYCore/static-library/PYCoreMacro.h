@@ -111,36 +111,45 @@ extern "C" {
         [TIME]<FUNCTION_NAME:CODE_LINE>
      Always return YES.
      */
-    BOOL __qt_print_logHead(const char * __func, Uint32 __line );
+    BOOL __print_logHead(const char * __func, Uint32 __line );
     /*
      Print the condition expression and return the result of the condition.
      Used in the macro [IF].
      */
-    BOOL __qt_print_bool( const char * _exp, BOOL _bexp );
+    BOOL __print_bool( const char * _exp, BOOL _bexp );
     /*
      Print the condition expression the [while] keyword checking and the result.
      Used in the macro [WHILE].
      */
-    BOOL __qt_print_while( const char * _exp, BOOL _bexp );
+    BOOL __print_while( const char * _exp, BOOL _bexp );
     /*
      Print the condition expression the [else if] keywork checking and the result.
      Used in the macro [ELSEIF].
      */
-    BOOL __qt_print_else_bool( const char * _exp, BOOL _bexp );
+    BOOL __print_else_bool( const char * _exp, BOOL _bexp );
     
     // Basic Functions
     /*
      Get current application's document path.
      */
-    NSString *__qt_doucmentPath( );
+    NSString *__doucmentPath( );
+
+    /*
+     Get current application's library path.
+     */
+    NSString *__libraryPath();
+    /*
+     Get current application's cache path.
+     */
+    NSString *__cachePath();
     /*
      Get a GUID string.
      */
-    NSString *__qt_guid( );
+    NSString *__guid( );
     /*
      Get a timestamp string.
      */
-    NSString *__qt_timestampId( );
+    NSString *__timestampId( );
     /* 
      Get the memory in use
      */
@@ -158,33 +167,41 @@ extern "C" {
      1KB = 1024B
      */
     NSString *__bytesToHumanReadableString(unsigned long long bytes);
-    
+
+    /* 
+     Skip the iCloud Backup
+     */
+    BOOL __skipFileFromiCloudBackup(NSURL *url);
+
 #ifdef __cplusplus
 }
 #endif
 
-#define PYDOCUMENTPATH      (__qt_doucmentPath())
-#define PYGUID              (__qt_guid())
-#define PYTIMESTAMP         (__qt_timestampId())
+#define PYDOCUMENTPATH      (__doucmentPath())
+#define PYLIBRARYPATH       (__libraryPath())
+#define PYCACHEPATH         (__cachePath())
+#define PYGUID              (__guid())
+#define PYTIMESTAMP         (__timestampId())
 #define PYMEMORYINUSE       (__getMemoryInUse())
 #define PYFREESPACE         (__getFreeSpace())
 #define PYDEVICEMODEL       (__currentDeviceModel())
 #define PYHUMANSIZE(b)      (__bytesToHumanReadableString(b))
+#define PYSKIPICLOUD(f)     (__skipFileFromiCloudBackup([NSURL fileURLWithPath:(f)]))
 
 #ifdef DEBUG
 #    define PYLog(f, ...)	__formatLogLine(__FILE__, __FUNCTION__,                         \
                                 __LINE__, [NSString stringWithFormat:(f), ##__VA_ARGS__])
-#	 define IF(exp)         __qt_print_logHead(__FUNCTION__, __LINE__);                     \
-                            if (__qt_print_bool( #exp, (exp) ))
-#	 define ELSEIF(exp)     else if (__qt_print_logHead(__FUNCTION__, __LINE__) &&          \
-                                __qt_print_else_bool( #exp, (exp)))
-#	 define WHILE(exp)      __qt_print_logHead(__FUNCTION__, __LINE__);                     \
-                            while (__qt_print_while( #exp, (exp) ))
-#	 define DUMPInt(i)      __qt_print_logHead(__FUNCTION__, __LINE__);                     \
+#	 define IF(exp)         __print_logHead(__FUNCTION__, __LINE__);                        \
+                            if (__print_bool( #exp, (exp) ))
+#	 define ELSEIF(exp)     else if (__print_logHead(__FUNCTION__, __LINE__) &&             \
+                                __print_else_bool( #exp, (exp)))
+#	 define WHILE(exp)      __print_logHead(__FUNCTION__, __LINE__);                        \
+                            while (__print_while( #exp, (exp) ))
+#	 define DUMPInt(i)      __print_logHead(__FUNCTION__, __LINE__);                        \
                             printf("{%s}:%d\n", #i, i)
-#	 define DUMPFloat(f)	__qt_print_logHead(__FUNCTION__, __LINE__);                     \
+#	 define DUMPFloat(f)	__print_logHead(__FUNCTION__, __LINE__);                        \
                             printf("{%s}:%f\n", #f, f)
-#	 define DUMPObj(o)      __qt_print_logHead(__FUNCTION__, __LINE__);                     \
+#	 define DUMPObj(o)      __print_logHead(__FUNCTION__, __LINE__);                        \
                             printf("{%s}:%s\n", #o, [[o description] UTF8String])
 #    define __ON_DEBUG(...) __VA_ARGS__
 #else

@@ -26,6 +26,8 @@
 #import "PYCoreMacro.h"
 #import <mach/mach.h>
 #import <sys/utsname.h>
+#import <sys/xattr.h>
+#import <UIKit/UIKit.h>
 
 #define PYCORE_TIME_FORMAT_BASIC	@"%04d-%02d-%02d %02d:%02d:%02d,%03d"
 
@@ -56,36 +58,76 @@ void __formatLogLine(const char * __file,
            __func, __line, [__log UTF8String]);
 }
 
-BOOL __qt_print_logHead(const char * __func, Uint32 __line )
+BOOL __print_logHead(const char * __func, Uint32 __line )
 {
     printf("[%s]<%s:%u>", [__getCurrentFormatDate() UTF8String],
            __func, __line);
     return YES;
 }
-BOOL __qt_print_bool( const char * _exp, BOOL _bexp )
+BOOL __print_bool( const char * _exp, BOOL _bexp )
 {
     printf("{%s}: %s\n", _exp, (_bexp ? "YES" : "NO"));
     return _bexp;
 }
-BOOL __qt_print_while( const char * _exp, BOOL _bexp )
+BOOL __print_while( const char * _exp, BOOL _bexp )
 {
     printf("{WHILE:%s}: %s\n", _exp, (_bexp ? "YES" : "NO"));
     return _bexp;
 }
-BOOL __qt_print_else_bool( const char * _exp, BOOL _bexp )
+BOOL __print_else_bool( const char * _exp, BOOL _bexp )
 {
     printf("{else: %s}: %s\n", _exp, (_bexp ? "YES" : "NO"));
     return _bexp;
 }
 
-NSString *__qt_doucmentPath( ) {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains
-    (NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = [paths objectAtIndex:0];
-    return documentDirectory;
+NSString *__doucmentPath( ) {
+    static NSString *_docPath = @"";
+    @synchronized ( _docPath ) {
+        if ( [_docPath length] == 0 ) {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains
+            (NSDocumentDirectory, NSUserDomainMask, YES);
+            _docPath = [[paths safeObjectAtIndex:0] copy];
+        }
+    }
+    return _docPath;
 }
 
-NSString *__qt_guid( ) {
+NSString *__libraryPath( ) {
+    static NSString *_libPath = @"";
+    @synchronized( _libPath ) {
+        if ( [_libPath length] == 0 ) {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains
+            (NSLibraryDirectory, NSUserDomainMask, YES);
+            _libPath = [[paths safeObjectAtIndex:0] copy];
+        }
+    }
+    return _libPath;
+}
+
+NSString *__cachePath( ) {
+    static NSString *_cachePath = @"";
+    @synchronized( _cachePath ) {
+        if ( [_cachePath length] == 0 ) {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains
+            (NSCachesDirectory, NSUserDomainMask, YES);
+            _cachePath = [[paths safeObjectAtIndex:0] copy];
+            // Create the path if needed.
+            BOOL isDir = NO;
+            NSError *error;
+            if ( ![[NSFileManager defaultManager] fileExistsAtPath:_cachePath
+                                                       isDirectory:&isDir] &&
+                isDir == NO ) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:_cachePath
+                                          withIntermediateDirectories:NO
+                                                           attributes:nil
+                                                                error:&error];
+            }
+        }
+    }
+    return _cachePath;
+}
+
+NSString *__guid( ) {
     // create a new UUID which you own
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     
@@ -105,7 +147,7 @@ NSString *__qt_guid( ) {
     return uuidString;
 }
 
-NSString *__qt_timestampId( ) {
+NSString *__timestampId( ) {
     struct timeval _timenow;
     gettimeofday( &_timenow, NULL );
     int64_t _milesecond = _timenow.tv_sec;
@@ -263,6 +305,32 @@ NSString *__bytesToHumanReadableString(unsigned long long bytes)
     if ( bytes < PYMegaByte ) return [NSString stringWithFormat:@"%.2fKB", bytes / (float)PYKiloByte];
     if ( bytes < PYGigaByte ) return [NSString stringWithFormat:@"%.2fMB", bytes / (float)PYMegaByte];
     return [NSString stringWithFormat:@"%.2fGB", bytes / (float)PYGigaByte];
+}
+
+BOOL __skipFileFromiCloudBackup(NSURL *url)
+{
+    if ( SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"5.0") ) {
+        return NO;
+    }
+    
+    if ( ![[NSFileManager defaultManager] fileExistsAtPath:[url path]] ) return NO;
+    if ( SYSTEM_VERSION_LESS_THAN(@"5.1") ) {
+        const char *filePath = [[url path] fileSystemRepresentation];
+        const char *attrName = "com.apple.MobileBackup";
+        u_int8_t attrValue = 1;
+        
+        int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
+        return result == 0;
+    } else {
+        NSError *error = nil;
+        BOOL success = [url setResourceValue:PYBoolToObject(YES)
+                                      forKey:NSURLIsExcludedFromBackupKey
+                                       error:&error];
+        if ( !success ) {
+            PYLog(@"Error excluding %@ from backup %@", [url lastPathComponent], error);
+        }
+        return success;
+    }
 }
 
 // @littlepush

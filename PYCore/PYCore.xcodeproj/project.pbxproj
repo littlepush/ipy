@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6389E0D1796FA940096B452 /* PYSocketJobDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = E6389E0B1796FA930096B452 /* PYSocketJobDispatcher.h */; };
+		E6389E0E1796FA940096B452 /* PYSocketJobDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E6389E0C1796FA940096B452 /* PYSocketJobDispatcher.m */; };
+		E6389E111796FAA50096B452 /* PYSocketJobList.h in Headers */ = {isa = PBXBuildFile; fileRef = E6389E0F1796FAA40096B452 /* PYSocketJobList.h */; };
+		E6389E121796FAA50096B452 /* PYSocketJobList.m in Sources */ = {isa = PBXBuildFile; fileRef = E6389E101796FAA40096B452 /* PYSocketJobList.m */; };
 		E644D42517679BB000DFEA20 /* PYSocketJob.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42317679BB000DFEA20 /* PYSocketJob.h */; };
 		E644D42617679BB000DFEA20 /* PYSocketJob.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D42417679BB000DFEA20 /* PYSocketJob.m */; };
 		E644D42917679C6B00DFEA20 /* PYSocketJobQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42717679C6B00DFEA20 /* PYSocketJobQueue.h */; };
@@ -45,6 +49,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E6389E0B1796FA930096B452 /* PYSocketJobDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJobDispatcher.h; sourceTree = "<group>"; };
+		E6389E0C1796FA940096B452 /* PYSocketJobDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocketJobDispatcher.m; sourceTree = "<group>"; };
+		E6389E0F1796FAA40096B452 /* PYSocketJobList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJobList.h; sourceTree = "<group>"; };
+		E6389E101796FAA40096B452 /* PYSocketJobList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocketJobList.m; sourceTree = "<group>"; };
 		E644D4221767993500DFEA20 /* PYSocket+Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYSocket+Protocol.h"; sourceTree = "<group>"; };
 		E644D42317679BB000DFEA20 /* PYSocketJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJob.h; sourceTree = "<group>"; };
 		E644D42417679BB000DFEA20 /* PYSocketJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocketJob.m; sourceTree = "<group>"; };
@@ -116,6 +124,10 @@
 				E644D42C1767A59000DFEA20 /* PYSemaphore.m */,
 				E644D42F1767A6CC00DFEA20 /* PYMutex.h */,
 				E644D4301767A6CC00DFEA20 /* PYMutex.m */,
+				E6389E0B1796FA930096B452 /* PYSocketJobDispatcher.h */,
+				E6389E0C1796FA940096B452 /* PYSocketJobDispatcher.m */,
+				E6389E0F1796FAA40096B452 /* PYSocketJobList.h */,
+				E6389E101796FAA40096B452 /* PYSocketJobList.m */,
 			);
 			name = "Basic Objects";
 			path = Basic.Objects;
@@ -243,6 +255,8 @@
 				E644D42917679C6B00DFEA20 /* PYSocketJobQueue.h in Headers */,
 				E644D42D1767A59000DFEA20 /* PYSemaphore.h in Headers */,
 				E644D4311767A6CC00DFEA20 /* PYMutex.h in Headers */,
+				E6389E0D1796FA940096B452 /* PYSocketJobDispatcher.h in Headers */,
+				E6389E111796FAA50096B452 /* PYSocketJobList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +329,8 @@
 				E644D42A17679C6B00DFEA20 /* PYSocketJobQueue.m in Sources */,
 				E644D42E1767A59000DFEA20 /* PYSemaphore.m in Sources */,
 				E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */,
+				E6389E0E1796FA940096B452 /* PYSocketJobDispatcher.m in Sources */,
+				E6389E121796FAA50096B452 /* PYSocketJobList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

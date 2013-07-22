@@ -3,7 +3,7 @@
 //  PYData
 //
 //  Created by littlepush on 8/10/12.
-//  Copyright (c) 2012 Push Lab. All rights reserved.
+//  CoPYright (c) 2012 Push Lab. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -25,35 +25,39 @@
 @property (nonatomic, copy)		NSString			*name;
 
 /* Init */
--(id) initSqlStatementWithSQL:(NSString *)sql;
-+(PYSqlStatement *)sqlStatementWithSQL:(NSString *)sql;
+- (id)initSqlStatementWithSQL:(NSString *)sql;
++ (PYSqlStatement *)sqlStatementWithSQL:(NSString *)sql;
 
 /* Finalized the statement */
--(void) finalizeStatement;
+- (void)finalizeStatement;
 
+/* reset the bind statue */
+- (void)resetBinding;
 /* prepare for reading */
--(void) prepareForReading;
+- (void)prepareForReading;
 
 /* Bind the data in the statement */
--(void) bindInOrderInt:(int)value;
--(void) bindInOrderCString:(const char *)value;
--(void) bindInOrderText:(NSString *)value;
--(void) bindInOrderDouble:(double)value;
--(void) bindInOrderFloat:(float)value;
--(void) bindInOrderDate:(NSDate *)value;
--(void) bindInOrderNull;
+- (void)bindInOrderInt:(int)value;
+- (void)bindInOrderCString:(const char *)value;
+- (void)bindInOrderText:(NSString *)value;
+- (void)bindInOrderDouble:(double)value;
+- (void)bindInOrderFloat:(float)value;
+- (void)bindInOrderDate:(NSDate *)value;
+- (void)bindInOrderData:(NSData *)value;
+- (void)bindInOrderNull;
 
 /* get the value from the statement */
--(int) getInOrderInt;
--(char *) getInOrderCString;
--(NSString *) getInOrderText;
--(double) getInOrderDouble;
--(float) getInOrderFloat;
--(NSDate *) getInOrderDate;
+- (int)getInOrderInt;
+- (char *)getInOrderCString;
+- (NSString *)getInOrderText;
+- (double)getInOrderDouble;
+- (float)getInOrderFloat;
+- (NSDate *)getInOrderDate;
+- (NSData *)getInOrderData;
 
 /* parameters of sql statement */
--(NSString *) columnNameAtIndex:(NSUInteger)index;
--(NSUInteger) bindParameterCount;
--(NSString *) bindParameterNameAtIndex:(NSUInteger)index;
+- (NSString *)columnNameAtIndex:(NSUInteger)index;
+- (NSUInteger)bindParameterCount;
+- (NSString *)bindParameterNameAtIndex:(NSUInteger)index;
 
 @end
