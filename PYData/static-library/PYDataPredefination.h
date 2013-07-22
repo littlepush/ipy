@@ -2,15 +2,30 @@
 //  PYDataPredefination.h
 //  PYData
 //
-//  Created by littlepush on 8/10/12.
+//  Created by Push Chen on 8/10/12.
 //  Copyright (c) 2012 Push Lab. All rights reserved.
 //
+
+/*
+ LISENCE FOR IPY
+ COPYRIGHT (c) 2013, Push Chen.
+ ALL RIGHTS RESERVED.
+ 
+ REDISTRIBUTION AND USE IN SOURCE AND BINARY
+ FORMS, WITH OR WITHOUT MODIFICATION, ARE
+ PERMITTED PROVIDED THAT THE FOLLOWING CONDITIONS
+ ARE MET:
+ 
+ YOU USE IT, AND YOU JUST USE IT!.
+ WHY NOT USE THIS LIBRARY IN YOUR CODE TO MAKE
+ THE DEVELOPMENT HAPPIER!
+ ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
+ */
 
 #ifndef PYData_PYDataPredefination_h
 #define PYData_PYDataPredefination_h
 
 #include <sqlite3.h>
-
 
 #define SQLITE_STMT(st)				sqlite3_stmt *st;
 #define SQLITE_STMT_FORBIND(st)		sqlite3_stmt *st; int _i##st = 1;
@@ -38,7 +53,6 @@
 #define END_VASTRING				\
 	]
 
-
 #define PREPARE_SQLITE_STMT(stmt)	\
 	int __i##stmt = 0
 #define GET_SQLITE_INT(stmt)		\
@@ -53,5 +67,8 @@
 #define GET_SQLITE_DATE(stmt)		\
 	[NSDate dateWithTimeIntervalSince1970:GET_SQLITE_DOUBLE(stmt)]
 
-
 #endif
+
+// @littlepush
+// littlepush@gmail.com
+// PYLab

@@ -54,8 +54,7 @@ for sdk in $XCodeSDKs; do
 	if [ "$version" != "${highestSDKVersion}" ]; then continue; fi
 	echo "Current Building Platform: " $version
 	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
-		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib \
-		| grep -E "warning|error|failed"
+		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib
 	if [ $? -ne 0 ]; then
 		exit 1;
 	fi
