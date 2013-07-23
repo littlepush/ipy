@@ -22,12 +22,23 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
+#include <sys/socket.h> // Per msqr
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+
 #import "PYCore.h"
 #import "PYCoreMacro.h"
+#import <sys/mount.h>
 #import <mach/mach.h>
 #import <sys/utsname.h>
 #import <sys/xattr.h>
 #import <UIKit/UIKit.h>
+#import <sys/sysctl.h>
+#import <sys/types.h>
+#import <sys/param.h>
+#import <mach/processor_info.h>
+#import <mach/mach_host.h>
 
 #define PYCORE_TIME_FORMAT_BASIC	@"%04d-%02d-%02d %02d:%02d:%02d,%03d"
 
@@ -173,6 +184,138 @@ NSUInteger __getMemoryInUse()
     }
 }
 
+NSUInteger __getFreeMemory()
+{
+    mach_port_t host_port = mach_host_self();
+    mach_msg_type_number_t host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
+    vm_size_t pagesize;
+    vm_statistics_data_t vm_stat;
+    
+    host_page_size(host_port, &pagesize);
+    host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size);
+    return vm_stat.free_count * pagesize;
+}
+
+NSArray *__getCPUUsage()
+{
+    processor_info_array_t _cpuInfo, _prevCPUInfo = nil;
+    mach_msg_type_number_t _numCPUInfo, _numPrevCPUInfo = 0;
+    unsigned _numCPUs;
+    NSLock *_cpuUsageLock;
+    
+    int _mib[2U] = { CTL_HW, HW_NCPU };
+    size_t _sizeOfNumCPUs = sizeof(_numCPUs);
+    int _status = sysctl(_mib, 2U, &_numCPUs, &_sizeOfNumCPUs, NULL, 0U);
+    if( _status ) _numCPUs = 1;
+    
+    _cpuUsageLock = [[NSLock alloc] init];
+    
+    natural_t _numCPUsU = 0U;
+    kern_return_t err = host_processor_info(mach_host_self(),
+                                            PROCESSOR_CPU_LOAD_INFO,
+                                            &_numCPUsU,
+                                            &_cpuInfo,
+                                            &_numCPUInfo);
+    NSMutableArray *_cpuInfoArray = [NSMutableArray array];
+    if( err == KERN_SUCCESS ) {
+        [_cpuUsageLock lock];
+        
+        for ( unsigned i = 0U; i < _numCPUs; ++i ) {
+            Float32 _inUse, _total;
+            if( _prevCPUInfo ) {
+                _inUse = (
+                          (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER] -
+                           _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER])
+                          + (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM] -
+                             _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM])
+                          + (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE] -
+                             _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE])
+                          );
+                _total = _inUse + (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE] -
+                                   _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE]);
+            } else {
+                _inUse = (
+                          _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER] +
+                          _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM] +
+                          _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE]
+                          );
+                _total = _inUse + _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE];
+            }
+            
+            [_cpuInfoArray addObject:PYDoubleToObject(_inUse / _total * 100.f)];
+            PYLog(@"Core: %u, Usage: %.2f%%", i, _inUse / _total * 100.f);
+        }
+        
+        [_cpuUsageLock unlock];
+        
+        if(_prevCPUInfo) {
+            size_t prevCpuInfoSize = sizeof(integer_t) * _numPrevCPUInfo;
+            vm_deallocate(mach_task_self(), (vm_address_t)_prevCPUInfo, prevCpuInfoSize);
+        }
+        
+        _prevCPUInfo = _cpuInfo;
+        _numPrevCPUInfo = _numCPUInfo;
+        
+        _cpuInfo = nil;
+        _numCPUInfo = 0U;
+    } else {
+        PYLog(@"Error!");
+    }
+    return _cpuInfoArray;
+}
+
+BOOL __isJailBroken()
+{
+    BOOL _isJailBroken = NO;
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"] ) {
+        _isJailBroken = YES;
+    }
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/lib/apt"] ) {
+        _isJailBroken = YES;
+    }
+    return _isJailBroken;
+}
+
+NSString *__getMACAddress()
+{
+    int                 mib[] = {CTL_NET, AF_ROUTE, 0, AF_LINK, NET_RT_IFLIST, if_nametoindex("en0")};
+    size_t              len;
+    char                *buf;
+    unsigned char       *ptr;
+    struct if_msghdr    *ifm;
+    struct sockaddr_dl  *sdl;
+    
+    if ( mib[5] == 0 ) {
+        ALog(@"Error: if_nametoindex error");
+        return __guid();
+    }
+    
+    if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
+        ALog(@"Error: sysctl, take 1");
+        return __guid();
+    }
+    
+    if ( (buf = malloc(len)) == NULL ) {
+        ALog(@"Error: Failed to allocate memory.");
+        return __guid();
+    }
+    
+    if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
+        ALog(@"Error: sysctl, take 2");
+        free(buf);
+        return __guid();
+    }
+    
+    ifm = (struct if_msghdr *)buf;
+    sdl = (struct sockaddr_dl *)(ifm + 1);
+    ptr = (unsigned char *)LLADDR(sdl);
+    NSString *_mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                      *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
+    free(buf);
+    
+    return _mac;
+}
+
 PYDeviceModel __currentDeviceModel()
 {
     static PYDeviceModel _deviceModel = PYiDeviceUnknow;
@@ -180,6 +323,39 @@ PYDeviceModel __currentDeviceModel()
         _deviceModel = __getDeviceModel();
     }
     return _deviceModel;
+}
+
+NSString *__currentDeviceModelName()
+{
+    PYDeviceModel _model = __currentDeviceModel();
+    switch (_model) {
+        case PYiDeviceUnknow:   return @"Unknow";
+        case PYiPhoneSimulator: return @"Simulator";
+        case PYiPhone:          return @"iPhone";
+        case PYiPhone3G:        return @"iPhone3G";
+        case PYiPhone3GS:       return @"iPhone3GS";
+        case PYiPhone4:         return @"iPhone4";
+        case PYiPhone4S:        return @"iPhone4S";
+        case PYiPhone5:         return @"iPhone5";
+        case PYiPod1:           return @"iPod1";
+        case PYiPod2:           return @"iPod2";
+        case PYiPod3:           return @"iPod3";
+        case PYiPod4:           return @"iPod4";
+        case PYiPod5:           return @"iPod5";
+        case PYiPad1Gen:        return @"iPad1 Gen";
+        case PYiPad2Wifi:       return @"iPad2 Wifi";
+        case PYiPad2CDMA:       return @"iPad2 CDMA";
+        case PYiPad2GSM:        return @"iPad2 GSM";
+        case PYiPad3Wifi:       return @"iPad3 Wifi";
+        case PYiPad3CDMA:       return @"iPad3 CDMA";
+        case PYiPad3GSM:        return @"iPad3 GSM";
+        case PYiPad4Wifi:       return @"iPad4 Wifi";
+        case PYiPad4CDMA:       return @"iPad4 CDMA";
+        case PYiPad4GSM:        return @"iPad4 GSM";
+        case PYiPadMini1Wifi:   return @"iPad Mini1 Wifi";
+        case PYiPadMini1GSM:    return @"iPad Mini1 GSM";
+    };
+    return @"Unknow";
 }
 
 PYDeviceModel __getDeviceModel()

@@ -155,9 +155,29 @@ extern "C" {
      */
     NSUInteger __getMemoryInUse();
     /*
+     Get free memory size
+     */
+    NSUInteger __getFreeMemory();
+    /*
+     Get CPU usage
+     */
+    NSArray *__getCPUUsage();
+    /*
+     Check if current device is JailBroken
+     */
+    BOOL __isJailBroken();
+    /*
+     Get First MAC Address
+     */
+    NSString *__getMACAddress();
+    /*
      Get current device's model.
      */
     PYDeviceModel __currentDeviceModel();
+    /*
+     Get current device's model name.
+     */
+    NSString *__currentDeviceModelName();
     /*
      Get free space of current device.
      */
@@ -183,8 +203,13 @@ extern "C" {
 #define PYGUID              (__guid())
 #define PYTIMESTAMP         (__timestampId())
 #define PYMEMORYINUSE       (__getMemoryInUse())
+#define PYMEMORYFREE        (__getFreeMemory())
+#define PYCPUUSAGE          (__getCPUUsage())
 #define PYFREESPACE         (__getFreeSpace())
+#define PYISJAILBROKEN      (__isJailBroken())
+#define PYMACADDRESS        (__getMACAddress())
 #define PYDEVICEMODEL       (__currentDeviceModel())
+#define PYDEVICEMODELNAME   (__currentDeviceModelName())
 #define PYHUMANSIZE(b)      (__bytesToHumanReadableString(b))
 #define PYSKIPICLOUD(f)     (__skipFileFromiCloudBackup([NSURL fileURLWithPath:(f)]))
 
