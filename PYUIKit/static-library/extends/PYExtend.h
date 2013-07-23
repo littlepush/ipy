@@ -8,25 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "UIView+PartialCurl.h"
-#import "UIBarButtonItem+CustomizedImage.h"
-#import "UIImage+DSP.h"
 #import "UIView+Mask.h"
 #import "UIView+Animations.h"
 #import "UIView+Responsder.h"
 #import "UIViewController+PopUp.h"
-#import "UIColor+Random.h"
-#import "UIScrollView+HiddenCell.h"
-#import "CALayer+Gradient.h"
+#import "UIColor+PYUIKit.h"
 #import "UIScrollView+KeyboardExtended.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 // Set the view's cornor radius
-#define PYSetCornorRadius( view, radius )		\
-	[[view layer] setCornerRadius:radius];		\
-	[[view layer] setMasksToBounds:YES]
-
 #define PYNoNavgationBar	self.navigationController.navigationBarHidden = YES
 #define PYHasNavgationBar	self.navigationController.navigationBarHidden = NO
 
@@ -46,13 +37,13 @@
 #define CGRectEmpty		CGRectMake(0, 0, 0, 0)
 #endif
 
-#define __ALERT_VAR__							CHAR_CONNECT1(_alert_, __LINE__)
-#define __EXP_VAR__								CHAR_CONNECT1(_e_, __LINE__)
+#define __ALERT_VAR__							CHAR_CONNECT(_alert_, __LINE__)
+#define __EXP_VAR__								CHAR_CONNECT(_e_, __LINE__)
 #define MESSAGEBOX( title, text )											\
-	UIAlertView *__ALERT_VAR__ = [[[UIAlertView alloc]						\
+	UIAlertView *__ALERT_VAR__ = [[UIAlertView alloc]						\
 		initWithTitle:title message:text									\
 		delegate:nil cancelButtonTitle:@"OK"								\
-		otherButtonTitles:nil] autorelease];								\
+		otherButtonTitles:nil];                                             \
 	[__ALERT_VAR__ show]
 
 /* View Controller Creater */
@@ -74,12 +65,12 @@ UIViewController * _pyviewController( NSString *_name );
 /*
 	Just create a multiple platform viewcontroller, not add to the global cache.
  */
-UIViewController *_pyviewController_multiplatform_nocache( NSString *_name );
+#define _pyviewController_multiplatform_nocache _pyviewController_multiplatform
 
 /*
 	Just create a viewcontroller, not add to the global cache.
  */
-UIViewController *_pyviewController_nocache( NSString *_name );
+#define _pyviewController_nocache               _pyviewController
 
 /* You should not invoke the methods defined upside. Instead, use the following macros */
 #define PYViewControllerMultiPlatformGetter( vcName )						\

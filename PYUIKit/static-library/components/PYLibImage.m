@@ -9,14 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "PYLibImage.h"
 
-#define __PY_LIBIMG_CREATEIMAGE( _imgageObject, _base64String )			\
-	if ( _imgageObject == nil ) {										\
-		NSURL *_imageURL = [NSURL URLWithString:_base64String];			\
-		NSData *_imageData = [NSData dataWithContentsOfURL:_imageURL];	\
-		_imgageObject = [[UIImage imageWithData:_imageData] retain];	\
-	}																	\
-	return _imgageObject
+#if __has_feature(objc_arc)
+#define __PY_LIBIMG_CREATEIMAGE( _imageObject, _base64String )          \
+    if ( _imageObject == nil ) {                                        \
+        NSURL *_imageURL = [NSURL URLWithString:_base64String];         \
+        NSData *_imageData = [NSData dataWithContentsOfURL:_imageURL];  \
+        _imageObject = [UIImage imageWithData:_imageData];              \
+    }                                                                   \
+    return _imageObject
+#else
+#define __PY_LIBIMG_CREATEIMAGE( _imageObject, _base64String )			\
+    if ( _imageObject == nil ) {										\
+        NSURL *_imageURL = [NSURL URLWithString:_base64String];			\
+        NSData *_imageData = [NSData dataWithContentsOfURL:_imageURL];	\
+        _imageObject = [[UIImage imageWithData:_imageData] retain];     \
+    }																	\
+    return _imageObject
 
+#endif
 static NSString * _base64SwitchBackground = @"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAAgCAYAAADtwH1UAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABR0RVh0Q3JlYXRpb24gVGltZQA2LzEvMTJPrnVGAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M1cbXjNgAAAnhJREFUaIHtmk2O4jAQhZ+d8iLhTyCx5ko9N2HHGdhxk54r9RopSBYSUn6cWUwXUxgTAjOjbOqTSg4IZ/Gey8Z2GQDY7XYf8/n8YK3dGGMAAHGrvEfXdXdtCOHLe7/d7/c/zW63+1gul595nmM6ncI5B2PMXQBqxlCk2HHUdY3z+YzL5YLT6fSD5vP5YTabYbVaoSgKOOdgrUWWZWrCGzwSv21bhBBQ1zWKokBZlmjb9kDW2s1yucRiscBkMoFzDlmWwVp7DWmAMgwWPoRwjbZtUdc1nHPoug7e+w0ZY1AUBfI8R57ncM6BiG5MiLNA6UeOfCl+0zQgIoQQUFUVjDEgACAiOOeu4scGsAnKcOLRL/VjnQGAjDHXOZ9b+azT0Ovw6I81Y1NY12sG8AcpuDRCDXiNRwbIPzfWWgDfGcBfcCsj7qAMQ047bIjUmHUn7vDIhLiD8hwWO4QAa+1NRsTrKQFIbrzizFADXofFf6QtgD8ZkEJuvtSA12Hx+7ib2HXH++/p01RX1pFRA0ZGDRgZNWBk1ICRUQNGRg0YmTsD4jtM5e/p07R3J6xmvAef/fBzHyQ7pIIPlJThSO36tAVEBsgOfJTKIU/1lGFILTmkxgzFbskrND67kKd6ynNSF/IpE7qu+50BKbfil+lp6HBSF/IpE4AoA/jH8T2mjv7XSZWkSCPuMiCEgKZpbl6gZSnv8agshUtT5CxDXLXFIV8SX0kqw0mtq03T3GjddR3ou1B0UxQFiChZOqGlicNJlSbKdaBpGlRVBe89Qghf5L3flmX5mWUZ1us1iCg59ajwr5HaT7EBx+MRZVnCe781gJan/0+elaf/Ao0HnBkFUL0IAAAAAElFTkSuQmCC";
 static NSString * _base64SwitchButton = @"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABR0RVh0Q3JlYXRpb24gVGltZQA2LzEvMTJPrnVGAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M1cbXjNgAAAXRJREFUWIXtmE2qGkEUhc+tui3+0GhNBBfkShwFl2BGvmQHCQ/ciisShLZRQen7k0Ewk4SE9KQsed8KvsOpW1RdAoDdbrdu2/ataZoEACklPCPuDndHjLFJKW1Wq9U7bbfb9eVy+bZYLDCbzRBjzO35V7quw+l0wuFwQF3Xaz6fz2/z+Rx1XUNVoaq5Hf/JdDqFiOB4PH5hVU3j8RgiktvrvxiNRjCzxGYGdy8uABHBzMBmVpz8AzMDu3sR5/5PvEYDxQdQ1bIDvEQD9/s9t0svRAQsImUHKLkBVQV3XYfb7ZbbpRdd171AAyICd8/t0gtVBbdti+v1mtulF5PJBAz8fNmVChMRQgi5PXpBRB8BsvIrQKkz8DoNfATIBBGBB4MBhsNhbpdemBk4hABmzu3SCxEBxxjBzMXdRI89KYcQGiJKpbUgIgghNFxV1WdV/Q4AMcanH+jHH97MUFXVhgBguVx+IqKvAJ5zr/47jbtv9vv9+w/Ltd8osLuuxwAAAABJRU5ErkJggg==";
 static NSString * _base64NavBarTransBkg = @"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABR0RVh0Q3JlYXRpb24gVGltZQA2LzEvMTJPrnVGAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M1cbXjNgAAABRJREFUCJlj/P//PwMyYGJAA4QFAMaOAwWcosBWAAAAAElFTkSuQmCC";

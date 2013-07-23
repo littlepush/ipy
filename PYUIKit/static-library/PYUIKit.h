@@ -6,25 +6,17 @@
 //  Copyright (c) 2012 Push Lab. All rights reserved.
 //
 
-#ifndef pyutility_PYUtility_h
-#define pyutility_PYUtility_h
+#ifndef PYUIKit_PYUIKit_h
+#define PYUIKit_PYUIKit_h
 
-#import "PYExtend.h"
+// Utilities
+#import "PYUIKitMacro.h"
+#import "UIColor+PYUIKit.h"
+#import "PYRectangleCalc.h"
 
-#import "PYComponentView.h"
-#import "PYGlobalCom.h"
-#import "PYHitCover.h"
-#import "PYSwitch.h"
-#import "PYMultiSwitch.h"
-#import "PYTransNavBar.h"
-#import "SSTextView.h"
-#import "PYSlider.h"
-#import "PYSlideView.h"
-#import "PYGridView.h"
-#import "PYTouchSwitcher.h"
-#import "PYCalendar.h"
-#import "PYHUDView.h"
-#import "PYCollapseView.h"
-#import "PYImageView.h"
+// Kernel
+#import "PYLayer.h"
+#import "PYStaticLayer.h"
+#import "PYView.h"
 
 #endif

@@ -13,9 +13,9 @@
 
 @synthesize coverView = _coverView;
 
-- (void) internalInitial
+- (void)viewJustBeenCreated
 {
-	[super internalInitial];
+	[super viewJustBeenCreated];
 	self.backgroundColor = [UIColor clearColor];
 }
 

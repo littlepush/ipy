@@ -23,16 +23,21 @@
                               name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                               selector:@selector(keyboardWillHide:) 
-                              name:UIKeyboardWillHideNotification object:nil]; 
+                              name:UIKeyboardWillHideNotification object:nil];
 	#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 50000
     [[NSNotificationCenter defaultCenter] addObserver:self 
                               selector:@selector(keyboardWillChange:) 
-                              name:UIKeyboardWillChangeFrameNotification object:nil];                              
+                              name:UIKeyboardWillChangeFrameNotification object:nil];
 	#endif
 }
 
 - (void)unresgisterScrollKeyboardEvent {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)keyboardWillShow:(NSNotification*)aNotification {

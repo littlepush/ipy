@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PYComponentView.h"
+#import "PYView.h"
 
 /* 
 	Hit Cover Interface.
@@ -15,7 +15,7 @@
 	any touch event on this view will be considered as
 	touch on the cover view.
  */
-@interface PYHitCover : PYComponentView {
+@interface PYHitCover : PYView {
 	// transform cover view.
 	UIView		*_coverView;
 }

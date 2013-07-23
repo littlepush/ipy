@@ -1,31 +1,31 @@
 //
-//  PYImageView.h
-//  PYUIKit
+//  QTImageView.h
+//  QTUIKit
 //
 //  Created by Chen Push on 3/8/13.
 //  Copyright (c) 2013 Markphone Culture Media Co.Ltd. All rights reserved.
 //
 
-#import "PYView.h"
+#import "QTView.h"
 
 UIImage *__flipImageForTiledLayerDrawing(UIImage *_in);
 #define _R	__flipImageForTiledLayerDrawing
 
 /* The async image layer */
-@interface PYAsyncImageLayer : CALayer
+@interface QTAsyncImageLayer : CALayer
 
-@property (nonatomic, retain)	UIImage		*imageToDraw;
+@property (nonatomic, strong)	UIImage             *imageToDraw;
 
 @property (nonatomic, assign)   UIViewContentMode   contentMode;
 
 @end
 
-@protocol PYImageViewDelegate;
+@protocol QTImageViewDelegate;
 
 /*
- PYImageView Setting
+ QTImageView Setting
  */
-@interface PYImageViewManager : NSObject
+@interface QTImageViewManager : NSObject
 {
     BOOL                    _isLoadNetworkImage;
     NSOperationQueue        *_loadingQueue;
@@ -43,22 +43,16 @@ UIImage *__flipImageForTiledLayerDrawing(UIImage *_in);
  The Async Image Loader. Default to load a placehold(if any),
  then set the image url and start to async load.
  */
-@interface PYImageView : PYView
-{
-    UIImage                                             *_image;
-    NSTimer                                             *_animatorTimer;
-    int                                                 _frameCount;
-    int                                                 _currentFrame;
-}
+@interface QTImageView : QTView
 
 /* The really display image */
-@property (nonatomic, retain) UIImage                   *image;
+@property (nonatomic, strong)   UIImage                     *image;
 /* Placehold Image */
-@property (nonatomic, retain) UIImage                   *placeholdImage;
+@property (nonatomic, strong)   UIImage                     *placeholdImage;
 /* Current Loading Image's URL */
-@property (nonatomic, retain) NSString                  *loadingUrl;
+@property (nonatomic, copy)     NSString                    *loadingUrl;
 /* The Delegate */
-@property (nonatomic, assign) id<PYImageViewDelegate>   delegate;
+@property (nonatomic, assign)   id<QTImageViewDelegate>     delegate;
 
 /* Init the image loader with the placehold image */
 - (id)initWithPlaceholdImage:(UIImage *)placehold;
@@ -71,9 +65,9 @@ UIImage *__flipImageForTiledLayerDrawing(UIImage *_in);
  The Async Image Loader's Delegate, when did receive
  the image from network, happen to this callback.
  */
-@protocol PYImageViewDelegate <NSObject>
+@protocol QTImageViewDelegate <NSObject>
 
 @optional
-- (void)imageView:(PYImageView *)imageView didLoadImage:(UIImage *)image forUrl:(NSString *)url;
+- (void)imageView:(QTImageView *)imageView didLoadImage:(UIImage *)image forUrl:(NSString *)url;
 
 @end

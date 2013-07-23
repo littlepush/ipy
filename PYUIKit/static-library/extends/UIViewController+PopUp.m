@@ -39,7 +39,7 @@
 {
 	UIView *maskView = [self.view.layer valueForKey:kPopUpViewControllerMaskView];
 	if ( maskView == nil ) {
-		maskView = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+		maskView = [[UIView alloc] initWithFrame:self.view.bounds];
 		[self.view.layer setValue:maskView forKey:kPopUpViewControllerMaskView];
 		//[maskView setTapGestureDismiss:YES];
 		[self.view addSubview:maskView];
@@ -98,7 +98,7 @@
 {
 	UIView *maskView = [self.view.layer valueForKey:kPopUpViewControllerMaskView];
 	if ( maskView == nil ) {
-		maskView = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+		maskView = [[UIView alloc] initWithFrame:self.view.bounds];
 		[self.view.layer setValue:maskView forKey:kPopUpViewControllerMaskView];
 		//[maskView setTapGestureDismiss:YES];
 		[self.view addSubview:maskView];
@@ -242,8 +242,8 @@
 		PYLibImageIndex _imgKey = (_leftOrRight == 0) ? 
 			PYLibImageFrameShadowLeft : PYLibImageFrameShadowRight;
 		CGFloat _x = (_leftOrRight == 0) ? _menuFrame.size.width : -13.f;
-		UIImageView *_shadowView = [[[UIImageView alloc] 
-			initWithImage:[PYLibImage imageForKey:_imgKey]] autorelease];
+		UIImageView *_shadowView = [[UIImageView alloc] 
+			initWithImage:[PYLibImage imageForKey:_imgKey]];
 			
 		[_shadowView setFrame:(CGRect){
 			_x, 0, 13.f, _menuFrame.size.height}];
@@ -260,8 +260,8 @@
 		PYLibImageIndex _imgKey = (_leftOrRight == 0) ? 
 			PYLibImageFrameShadowRight : PYLibImageFrameShadowLeft;
 		CGFloat _x = (_leftOrRight == 0) ? -13.f : _selfFrame.size.width;
-		UIImageView *_shadowView = [[[UIImageView alloc] 
-			initWithImage:[PYLibImage imageForKey:_imgKey]] autorelease];
+		UIImageView *_shadowView = [[UIImageView alloc] 
+			initWithImage:[PYLibImage imageForKey:_imgKey]];
 			
 		[_shadowView setFrame:(CGRect){
 			_x, 0, 13.f, _selfFrame.size.height}];

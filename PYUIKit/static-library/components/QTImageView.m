@@ -1,18 +1,17 @@
 //
-//  PYImageView.m
-//  PYUIKit
+//  QTImageView.m
+//  QTUIKit
 //
 //  Created by Chen Push on 3/8/13.
 //  Copyright (c) 2013 Markphone Culture Media Co.Ltd. All rights reserved.
 //
 
-#import "PYImageView.h"
-#import "PYImageCache.h"
-#import "PYUIMacro.h"
+#import "QTImageView.h"
+#import "QTImageCache.h"
 
 UIImage * __flipImageForTiledLayerDrawing( UIImage *_in )
 {
-	if ( PYIsRetina ) {
+	if ( QTIsRetina ) {
 		UIGraphicsBeginImageContextWithOptions(_in.size, NO, [UIScreen mainScreen].scale);
 	} else {
 		UIGraphicsBeginImageContext(_in.size);
@@ -53,8 +52,9 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     }
 }
 
-@implementation PYAsyncImageLayer
+@implementation QTAsyncImageLayer
 @synthesize imageToDraw;
+@synthesize contentMode;
 
 + (CFTimeInterval)fadeDuration
 {
@@ -63,11 +63,12 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 
 - (void)checkAndSetTileSize
 {
-    if ( PYIsRetina ) {
+    if ( QTIsRetina ) {
         self.contentsScale = [UIScreen mainScreen].scale;
     }
 //    self.tileSize = CGSizeMake([UIScreen mainScreen].applicationFrame.size.height,
 //                               [UIScreen mainScreen].applicationFrame.size.height);
+    [self setBackgroundColor:[UIColor clearColor].CGColor];
 }
 
 - (id)init
@@ -97,17 +98,14 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     return self;
 }
 
-- (void)layoutSublayers
-{
-    [super layoutSublayers];
-    self.contentsScale = [UIScreen mainScreen].scale;
-}
-
 - (void)drawInContext:(CGContextRef)ctx
 {
     if ( self.imageToDraw == nil ) {
         CGContextClearRect(ctx, self.bounds);
         return;
+    }
+    if ( QTIsRetina ) {
+        self.contentsScale = [UIScreen mainScreen].scale;
     }
     CGContextTranslateCTM(ctx, 0.0, self.bounds.size.height);
     CGContextScaleCTM(ctx, 1.0, -1.0);
@@ -129,17 +127,17 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 @end
 
 /*
- * PYImageView Manager, for global setting
+ * QTImageView Manager, for global setting
  */
-static PYImageViewManager *gImgViewMgr;
-@interface PYImageViewManager ()
+static QTImageViewManager *_gQTImgViewMgr;
+@interface QTImageViewManager ()
 
 // Singleton
-+ (PYImageViewManager *)sharedManager;
++ (QTImageViewManager *)sharedManager;
 
 @end
 
-@implementation PYImageViewManager
+@implementation QTImageViewManager
 
 - (id)init
 {
@@ -148,6 +146,7 @@ static PYImageViewManager *gImgViewMgr;
         // Default load all images
         _isLoadNetworkImage = YES;
         _loadingQueue = [[NSOperationQueue alloc] init];
+        [_loadingQueue setMaxConcurrentOperationCount:1];
     }
     return self;
 }
@@ -161,96 +160,70 @@ static PYImageViewManager *gImgViewMgr;
 + (id)allocWithZone:(NSZone *)zone
 {
     @synchronized(self) {
-        if ( gImgViewMgr == nil ) {
-            gImgViewMgr = [super allocWithZone:zone];
+        if ( _gQTImgViewMgr == nil ) {
+            _gQTImgViewMgr = [super allocWithZone:zone];
         }
     }
-    return gImgViewMgr;
+    return _gQTImgViewMgr;
 }
 
-+ (PYImageViewManager *)sharedManager
++ (QTImageViewManager *)sharedManager
 {
     @synchronized(self) {
-        if ( gImgViewMgr == nil ) {
-            gImgViewMgr = [[PYImageViewManager alloc] init];
+        if ( _gQTImgViewMgr == nil ) {
+            _gQTImgViewMgr = [[QTImageViewManager alloc] init];
         }
     }
-    return gImgViewMgr;
+    return _gQTImgViewMgr;
 }
 
 // Peoperties
 + (BOOL)isLoadNetworkImage
 {
     @synchronized(self) {
-        return [PYImageViewManager sharedManager]->_isLoadNetworkImage;
+        return [QTImageViewManager sharedManager]->_isLoadNetworkImage;
     }
 }
 
 + (void)setIsLoadNetworkImage:(BOOL)isLoad
 {
     @synchronized(self) {
-        [PYImageViewManager sharedManager]->_isLoadNetworkImage = isLoad;
+        [QTImageViewManager sharedManager]->_isLoadNetworkImage = isLoad;
     }
 }
 
 + (NSOperationQueue *)imageLoadingQueue
 {
     @synchronized(self) {
-        return [PYImageViewManager sharedManager]->_loadingQueue;
+        return [QTImageViewManager sharedManager]->_loadingQueue;
     }
 }
 
 @end
 
-@interface PYImageView ()
+@interface QTImageView ()
 
 - (void)didLoadImage:(UIImage *)netImage forUrl:(NSString *)url;
 
 @end
 
-@implementation PYImageView
+@implementation QTImageView
 
-@synthesize image = _image, placeholdImage;
+@synthesize image, placeholdImage;
 @synthesize loadingUrl;
 @synthesize delegate;
 
 + (Class)layerClass
 {
-    return [PYAsyncImageLayer class];
+    return [QTAsyncImageLayer class];
 }
 
 - (void)viewJustBeenCreated
 {
     [super viewJustBeenCreated];
-    [self setOpaque:NO];    
-}
-
-- (void)_startAnimation
-{
-    if ( _animatorTimer != nil ) return;
-    _frameCount = [_image.images count];
-    _currentFrame = 0;
-    _animatorTimer = [NSTimer scheduledTimerWithTimeInterval:1.f / 7
-                                                      target:self
-                                                    selector:@selector(_animatorTimerHandler:)
-                                                    userInfo:nil repeats:YES];
-    [_animatorTimer fire];
-    [[NSRunLoop mainRunLoop] addTimer:_animatorTimer forMode:NSRunLoopCommonModes];
-}
-
-- (void)_stopAnimation
-{
-    _frameCount = 0;
-    _currentFrame = 0;
-    if ( _animatorTimer == nil ) return;
-    [_animatorTimer invalidate];
-    _animatorTimer = nil;
-}
-
-- (void)_animatorTimerHandler:(NSTimer *)timer
-{
-    [self setNeedsLayout];
-    //_currentFrame = (_currentFrame + 1) % _frameCount;
+    [self setOpaque:NO];
+    [self setBackgroundColor:[UIColor clearColor]];
+    [self setClearsContextBeforeDrawing:YES];
 }
 
 - (id)initWithPlaceholdImage:(UIImage *)placehold
@@ -262,30 +235,19 @@ static PYImageViewManager *gImgViewMgr;
     return self;
 }
 
-- (void)setImage:(UIImage *)image
+- (void)setContentMode:(UIViewContentMode)contentMode
 {
-    if ( _image == image ) return;
-    [self _stopAnimation];
-    
-    _image = image;
-    [self setNeedsLayout];
-    
-    if ( _image == nil ) {
-        return;
-    }
-    
-    // Check if is Animated GIF
-    if ( _image.images != nil && [_image.images count] > 0 ) {
-        [self _startAnimation];
-    }
+    [super setContentMode:contentMode];
+    ((QTAsyncImageLayer *)self.layer).contentMode = contentMode;
 }
+
 - (void)setImageUrl:(NSString *)imageUrl
 {
     @synchronized(self) {
         
         if ( [imageUrl length] == 0 ) {
             // Clean self's status
-            self.loadingUrl = nil;
+            self.loadingUrl = imageUrl;
             self.image = nil;
             [self setNeedsLayout];
             return;
@@ -298,36 +260,34 @@ static PYImageViewManager *gImgViewMgr;
         // Fetch the cache.
         self.image = [SHARED_IMAGECACHE imageByName:self.loadingUrl];
         if ( self.image != nil ) {
-            [self didLoadImage:self.image forUrl:self.loadingUrl];
+            if ( [self.delegate respondsToSelector:@selector(imageView:didLoadImage:forUrl:)] ) {
+                [self.delegate imageView:self didLoadImage:self.image forUrl:self.loadingUrl];
+            }
+            [self setNeedsLayout];
             return;
         }
         
-        self.image = nil;
-        [self setNeedsLayout];
         // Do not load network url
-        if ( ![PYImageViewManager isLoadNetworkImage] ) return;
-
+        if ( ![QTImageViewManager isLoadNetworkImage] ) return;
+        
         NSURL *_url = [NSURL URLWithString:self.loadingUrl];
         NSURLRequest *_request = [NSURLRequest requestWithURL:_url];
         [NSURLConnection
          sendAsynchronousRequest:_request
-         queue:[PYImageViewManager imageLoadingQueue]
+         queue:[QTImageViewManager imageLoadingQueue]
          completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
              if ( error != nil ) {
                  // On error
                  NSLog(@"Load image error: %@", [error localizedDescription]);
                  return;
-             } else {
-                 //NSLog(@"did get image: %@", _url);
              }
              if ( data == nil || [data length] == 0 ) return;   // no image data.
-             [SHARED_IMAGECACHE setImage:data forName:imageUrl];
-             UIImage *_netImage = [SHARED_IMAGECACHE imageByName:imageUrl];
-             if ( _netImage == nil ) return;
-             BEGIN_MAINTHREAD_INVOKE
-             [self didLoadImage:_netImage forUrl:imageUrl];
-             END_MAINTHREAD_INVOKE
-         }];
+             UIImage *_image = [UIImage imageWithData:data];
+             [SHARED_IMAGECACHE setImage:_image forName:self.loadingUrl];
+             dispatch_async( dispatch_get_main_queue(), ^{
+                 [self didLoadImage:_image forUrl:self.loadingUrl];
+             });
+        }];
     }
 }
 
@@ -337,18 +297,9 @@ static PYImageViewManager *gImgViewMgr;
 {
     [super layoutSubviews];
     // Redraw self.layer
-    PYAsyncImageLayer *_imgLayer = (PYAsyncImageLayer *)self.layer;
-    if ( self.image == nil ) {
-        _imgLayer.imageToDraw = self.placeholdImage;
-    } else {
-        if ( _image.images != nil ) {
-            _imgLayer.imageToDraw = [_image.images objectAtIndex:_currentFrame];
-            _currentFrame = (_currentFrame + 1) % _frameCount;
-        } else {
-            _imgLayer.imageToDraw = _image;
-        }
-    }
-    [_imgLayer setNeedsDisplay];
+    ((QTAsyncImageLayer *)self.layer).imageToDraw =
+        (self.image == nil ? self.placeholdImage : self.image);
+    [self.layer setNeedsDisplay];
 }
 
 #pragma mark --
@@ -356,16 +307,17 @@ static PYImageViewManager *gImgViewMgr;
 
 - (void)didLoadImage:(UIImage *)netImage forUrl:(NSString *)url
 {
-    // the request is expired
-    if ( ![self.loadingUrl isEqualToString:url] ) return;
-    
     @synchronized(self) {
+        // the request is expired
+        if ( ![self.loadingUrl isEqualToString:url] ) return;
+        
         self.image = netImage;
-        [self setNeedsLayout];
         
         if ( [self.delegate respondsToSelector:@selector(imageView:didLoadImage:forUrl:)] ) {
             [self.delegate imageView:self didLoadImage:netImage forUrl:url];
-        }        
+        }
+        
+        [self setNeedsLayout];
     }
 }
 

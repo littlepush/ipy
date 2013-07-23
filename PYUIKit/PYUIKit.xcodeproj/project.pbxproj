@@ -7,141 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E65E5D2E16A56F7200C13E78 /* PYViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E65E5D2C16A56F7200C13E78 /* PYViewController.h */; };
-		E65E5D2F16A56F7200C13E78 /* PYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E65E5D2D16A56F7200C13E78 /* PYViewController.m */; };
-		E69297FA15F6EE2D00AA0CC3 /* PYImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = E69297F815F6EE2D00AA0CC3 /* PYImageView.h */; settings = {ATTRIBUTES = (); }; };
-		E69297FB15F6EE2D00AA0CC3 /* PYImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E69297F915F6EE2D00AA0CC3 /* PYImageView.m */; };
+		E67F68C0179EE33B0086F03C /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
+		E67F68C3179EE37D0086F03C /* PYLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C1179EE37D0086F03C /* PYLayer.h */; };
+		E67F68C4179EE37D0086F03C /* PYLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68C2179EE37D0086F03C /* PYLayer.m */; };
+		E67F68C7179EE4E90086F03C /* PYStaticLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C5179EE4E90086F03C /* PYStaticLayer.h */; };
+		E67F68C8179EE4E90086F03C /* PYStaticLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68C6179EE4E90086F03C /* PYStaticLayer.m */; };
+		E67F68CB179EE56C0086F03C /* PYView.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C9179EE56B0086F03C /* PYView.h */; };
+		E67F68CC179EE56C0086F03C /* PYView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68CA179EE56C0086F03C /* PYView.m */; };
+		E67F68D0179EE6040086F03C /* UIColor+PYUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68CE179EE6040086F03C /* UIColor+PYUIKit.h */; };
+		E67F68D1179EE6040086F03C /* UIColor+PYUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68CF179EE6040086F03C /* UIColor+PYUIKit.m */; };
+		E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68D6179EE9340086F03C /* PYUIKit.h */; };
+		E67F68D8179EE9DE0086F03C /* PYRectangleCalc.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68D4179EE70C0086F03C /* PYRectangleCalc.m */; };
+		E67F68DC179EEB9D0086F03C /* PYInnerShadowLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68DA179EEB9C0086F03C /* PYInnerShadowLayer.h */; };
+		E67F68DD179EEB9D0086F03C /* PYInnerShadowLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68DB179EEB9C0086F03C /* PYInnerShadowLayer.m */; };
 		E6D57F3E15F5A8C400C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8515B42B1400DCF831 /* Foundation.framework */; };
-		E6D57F4815F5A8D200C1ED25 /* PYComponentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FA715B42D3800DCF831 /* PYComponentView.h */; };
-		E6D57F4915F5A8D200C1ED25 /* PYComponentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FA815B42D3800DCF831 /* PYComponentView.m */; };
-		E6D57F4A15F5A8D200C1ED25 /* PYGlobalCom.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FA915B42D3800DCF831 /* PYGlobalCom.h */; };
-		E6D57F4B15F5A8D200C1ED25 /* PYGlobalCom.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FAA15B42D3800DCF831 /* PYGlobalCom.m */; };
-		E6D57F4C15F5A8D200C1ED25 /* PYGridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FAB15B42D3800DCF831 /* PYGridView.h */; };
-		E6D57F4D15F5A8D200C1ED25 /* PYGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FAC15B42D3800DCF831 /* PYGridView.m */; };
-		E6D57F4E15F5A8D200C1ED25 /* PYHitCover.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FAD15B42D3800DCF831 /* PYHitCover.h */; };
-		E6D57F4F15F5A8D200C1ED25 /* PYHitCover.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FAE15B42D3800DCF831 /* PYHitCover.m */; };
-		E6D57F5015F5A8D200C1ED25 /* PYLibImage.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FAF15B42D3800DCF831 /* PYLibImage.h */; };
-		E6D57F5115F5A8D200C1ED25 /* PYLibImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FB015B42D3800DCF831 /* PYLibImage.m */; };
-		E6D57F5215F5A8D200C1ED25 /* PYMultiSwitch.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FB115B42D3800DCF831 /* PYMultiSwitch.h */; };
-		E6D57F5315F5A8D200C1ED25 /* PYMultiSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FB215B42D3800DCF831 /* PYMultiSwitch.m */; };
-		E6D57F5415F5A8D200C1ED25 /* PYSlideContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FB315B42D3800DCF831 /* PYSlideContentView.h */; };
-		E6D57F5515F5A8D200C1ED25 /* PYSlideContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FB415B42D3800DCF831 /* PYSlideContentView.m */; };
-		E6D57F5615F5A8D200C1ED25 /* PYSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FB515B42D3800DCF831 /* PYSlider.h */; };
-		E6D57F5715F5A8D200C1ED25 /* PYSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FB615B42D3800DCF831 /* PYSlider.m */; };
-		E6D57F5815F5A8D200C1ED25 /* PYSlideView+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FB715B42D3800DCF831 /* PYSlideView+Internal.h */; };
-		E6D57F5915F5A8D200C1ED25 /* PYSlideView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FB815B42D3800DCF831 /* PYSlideView.h */; };
-		E6D57F5A15F5A8D200C1ED25 /* PYSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FB915B42D3800DCF831 /* PYSlideView.m */; };
-		E6D57F5B15F5A8D200C1ED25 /* PYSwitch.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FBA15B42D3800DCF831 /* PYSwitch.h */; };
-		E6D57F5C15F5A8D200C1ED25 /* PYSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FBB15B42D3800DCF831 /* PYSwitch.m */; };
-		E6D57F5D15F5A8D200C1ED25 /* PYTransNavBar.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FBC15B42D3800DCF831 /* PYTransNavBar.h */; };
-		E6D57F5E15F5A8D200C1ED25 /* PYTransNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FBD15B42D3800DCF831 /* PYTransNavBar.m */; };
-		E6D57F5F15F5A8D200C1ED25 /* SSTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FBE15B42D3800DCF831 /* SSTextView.h */; };
-		E6D57F6015F5A8D200C1ED25 /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FBF15B42D3800DCF831 /* SSTextView.m */; };
-		E6D57F6115F5A8D200C1ED25 /* PYTouchSwitcher.h in Headers */ = {isa = PBXBuildFile; fileRef = E6A7045315C2929100428298 /* PYTouchSwitcher.h */; };
-		E6D57F6215F5A8D200C1ED25 /* PYTouchSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A7045415C2929100428298 /* PYTouchSwitcher.m */; };
-		E6D57F6315F5A8D200C1ED25 /* PYCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = E6A7045B15C2CF4300428298 /* PYCalendar.h */; };
-		E6D57F6415F5A8D200C1ED25 /* PYCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A7045C15C2CF4300428298 /* PYCalendar.m */; };
-		E6D57F6515F5A8D200C1ED25 /* PYHUDView.h in Headers */ = {isa = PBXBuildFile; fileRef = E678FAF915CA4DA6005A56DF /* PYHUDView.h */; };
-		E6D57F6615F5A8D200C1ED25 /* PYHUDView.m in Sources */ = {isa = PBXBuildFile; fileRef = E678FAFA15CA4DA6005A56DF /* PYHUDView.m */; };
-		E6D57F6715F5A8D200C1ED25 /* PYCollapseView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6A1C8FA15DE28A0009BB579 /* PYCollapseView.h */; };
-		E6D57F6815F5A8D200C1ED25 /* PYCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A1C8FB15DE28A0009BB579 /* PYCollapseView.m */; };
-		E6D57F6915F5A8DB00C1ED25 /* PYExtend.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FC115B42D3800DCF831 /* PYExtend.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F6A15F5A8DB00C1ED25 /* PYExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = E626407215B468A500DCF831 /* PYExtend.m */; };
-		E6D57F6B15F5A8DB00C1ED25 /* UIBarButtonItem+CustomizedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FC215B42D3800DCF831 /* UIBarButtonItem+CustomizedImage.h */; };
-		E6D57F6C15F5A8DB00C1ED25 /* UIBarButtonItem+CustomizedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FC315B42D3800DCF831 /* UIBarButtonItem+CustomizedImage.m */; };
-		E6D57F6D15F5A8DB00C1ED25 /* UIColor+Random.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FC415B42D3800DCF831 /* UIColor+Random.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F6E15F5A8DB00C1ED25 /* UIColor+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FC515B42D3800DCF831 /* UIColor+Random.m */; };
-		E6D57F6F15F5A8DB00C1ED25 /* UIImage+DSP.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FC615B42D3800DCF831 /* UIImage+DSP.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7015F5A8DB00C1ED25 /* UIImage+DSP.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FC715B42D3800DCF831 /* UIImage+DSP.m */; };
-		E6D57F7115F5A8DB00C1ED25 /* UIView+Mask.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FC815B42D3800DCF831 /* UIView+Mask.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7215F5A8DB00C1ED25 /* UIView+Mask.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FC915B42D3800DCF831 /* UIView+Mask.m */; };
-		E6D57F7315F5A8DB00C1ED25 /* UIView+PartialCurl.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FCA15B42D3800DCF831 /* UIView+PartialCurl.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7415F5A8DB00C1ED25 /* UIView+PartialCurl.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FCB15B42D3800DCF831 /* UIView+PartialCurl.m */; };
-		E6D57F7515F5A8DB00C1ED25 /* UIViewController+PopUp.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FCC15B42D3800DCF831 /* UIViewController+PopUp.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7615F5A8DB00C1ED25 /* UIViewController+PopUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E6263FCD15B42D3800DCF831 /* UIViewController+PopUp.m */; };
-		E6D57F7715F5A8DB00C1ED25 /* UIScrollView+HiddenCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E6A43FE015C7B43B00CE77D0 /* UIScrollView+HiddenCell.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7815F5A8DB00C1ED25 /* UIScrollView+HiddenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A43FE115C7B43B00CE77D0 /* UIScrollView+HiddenCell.m */; };
-		E6D57F7915F5A8DB00C1ED25 /* UIView+Animations.h in Headers */ = {isa = PBXBuildFile; fileRef = E67AE3EB15DCC61E00DB49ED /* UIView+Animations.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7A15F5A8DB00C1ED25 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = E67AE3EC15DCC61E00DB49ED /* UIView+Animations.m */; };
-		E6D57F7B15F5A8DB00C1ED25 /* CALayer+Gradient.h in Headers */ = {isa = PBXBuildFile; fileRef = E6A1C90215DE40DE009BB579 /* CALayer+Gradient.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7C15F5A8DB00C1ED25 /* CALayer+Gradient.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A1C90315DE40DE009BB579 /* CALayer+Gradient.m */; };
-		E6D57F7D15F5A8DB00C1ED25 /* UIScrollView+KeyboardExtended.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E1BF15F0C3DE00291E27 /* UIScrollView+KeyboardExtended.h */; settings = {ATTRIBUTES = (); }; };
-		E6D57F7E15F5A8DB00C1ED25 /* UIScrollView+KeyboardExtended.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E1C015F0C3DE00291E27 /* UIScrollView+KeyboardExtended.m */; };
-		E6D57F7F15F5A8DB00C1ED25 /* UIView+Responsder.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D57ACE15F2722600C1ED25 /* UIView+Responsder.h */; };
-		E6D57F8015F5A8DB00C1ED25 /* UIView+Responsder.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D57ACF15F2722600C1ED25 /* UIView+Responsder.m */; };
-		E6D57F8115F5A8DB00C1ED25 /* PYUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E6263FCE15B42D3800DCF831 /* PYUIKit.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E6263F8315B42B1400DCF831 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E6263F8515B42B1400DCF831 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6263F8715B42B1400DCF831 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E6263FA715B42D3800DCF831 /* PYComponentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYComponentView.h; sourceTree = "<group>"; };
-		E6263FA815B42D3800DCF831 /* PYComponentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYComponentView.m; sourceTree = "<group>"; };
-		E6263FA915B42D3800DCF831 /* PYGlobalCom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYGlobalCom.h; sourceTree = "<group>"; };
-		E6263FAA15B42D3800DCF831 /* PYGlobalCom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYGlobalCom.m; sourceTree = "<group>"; };
-		E6263FAB15B42D3800DCF831 /* PYGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYGridView.h; sourceTree = "<group>"; };
-		E6263FAC15B42D3800DCF831 /* PYGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYGridView.m; sourceTree = "<group>"; };
-		E6263FAD15B42D3800DCF831 /* PYHitCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYHitCover.h; sourceTree = "<group>"; };
-		E6263FAE15B42D3800DCF831 /* PYHitCover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYHitCover.m; sourceTree = "<group>"; };
-		E6263FAF15B42D3800DCF831 /* PYLibImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLibImage.h; sourceTree = "<group>"; };
-		E6263FB015B42D3800DCF831 /* PYLibImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLibImage.m; sourceTree = "<group>"; };
-		E6263FB115B42D3800DCF831 /* PYMultiSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMultiSwitch.h; sourceTree = "<group>"; };
-		E6263FB215B42D3800DCF831 /* PYMultiSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PYMultiSwitch.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E6263FB315B42D3800DCF831 /* PYSlideContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSlideContentView.h; sourceTree = "<group>"; };
-		E6263FB415B42D3800DCF831 /* PYSlideContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PYSlideContentView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E6263FB515B42D3800DCF831 /* PYSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSlider.h; sourceTree = "<group>"; };
-		E6263FB615B42D3800DCF831 /* PYSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PYSlider.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E6263FB715B42D3800DCF831 /* PYSlideView+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYSlideView+Internal.h"; sourceTree = "<group>"; };
-		E6263FB815B42D3800DCF831 /* PYSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSlideView.h; sourceTree = "<group>"; };
-		E6263FB915B42D3800DCF831 /* PYSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSlideView.m; sourceTree = "<group>"; };
-		E6263FBA15B42D3800DCF831 /* PYSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSwitch.h; sourceTree = "<group>"; };
-		E6263FBB15B42D3800DCF831 /* PYSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSwitch.m; sourceTree = "<group>"; };
-		E6263FBC15B42D3800DCF831 /* PYTransNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTransNavBar.h; sourceTree = "<group>"; };
-		E6263FBD15B42D3800DCF831 /* PYTransNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYTransNavBar.m; sourceTree = "<group>"; };
-		E6263FBE15B42D3800DCF831 /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
-		E6263FBF15B42D3800DCF831 /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
-		E6263FC115B42D3800DCF831 /* PYExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYExtend.h; sourceTree = "<group>"; };
-		E6263FC215B42D3800DCF831 /* UIBarButtonItem+CustomizedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+CustomizedImage.h"; sourceTree = "<group>"; };
-		E6263FC315B42D3800DCF831 /* UIBarButtonItem+CustomizedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+CustomizedImage.m"; sourceTree = "<group>"; };
-		E6263FC415B42D3800DCF831 /* UIColor+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Random.h"; sourceTree = "<group>"; };
-		E6263FC515B42D3800DCF831 /* UIColor+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Random.m"; sourceTree = "<group>"; };
-		E6263FC615B42D3800DCF831 /* UIImage+DSP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+DSP.h"; sourceTree = "<group>"; };
-		E6263FC715B42D3800DCF831 /* UIImage+DSP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+DSP.m"; sourceTree = "<group>"; };
-		E6263FC815B42D3800DCF831 /* UIView+Mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Mask.h"; sourceTree = "<group>"; };
-		E6263FC915B42D3800DCF831 /* UIView+Mask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Mask.m"; sourceTree = "<group>"; };
-		E6263FCA15B42D3800DCF831 /* UIView+PartialCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PartialCurl.h"; sourceTree = "<group>"; };
-		E6263FCB15B42D3800DCF831 /* UIView+PartialCurl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PartialCurl.m"; sourceTree = "<group>"; };
-		E6263FCC15B42D3800DCF831 /* UIViewController+PopUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PopUp.h"; sourceTree = "<group>"; };
-		E6263FCD15B42D3800DCF831 /* UIViewController+PopUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PopUp.m"; sourceTree = "<group>"; };
-		E6263FCE15B42D3800DCF831 /* PYUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYUIKit.h; sourceTree = "<group>"; };
 		E6263FED15B4326700DCF831 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E6263FEF15B4326B00DCF831 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E6263FF115B4327100DCF831 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		E626407215B468A500DCF831 /* PYExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYExtend.m; sourceTree = "<group>"; };
-		E65E5D2C16A56F7200C13E78 /* PYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYViewController.h; sourceTree = "<group>"; };
-		E65E5D2D16A56F7200C13E78 /* PYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYViewController.m; sourceTree = "<group>"; };
-		E678FAF915CA4DA6005A56DF /* PYHUDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYHUDView.h; sourceTree = "<group>"; };
-		E678FAFA15CA4DA6005A56DF /* PYHUDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYHUDView.m; sourceTree = "<group>"; };
-		E67AE3EB15DCC61E00DB49ED /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animations.h"; sourceTree = "<group>"; };
-		E67AE3EC15DCC61E00DB49ED /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animations.m"; sourceTree = "<group>"; };
-		E69297F815F6EE2D00AA0CC3 /* PYImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYImageView.h; sourceTree = "<group>"; };
-		E69297F915F6EE2D00AA0CC3 /* PYImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYImageView.m; sourceTree = "<group>"; };
-		E6A1C8FA15DE28A0009BB579 /* PYCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCollapseView.h; sourceTree = "<group>"; };
-		E6A1C8FB15DE28A0009BB579 /* PYCollapseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCollapseView.m; sourceTree = "<group>"; };
-		E6A1C90215DE40DE009BB579 /* CALayer+Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Gradient.h"; sourceTree = "<group>"; };
-		E6A1C90315DE40DE009BB579 /* CALayer+Gradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+Gradient.m"; sourceTree = "<group>"; };
+		E67F68C1179EE37D0086F03C /* PYLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLayer.h; sourceTree = "<group>"; };
+		E67F68C2179EE37D0086F03C /* PYLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLayer.m; sourceTree = "<group>"; };
+		E67F68C5179EE4E90086F03C /* PYStaticLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYStaticLayer.h; sourceTree = "<group>"; };
+		E67F68C6179EE4E90086F03C /* PYStaticLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYStaticLayer.m; sourceTree = "<group>"; };
+		E67F68C9179EE56B0086F03C /* PYView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYView.h; sourceTree = "<group>"; };
+		E67F68CA179EE56C0086F03C /* PYView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYView.m; sourceTree = "<group>"; };
+		E67F68CE179EE6040086F03C /* UIColor+PYUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+PYUIKit.h"; sourceTree = "<group>"; };
+		E67F68CF179EE6040086F03C /* UIColor+PYUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+PYUIKit.m"; sourceTree = "<group>"; };
+		E67F68D2179EE66E0086F03C /* PYUIKitMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYUIKitMacro.h; sourceTree = "<group>"; };
+		E67F68D3179EE7000086F03C /* PYRectangleCalc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYRectangleCalc.h; sourceTree = "<group>"; };
+		E67F68D4179EE70C0086F03C /* PYRectangleCalc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYRectangleCalc.m; sourceTree = "<group>"; };
+		E67F68D6179EE9340086F03C /* PYUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYUIKit.h; sourceTree = "<group>"; };
+		E67F68DA179EEB9C0086F03C /* PYInnerShadowLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYInnerShadowLayer.h; sourceTree = "<group>"; };
+		E67F68DB179EEB9C0086F03C /* PYInnerShadowLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYInnerShadowLayer.m; sourceTree = "<group>"; };
 		E6A3871315B5468D0096A14A /* PYCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PYCore.framework; path = System/Library/Frameworks/PYCore.framework; sourceTree = SDKROOT; };
-		E6A43FE015C7B43B00CE77D0 /* UIScrollView+HiddenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+HiddenCell.h"; sourceTree = "<group>"; };
-		E6A43FE115C7B43B00CE77D0 /* UIScrollView+HiddenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+HiddenCell.m"; sourceTree = "<group>"; };
-		E6A7045315C2929100428298 /* PYTouchSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTouchSwitcher.h; sourceTree = "<group>"; };
-		E6A7045415C2929100428298 /* PYTouchSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PYTouchSwitcher.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E6A7045B15C2CF4300428298 /* PYCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCalendar.h; sourceTree = "<group>"; };
-		E6A7045C15C2CF4300428298 /* PYCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PYCalendar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E6B8E1BF15F0C3DE00291E27 /* UIScrollView+KeyboardExtended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+KeyboardExtended.h"; sourceTree = "<group>"; };
-		E6B8E1C015F0C3DE00291E27 /* UIScrollView+KeyboardExtended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+KeyboardExtended.m"; sourceTree = "<group>"; };
-		E6D57ACE15F2722600C1ED25 /* UIView+Responsder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Responsder.h"; sourceTree = "<group>"; };
-		E6D57ACF15F2722600C1ED25 /* UIView+Responsder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Responsder.m"; sourceTree = "<group>"; };
 		E6D57F3D15F5A8C400C1ED25 /* libPYUIKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYUIKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D57F4115F5A8C400C1ED25 /* PYUIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYUIKit-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E67F68C0179EE33B0086F03C /* PYCore.framework in Frameworks */,
 				E6D57F3E15F5A8C400C1ED25 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -193,86 +97,38 @@
 		E6263FA515B42BCD00DCF831 /* static-library */ = {
 			isa = PBXGroup;
 			children = (
-				E6263FA615B42D3800DCF831 /* components */,
-				E6263FC015B42D3800DCF831 /* extends */,
-				E6263FCE15B42D3800DCF831 /* PYUIKit.h */,
+				E67F68D6179EE9340086F03C /* PYUIKit.h */,
+				E67F68CD179EE58C0086F03C /* UIKit.Utilities */,
+				E67F68BF179EE3170086F03C /* UIKit.Kernel */,
 			);
 			path = "static-library";
 			sourceTree = "<group>";
 		};
-		E6263FA615B42D3800DCF831 /* components */ = {
+		E67F68BF179EE3170086F03C /* UIKit.Kernel */ = {
 			isa = PBXGroup;
 			children = (
-				E6263FA715B42D3800DCF831 /* PYComponentView.h */,
-				E6263FA815B42D3800DCF831 /* PYComponentView.m */,
-				E6263FA915B42D3800DCF831 /* PYGlobalCom.h */,
-				E6263FAA15B42D3800DCF831 /* PYGlobalCom.m */,
-				E6263FAB15B42D3800DCF831 /* PYGridView.h */,
-				E6263FAC15B42D3800DCF831 /* PYGridView.m */,
-				E6263FAD15B42D3800DCF831 /* PYHitCover.h */,
-				E6263FAE15B42D3800DCF831 /* PYHitCover.m */,
-				E6263FAF15B42D3800DCF831 /* PYLibImage.h */,
-				E6263FB015B42D3800DCF831 /* PYLibImage.m */,
-				E6263FB115B42D3800DCF831 /* PYMultiSwitch.h */,
-				E6263FB215B42D3800DCF831 /* PYMultiSwitch.m */,
-				E6263FB315B42D3800DCF831 /* PYSlideContentView.h */,
-				E6263FB415B42D3800DCF831 /* PYSlideContentView.m */,
-				E6263FB515B42D3800DCF831 /* PYSlider.h */,
-				E6263FB615B42D3800DCF831 /* PYSlider.m */,
-				E6263FB715B42D3800DCF831 /* PYSlideView+Internal.h */,
-				E6263FB815B42D3800DCF831 /* PYSlideView.h */,
-				E6263FB915B42D3800DCF831 /* PYSlideView.m */,
-				E6263FBA15B42D3800DCF831 /* PYSwitch.h */,
-				E6263FBB15B42D3800DCF831 /* PYSwitch.m */,
-				E6263FBC15B42D3800DCF831 /* PYTransNavBar.h */,
-				E6263FBD15B42D3800DCF831 /* PYTransNavBar.m */,
-				E6263FBE15B42D3800DCF831 /* SSTextView.h */,
-				E6263FBF15B42D3800DCF831 /* SSTextView.m */,
-				E6A7045315C2929100428298 /* PYTouchSwitcher.h */,
-				E6A7045415C2929100428298 /* PYTouchSwitcher.m */,
-				E6A7045B15C2CF4300428298 /* PYCalendar.h */,
-				E6A7045C15C2CF4300428298 /* PYCalendar.m */,
-				E678FAF915CA4DA6005A56DF /* PYHUDView.h */,
-				E678FAFA15CA4DA6005A56DF /* PYHUDView.m */,
-				E6A1C8FA15DE28A0009BB579 /* PYCollapseView.h */,
-				E6A1C8FB15DE28A0009BB579 /* PYCollapseView.m */,
-				E69297F815F6EE2D00AA0CC3 /* PYImageView.h */,
-				E69297F915F6EE2D00AA0CC3 /* PYImageView.m */,
-				E65E5D2C16A56F7200C13E78 /* PYViewController.h */,
-				E65E5D2D16A56F7200C13E78 /* PYViewController.m */,
+				E67F68C1179EE37D0086F03C /* PYLayer.h */,
+				E67F68C2179EE37D0086F03C /* PYLayer.m */,
+				E67F68C5179EE4E90086F03C /* PYStaticLayer.h */,
+				E67F68C6179EE4E90086F03C /* PYStaticLayer.m */,
+				E67F68DA179EEB9C0086F03C /* PYInnerShadowLayer.h */,
+				E67F68DB179EEB9C0086F03C /* PYInnerShadowLayer.m */,
+				E67F68C9179EE56B0086F03C /* PYView.h */,
+				E67F68CA179EE56C0086F03C /* PYView.m */,
 			);
-			path = components;
+			path = UIKit.Kernel;
 			sourceTree = "<group>";
 		};
-		E6263FC015B42D3800DCF831 /* extends */ = {
+		E67F68CD179EE58C0086F03C /* UIKit.Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				E6263FC115B42D3800DCF831 /* PYExtend.h */,
-				E626407215B468A500DCF831 /* PYExtend.m */,
-				E6263FC215B42D3800DCF831 /* UIBarButtonItem+CustomizedImage.h */,
-				E6263FC315B42D3800DCF831 /* UIBarButtonItem+CustomizedImage.m */,
-				E6263FC415B42D3800DCF831 /* UIColor+Random.h */,
-				E6263FC515B42D3800DCF831 /* UIColor+Random.m */,
-				E6263FC615B42D3800DCF831 /* UIImage+DSP.h */,
-				E6263FC715B42D3800DCF831 /* UIImage+DSP.m */,
-				E6263FC815B42D3800DCF831 /* UIView+Mask.h */,
-				E6263FC915B42D3800DCF831 /* UIView+Mask.m */,
-				E6263FCA15B42D3800DCF831 /* UIView+PartialCurl.h */,
-				E6263FCB15B42D3800DCF831 /* UIView+PartialCurl.m */,
-				E6263FCC15B42D3800DCF831 /* UIViewController+PopUp.h */,
-				E6263FCD15B42D3800DCF831 /* UIViewController+PopUp.m */,
-				E6A43FE015C7B43B00CE77D0 /* UIScrollView+HiddenCell.h */,
-				E6A43FE115C7B43B00CE77D0 /* UIScrollView+HiddenCell.m */,
-				E67AE3EB15DCC61E00DB49ED /* UIView+Animations.h */,
-				E67AE3EC15DCC61E00DB49ED /* UIView+Animations.m */,
-				E6A1C90215DE40DE009BB579 /* CALayer+Gradient.h */,
-				E6A1C90315DE40DE009BB579 /* CALayer+Gradient.m */,
-				E6B8E1BF15F0C3DE00291E27 /* UIScrollView+KeyboardExtended.h */,
-				E6B8E1C015F0C3DE00291E27 /* UIScrollView+KeyboardExtended.m */,
-				E6D57ACE15F2722600C1ED25 /* UIView+Responsder.h */,
-				E6D57ACF15F2722600C1ED25 /* UIView+Responsder.m */,
+				E67F68CE179EE6040086F03C /* UIColor+PYUIKit.h */,
+				E67F68CF179EE6040086F03C /* UIColor+PYUIKit.m */,
+				E67F68D2179EE66E0086F03C /* PYUIKitMacro.h */,
+				E67F68D3179EE7000086F03C /* PYRectangleCalc.h */,
+				E67F68D4179EE70C0086F03C /* PYRectangleCalc.m */,
 			);
-			path = extends;
+			path = UIKit.Utilities;
 			sourceTree = "<group>";
 		};
 		E6D57F3F15F5A8C400C1ED25 /* PYUIKit */ = {
@@ -298,38 +154,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6D57F4815F5A8D200C1ED25 /* PYComponentView.h in Headers */,
-				E6D57F4A15F5A8D200C1ED25 /* PYGlobalCom.h in Headers */,
-				E6D57F4C15F5A8D200C1ED25 /* PYGridView.h in Headers */,
-				E6D57F4E15F5A8D200C1ED25 /* PYHitCover.h in Headers */,
-				E6D57F5015F5A8D200C1ED25 /* PYLibImage.h in Headers */,
-				E6D57F5215F5A8D200C1ED25 /* PYMultiSwitch.h in Headers */,
-				E6D57F5415F5A8D200C1ED25 /* PYSlideContentView.h in Headers */,
-				E6D57F5615F5A8D200C1ED25 /* PYSlider.h in Headers */,
-				E6D57F5815F5A8D200C1ED25 /* PYSlideView+Internal.h in Headers */,
-				E6D57F5915F5A8D200C1ED25 /* PYSlideView.h in Headers */,
-				E6D57F5B15F5A8D200C1ED25 /* PYSwitch.h in Headers */,
-				E6D57F5D15F5A8D200C1ED25 /* PYTransNavBar.h in Headers */,
-				E6D57F5F15F5A8D200C1ED25 /* SSTextView.h in Headers */,
-				E6D57F6115F5A8D200C1ED25 /* PYTouchSwitcher.h in Headers */,
-				E6D57F6315F5A8D200C1ED25 /* PYCalendar.h in Headers */,
-				E6D57F6515F5A8D200C1ED25 /* PYHUDView.h in Headers */,
-				E6D57F6715F5A8D200C1ED25 /* PYCollapseView.h in Headers */,
-				E6D57F6915F5A8DB00C1ED25 /* PYExtend.h in Headers */,
-				E6D57F6B15F5A8DB00C1ED25 /* UIBarButtonItem+CustomizedImage.h in Headers */,
-				E6D57F6D15F5A8DB00C1ED25 /* UIColor+Random.h in Headers */,
-				E6D57F6F15F5A8DB00C1ED25 /* UIImage+DSP.h in Headers */,
-				E6D57F7115F5A8DB00C1ED25 /* UIView+Mask.h in Headers */,
-				E6D57F7315F5A8DB00C1ED25 /* UIView+PartialCurl.h in Headers */,
-				E6D57F7515F5A8DB00C1ED25 /* UIViewController+PopUp.h in Headers */,
-				E6D57F7715F5A8DB00C1ED25 /* UIScrollView+HiddenCell.h in Headers */,
-				E6D57F7915F5A8DB00C1ED25 /* UIView+Animations.h in Headers */,
-				E6D57F7B15F5A8DB00C1ED25 /* CALayer+Gradient.h in Headers */,
-				E6D57F7D15F5A8DB00C1ED25 /* UIScrollView+KeyboardExtended.h in Headers */,
-				E6D57F7F15F5A8DB00C1ED25 /* UIView+Responsder.h in Headers */,
-				E6D57F8115F5A8DB00C1ED25 /* PYUIKit.h in Headers */,
-				E69297FA15F6EE2D00AA0CC3 /* PYImageView.h in Headers */,
-				E65E5D2E16A56F7200C13E78 /* PYViewController.h in Headers */,
+				E67F68C3179EE37D0086F03C /* PYLayer.h in Headers */,
+				E67F68C7179EE4E90086F03C /* PYStaticLayer.h in Headers */,
+				E67F68CB179EE56C0086F03C /* PYView.h in Headers */,
+				E67F68D0179EE6040086F03C /* UIColor+PYUIKit.h in Headers */,
+				E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */,
+				E67F68DC179EEB9D0086F03C /* PYInnerShadowLayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,7 +190,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PY;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Push Lab";
 			};
 			buildConfigurationList = E6263F7915B42B1400DCF831 /* Build configuration list for PBXProject "PYUIKit" */;
@@ -385,36 +215,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6D57F4915F5A8D200C1ED25 /* PYComponentView.m in Sources */,
-				E6D57F4B15F5A8D200C1ED25 /* PYGlobalCom.m in Sources */,
-				E6D57F4D15F5A8D200C1ED25 /* PYGridView.m in Sources */,
-				E6D57F4F15F5A8D200C1ED25 /* PYHitCover.m in Sources */,
-				E6D57F5115F5A8D200C1ED25 /* PYLibImage.m in Sources */,
-				E6D57F5315F5A8D200C1ED25 /* PYMultiSwitch.m in Sources */,
-				E6D57F5515F5A8D200C1ED25 /* PYSlideContentView.m in Sources */,
-				E6D57F5715F5A8D200C1ED25 /* PYSlider.m in Sources */,
-				E6D57F5A15F5A8D200C1ED25 /* PYSlideView.m in Sources */,
-				E6D57F5C15F5A8D200C1ED25 /* PYSwitch.m in Sources */,
-				E6D57F5E15F5A8D200C1ED25 /* PYTransNavBar.m in Sources */,
-				E6D57F6015F5A8D200C1ED25 /* SSTextView.m in Sources */,
-				E6D57F6215F5A8D200C1ED25 /* PYTouchSwitcher.m in Sources */,
-				E6D57F6415F5A8D200C1ED25 /* PYCalendar.m in Sources */,
-				E6D57F6615F5A8D200C1ED25 /* PYHUDView.m in Sources */,
-				E6D57F6815F5A8D200C1ED25 /* PYCollapseView.m in Sources */,
-				E6D57F6A15F5A8DB00C1ED25 /* PYExtend.m in Sources */,
-				E6D57F6C15F5A8DB00C1ED25 /* UIBarButtonItem+CustomizedImage.m in Sources */,
-				E6D57F6E15F5A8DB00C1ED25 /* UIColor+Random.m in Sources */,
-				E6D57F7015F5A8DB00C1ED25 /* UIImage+DSP.m in Sources */,
-				E6D57F7215F5A8DB00C1ED25 /* UIView+Mask.m in Sources */,
-				E6D57F7415F5A8DB00C1ED25 /* UIView+PartialCurl.m in Sources */,
-				E6D57F7615F5A8DB00C1ED25 /* UIViewController+PopUp.m in Sources */,
-				E6D57F7815F5A8DB00C1ED25 /* UIScrollView+HiddenCell.m in Sources */,
-				E6D57F7A15F5A8DB00C1ED25 /* UIView+Animations.m in Sources */,
-				E6D57F7C15F5A8DB00C1ED25 /* CALayer+Gradient.m in Sources */,
-				E6D57F7E15F5A8DB00C1ED25 /* UIScrollView+KeyboardExtended.m in Sources */,
-				E6D57F8015F5A8DB00C1ED25 /* UIView+Responsder.m in Sources */,
-				E69297FB15F6EE2D00AA0CC3 /* PYImageView.m in Sources */,
-				E65E5D2F16A56F7200C13E78 /* PYViewController.m in Sources */,
+				E67F68C4179EE37D0086F03C /* PYLayer.m in Sources */,
+				E67F68C8179EE4E90086F03C /* PYStaticLayer.m in Sources */,
+				E67F68CC179EE56C0086F03C /* PYView.m in Sources */,
+				E67F68D1179EE6040086F03C /* UIColor+PYUIKit.m in Sources */,
+				E67F68D8179EE9DE0086F03C /* PYRectangleCalc.m in Sources */,
+				E67F68DD179EEB9D0086F03C /* PYInnerShadowLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +232,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -440,7 +250,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -451,6 +261,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -458,7 +272,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -469,28 +283,36 @@
 		E6D57F4615F5A8C400C1ED25 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/PYUIKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PYUIKit/PYUIKit-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SOURCE_ROOT}/../PYCore/static-library/**";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Debug;
 		};
 		E6D57F4715F5A8C400C1ED25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/PYUIKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PYUIKit/PYUIKit-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SOURCE_ROOT}/../PYCore/static-library/**";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Release;
 		};

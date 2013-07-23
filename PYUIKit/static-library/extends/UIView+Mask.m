@@ -74,13 +74,6 @@
 	}
 	
 	if ( aVisible ) {
-		/*
-		UIImage *_screenCapture =__CaptureScreen();
-		UIImageView *_blurView = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
-		[_blurView setImage:[_screenCapture imageByApplyingBoxBlur3x3]];
-		[self addSubview:_blurView];
-		[self.layer setValue:_blurView forKey:kUIViewBlurImage];
-		*/
 		[self setBackgroundColor:[self maskColor]];
 		[UIView 
 			animateWithDuration:0.45 
@@ -89,11 +82,6 @@
 			}
 		];
 	} else {
-		/*
-		UIImageView *_blurView = [self.layer valueForKey:kUIViewBlurImage];
-		[_blurView removeFromSuperview];
-		[self.layer setValue:nil forKey:kUIViewBlurImage];
-		*/
 		[self setAlpha:0.0];
 	}
 }
@@ -107,11 +95,10 @@
 	} else {
 		UITapGestureRecognizer *_tapGesture = [self tapGesture];
 		if ( _tapGesture == nil ) {
-			_tapGesture = [[[UITapGestureRecognizer alloc] 
+			_tapGesture = [[UITapGestureRecognizer alloc] 
 							initWithTarget:self 
-							action:@selector(_tapToDismissMaskView:)] autorelease];
+							action:@selector(_tapToDismissMaskView:)];
 			[self setTapGesture:_tapGesture];
-			//[_tapGesture release];
 		}
 		[self addGestureRecognizer:_tapGesture];
 	}

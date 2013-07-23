@@ -9,40 +9,16 @@
 #import "PYExtend.h"
 
 UIViewController * _pyviewController_multiplatform( NSString *_name ) {
-	NSString *_key = [NSString stringWithFormat:@"k.vc.%@", _name];
-	UIViewController *_view = GlobalCacheGetObjectOfKey(_key);
-	if ( _view == nil ) {
-		NSString *_nibName = [NSString stringWithFormat:@"%@%s", _name, 
-			PYIsIphone ? "_iPhone" : "_iPad"];
-		_view = [[[NSClassFromString(_name) alloc] 
-			initWithNibName:_nibName bundle:nil] autorelease];
-		GlobalCacheSetObjectValueOfKey(_key, _view);
-	}
+    NSString *_nibName = [NSString stringWithFormat:@"%@%s", _name,
+        PYIsIphone ? "_iPhone" : "_iPad"];
+    UIViewController *_view = [[NSClassFromString(_name) alloc]
+                               initWithNibName:_nibName bundle:nil];
 	return _view;
 }
 
 UIViewController * _pyviewController( NSString *_name ) {
-	NSString *_key = [NSString stringWithFormat:@"k.vc.%@", _name];
-	UIViewController *_view = GlobalCacheGetObjectOfKey(_key);
-	if ( _view == nil ) {
-		_view = [[[NSClassFromString(_name) alloc] 
-			initWithNibName:_name bundle:nil] autorelease];
-		GlobalCacheSetObjectValueOfKey(_key, _view);
-	}
-	return _view;	
-}
-
-UIViewController *_pyviewController_multiplatform_nocache( NSString *_name ) {
-	NSString *_nibName = [NSString stringWithFormat:@"%@%s", _name, 
-		PYIsIphone ? "_iPhone" : "_iPad"];
-	UIViewController *_view = [[[NSClassFromString(_name) alloc] 
-		initWithNibName:_nibName bundle:nil] autorelease];
-	return _view;
-}
-
-UIViewController *_pyviewController_nocache( NSString *_name ) {
-	UIViewController *_view = [[[NSClassFromString(_name) alloc] 
-		initWithNibName:_name bundle:nil] autorelease];
+    UIViewController * _view = [[NSClassFromString(_name) alloc]
+			initWithNibName:_name bundle:nil];
 	return _view;	
 }
 
