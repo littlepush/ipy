@@ -53,6 +53,7 @@ for sdk in $XCodeSDKs; do
 	version=${sdk:$((lsdk-3))}
 	if [ "$version" != "${highestSDKVersion}" ]; then continue; fi
 	echo "Current Building Platform: " $version
+	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} clean
 	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
 		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib
 	if [ $? -ne 0 ]; then

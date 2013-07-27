@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "PYCoreMacro.h"
+
 // Extend
 #import "NSObject+PYCore.h"
 #import "NSArray+PYCore.h"
@@ -48,6 +50,7 @@
 #import "PYLocalizedString.h"
 #import "PYStopWatch.h"
 #import "PYMerger.h"
+#import "PYPair.h"
 
 // @littlepush
 // littlepush@gmail.com

@@ -8,25 +8,201 @@
 
 #import "PYView.h"
 #import "UIColor+PYUIKit.h"
+#import "PYLayer.h"
 
 @implementation PYView
 
-- (id)initWithFrame:(CGRect)frame
+@dynamic coreLayer;
+- (PYLayer *)coreLayer
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    return (PYLayer *)self.layer;
+}
+
+@dynamic layer;
+- (PYLayer *)layer
+{
+    return (PYLayer *)[super layer];
+}
+
+// We use PYLayer as the default layer
++ (Class)layerClass
+{
+    return [PYLayer class];
+}
+
+- (void)viewJustBeenCreated
+{
+    // Default message
+}
+
+- (id)init
+{
+    self = [super init];
+    if ( self ) {
+        [self viewJustBeenCreated];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    // Drawing code
+    self = [super initWithCoder:aDecoder];
+    if ( self ) {
+        [self viewJustBeenCreated];
+    }
+    return self;
 }
-*/
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if ( self ) {
+        [self viewJustBeenCreated];
+    }
+    return self;
+}
+
+// Add sub layer or sub view.
+- (void)addChild:(id)child
+{
+    if ( [child isKindOfClass:[CALayer class]] ) {
+        [self.layer addSublayer:child];
+    } else if ( [child isKindOfClass:[UIView class]] ) {
+        [self addSubview:child];
+    }
+}
+
+// Properties
+@dynamic cornerRadius;
+- (CGFloat)cornerRadius
+{
+    return self.layer.cornerRadius;
+}
+- (void)setCornerRadius:(CGFloat)radius
+{
+    [self setClipsToBounds:(radius > 0.f)];
+    [self.layer setCornerRadius:radius];
+    if ( _shadowLayer == nil ) return;
+    [_shadowLayer setFrame:self.bounds];
+}
+
+@synthesize borderWidth;
+- (void)setBorderWidth:(CGFloat)width
+{
+    [self.layer setBorderWidth:width];
+}
+@synthesize borderColor;
+- (void)setBorderColor:(UIColor *)aColor
+{
+    [self.layer setBorderColor:aColor.CGColor];
+}
+
+// Drop Shadow
+@dynamic dropShadowColor;
+- (void)setDropShadowColor:(UIColor *)shadowColor
+{
+    self.layer.shadowColor = shadowColor.CGColor;
+}
+- (UIColor *)dropShadowColor
+{
+    return [UIColor colorWithCGColor:self.layer.shadowColor];
+}
+@dynamic dropShadowRadius;
+- (void)setDropShadowRadius:(CGFloat)radius
+{
+    self.layer.shadowRadius = radius;
+}
+- (CGFloat)dropShadowRadius
+{
+    return self.layer.shadowRadius;
+}
+@dynamic dropShadowOpacity;
+- (void)setDropShadowOpacity:(CGFloat)opacity
+{
+    self.layer.shadowOpacity = opacity;
+}
+- (CGFloat)dropShadowOpacity
+{
+    return self.layer.shadowOpacity;
+}
+@dynamic dropShadowOffset;
+- (void)setDropShadowOffset:(CGSize)offset
+{
+    self.layer.shadowOffset = offset;
+}
+- (CGSize)dropShadowOffset
+{
+    return self.layer.shadowOffset;
+}
+@dynamic dropShadowPath;
+- (UIBezierPath *)dropShadowPath
+{
+    return [UIBezierPath bezierPathWithCGPath:self.layer.shadowPath];
+}
+- (void)setDropShadowPath:(UIBezierPath *)shadowPath
+{
+    [self.layer setShadowPath:shadowPath.CGPath];
+}
+
+// Inner Shadow
+@dynamic innerShadowRect;
+- (PYPadding)innerShadowRect
+{
+    if ( _shadowLayer == nil ) return PYPaddingZero;
+    return _shadowLayer.shadowPadding;
+}
+- (void)setInnerShadowRect:(PYPadding)innerShadowRect
+{
+    if ( _shadowLayer == nil ) {
+        _shadowLayer = [PYInnerShadowLayer layer];
+        _shadowLayer.zPosition = MAXFLOAT;
+        [_shadowLayer setFrame:self.bounds];
+        [self.layer addSublayer:_shadowLayer];
+    }
+    [_shadowLayer setShadowPadding:innerShadowRect];
+    [_shadowLayer setNeedsDisplay];
+}
+
+@dynamic innerShadowColor;
+- (UIColor *)innerShadowColor
+{
+    if ( _shadowLayer == nil ) return [UIColor clearColor];
+    return _shadowLayer.innerShadowColor;
+}
+- (void)setInnerShadowColor:(UIColor *)aColor
+{
+    if ( _shadowLayer == nil ) {
+        _shadowLayer = [PYInnerShadowLayer layer];
+        _shadowLayer.zPosition = MAXFLOAT;
+        [_shadowLayer setFrame:self.bounds];
+        [self.layer addSublayer:_shadowLayer];
+    }
+    [_shadowLayer setInnerShadowColor:aColor];
+    [_shadowLayer setNeedsDisplay];
+}
+
+// Override
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    if ( _shadowLayer == nil ) return;
+    [_shadowLayer setFrame:self.bounds];
+    [_shadowLayer setNeedsDisplay];
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if ( newSuperview == nil ) {
+        if ( _shadowLayer != nil ) {
+            [_shadowLayer removeFromSuperlayer];
+            _shadowLayer = nil;
+        }
+    } else {
+        if ( _shadowLayer != nil ) {
+            //[_shadowLayer setFrame:self.bounds];
+            [_shadowLayer setNeedsDisplay];
+        }
+    }
+}
 
 @end

@@ -11,6 +11,11 @@
 @implementation PYInnerShadowLayer
 
 @synthesize shadowPadding = _shadowPadding;
+- (void)setShadowPadding:(PYPadding)padding
+{
+    _shadowPadding = padding;
+    [self _reCalculatePath];
+}
 @synthesize innerShadowColor = _innerShadowColor;
 // Make the default shadow color to set the inner shadow color
 - (void)setShadowColor:(CGColorRef)color
@@ -23,17 +28,19 @@
 {
     [super layerJustBeenCreated];
     _innerShadowColor = [UIColor blackColor];
+    [self setMasksToBounds:YES];
 }
 - (void)layerJustBeenCopyed
 {
     [super layerJustBeenCopyed];
     _innerShadowColor = [UIColor blackColor];
+    [self setMasksToBounds:YES];
 }
 
-- (void)setFrame:(CGRect)frame
+- (void)_reCalculatePath
 {
     // Re-calculate the bezier path
-
+    
     // min no shadow rect size
     CGRect _noShadowRect = self.bounds;
     
@@ -56,8 +63,12 @@
     _outterBorderPath = [UIBezierPath
                          bezierPathWithRoundedRect:CGRectInset(_noShadowRect, -_maxPadding, -_maxPadding)
                          cornerRadius:self.superlayer.cornerRadius];
-    
+}
+
+- (void)setFrame:(CGRect)frame
+{
     [super setFrame:frame];
+    [self _reCalculatePath];
 }
 
 - (void)drawInContext:(CGContextRef)ctx
@@ -66,6 +77,10 @@
     
     CGContextAddPath(ctx, _innerShadowPath.CGPath);
     CGContextAddPath(ctx, _outterBorderPath.CGPath);
+    
+    NSLog(@"MaxPadding: %f", _maxPadding);
+    NSLog(@"Inner Shadow Path: %@", _innerShadowPath);
+    NSLog(@"Outter Shadow Path: %@",_outterBorderPath);
     
     CGContextSetShadowWithColor(ctx,
                                 CGSizeMake(0, 0),

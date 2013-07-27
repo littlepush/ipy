@@ -106,23 +106,49 @@ do {                                                                    \
 {
     // check if is a nil invoking
     if ( self == nil || sel == nil ) return nil;
-    if ( [self respondsToSelector:sel] ) {
-        return objc_msgSend(self, sel);
+    Method _m = class_getInstanceMethod([self class], sel);
+    if ( _m == NULL ) return nil;
+    
+    // Get the return type
+    char _rType[32] = {0};
+    method_getReturnType(_m, _rType, 32);
+    if ( strcmp(_rType, "v") == 0 ) {
+        objc_msgSend(self, sel, self, self);
+    } else {
+        return objc_msgSend(self, sel, self, self);
     }
     return nil;
 }
 - (id)tryPerformSelector:(SEL)sel withObject:(id)object
 {
+    // check if is a nil invoking
     if ( self == nil || sel == nil ) return nil;
-    if ( [self respondsToSelector:sel] ) {
-        return objc_msgSend(self, sel, object);
+    Method _m = class_getInstanceMethod([self class], sel);
+    if ( _m == NULL ) return nil;
+    
+    // Get the return type
+    char _rType[32] = {0};
+    method_getReturnType(_m, _rType, 32);
+    if ( strcmp(_rType, "v") == 0 ) {
+        objc_msgSend(self, sel, object, self);
+    } else {
+        return objc_msgSend(self, sel, object, self);
     }
     return nil;
 }
 - (id)tryPerformSelector:(SEL)sel withObject:(id)obj1 withObject:(id)obj2
 {
+    // check if is a nil invoking
     if ( self == nil || sel == nil ) return nil;
-    if ( [self respondsToSelector:sel] ) {
+    Method _m = class_getInstanceMethod([self class], sel);
+    if ( _m == NULL ) return nil;
+    
+    // Get the return type
+    char _rType[32] = {0};
+    method_getReturnType(_m, _rType, 32);
+    if ( strcmp(_rType, "v") == 0 ) {
+        objc_msgSend(self, sel, obj1, obj2);
+    } else {
         return objc_msgSend(self, sel, obj1, obj2);
     }
     return nil;

@@ -16,5 +16,6 @@
 // Float Equal
 #ifndef PYFLOATEQUAL
 #define PYFLOATEQUAL( f1, f2 )                  (ABS((f1) - (f2)) < 0.001)
+#endif
 
 #endif

@@ -45,6 +45,16 @@ typedef unsigned long long int	Uint64;
 #define CLR_YELLOW(x)			"\033[1;33m" #x "\033[0m"	//warn
 #define CLR_GREEN(x)			"\033[1;32m" #x "\033[0m"	//info
 
+static const int __pybitorder[32] = {
+    0, 1, 2, 6, 3, 11, 7, 16,
+    4, 14, 12, 21, 8, 23, 17, 26,
+    31, 5, 10, 15, 13, 20, 22, 25,
+    30, 9, 19, 24, 29, 18, 28, 27
+};
+
+// Get the index of the last bit which is 1
+#define PYLAST1INDEX(x)     (__pybitorder[((unsigned int)(((x) & -(x)) * 0x04653ADFU)) >> 27])
+
 typedef enum {
     PYiDeviceUnknow             = 0x00000000,
     PYiPhoneSimulator           = 0x00000001,

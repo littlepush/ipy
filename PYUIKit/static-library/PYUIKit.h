@@ -19,4 +19,7 @@
 #import "PYStaticLayer.h"
 #import "PYView.h"
 
+// Responders
+#import "PYResponderView.h"
+
 #endif
