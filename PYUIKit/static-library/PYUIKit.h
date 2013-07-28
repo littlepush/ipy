@@ -13,6 +13,7 @@
 #import "PYUIKitMacro.h"
 #import "UIColor+PYUIKit.h"
 #import "PYRectangleCalc.h"
+#import "UIImage+UIKit.h"
 
 // Kernel
 #import "PYLayer.h"
@@ -21,5 +22,9 @@
 
 // Responders
 #import "PYResponderView.h"
+
+// Controllers
+#import "PYImageLayer.h"
+#import "PYImageView.h"
 
 #endif

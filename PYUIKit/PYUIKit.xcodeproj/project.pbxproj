@@ -22,6 +22,18 @@
 		E66E468B17A3848700D1FF55 /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
 		E66E468C17A3851600D1FF55 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FF115B4327100DCF831 /* ImageIO.framework */; };
 		E66E468D17A3851B00D1FF55 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FEF15B4326B00DCF831 /* QuartzCore.framework */; };
+		E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E469A17A57D9600D1FF55 /* PYImageCache.h */; };
+		E66E469D17A57D9600D1FF55 /* PYImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E469B17A57D9600D1FF55 /* PYImageCache.m */; };
+		E66E469E17A57D9600D1FF55 /* PYImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E469B17A57D9600D1FF55 /* PYImageCache.m */; };
+		E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E469F17A57DAA00D1FF55 /* PYImageLayer.h */; };
+		E66E46A217A57DAA00D1FF55 /* PYImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46A017A57DAA00D1FF55 /* PYImageLayer.m */; };
+		E66E46A317A57DAA00D1FF55 /* PYImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46A017A57DAA00D1FF55 /* PYImageLayer.m */; };
+		E66E46A617A57DB800D1FF55 /* PYImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E46A417A57DB800D1FF55 /* PYImageView.h */; };
+		E66E46A717A57DB800D1FF55 /* PYImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46A517A57DB800D1FF55 /* PYImageView.m */; };
+		E66E46A817A57DB800D1FF55 /* PYImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46A517A57DB800D1FF55 /* PYImageView.m */; };
+		E66E46AB17A57E2000D1FF55 /* UIImage+UIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E46A917A57E2000D1FF55 /* UIImage+UIKit.h */; };
+		E66E46AC17A57E2000D1FF55 /* UIImage+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46AA17A57E2000D1FF55 /* UIImage+UIKit.m */; };
+		E66E46AD17A57E2000D1FF55 /* UIImage+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46AA17A57E2000D1FF55 /* UIImage+UIKit.m */; };
 		E67F68C0179EE33B0086F03C /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
 		E67F68C3179EE37D0086F03C /* PYLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C1179EE37D0086F03C /* PYLayer.h */; };
 		E67F68C4179EE37D0086F03C /* PYLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68C2179EE37D0086F03C /* PYLayer.m */; };
@@ -70,6 +82,14 @@
 		E66E467F17A3847600D1FF55 /* PYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYViewController.h; sourceTree = "<group>"; };
 		E66E468017A3847600D1FF55 /* PYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PYViewController.m; sourceTree = "<group>"; };
 		E66E468317A3847600D1FF55 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PYViewController.xib; sourceTree = "<group>"; };
+		E66E469A17A57D9600D1FF55 /* PYImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYImageCache.h; sourceTree = "<group>"; };
+		E66E469B17A57D9600D1FF55 /* PYImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYImageCache.m; sourceTree = "<group>"; };
+		E66E469F17A57DAA00D1FF55 /* PYImageLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYImageLayer.h; sourceTree = "<group>"; };
+		E66E46A017A57DAA00D1FF55 /* PYImageLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYImageLayer.m; sourceTree = "<group>"; };
+		E66E46A417A57DB800D1FF55 /* PYImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYImageView.h; sourceTree = "<group>"; };
+		E66E46A517A57DB800D1FF55 /* PYImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYImageView.m; sourceTree = "<group>"; };
+		E66E46A917A57E2000D1FF55 /* UIImage+UIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIKit.h"; sourceTree = "<group>"; };
+		E66E46AA17A57E2000D1FF55 /* UIImage+UIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIKit.m"; sourceTree = "<group>"; };
 		E67F68C1179EE37D0086F03C /* PYLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLayer.h; sourceTree = "<group>"; };
 		E67F68C2179EE37D0086F03C /* PYLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLayer.m; sourceTree = "<group>"; };
 		E67F68C5179EE4E90086F03C /* PYStaticLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYStaticLayer.h; sourceTree = "<group>"; };
@@ -159,6 +179,7 @@
 				E67F68CD179EE58C0086F03C /* UIKit.Utilities */,
 				E67F68BF179EE3170086F03C /* UIKit.Kernel */,
 				E6BC1BE617A0237E00D480E2 /* UIKit.Responders */,
+				E66E469917A57D1A00D1FF55 /* UIKit.Controllers */,
 			);
 			path = "static-library";
 			sourceTree = "<group>";
@@ -190,6 +211,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E66E469917A57D1A00D1FF55 /* UIKit.Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E66E469F17A57DAA00D1FF55 /* PYImageLayer.h */,
+				E66E46A017A57DAA00D1FF55 /* PYImageLayer.m */,
+				E66E46A417A57DB800D1FF55 /* PYImageView.h */,
+				E66E46A517A57DB800D1FF55 /* PYImageView.m */,
+			);
+			path = UIKit.Controllers;
+			sourceTree = "<group>";
+		};
 		E67F68BF179EE3170086F03C /* UIKit.Kernel */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +245,10 @@
 				E67F68D2179EE66E0086F03C /* PYUIKitMacro.h */,
 				E67F68D3179EE7000086F03C /* PYRectangleCalc.h */,
 				E67F68D4179EE70C0086F03C /* PYRectangleCalc.m */,
+				E66E469A17A57D9600D1FF55 /* PYImageCache.h */,
+				E66E469B17A57D9600D1FF55 /* PYImageCache.m */,
+				E66E46A917A57E2000D1FF55 /* UIImage+UIKit.h */,
+				E66E46AA17A57E2000D1FF55 /* UIImage+UIKit.m */,
 			);
 			path = UIKit.Utilities;
 			sourceTree = "<group>";
@@ -256,6 +292,10 @@
 				E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */,
 				E67F68DC179EEB9D0086F03C /* PYInnerShadowLayer.h in Headers */,
 				E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */,
+				E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */,
+				E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */,
+				E66E46A617A57DB800D1FF55 /* PYImageView.h in Headers */,
+				E66E46AB17A57E2000D1FF55 /* UIImage+UIKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +388,10 @@
 				E66E467417A3847600D1FF55 /* main.m in Sources */,
 				E66E467817A3847600D1FF55 /* PYAppDelegate.m in Sources */,
 				E66E468117A3847600D1FF55 /* PYViewController.m in Sources */,
+				E66E469E17A57D9600D1FF55 /* PYImageCache.m in Sources */,
+				E66E46A317A57DAA00D1FF55 /* PYImageLayer.m in Sources */,
+				E66E46A817A57DB800D1FF55 /* PYImageView.m in Sources */,
+				E66E46AD17A57E2000D1FF55 /* UIImage+UIKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +406,10 @@
 				E67F68D8179EE9DE0086F03C /* PYRectangleCalc.m in Sources */,
 				E67F68DD179EEB9D0086F03C /* PYInnerShadowLayer.m in Sources */,
 				E6BC1BEA17A023C300D480E2 /* PYResponderView.m in Sources */,
+				E66E469D17A57D9600D1FF55 /* PYImageCache.m in Sources */,
+				E66E46A217A57DAA00D1FF55 /* PYImageLayer.m in Sources */,
+				E66E46A717A57DB800D1FF55 /* PYImageView.m in Sources */,
+				E66E46AC17A57E2000D1FF55 /* UIImage+UIKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
