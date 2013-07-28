@@ -135,6 +135,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         // Set new value
         _image = anImage;
         _loadingUrl = [@"" copy];
+        _contentLayer.contents = nil;
         [_contentLayer setNeedsDisplay];
     }
 }
@@ -155,12 +156,14 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         // Fetch the cache.
         _image = [SHARED_IMAGECACHE imageByName:_loadingUrl];
         if ( _image != nil ) {
+            _contentLayer.contents = nil;
             [_contentLayer setNeedsDisplay];
             return;
         }
         
         // Before request the network image, set current image to nil.
         _image = nil;
+        _contentLayer.contents = nil;
         [_contentLayer setNeedsDisplay];
         
         __block PYImageLayer *_bss = self;
@@ -181,7 +184,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 {
     [super layoutSublayers];
     self.contentsScale = [UIScreen mainScreen].scale;
-    _contentLayer.tileSize = CGSizeMake(self.frame.size.width, self.frame.size.width);
+    _contentLayer.tileSize = CGSizeMake(self.frame.size.width, self.frame.size.width / 2);
     [_contentLayer setNeedsDisplay];
 }
 
@@ -197,6 +200,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     @synchronized( self ) {
         UIImage *_imageToDraw = (_image != nil) ? _image : _placeholdImage;
         if ( _imageToDraw == nil ) {
+            layer.contents = nil;
             return;
         }
         
