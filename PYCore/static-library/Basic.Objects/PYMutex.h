@@ -36,8 +36,10 @@ typedef pthread_mutex_t     PYMutexHandleT;
 {
     @public
     PYMutexHandleT              _mutex;
+    BOOL                        _enableDebug;
 }
 
+@property (nonatomic, assign)   BOOL            enableDebug;
 // Mutex Actions
 - (void)lock;
 - (id)lockAndDo:(PYMutexAction)action;

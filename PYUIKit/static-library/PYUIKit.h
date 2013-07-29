@@ -14,11 +14,13 @@
 #import "UIColor+PYUIKit.h"
 #import "PYRectangleCalc.h"
 #import "UIImage+UIKit.h"
+#import "UIView+PYUIKit.h"
 
 // Kernel
 #import "PYLayer.h"
 #import "PYStaticLayer.h"
 #import "PYView.h"
+#import "PYView+Animation.h"
 
 // Responders
 #import "PYResponderView.h"
@@ -26,5 +28,10 @@
 // Controllers
 #import "PYImageLayer.h"
 #import "PYImageView.h"
+#import "PYLabelLayer.h"
+#import "PYLabel.h"
+// -- Rich.Text
+#import "PYRichText.h"
+#import "PYRichLabel.h"
 
 #endif

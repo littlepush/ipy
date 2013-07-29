@@ -30,6 +30,8 @@ typedef void (^PYImageCacheLoadedImage)(UIImage *image, NSString *name);
     
     NSOperationQueue        *_imageLoadingQueue;
     NSMutableDictionary     *_pendingList;
+    
+    PYMutex                 *_mutex;
 }
 
 // How many days the cacher cache the image, default is 10 days

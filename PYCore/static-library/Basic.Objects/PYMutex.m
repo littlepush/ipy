@@ -28,6 +28,8 @@
 
 @implementation PYMutex
 
+@synthesize enableDebug = _enableDebug;
+
 - (id)init
 {
     self = [super init];
@@ -48,7 +50,25 @@
 
 - (void)lock
 {
+    if ( _enableDebug ) {
+        @try {
+            [self raiseExceptionWithMessage:@"Try to lock"];
+        } @catch ( NSException *ex ) {
+            NSRange _stRange = NSMakeRange(5, MIN([ex.callStackSymbols count] - 5, 5));
+            NSLog(@"%@[%d, %p]\n%@", ex.reason, (int)pthread_self(), self,
+                  [ex.callStackSymbols subarrayWithRange:_stRange]);
+        }
+    }
     pthread_mutex_lock(&_mutex);
+    if ( _enableDebug ) {
+        @try {
+            [self raiseExceptionWithMessage:@"Did locked"];
+        } @catch ( NSException *ex ) {
+            NSRange _stRange = NSMakeRange(5, MIN([ex.callStackSymbols count] - 5, 5));
+            NSLog(@"%@[%d, %p]\n%@", ex.reason, (int)pthread_self(), self,
+                  [ex.callStackSymbols subarrayWithRange:_stRange]);
+        }
+    }
 }
 
 - (id)lockAndDo:(PYMutexAction)action
@@ -61,7 +81,25 @@
 
 - (void)unlock
 {
+    if ( _enableDebug ) {
+        @try {
+            [self raiseExceptionWithMessage:@"Try to unlock"];
+        } @catch ( NSException *ex ) {
+            NSRange _stRange = NSMakeRange(5, MIN([ex.callStackSymbols count] - 5, 5));
+            NSLog(@"%@[%d, %p]\n%@", ex.reason, (int)pthread_self(), self,
+                  [ex.callStackSymbols subarrayWithRange:_stRange]);
+        }
+    }
     pthread_mutex_unlock(&_mutex);
+    if ( _enableDebug ) {
+        @try {
+            [self raiseExceptionWithMessage:@"Did unlock"];
+        } @catch ( NSException *ex ) {
+            NSRange _stRange = NSMakeRange(5, MIN([ex.callStackSymbols count] - 5, 5));
+            NSLog(@"%@[%d, %p]\n%@", ex.reason, (int)pthread_self(), self,
+                  [ex.callStackSymbols subarrayWithRange:_stRange]);
+        }
+    }
 }
 
 - (BOOL)tryLock

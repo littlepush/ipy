@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PYViewController : UIViewController
+@interface PYViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
+    UITableView                         *_tableView;
+}
 
 @end

@@ -10,6 +10,12 @@
 
 @implementation PYInnerShadowLayer
 
+- (void)dealloc
+{
+    _innerShadowPath = nil;
+    _outterBorderPath = nil;
+}
+
 @synthesize shadowPadding = _shadowPadding;
 - (void)setShadowPadding:(PYPadding)padding
 {

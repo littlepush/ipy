@@ -47,6 +47,8 @@ cd ../
 rm -rf ._version.temp
 echo "Highest SDK Version: \""${highestSDKVersion}"\""
 
+mkdir -p /tmp/${ProjectName}/PCH
+
 for sdk in $XCodeSDKs; do
 	lsdk=${#sdk}
 	platform=${sdk:0:$((lsdk-3))}
@@ -54,11 +56,14 @@ for sdk in $XCodeSDKs; do
 	if [ "$version" != "${highestSDKVersion}" ]; then continue; fi
 	echo "Current Building Platform: " $version
 	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
-		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib
+		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib \
+		SHARED_PRECOMPS_DIR=/tmp/${ProjectName}/PCH
 	if [ $? -ne 0 ]; then
 		exit 1;
 	fi
 done
+
+rm -rf /tmp/${ProjectName}/PCH
 
 cd ./build/${ProjectName}-lib
 rm -rf libs
@@ -76,8 +81,6 @@ for lib in $libs; do
 	lipo $same_version_lib -create -output libs/lib${ProjectName}-$version
 	rm -rf $same_version_lib
 done
-
-echo "Compile done."
 
 mkdir ./libs/include
 cp -r ../../static-library/*.h ./libs/include/

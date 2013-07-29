@@ -16,6 +16,8 @@
     UIImage                         *_image;
     UIImage                         *_placeholdImage;
     NSString                        *_loadingUrl;
+    
+    PYMutex                         *_mutex;
 }
 
 // create the layer with the placehold image.

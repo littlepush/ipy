@@ -150,6 +150,10 @@ PYSingletonDefaultImplementation;
 {
     self = [super init];
     if ( self ) {
+        // Init the mutex.
+        _mutex = [PYMutex object];
+        //_mutex.enableDebug = YES;
+        
         _currentCacheSize = 0;
         _maxCacheSize = 5 * PYMegaByte;		// 5MB
         self.imageCacheDays = 7;
@@ -200,8 +204,8 @@ PYSingletonDefaultImplementation;
     // Try to check the keys
 	NSString *_innerFileKey = [imageName md5sum];
     NSString *_filePath = [[self _cachePath] stringByAppendingPathComponent:_innerFileKey];
-    @synchronized(self) {
-        
+    //@synchronized(self) {
+    return [_mutex lockAndDo:^id{
         // Check in-men cache first
         UIImage *_image = [self _imageCacheForKey:_innerFileKey];
         if ( _image != nil ) return _image;
@@ -231,7 +235,8 @@ PYSingletonDefaultImplementation;
         // put the image into cache
         [self _setImageCache:_image forKey:_innerFileKey];
         return _image;
-    }
+    }];
+    //}
 }
 
 // save an image as specified image name.
@@ -241,14 +246,16 @@ PYSingletonDefaultImplementation;
     if ( imageData == nil || [imageName length] == 0 ) return nil;
     NSString *_innerKey = [imageName md5sum];
     NSString *_filePath = [[self _cachePath] stringByAppendingPathComponent:_innerKey];
-    @synchronized(self) {
+    //@synchronized(self) {
+    return [_mutex lockAndDo:^id{
         UIImage *_image = [UIImage PYImageWithData:imageData];
         if ( _image == nil ) return nil;
         if ( [imageData writeToFile:_filePath atomically:YES] ) {
             [self _setImageCache:_image forKey:_innerKey];
         }
         return _image;
-    }
+    }];
+    //}
 }
 
 // save an image directly to the disk.
@@ -258,9 +265,12 @@ PYSingletonDefaultImplementation;
     if ( imageData == nil || [imageName length] == 0 ) return;
     NSString *_innerKey = [imageName md5sum];
     NSString *_filePath = [[self _cachePath] stringByAppendingPathComponent:_innerKey];
-    @synchronized(self) {
+    //@synchronized(self) {
+    [_mutex lockAndDo:^id{
         [imageData writeToFile:_filePath atomically:YES];
-    }
+        return nil;
+    }];
+    //}
 }
 
 // delete the image from both cache and file
@@ -268,7 +278,8 @@ PYSingletonDefaultImplementation;
 {
     NSString *_innerKey = [imageName md5sum];
     NSString *_filePath = [[self _cachePath] stringByAppendingPathComponent:_innerKey];
-    @synchronized(self) {
+    //@synchronized(self) {
+    [_mutex lockAndDo:^id{
         [self _removeImageFromCacheForKey:_innerKey];
         NSFileManager *_fm = [NSFileManager defaultManager];
         if ( [_fm fileExistsAtPath:_filePath] ) {
@@ -278,19 +289,22 @@ PYSingletonDefaultImplementation;
                 @throw [_error localizedDescription];
             }
         }
-    }
+        return nil;
+    }];
+    //}
 }
 
 // Load the image from bundle or network
 - (void)loadImageNamed:(NSString *)imageName get:(PYImageCacheLoadedImage)get
 {
     if ( get == nil ) return;
-    @synchronized( self ) {
-        UIImage *_image = [self imageByName:imageName];
-        if ( _image != nil ) {
-            get( _image, imageName );
-            return;
-        }
+    //@synchronized( self ) {
+    UIImage *_image = [self imageByName:imageName];
+    if ( _image != nil ) {
+        get( _image, imageName );
+        return;
+    }
+    [_mutex lockAndDo:^id{
         NSMutableArray *_pendingObserverList = [_pendingList objectForKey:imageName];
         if ( _pendingObserverList == nil ) {
             // Add new operation
@@ -317,24 +331,26 @@ PYSingletonDefaultImplementation;
                     NSLog(@"the image is invalidate.");
                     return;
                 }
-                @synchronized ( _bss ) {
+                //@synchronized ( _bss ) {
+                dispatch_async( dispatch_get_main_queue(), ^{
                     UIImage *_netImage = [_bss setImage:_data forName:imageName];
                     NSMutableArray *_loadingObservers = [_bss->_pendingList objectForKey:imageName];
                     if ( _loadingObservers == nil ) return;
                     for ( PYImageCacheLoadedImage _get in _loadingObservers ) {
                         // Push the main thread...
-                        dispatch_async( dispatch_get_main_queue(), ^{
-                            _get(_netImage, imageName);
-                        });
+                        _get(_netImage, imageName);
                     }
                     [_bss->_pendingList removeObjectForKey:imageName];
-                }
+                });
+                //}
             }];
         } else {
             // Add getter to the list
             [_pendingObserverList addObject:get];
         }
-    }
+        return nil;
+    }];
+    //}
 }
 
 @end
