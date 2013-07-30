@@ -209,9 +209,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 {
     if ( layer != _contentLayer ) return;
     //@synchronized( self ) {
-    UIImage *_imageToDraw = [_mutex lockAndDo:^id{
-        return (_image != nil) ? _image : _placeholdImage;
-    }];
+    UIImage *_imageToDraw = (_image != nil) ? _image : _placeholdImage;
     
     if ( _imageToDraw == nil ) {
         //layer.contents = nil;

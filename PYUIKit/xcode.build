@@ -85,6 +85,7 @@ done
 mkdir ./libs/include
 cp -r ../../static-library/*.h ./libs/include/
 cp -r ../../static-library/*/*.h ./libs/include/
+cp -r ../../static-library/*/*/*.h ./libs/include/
 #mv -f ./local/include ./libs/include
 cd ./libs
 

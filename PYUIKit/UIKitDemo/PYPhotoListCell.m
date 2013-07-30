@@ -59,8 +59,8 @@ static NSString *_networkImages[10];
 {
     [_contentImageView setAlpha:0.f];
     
-    [UIView animateWithDuration:.3 animations:^{
-        [_contentImageView setImageUrl:_networkImages[[contentIdentify intValue]]];
+    [UIView animateWithDuration:.15 animations:^{
+        [_contentImageView setImageUrl:_networkImages[[contentIdentify intValue] % 10]];
         [_contentImageView setAlpha:1.f];
     }];
 }
