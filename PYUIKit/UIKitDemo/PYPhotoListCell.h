@@ -12,6 +12,8 @@
 {
     PYImageView                         *_contentImageView;
     PYImageLayer                        *_shadowLayer;
+    
+    UIImageView                         *_uiImageView;
 }
 
 // Get the cell's height with specified content identify

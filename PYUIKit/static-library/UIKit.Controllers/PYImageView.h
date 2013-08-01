@@ -9,7 +9,7 @@
 #import "PYResponderView.h"
 #import "PYImageLayer.h"
 
-@interface PYImageView : PYView
+@interface PYImageView : PYResponderView
 
 @property (nonatomic, readonly) PYImageLayer        *layer;
 
@@ -28,5 +28,8 @@
 
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;
+
+// Refresh the content after reset the frame.
+- (void)refreshContent;
 
 @end

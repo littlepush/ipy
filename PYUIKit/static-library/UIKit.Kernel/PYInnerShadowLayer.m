@@ -83,11 +83,7 @@
     
     CGContextAddPath(ctx, _innerShadowPath.CGPath);
     CGContextAddPath(ctx, _outterBorderPath.CGPath);
-    
-    NSLog(@"MaxPadding: %f", _maxPadding);
-    NSLog(@"Inner Shadow Path: %@", _innerShadowPath);
-    NSLog(@"Outter Shadow Path: %@",_outterBorderPath);
-    
+
     CGContextSetShadowWithColor(ctx,
                                 CGSizeMake(0, 0),
                                 _maxPadding,

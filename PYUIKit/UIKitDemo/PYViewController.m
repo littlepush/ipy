@@ -15,6 +15,43 @@
 
 @implementation PYViewController
 
+- (void)_actionRViewTapHandler:(id)sender
+{
+    PYLog(@"Tap event handler");
+}
+
+- (void)_actionRViewPressHandler:(id)sender
+{
+    PYLog(@"Press event handler");
+}
+
+- (void)_actionRViewRotateHandler:(PYResponderView *)rview event:(PYViewEvent *)event
+{
+    //PYLog(@"Receive rotate event.");
+    //DUMPFloat(event.rotateDeltaArc);
+    rview.transform = CGAffineTransformRotate(rview.transform, event.rotateDeltaArc);
+}
+
+- (void)_actionRViewPinchHandler:(PYResponderView *)rview event:(PYViewEvent *)event
+{
+    //DUMPFloat(event.pinchRate);
+    CGRect _pinchFrame = rview.frame;
+    CGSize _originSize = _pinchFrame.size;
+    _pinchFrame.size.width *= event.pinchRate;
+    _pinchFrame.size.height *= event.pinchRate;
+    _pinchFrame.origin.x -= (_pinchFrame.size.width - _originSize.width) / 2;
+    _pinchFrame.origin.y -= (_pinchFrame.size.height - _originSize.height) / 2;
+    [rview setFrame:_pinchFrame];
+    rview.transform = CGAffineTransformScale(rview.transform, event.pinchRate, event.pinchRate);
+    _pinchFrame.origin.y += 280;
+    [_imageView setFrame:_pinchFrame];
+}
+
+- (void)_actionRViewTouchEndHandler:(PYResponderView *)rview event:(PYViewEvent *)event
+{
+    [(PYImageView *)rview refreshContent];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,6 +68,40 @@
     _tf.origin.y = 0.f;
     [_tableView setFrame:_tf];
     [self.view addSubview:_tableView];
+    
+    PYImageView *_rView = [[PYImageView alloc]
+                           initWithFrame:CGRectMake(50, 100, 240, 180)];
+    [_rView setContentMode:UIViewContentModeScaleAspectFit];
+    [_rView setImageUrl:@"http://www.wallsfeed.com/wp-content/uploads/2012/10/Sexy-Alina-Vacariu-Romania.jpg"];
+    [_rView setEvent:PYResponderEventTap withRestraint:PYResponderRestraintDoubleTap];
+    [_rView setEvent:PYResponderEventPress withRestraint:PYResponderRestraintOneFingerPress];
+    //[_rView setEvent:PYResponderEventRotate withRestraint:PYResponderRestraintRotateDefault];
+    [_rView setEvent:PYResponderEventPinch withRestraint:PYResponderRestraintPinchDefault];
+    
+    [_rView addTarget:self
+               action:@selector(_actionRViewTapHandler:)
+    forResponderEvent:PYResponderEventTap];
+    [_rView addTarget:self
+               action:@selector(_actionRViewPressHandler:)
+    forResponderEvent:PYResponderEventPress];
+    [_rView addTarget:self
+               action:@selector(_actionRViewRotateHandler:event:)
+    forResponderEvent:PYResponderEventRotate];
+    [_rView addTarget:self
+               action:@selector(_actionRViewPinchHandler:event:)
+    forResponderEvent:PYResponderEventPinch];
+    [_rView addTarget:self
+               action:@selector(_actionRViewTouchEndHandler:event:)
+    forResponderEvent:PYResponderEventTouchEnd];
+    [self.view addSubview:_rView];
+    
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 380, 240, 180)];
+    [_imageView setImage:_rView.image];
+    [_imageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self.view addSubview:_imageView];
+    
+    PYLog(@"Image View Layer: %@", NSStringFromClass([_imageView.layer class]));
+    PYLog(@"Image View sublayers: %@", [_imageView.layer sublayers]);
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,7 +109,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

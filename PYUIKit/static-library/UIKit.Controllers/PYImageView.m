@@ -68,4 +68,15 @@
     [self.layer setImageUrl:imageUrl];
 }
 
+- (void)setContentMode:(UIViewContentMode)contentMode
+{
+    [super setContentMode:contentMode];
+    [self.layer setContentMode:contentMode];
+}
+
+- (void)refreshContent
+{
+    [self.layer refreshContent];
+}
+
 @end

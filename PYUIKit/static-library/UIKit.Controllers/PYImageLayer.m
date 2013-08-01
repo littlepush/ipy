@@ -9,6 +9,30 @@
 #import "PYImageLayer.h"
 #import "PYUIKitMacro.h"
 #import "PYImageCache.h"
+#import "UIImage+UIKit.h"
+
+@interface PYTiledLayer : CATiledLayer
+//@property (nonatomic, assign)   CGSize          tileSize;
+@end
+@implementation PYTiledLayer
+//@synthesize tileSize;
++ (CFTimeInterval)fadeDuration
+{
+    return 0.15f;
+}
+- (id<CAAction>)actionForKey:(NSString *)event
+{
+    if ( [event isEqualToString:kCAOnOrderIn] ) {
+        CGFloat _scale = [UIScreen mainScreen].scale;
+        CGSize _superSize = self.superlayer.bounds.size;
+        _superSize.width *= _scale;
+        _superSize.height *= _scale;
+        [self setTileSize:_superSize];
+        self.contentsScale = _scale;
+    }
+    return [super actionForKey:event];
+}
+@end
 
 // Image Functions.
 UIImage * __flipImageForTiledLayerDrawing( UIImage *_in )
@@ -62,60 +86,67 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 @synthesize loadingUrl = _loadingUrl;
 @synthesize contentMode;
 
+- (void)_setImageToContext
+{
+    UIImage *_imageToDraw = (_image != nil) ? _image : _placeholdImage;
+    if ( _imageToDraw == nil ) {
+        _aspectImage = nil;
+    } else {
+        if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+            // Nothing to do...
+            //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
+        } else {
+            CGRect aspectFillRect = __rectOfAspectFillImage(_imageToDraw, self.bounds);
+            _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
+        }
+    }
+    [_contentLayer setHidden:NO];
+    [_contentLayer setFrame:self.bounds];
+    [_contentLayer setNeedsDisplay];
+}
+
 - (void)layerJustBeenCreated
 {
     _mutex = [PYMutex object];
+    
+    CGFloat _scale = [UIScreen mainScreen].scale;
+    self.contentsScale = _scale;
+    
     //_mutex.enableDebug = YES;
-    _contentLayer = [CATiledLayer layer];
+    _contentLayer = [PYTiledLayer layer];
+    _contentLayer.actions = @{
+                              kCAOnOrderIn:[NSNull null],
+                              kCAOnOrderOut:[NSNull null],
+                              @"contents":[NSNull null]
+                              };
     _contentLayer.delegate = self;
     _contentLayer.opaque = NO;
     [_contentLayer setBackgroundColor:[UIColor clearColor].CGColor];
     [self addSublayer:_contentLayer];
-
     self.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)layerJustBeenCopied
 {
     _mutex = [PYMutex object];
+    
+    CGFloat _scale = [UIScreen mainScreen].scale;
+    self.contentsScale = _scale;
+    
     //_mutex.enableDebug = YES;
-    //if ( _contentLayer != nil ) return;
     for ( CALayer *_subLayer in self.sublayers ) {
-        if ( [_subLayer isKindOfClass:[CATiledLayer class]] ) {
-            _contentLayer = (CATiledLayer *)_subLayer;
+        if ( [_subLayer isKindOfClass:[PYTiledLayer class]] ) {
+            _contentLayer = (PYTiledLayer *)_subLayer;
             _contentLayer.delegate = self;
+            _contentLayer.actions = @{
+                                      kCAOnOrderIn:[NSNull null],
+                                      kCAOnOrderOut:[NSNull null],
+                                      @"contents":[NSNull null]
+                                      };
             break;
         }
     }
-
     self.contentMode = UIViewContentModeScaleAspectFill;
-}
-
-- (id)init
-{
-    self = [super init];
-    if ( self ) {
-        [self layerJustBeenCreated];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if ( self ) {
-        [self layerJustBeenCreated];
-    }
-    return self;
-}
-
-- (id)initWithLayer:(id)layer
-{
-    self = [super initWithLayer:layer];
-    if ( self ) {
-        [self layerJustBeenCopied];
-    }
-    return self;
 }
 
 - (PYImageLayer *)initWithPlaceholdImage:(UIImage *)image
@@ -139,11 +170,11 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     [_mutex lockAndDo:^id{
         // Clear old image.
         _image = nil;
-        // Set new value
         _image = anImage;
         _loadingUrl = [@"" copy];
+        // Set new value
         _contentLayer.contents = nil;
-        [_contentLayer setNeedsDisplay];
+        [self _setImageToContext];
         return nil;
     }];
     //}
@@ -163,19 +194,16 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         if ( [_loadingUrl length] > 0 && [_loadingUrl isEqualToString:imageUrl] )
             return nil;
         
+        _image = nil;
+        
+        _contentLayer.contents = nil;
         _loadingUrl = [imageUrl copy];
         // Fetch the cache.
         _image = [SHARED_IMAGECACHE imageByName:_loadingUrl];
         if ( _image != nil ) {
-            _contentLayer.contents = nil;
-            [_contentLayer setNeedsDisplay];
+            [self _setImageToContext];
             return nil;
         }
-        
-        // Before request the network image, set current image to nil.
-        _image = nil;
-        _contentLayer.contents = nil;
-        [_contentLayer setNeedsDisplay];
         
         __block PYImageLayer *_bss = self;
         [SHARED_IMAGECACHE
@@ -184,25 +212,37 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
              // Did loaded the image...
              if ( ![imageName isEqualToString:_bss->_loadingUrl] ) return;
              _bss->_image = loadedImage;
-             [_bss->_contentLayer setNeedsDisplay];
+             [_bss _setImageToContext];
          }];
         return nil;
     }];
     //}
 }
 
-- (void)layoutSublayers
-{
-    [super layoutSublayers];
-    self.contentsScale = [UIScreen mainScreen].scale;
-    _contentLayer.tileSize = CGSizeMake(self.frame.size.width, self.frame.size.width / 2);
-    [_contentLayer setNeedsDisplay];
-}
-
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    [_contentLayer setFrame:self.bounds];
+    // First time...Nothing
+    if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+        if ( _contentLayer.contents != nil ) {
+            self.contents = _contentLayer.contents;
+        }
+    } else {
+        self.contents = (id)_aspectImage.CGImage;
+    }
+    _contentLayer.contents = nil;
+    [_contentLayer setHidden:YES];
+}
+
+- (void)refreshContent
+{
+    CGFloat _scale = [UIScreen mainScreen].scale;
+    self.contentsScale = _scale;
+    _contentLayer.contents = nil;
+    _contentLayer.contentsScale = _scale;
+    _contentLayer.tileSize = CGSizeMake(self.bounds.size.width * _scale,
+                                        self.bounds.size.height * _scale);
+    [self _setImageToContext];
 }
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
@@ -216,21 +256,15 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         return;
     }
     
-    CGContextTranslateCTM(ctx, 0.0, self.bounds.size.height);
-    CGContextScaleCTM(ctx, 1.0, -1.0);
-    
+    UIGraphicsPushContext(ctx);
     if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-        CGRect aspectFitRect = __rectOfAspectFitImage(_imageToDraw, self.bounds);
-        CGContextDrawImage(ctx, aspectFitRect, _imageToDraw.CGImage);
+        //CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
+        CGRect _aspectFit = __rectOfAspectFitImage(_imageToDraw, self.bounds);
+        [_imageToDraw drawInRect:_aspectFit];
     } else {
-        CGRect aspectFillRect = __rectOfAspectFillImage(_imageToDraw, self.bounds);
-        CGImageRef subImageRef = CGImageCreateWithImageInRect(_imageToDraw.CGImage, aspectFillRect);
-        CGContextDrawImage(ctx, self.bounds, subImageRef);
-        CFRelease(subImageRef);            
+        [_aspectImage drawInRect:self.bounds];
     }
-    
-    CGContextScaleCTM(ctx, 1.0, -1.0);
-    CGContextTranslateCTM(ctx, 0.0, -self.bounds.size.height);
+    UIGraphicsPopContext();
     //}
 }
 

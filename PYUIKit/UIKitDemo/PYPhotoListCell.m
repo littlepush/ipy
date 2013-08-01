@@ -8,6 +8,7 @@
 
 #import "PYPhotoListCell.h"
 
+#define __PYIMAGEVIEW_TEST__
 static NSString *_networkImages[10];
 
 @implementation PYPhotoListCell
@@ -57,17 +58,17 @@ static NSString *_networkImages[10];
 // Rend the cell
 - (void)rendCellContentWithIdentify:(NSString *)contentIdentify
 {
-    [_contentImageView setAlpha:0.f];
-    
-    [UIView animateWithDuration:.15 animations:^{
-        [_contentImageView setImageUrl:_networkImages[[contentIdentify intValue] % 10]];
-        [_contentImageView setAlpha:1.f];
-    }];
+#ifdef __PYIMAGEVIEW_TEST__
+    [_contentImageView setImageUrl:_networkImages[[contentIdentify intValue] % 10]];
+#else
+    [_uiImageView setImage:[SHARED_IMAGECACHE imageByName:_networkImages[[contentIdentify intValue] % 10]]];
+#endif
 }
 
 // Cell just been create, to initialize some actions or controllers
 - (void)cellJustBeenCreated
 {
+#ifdef __PYIMAGEVIEW_TEST__
     _contentImageView = [PYImageView object];
     [_contentImageView setFrame:CGRectMake(10.f, 10.f, 300.f, 300.f)];
     [_contentImageView setBackgroundColor:[UIColor colorWithWhite:.75 alpha:.5]];
@@ -76,8 +77,19 @@ static NSString *_networkImages[10];
     [_contentImageView setDropShadowOpacity:.7f];
     [_contentImageView setDropShadowRadius:7.f];
     [_contentImageView setDropShadowPath:[UIBezierPath bezierPathWithRect:_contentImageView.bounds]];
+    [_contentImageView setContentMode:UIViewContentModeScaleAspectFit];
     [self addSubview:_contentImageView];
-    
+#else
+    _uiImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 300.f, 300.f)];
+    [_uiImageView setBackgroundColor:[UIColor colorWithWhite:.75 alpha:.5]];
+    [_uiImageView.layer setShadowColor:[UIColor darkGrayColor].CGColor];
+    [_uiImageView.layer setShadowOffset:CGSizeMake(0, 7.f)];
+    [_uiImageView.layer setShadowOpacity:.7f];
+    [_uiImageView.layer setShadowRadius:7.f];
+    [_uiImageView.layer setShadowPath:[UIBezierPath bezierPathWithRect:_uiImageView.bounds].CGPath];
+    [_uiImageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self addSubview:_uiImageView];
+#endif
     //    _shadowLayer = [PYImageLayer layerWithPlaceholdImage:[UIImage imageNamed:@"photo.shadow.png"]];
     //    [_shadowLayer setFrame:CGRectMake(10, 310, 300, 20)];
     //    [self.layer addSublayer:_shadowLayer];

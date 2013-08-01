@@ -28,7 +28,9 @@
 
 // Pair item first and second item.
 @property (nonatomic, assign)   id              first;
+@property (nonatomic, copy)     NSString        *firstValue;
 @property (nonatomic, assign)   id              second;
+@property (nonatomic, copy)     NSString        *secondValue;
 
 @end
 

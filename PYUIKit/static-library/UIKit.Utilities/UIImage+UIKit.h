@@ -16,6 +16,12 @@
 // Crop the image to a fit size
 - (UIImage *)cropToSize:(CGSize)size;
 
+// Crop the image in rect.
+- (UIImage *)cropInRect:(CGRect)cropRect;
+
+// Scale canvas to specifed rect
+- (UIImage *)scalCanvasFitRect:(CGRect)fitRect;
+
 // Resize the image to fit size.
 - (UIImage *)scaledToSize:(CGSize)size;
 

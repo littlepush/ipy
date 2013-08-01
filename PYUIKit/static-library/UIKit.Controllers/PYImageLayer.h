@@ -6,17 +6,21 @@
 //  Copyright (c) 2013 Push Lab. All rights reserved.
 //
 
-#import "PYLayer.h"
+#import "PYStaticLayer.h"
 #import <QuartzCore/QuartzCore.h>
+
+// Predefine
+@class PYTiledLayer;
 
 @interface PYImageLayer : PYLayer
 {
-    CATiledLayer                    *_contentLayer;
+    PYTiledLayer                    *_contentLayer;
     // Inner Image Data
     UIImage                         *_image;
     UIImage                         *_placeholdImage;
+    UIImage                         *_aspectImage;
+    CGFloat                         _frameRate;
     NSString                        *_loadingUrl;
-    
     PYMutex                         *_mutex;
 }
 
@@ -38,5 +42,8 @@
 
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;
+
+// Refresh the content after reset the frame.
+- (void)refreshContent;
 
 @end

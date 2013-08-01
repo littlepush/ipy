@@ -60,6 +60,56 @@
 	return newImage;
 }
 
+- (UIImage *)cropInRect:(CGRect)cropRect
+{
+    CGImageRef subImageRef = CGImageCreateWithImageInRect(self.CGImage, cropRect);
+    UIImage *_newImage = [UIImage imageWithCGImage:subImageRef];
+    CGImageRelease(subImageRef);
+    return _newImage;
+}
+
+- (UIImage *)scalCanvasFitRect:(CGRect)fitRect
+{
+    float _ds = (fitRect.size.width / fitRect.size.height);
+    float _ix = self.size.width * self.scale, _iy = self.size.height * self.scale;
+    float _is = _ix / _iy;
+    CGRect _canvasRect = CGRectZero;
+    if ( _ds > _is ) {
+        // Height fixed
+        _canvasRect.size.height = _iy;
+        _canvasRect.size.width = _iy * _ds;
+        _canvasRect.origin.y = 0;
+        _canvasRect.origin.x = (_canvasRect.size.width - _ix) / 2;
+    } else {
+        // Width fixed
+        _canvasRect.size.width = _ix;
+        _canvasRect.size.height = _ix / _ds;
+        _canvasRect.origin.x = 0;
+        _canvasRect.origin.y = (_canvasRect.size.height - _iy) / 2;
+    }
+
+    PYStopWatch *sw = [PYStopWatch object];
+    [sw start];
+    // Create the context as canvas.
+    if ( PYIsRetina ) {
+        UIGraphicsBeginImageContextWithOptions(_canvasRect.size, NO, [UIScreen mainScreen].scale);
+    } else {
+        UIGraphicsBeginImageContext(_canvasRect.size);
+    }
+    DUMPFloat([sw tick]);
+    CGRect _imgRect = _canvasRect;
+    _imgRect.size.width = _ix;
+    _imgRect.size.height = _iy;
+    [self drawInRect:_imgRect];
+    DUMPFloat([sw tick]);
+    UIImage *_newImage = UIGraphicsGetImageFromCurrentImageContext();
+    DUMPFloat([sw tick]);
+    
+    UIGraphicsEndImageContext();
+    DUMPFloat([sw tick]);
+    return _newImage;
+}
+
 - (UIImage *)scaledToSize:(CGSize)size
 {
     if ( self == nil ) return nil;
