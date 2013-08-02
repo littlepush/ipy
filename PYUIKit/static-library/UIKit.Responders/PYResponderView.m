@@ -327,7 +327,7 @@
         }
         // Calculate the rotate angle
         if ( (_possibleAction & PYResponderEventRotate) > 0 ) {
-            CGFloat _currentArc = atan(_y / _x);
+            CGFloat _currentArc = atan(_y / _x) + (M_PI * 2);
             _event.rotateDeltaArc = (_currentArc - _rotateArc);
             _rotateArc = _currentArc;
             [self _invokeTargetForEvent:PYResponderEventRotate info:_event];

@@ -123,11 +123,19 @@
 }
 
 @dynamic lineBreakMode;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
 - (NSLineBreakMode)lineBreakMode
+#else
+- (UILineBreakMode)lineBreakMode
+#endif
 {
     return self.layer.lineBreakMode;
 }
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
+- (void)setLineBreakMode:(NSLineBreakMode)lineBreakMode
+#else
 - (void)setLineBreakMode:(UILineBreakMode)lineBreakMode
+#endif
 {
     self.layer.lineBreakMode = lineBreakMode;
 }

@@ -21,7 +21,11 @@
     
     BOOL                                            _multipleLine;
     NSTextAlignment                                 _textAlignment;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
+    NSLineBreakMode                                 _lineBreakMode;
+#else
     UILineBreakMode                                 _lineBreakMode;
+#endif
     CGFloat                                         _paddingLeft;
 }
 
@@ -38,7 +42,12 @@
 
 @property (nonatomic, assign)   BOOL                multipleLine;
 @property (nonatomic, assign)   NSTextAlignment     textAlignment;
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
+@property (nonatomic, assign)   NSLineBreakMode     lineBreakMode;
+#else
 @property (nonatomic, assign)   UILineBreakMode     lineBreakMode;
+#endif
 
 // Padding the left side.
 @property (nonatomic, assign)   CGFloat             paddingLeft;

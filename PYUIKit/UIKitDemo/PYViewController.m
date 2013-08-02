@@ -75,8 +75,8 @@
     [_rView setImageUrl:@"http://www.wallsfeed.com/wp-content/uploads/2012/10/Sexy-Alina-Vacariu-Romania.jpg"];
     [_rView setEvent:PYResponderEventTap withRestraint:PYResponderRestraintDoubleTap];
     [_rView setEvent:PYResponderEventPress withRestraint:PYResponderRestraintOneFingerPress];
-    //[_rView setEvent:PYResponderEventRotate withRestraint:PYResponderRestraintRotateDefault];
-    [_rView setEvent:PYResponderEventPinch withRestraint:PYResponderRestraintPinchDefault];
+    [_rView setEvent:PYResponderEventRotate withRestraint:PYResponderRestraintRotateDefault];
+    //[_rView setEvent:PYResponderEventPinch withRestraint:PYResponderRestraintPinchDefault];
     
     [_rView addTarget:self
                action:@selector(_actionRViewTapHandler:)
