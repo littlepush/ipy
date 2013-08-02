@@ -6,6 +6,22 @@
 //  Copyright (c) 2013 Push Lab. All rights reserved.
 //
 
+/*
+ LISENCE FOR IPY
+ COPYRIGHT (c) 2013, Push Chen.
+ ALL RIGHTS RESERVED.
+ 
+ REDISTRIBUTION AND USE IN SOURCE AND BINARY
+ FORMS, WITH OR WITHOUT MODIFICATION, ARE
+ PERMITTED PROVIDED THAT THE FOLLOWING CONDITIONS
+ ARE MET:
+ 
+ YOU USE IT, AND YOU JUST USE IT!.
+ WHY NOT USE THIS LIBRARY IN YOUR CODE TO MAKE
+ THE DEVELOPMENT HAPPIER!
+ ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
+ */
+
 #include <stdio.h>
 #include "PYUIKitMacro.h"
 #include "PYRectangleCalc.h"
@@ -106,3 +122,7 @@ CGRect PYRectCombine( CGRect r1, CGRect r2 )
     CGFloat _h = MAX(r1.origin.y + r1.size.height, r2.origin.y + r2.size.height) - _y;
     return CGRectMake(_x, _y, _w, _h);
 }
+
+// @littlepush
+// littlepush@gmail.com
+// PYLab
