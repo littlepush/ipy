@@ -71,6 +71,48 @@
 
 @end
 
+@implementation NSMutableArray (PYCore)
+
+- (void)safeInsertObject:(id)anObject atIndex:(NSUInteger)index
+{
+    @synchronized(self) {
+        if ( anObject == nil ) return;
+        if ( index >= [self count] ) {
+            [self safeAddObject:anObject];
+            return;
+        }
+        @try {
+            [self insertObject:anObject atIndex:index];
+        } @catch ( NSException *ex ) {
+            PYLog(@"exception: %@\nCall Stack: \n%@", ex.reason, ex.callStackSymbols);
+        }
+    }
+}
+- (void)safeInsertObjects:(NSArray *)objects atIndexes:(NSIndexSet *)indexes
+{
+    @synchronized(self) {
+        if ( objects == nil || [objects count] == 0 ) return;
+        @try {
+            [self insertObjects:objects atIndexes:indexes];
+        } @catch ( NSException *ex ) {
+            PYLog(@"exception: %@\nCall Stack: \n%@", ex.reason, ex.callStackSymbols);
+        }
+    }
+}
+- (void)safeAddObject:(id)anObject
+{
+    @synchronized(self) {
+        if ( anObject == nil ) return;
+        @try {
+            [self addObject:anObject];
+        } @catch ( NSException *ex ) {
+            PYLog(@"exception: %@\nCall Stack: \n%@", ex.reason, ex.callStackSymbols);
+        }
+    }
+}
+
+@end
+
 // @littlepush
 // littlepush@gmail.com
 // PYLab

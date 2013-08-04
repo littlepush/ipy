@@ -36,6 +36,15 @@
 
 @end
 
+@interface NSMutableArray (PYCore)
+
+// Safely to insert object
+- (void)safeInsertObject:(id)anObject atIndex:(NSUInteger)index;
+- (void)safeInsertObjects:(NSArray *)objects atIndexes:(NSIndexSet *)indexes;
+- (void)safeAddObject:(id)anObject;
+
+@end
+
 // @littlepush
 // littlepush@gmail.com
 // PYLab
