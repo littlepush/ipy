@@ -153,9 +153,17 @@ static UIColor      *_gPYLabelColor = nil;
     self.lineBreakMode = UILineBreakModeTailTruncation;
 }
 
+- (void)willMoveToSuperLayer:(CALayer *)layer
+{
+    if ( layer != nil ) {
+        [self setNeedsDisplay];
+    }
+}
+
 // Display
 - (void)drawInContext:(CGContextRef)ctx
 {
+    if ( ctx == NULL ) return;
     if ( [_text length] == 0 ) return;
     
     //[self.textColor setFill];
@@ -188,6 +196,7 @@ static UIColor      *_gPYLabelColor = nil;
     _textFrame.origin.y = (_textFrame.size.height - _textSize.height) / 2;
     _textFrame.size.height = _textSize.height;
     
+    UIGraphicsPushContext(ctx);
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
     NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
     [_style setAlignment:_textAlignment];
@@ -201,8 +210,8 @@ static UIColor      *_gPYLabelColor = nil;
              withFont:_textFont
         lineBreakMode:(NSLineBreakMode)_lineBreakMode
             alignment:_textAlignment];
-    UIGraphicsPopContext();
 #endif
+    UIGraphicsPopContext();
 }
 
 @end

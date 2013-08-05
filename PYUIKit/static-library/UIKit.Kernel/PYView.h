@@ -28,6 +28,7 @@
 @interface PYView : UIView
 {
     PYInnerShadowLayer                              *_shadowLayer;
+    BOOL                                            _hasInvokeInit;
 }
 
 // Override the layer property.

@@ -55,7 +55,10 @@
 {
     self = [super init];
     if ( self ) {
-        [self viewJustBeenCreated];
+        if ( _hasInvokeInit == NO ) {
+            [self viewJustBeenCreated];
+        }
+        _hasInvokeInit = YES;
     }
     return self;
 }
@@ -64,7 +67,10 @@
 {
     self = [super initWithCoder:aDecoder];
     if ( self ) {
-        [self viewJustBeenCreated];
+        if ( _hasInvokeInit == NO ) {
+            [self viewJustBeenCreated];
+        }
+        _hasInvokeInit = YES;
     }
     return self;
 }
@@ -73,7 +79,10 @@
 {
     self = [super initWithFrame:frame];
     if ( self ) {
-        [self viewJustBeenCreated];
+        if ( _hasInvokeInit == NO ) {
+            [self viewJustBeenCreated];
+        }
+        _hasInvokeInit = YES;
     }
     return self;
 }

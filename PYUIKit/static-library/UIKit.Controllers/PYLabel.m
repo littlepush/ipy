@@ -31,6 +31,13 @@
     return [PYLabelLayer class];
 }
 
+- (void)viewJustBeenCreated
+{
+    [super viewJustBeenCreated];
+    [self setBackgroundColor:[UIColor clearColor]];
+    [self setUserInteractionEnabled:NO];
+}
+
 // Properties...
 @dynamic layer;
 - (PYLabelLayer *)layer
@@ -164,6 +171,12 @@
 - (void)setPaddingLeft:(CGFloat)paddingLeft
 {
     self.layer.paddingLeft = paddingLeft;
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if ( newSuperview == nil ) return;
+    [self.layer setNeedsDisplay];
 }
 
 @end

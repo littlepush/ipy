@@ -258,14 +258,14 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    PYViewEvent *_event = [PYViewEvent object];
+    _event.sysEvent = event;
+    [self _invokeTargetForEvent:PYResponderEventTouchMove info:_event];
     // DUMPInt([[event touchesForView:self] count]);
     if ( _isUserIntractiviting == NO ) {
         return [self.nextResponder touchesMoved:touches withEvent:event];
     }
     _tapCount = 0;
-    PYViewEvent *_event = [PYViewEvent object];
-    _event.sysEvent = event;
-    [self _invokeTargetForEvent:PYResponderEventTouchMove info:_event];
     
     int _touchCount = [[event touchesForView:self] count];
     // If the supported action does not contain dragging event, return.
@@ -353,13 +353,13 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    PYViewEvent *_event = [PYViewEvent object];
+    _event.sysEvent = event;
+    [self _invokeTargetForEvent:PYResponderEventTouchEnd info:_event];
     DUMPInt([[event touchesForView:self] count]);
     if ( _isUserIntractiviting == NO ) {
         return [self.nextResponder touchesEnded:touches withEvent:event];
     }
-    PYViewEvent *_event = [PYViewEvent object];
-    _event.sysEvent = event;
-    [self _invokeTargetForEvent:PYResponderEventTouchEnd info:_event];
     
     // All supported events been canceled.
     if ( (_possibleAction & PYResponderEventNeedPredirect) == 0 ) {
@@ -405,12 +405,12 @@
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if ( _isUserIntractiviting == NO ) {
-        return [self.nextResponder touchesCancelled:touches withEvent:event];
-    }
     PYViewEvent *_event = [PYViewEvent object];
     _event.sysEvent = event;
     [self _invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
+    if ( _isUserIntractiviting == NO ) {
+        return [self.nextResponder touchesCancelled:touches withEvent:event];
+    }
 }
 
 #pragma mark --
