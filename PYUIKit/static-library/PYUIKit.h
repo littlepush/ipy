@@ -47,6 +47,8 @@
 #import "PYImageView.h"
 #import "PYLabelLayer.h"
 #import "PYLabel.h"
+#import "PYSwitcher.h"
+#import "PYScrollView.h"
 // -- Rich.Text
 #import "PYRichText.h"
 #import "PYRichLabel.h"

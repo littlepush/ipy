@@ -198,13 +198,20 @@ static UIColor      *_gPYLabelColor = nil;
     
     UIGraphicsPushContext(ctx);
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
-    NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
-    [_style setAlignment:_textAlignment];
-    [_style setLineBreakMode:_lineBreakMode];
-    [_text drawInRect:_textFrame
-       withAttributes:@{
-                        NSParagraphStyleAttributeName:_style
-                        }];
+    if ( SYSTEM_VERSION_LESS_THAN(@"7.0") ) {
+        [_text drawInRect:_textFrame
+                 withFont:_textFont
+            lineBreakMode:(NSLineBreakMode)_lineBreakMode
+                alignment:_textAlignment];
+    } else {
+        NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
+        [_style setAlignment:_textAlignment];
+        [_style setLineBreakMode:_lineBreakMode];
+        [_text drawInRect:_textFrame
+           withAttributes:@{
+NSParagraphStyleAttributeName:_style
+         }];
+    }
 #else
     [_text drawInRect:_textFrame
              withFont:_textFont

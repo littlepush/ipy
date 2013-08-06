@@ -47,6 +47,11 @@
     [_imageView setFrame:_pinchFrame];
 }
 
+- (void)_actionRViewSwipeHandler:(PYResponderView *)rview event:(PYViewEvent *)event
+{
+    DUMPInt(event.swipeSide);
+}
+
 - (void)_actionRViewTouchEndHandler:(PYResponderView *)rview event:(PYViewEvent *)event
 {
     [(PYImageView *)rview refreshContent];
@@ -69,39 +74,20 @@
     [_tableView setFrame:_tf];
     [self.view addSubview:_tableView];
     
-    PYImageView *_rView = [[PYImageView alloc]
-                           initWithFrame:CGRectMake(50, 100, 240, 180)];
-    [_rView setContentMode:UIViewContentModeScaleAspectFit];
-    [_rView setImageUrl:@"http://www.wallsfeed.com/wp-content/uploads/2012/10/Sexy-Alina-Vacariu-Romania.jpg"];
-    [_rView setEvent:PYResponderEventTap withRestraint:PYResponderRestraintDoubleTap];
-    [_rView setEvent:PYResponderEventPress withRestraint:PYResponderRestraintOneFingerPress];
-    [_rView setEvent:PYResponderEventRotate withRestraint:PYResponderRestraintRotateDefault];
-    //[_rView setEvent:PYResponderEventPinch withRestraint:PYResponderRestraintPinchDefault];
+    PYScrollView *_scrollView = [PYScrollView object];
+    [_scrollView setFrame:CGRectMake(0, 0, 320.f, 480.f)];
+    [_scrollView setBackgroundColor:[UIColor grayColor]];
+    [self.view addSubview:_scrollView];
     
-    [_rView addTarget:self
-               action:@selector(_actionRViewTapHandler:)
-    forResponderEvent:PYResponderEventTap];
-    [_rView addTarget:self
-               action:@selector(_actionRViewPressHandler:)
-    forResponderEvent:PYResponderEventPress];
-    [_rView addTarget:self
-               action:@selector(_actionRViewRotateHandler:event:)
-    forResponderEvent:PYResponderEventRotate];
-    [_rView addTarget:self
-               action:@selector(_actionRViewPinchHandler:event:)
-    forResponderEvent:PYResponderEventPinch];
-    [_rView addTarget:self
-               action:@selector(_actionRViewTouchEndHandler:event:)
-    forResponderEvent:PYResponderEventTouchEnd];
-    [self.view addSubview:_rView];
-    
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 380, 240, 180)];
-    [_imageView setImage:_rView.image];
-    [_imageView setContentMode:UIViewContentModeScaleAspectFit];
-    [self.view addSubview:_imageView];
-    
-    PYLog(@"Image View Layer: %@", NSStringFromClass([_imageView.layer class]));
-    PYLog(@"Image View sublayers: %@", [_imageView.layer sublayers]);
+    PYView *_s1 = [PYView object];
+    [_s1 setFrame:CGRectMake(0, 0, 320, 120.f)];
+    [_s1 setBackgroundColor:[UIColor redColor]];
+    PYView *_s2 = [PYView object];
+    [_s2 setFrame:CGRectMake(0, 120.f, 320.f, 120.f)];
+    [_s2 setBackgroundColor:[UIColor greenColor]];
+    [_scrollView addSubview:_s1];
+    [_scrollView addSubview:_s2];
+    [_scrollView setScrollSide:PYScrollVerticalis];
 }
 
 - (void)didReceiveMemoryWarning

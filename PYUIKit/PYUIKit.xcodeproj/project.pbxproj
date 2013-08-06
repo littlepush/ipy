@@ -354,9 +354,9 @@
 			isa = PBXGroup;
 			children = (
 				E67CE0E217A7E1C7009BC886 /* PYScrollView.h */,
+				E67CE0E317A7E1C7009BC886 /* PYScrollView.m */,
 				E67CE0E617A7E23A009BC886 /* PYTableView.h */,
 				E67CE0E717A7E23A009BC886 /* PYTableView.m */,
-				E67CE0E317A7E1C7009BC886 /* PYScrollView.m */,
 				E67CE0EA17A7E24D009BC886 /* PYLoopView.h */,
 				E67CE0EB17A7E24D009BC886 /* PYLoopView.m */,
 			);

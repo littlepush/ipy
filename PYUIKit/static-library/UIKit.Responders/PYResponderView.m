@@ -29,11 +29,13 @@
 @implementation PYViewEvent
 
 @synthesize eventId;
-@synthesize sysEvent;
+@synthesize touches;
 @synthesize pinchRate;
 @synthesize rotateDeltaArc;
 @synthesize movingDeltaDistance;
 @synthesize movingSpeed;
+@synthesize swipeSide;
+@synthesize hasMoved;
 
 @end
 
@@ -179,12 +181,18 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    // Clear old data & initialize as zero.
+    _swipeSide = 0;
+    _lastMoveDistrance = CGSizeZero;
+    _movingSpeed = CGPointZero;
+    _isUserMoved = NO;
+    
     PYViewEvent *_event = [PYViewEvent object];
-    _event.sysEvent = event;
+    _event.touches = [[event touchesForWindow:[UIApplication sharedApplication].keyWindow] copy];
     [self _invokeTargetForEvent:PYResponderEventTouchBegin info:_event];
     // Increase the tap count.
     _tapCount += 1;
-    int _touchCount = [[event touchesForView:self] count];
+    int _touchCount = [_event.touches count];
     if ( (_responderAction & PYResponderEventNeedPredirect) == 0 ) {
         _nextResponderReceivedBeginEvent = YES;
         return [self.nextResponder touchesBegan:touches withEvent:event];
@@ -194,7 +202,7 @@
     if ( (_responderAction & PYResponderEventPress) > 0 ) {
         unsigned int _pressRestraintMask = 0x000000F0;
         unsigned int _pressFingerCount = (_responderRestraint & _pressRestraintMask) >> 4;
-        IF ( _touchCount > _pressFingerCount ) {
+        if ( _touchCount > _pressFingerCount ) {
             //_possibleAction &= ~PYResponderEventPress;
             //_nextResponderReceivedBeginEvent = YES;
             if ( _lagEventTimer != nil ) {
@@ -203,7 +211,7 @@
             }
             // return [self.nextResponder touchesBegan:touches withEvent:event];
         }
-        IF ( _touchCount == _pressFingerCount ) {
+        if ( _touchCount == _pressFingerCount ) {
             if ( _lagEventTimer != nil ) {
                 [_lagEventTimer invalidate];
             }
@@ -220,13 +228,13 @@
     }
     
     if ( _touchCount == 1 ) {
-        UITouch *_touch = [touches anyObject];
+        UITouch *_touch = [_event.touches anyObject];
         _firstTouchPoint = [_touch locationInView:self];
         _lastMovePoint = _firstTouchPoint;
         [_speedTicker start];
     }
     if ( _touchCount == 2 ) {
-        NSArray *_touches = [[event touchesForView:self] allObjects];
+        NSArray *_touches = [_event.touches allObjects];
         UITouch *_firstTouch = [_touches objectAtIndex:0];
         UITouch *_secondTouch = [_touches objectAtIndex:1];
         CGPoint _fPoint = [_firstTouch locationInView:self.superview];
@@ -259,7 +267,8 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     PYViewEvent *_event = [PYViewEvent object];
-    _event.sysEvent = event;
+    _event.hasMoved = YES;
+    _event.touches = [[event touchesForWindow:[UIApplication sharedApplication].keyWindow] copy];
     [self _invokeTargetForEvent:PYResponderEventTouchMove info:_event];
     // DUMPInt([[event touchesForView:self] count]);
     if ( _isUserIntractiviting == NO ) {
@@ -267,7 +276,7 @@
     }
     _tapCount = 0;
     
-    int _touchCount = [[event touchesForView:self] count];
+    int _touchCount = [_event.touches count];
     // If the supported action does not contain dragging event, return.
     // And check if the next responder has received the touche begin
     // event.
@@ -302,17 +311,18 @@
     }
     
     if ( _touchCount == 1 ) {
-        UITouch *_touch = [touches anyObject];
-        
-        if ( (_responderAction & PYResponderEventPen) > 0 ) {
+        UITouch *_touch = [_event.touches anyObject];
+        CGPoint _movePoint = [_touch locationInView:self];
+        CGSize _delta = CGSizeMake((_movePoint.x - _firstTouchPoint.x),
+                                   (_movePoint.y - _firstTouchPoint.y));
+        if ( (_possibleAction & PYResponderEventPen) > 0 ) {
             // Calculate the point in side
-            CGPoint _movePoint = [_touch locationInView:self];
-            CGSize _delta = CGSizeMake((_movePoint.x - _firstTouchPoint.x),
-                                       (_movePoint.y - _firstTouchPoint.y));
-            CGSize _moveDistance =
-            CGSizeMake( powf(_delta.width, .9f), powf(_delta.height, .9f) );
+            CGSize _moveDistance = CGSizeMake(
+                                              PYINDICATION_F(powf(PYABSF(_delta.width), .9f), _delta.width),
+                                              PYINDICATION_F(powf(PYABSF(_delta.height), .9f), _delta.height)
+                                              );
             CGSize _moveDelta = CGSizeMake(_moveDistance.width - _lastMoveDistrance.width,
-                                           _moveDistance.height - _lastMoveDistrance.height);        
+                                           _moveDistance.height - _lastMoveDistrance.height);
             _lastMoveDistrance = _moveDistance;
             _lastMovePoint = _movePoint;
             [_speedTicker tick];
@@ -324,9 +334,22 @@
             _event.movingDeltaDistance = _moveDelta;
             
             [self _invokeTargetForEvent:PYResponderEventPen info:_event];
-       }
+        }
+        if ( (_possibleAction & PYResponderEventSwipe) > 0 ) {
+            BOOL _isVel = PYABSF(_delta.width) < PYABSF(_delta.height);
+            BOOL _isNagitive = *(&_delta.width + _isVel) < 0;
+            int _side = ((PYResponderRestraintSwipeLeft << (_isVel * 2)) << (!_isNagitive));
+            if ( _swipeSide == 0 ) {
+                _swipeSide = _side;
+            } else {
+                if ( _swipeSide != _side ) {
+                    _possibleAction &= ~PYResponderEventSwipe;
+                    _swipeSide = 0;
+                }
+            }
+        }
     } else if ( _touchCount == 2 ) {
-        NSArray *_touches = [[event touchesForView:self] allObjects];
+        NSArray *_touches = [_event.touches allObjects];
         UITouch *_firstTouch = [_touches objectAtIndex:0];
         UITouch *_secondTouch = [_touches objectAtIndex:1];
         CGPoint _fPoint = [_firstTouch locationInView:self.superview];
@@ -354,13 +377,16 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     PYViewEvent *_event = [PYViewEvent object];
-    _event.sysEvent = event;
+    _event.touches = [[event touchesForWindow:[UIApplication sharedApplication].keyWindow] copy];
+    _event.movingSpeed = _movingSpeed;
+    _event.movingDeltaDistance = CGSizeZero;
+    _event.hasMoved = _isUserMoved;
     [self _invokeTargetForEvent:PYResponderEventTouchEnd info:_event];
-    DUMPInt([[event touchesForView:self] count]);
     if ( _isUserIntractiviting == NO ) {
         return [self.nextResponder touchesEnded:touches withEvent:event];
     }
     
+    _isUserIntractiviting = NO;
     // All supported events been canceled.
     if ( (_possibleAction & PYResponderEventNeedPredirect) == 0 ) {
         if ( _nextResponderReceivedBeginEvent == NO ) {
@@ -396,6 +422,10 @@
     if ( (_possibleAction & PYResponderEventSwipe) ) {
         if ( _isUserMoved == YES ) {
             // Calculate the swipe direction...
+            if ( (_swipeSide & _responderRestraint) > 0 ) {
+                _event.swipeSide = _swipeSide;
+                [self _invokeTargetForEvent:PYResponderEventSwipe info:_event];
+            }
         }
     }
     
@@ -406,7 +436,7 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     PYViewEvent *_event = [PYViewEvent object];
-    _event.sysEvent = event;
+    _event.touches = [[event touchesForView:self] copy];
     [self _invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
     if ( _isUserIntractiviting == NO ) {
         return [self.nextResponder touchesCancelled:touches withEvent:event];
@@ -435,6 +465,24 @@
                            info:(PYViewEvent *)_lagEventTimer.userInfo];
     [_lagEventTimer invalidate];
     _lagEventTimer = nil;
+}
+
+#pragma mark --
+#pragma mark Global Formular
++ (CGFloat)distanceToMoveWithInitSpeed:(CGFloat)speed stepRate:(CGFloat)step timePieces:(NSUInteger)piece
+{
+    if ( speed == 0 ) return 0;
+    // D = S•(å•å^n - å)/(å - 1)
+    CGFloat _distance = speed * (step * (powf(step, piece) - 1) / (step - 1.f));
+    return _distance;
+}
+
++ (CGFloat)initSpeedWithAllMovingDistance:(CGFloat)distance stepRate:(CGFloat)step timePieces:(NSUInteger)piece
+{
+    if ( distance == 0 ) return 0;
+    // D = S•(å•å^n - å)/(å - 1)
+    CGFloat _speed = distance / (step * (powf(step, piece) - 1) / (step - 1.f));
+    return _speed;
 }
 
 @end

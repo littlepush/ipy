@@ -260,6 +260,17 @@ extern "C" {
 #define PYDoubleToObject(value)	[NSNumber numberWithDouble:value]
 #define PYBoolToObject(value)	[NSNumber numberWithBool:value]
 
+#define PYABSF( f )         \
+    ({ float _f = (f); int _n = (*((int *)(&(_f)))) & 0x7FFFFFFF; (float)(*((float *)(&_n))); })
+
+#define PYINDICATION_F( v, origin )                                 \
+    ({                                                              \
+        float __f = (origin); float __v = (v);                      \
+        int __mask = (*((int *)(&__f))) & 0x80000000;               \
+        int __value = ((*((int *)(&__v))) & 0x7FFFFFFF) | __mask;   \
+        (float)(*((float *)(&__value)));                            \
+    })
+
 /* For async queue invoking. */
 #define BEGIN_ASYNC_INVOKE									\
     dispatch_queue_t coQueue = dispatch_get_global_queue(	\

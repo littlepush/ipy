@@ -23,8 +23,56 @@
  */
 
 #import "PYResponderView.h"
+#import "PYImageLayer.h"
+#import "PYLabelLayer.h"
+
+typedef enum {
+    PYSwitcherShowSideLeft          = 0,
+    PYSwitcherShowSideRight         = 1
+} PYSwitcherShowSide;
+
+@protocol PYSwitcherDelegate;
 
 @interface PYSwitcher : PYResponderView
+{
+    PYSwitcherShowSide                  _showSide;
+    PYLayer                             *_backgroundLayer;
+    PYLayer                             *_buttonLayer;
+    PYLabelLayer                        *_leftLabel;
+    PYLabelLayer                        *_rightLabel;
+    
+    UIImage                             *_backgroundImage;
+    UIImage                             *_buttonImage;
+    
+    BOOL                                _isEnabled;
+}
+
+@property (nonatomic, assign)   id<PYSwitcherDelegate>  delegate;
+
+// Properties
+@property (nonatomic, strong)   UIImage                 *backgroundImage;
+@property (nonatomic, strong)   UIImage                 *buttonImage;
+@property (nonatomic, strong)   PYLabelLayer            *leftLabel;
+@property (nonatomic, strong)   PYLabelLayer            *rightLabel;
+@property (nonatomic, readonly) NSString                *leftText;
+@property (nonatomic, readonly) NSString                *rightText;
+@property (nonatomic, readonly) PYSwitcherShowSide      currentSide;
+@property (nonatomic, readonly) BOOL                    isEnabled;
+
+// Manually switch to specified side
+- (void)switchToSide:(PYSwitcherShowSide)side;
+
+// Enable or disenable the controller
+- (void)setEnable:(BOOL)enabled;
+
+@end
+
+
+@protocol PYSwitcherDelegate <NSObject>
+
+@optional
+// Did do
+- (void)switcher:(PYSwitcher *)switcher didSwitchedToSide:(PYSwitcherShowSide)side;
 
 @end
 

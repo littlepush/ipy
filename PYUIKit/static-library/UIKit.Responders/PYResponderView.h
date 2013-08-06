@@ -76,24 +76,17 @@ typedef enum {
     PYResponderRestraintRotateDefault       = 0x00020000,   // Default    
 } PYResponderRestraint;
 
-typedef enum {
-    PYDecelerateSpeedZero                   = 0,        // Disable the decelerate, Stop immediately
-    PYDecelerateSpeedVerySlow,
-    PYDecelerateSpeedSlow,
-    PYDecelerateSpeedNormal,                            // Default decelerate speed.
-    PYDecelerateSpeedFast,
-    PYDecelerateSpeedVeryFast
-} PYDecelerateSpeed;
-
 // Event for the target.
 @interface PYViewEvent : NSObject
 
 @property (nonatomic, assign)   PYResponderEvent        eventId;
-@property (nonatomic, strong)   UIEvent                 *sysEvent;
+@property (nonatomic, strong)   NSSet                   *touches;
 @property (nonatomic, assign)   CGFloat                 pinchRate;
 @property (nonatomic, assign)   CGFloat                 rotateDeltaArc;
 @property (nonatomic, assign)   CGSize                  movingDeltaDistance;
 @property (nonatomic, assign)   CGPoint                 movingSpeed;
+@property (nonatomic, assign)   PYResponderRestraint    swipeSide;
+@property (nonatomic, assign)   BOOL                    hasMoved;
 
 @end
 
@@ -115,10 +108,8 @@ typedef enum {
     PYStopWatch                         *_speedTicker;
     CGPoint                             _movingSpeed;
     CGSize                              _lastMoveDistrance;
-    
-    // Decelerate Speed, default is normal.
-    PYDecelerateSpeed                   _decelerateSpeed;
-    
+    int                                 _swipeSide;
+        
     // Actions
     PYResponderEvent                    _responderAction;
     PYResponderRestraint                 _responderRestraint;
@@ -132,6 +123,10 @@ typedef enum {
 // the responder view will detect the event and try to find the target/action
 // the event will occurred with the specified restraint.
 - (void)setEvent:(PYResponderEvent)event withRestraint:(PYResponderRestraint)subAction;
+
+// Deaccelerate distance / speed formular
++ (CGFloat)distanceToMoveWithInitSpeed:(CGFloat)speed stepRate:(CGFloat)step timePieces:(NSUInteger)piece;
++ (CGFloat)initSpeedWithAllMovingDistance:(CGFloat)distance stepRate:(CGFloat)step timePieces:(NSUInteger)piece;
 
 @property (nonatomic, readonly) CGPoint             firstTouchPoint;
 @property (nonatomic, readonly) CGPoint             lastMovePoint;

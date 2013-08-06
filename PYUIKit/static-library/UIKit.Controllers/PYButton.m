@@ -26,23 +26,54 @@
 
 @implementation PYButton
 
-- (id)initWithFrame:(CGRect)frame
+- (void)viewJustBeenCreated
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    [super viewJustBeenCreated];
+    // Set Responder Actions.
+    [self setEvent:PYResponderEventTap withRestraint:PYResponderRestraintSingleTap];
+    [self setEvent:PYResponderEventPen withRestraint:PYResponderRestraintPenFreedom];
+    [self setEvent:PYResponderEventPress withRestraint:PYResponderRestraintOneFingerPress];
+    
+    
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+// Add event target
+- (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
 {
-    // Drawing code
+    
 }
-*/
+- (void)removeTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
+{
+    
+}
+
+// A button can change the image/title/background-image info according to the state.
+- (void)setTitle:(NSString *)title forState:(UIControlState)state
+{
+    
+}
+- (void)setImage:(UIImage *)image forState:(UIControlState)state
+{
+    
+}
+- (void)setImageUrl:(NSString *)imageUrl forState:(UIControlState)state
+{
+    
+}
+- (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state
+{
+    
+}
+- (void)setBackgroundImageUrl:(UIImage *)imageUrl forState:(UIControlState)state
+{
+    
+}
+
+// Get the title label.
+@synthesize titleLabel = _titleLabel;
+
+// Enabled
+@synthesize isEnabled = _isEnabled;
 
 @end
 
