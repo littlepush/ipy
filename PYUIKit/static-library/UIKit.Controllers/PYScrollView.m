@@ -23,16 +23,66 @@
  */
 
 #import "PYScrollView.h"
+#import "PYScrollView+SideAnimation.h"
 
-NSUInteger const         PYScrollDecelerateTimePiece        = 60;
-CGFloat const            PYScrollDecelerateStepRate         = .9f;
-CGFloat const            PYScrollDecelerateDuration         = 1.5f;
-CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
+CGFloat const       PYScrollDecelerateDuration         = 3.f;
+CGFloat const       PYScrollDecelerateDurationPiece    = .01f;
+NSUInteger const    PYScrollDecelerateTimePiece        = (int)(PYScrollDecelerateDuration /
+                                                               PYScrollDecelerateDurationPiece);
+CGFloat const       PYScrollDirectOffsetDuration       = .175;
+NSUInteger const    PYScrollDirectOffsetTimePiece      = (int)(PYScrollDirectOffsetDuration /
+                                                               PYScrollDecelerateDurationPiece);
+CGFloat const       PYScrollDecelerateStepRate         = .95f;
 
 @implementation PYScrollView
 
 @synthesize scrollSide = _scrllSide;
 @synthesize decelerateSpeed = _decelerateSpeed;
+@synthesize alwaysBounceHorizontal = _bounceHor;
+@synthesize alwaysBounceVertical = _bounceVer;
+
+// Dynamic properities setter.
+- (void)setContentSize:(CGSize)contentSize
+{
+    _contentSize = contentSize;
+    CGRect _ctntFrame = _contentView.frame;
+    _ctntFrame.size = contentSize;
+    [_contentView setFrame:_ctntFrame];
+}
+
+- (void)setContentOffset:(CGSize)contentOffset
+{
+    [self setContentOffset:contentOffset animated:NO];
+}
+
+- (void)setContentInsets:(UIEdgeInsets)contentInsets
+{
+    CGRect _ctntFrame = _contentView.frame;
+    _ctntFrame.origin.x -= _contentInsets.left;
+    _ctntFrame.origin.y -= _contentInsets.top;
+    _contentInsets = contentInsets;
+    _ctntFrame.origin.x += _contentInsets.left;
+    _ctntFrame.origin.y += _contentInsets.top;
+    [_contentView setFrame:_ctntFrame];
+}
+
+// Override super properties
+- (NSArray *)subviews
+{
+    return [_contentView subviews];
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    [super setBackgroundColor:backgroundColor];
+    [_contentView setBackgroundColor:backgroundColor];
+}
+
+- (void)setClipsToBounds:(BOOL)clipsToBounds
+{
+    [super setClipsToBounds:clipsToBounds];
+    [_contentView setClipsToBounds:clipsToBounds];
+}
 
 - (void)_actionTouchBeginHandler:(id)sender event:(PYViewEvent *)event
 {
@@ -40,8 +90,8 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
     if ( _decelerateTimer != nil ) {
         [_decelerateTimer invalidate];
         _decelerateTimer = nil;
-        _isDecelerating = NO;
     }
+    if ( _contentSize.width * _contentSize.height == 0 ) return;
     [((NSObject *)self.delegate)
      tryPerformSelector:@selector(pyScrollViewWillBeginToScroll:)
      withObject:self];
@@ -49,6 +99,7 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
 
 - (void)_actionTouchEndHandler:(id)sender event:(PYViewEvent *)event
 {
+    if ( _contentSize.width * _contentSize.height == 0 ) return;
     if ( event.hasMoved == NO ) return;
     BOOL _willDecelerate = YES;
     if ( event.movingSpeed.x == 0 && event.movingSpeed.y == 0 ) {
@@ -58,6 +109,7 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
         _willDecelerate = NO;
     }
     
+    // Calculate the decelerate distance
     if ( _willDecelerate == YES ) {
         CGFloat _decelerateRate = _decelerateSpeed * 2.5f;
         CGSize _initDecelerateSpeed = CGSizeMake(event.movingSpeed.x * _decelerateRate,
@@ -65,17 +117,14 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
         if ( (_scrllSide & PYScrollHorizontal) == 0 ) _initDecelerateSpeed.width = 0;
         if ( (_scrllSide & PYScrollVerticalis) == 0 ) _initDecelerateSpeed.height = 0;
         
-        CGFloat _horDistance = [PYResponderView
-                                distanceToMoveWithInitSpeed:_initDecelerateSpeed.width
-                                stepRate:PYScrollDecelerateStepRate
-                                timePieces:PYScrollDecelerateTimePiece];
-        CGFloat _verDistance = [PYResponderView
-                                distanceToMoveWithInitSpeed:_initDecelerateSpeed.height
-                                stepRate:PYScrollDecelerateStepRate
-                                timePieces:PYScrollDecelerateTimePiece];
-        _willStopOffset = CGSizeMake(_horDistance, _verDistance);
+        // Calculate the decelerate distance.
+        [self calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:_initDecelerateSpeed];
+        
+        // Ask if we should continue with these setting.
         _willDecelerate = [self willScrollWithMovingDistance:_willStopOffset];
     }
+    
+    // Tell the delegate.
     if ( [self.delegate respondsToSelector:@selector(pyScrollViewDidEndScroll:willDecelerate:)] ) {
         [self.delegate pyScrollViewDidEndScroll:self willDecelerate:_willDecelerate];
     }
@@ -83,51 +132,19 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
     // Return if not need to decelerate
     if ( _willDecelerate == NO ) return;
     
-    // Begin to decelerate
-    _currentDeceleratedOffset = CGSizeZero;
-    _currentStepPiece = 1;
-    _maxStepPiece = PYScrollDecelerateTimePiece;
-    // Re-calculate the init speed
-    CGFloat _horSpeed = [PYResponderView
-                         initSpeedWithAllMovingDistance:_willStopOffset.width
-                         stepRate:PYScrollDecelerateStepRate
-                         timePieces:PYScrollDecelerateTimePiece];
-    CGFloat _verSpeed = [PYResponderView
-                         initSpeedWithAllMovingDistance:_willStopOffset.height
-                         stepRate:PYScrollDecelerateStepRate
-                         timePieces:PYScrollDecelerateTimePiece];
-    _decelerateInitSpeed = CGSizeMake(_horSpeed, _verSpeed);
-    
-    // Set the timer to run the animation.
-    _decelerateTimer = [[NSTimer alloc]
-                        initWithFireDate:[NSDate date]
-                        interval:PYScrollDecelerateDurationPiece
-                        target:self
-                        selector:@selector(_decelerateAnimationTimerHandler:)
-                        userInfo:nil
-                        repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_decelerateTimer
-                                 forMode:UITrackingRunLoopMode];
-    _isDecelerating = YES;
-    while ( _isDecelerating &&
-           [[NSRunLoop currentRunLoop]
-            runMode:UITrackingRunLoopMode
-            beforeDate:[NSDate distantFuture]]);
+    [self animatedScrollWithOffsetDistance:_willStopOffset
+                          withinTimePieces:PYScrollDecelerateTimePiece];
 }
 
 - (void)_actionTouchPenHandler:(id)sender event:(PYViewEvent *)event
 {
+    if ( _contentSize.width * _contentSize.height == 0 ) return;
     // Move the subviews
     CGSize _movingDistance = event.movingDeltaDistance;
     if ( (_scrllSide & PYScrollHorizontal) == 0 ) _movingDistance.width = 0;
     if ( (_scrllSide & PYScrollVerticalis) == 0 ) _movingDistance.height = 0;
 
-    for ( UIView *_sub in self.subviews ) {
-        CGRect _sFrame = _sub.frame;
-        _sFrame.origin.x += _movingDistance.width;
-        _sFrame.origin.y += _movingDistance.height;
-        [_sub setFrame:_sFrame];
-    }
+    [self setMovingOffset:_movingDistance withAnimatDuration:0];
 }
 
 - (void)viewJustBeenCreated
@@ -135,6 +152,7 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
     [super viewJustBeenCreated];
     
     // Initialize the scroll side as freedom.
+    // [self setClipsToBounds:YES];
     _scrllSide = PYScrollFreedom;
     _decelerateSpeed = PYDecelerateSpeedNormal;
     
@@ -144,6 +162,14 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
     _contentInsets = UIEdgeInsetsZero;
     _willStopOffset = CGSizeZero;
     _contentRect = CGRectZero;
+    _loopSupported = NO;
+    _bounceHor = YES;
+    _bounceVer = YES;
+    
+    _contentView = [UIView object];
+    [self addSubview:_contentView];
+
+    [self setClipsToBounds:YES];
     
     [self setEvent:PYResponderEventPen withRestraint:PYResponderRestraintPenFreedom];
     [self addTarget:self
@@ -157,71 +183,18 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
   forResponderEvent:PYResponderEventPen];
 }
 
-- (void)_generateContentRect
-{
-    if ( [self.subviews count] == 0 ) {
-        _contentRect = CGRectZero; return;
-    }
-    _contentRect = ((UIView *)[self.subviews lastObject]).frame;
-    for ( UIView *_sub in self.subviews ) {
-        _contentRect = PYRectCombine(_contentRect, _sub.frame);
-    }
-}
-
-- (void)_decelerateAnimationTimerHandler:(id)sender
-{
-    CGFloat _horFn = _decelerateInitSpeed.width * powf(PYScrollDecelerateStepRate, _currentStepPiece);
-    CGFloat _verFn = _decelerateInitSpeed.height * powf(PYScrollDecelerateStepRate, _currentStepPiece);
-    _currentStepPiece += 1;
-    
-    if ( _currentStepPiece == _maxStepPiece ) {
-        _horFn = _willStopOffset.width - _currentDeceleratedOffset.width;
-        _verFn = _willStopOffset.height - _currentDeceleratedOffset.height;
-    } else {
-        _currentDeceleratedOffset.width += _horFn;
-        _currentDeceleratedOffset.height += _verFn;
-    }
-    CGSize _offset = CGSizeMake(_horFn, _verFn);
-    if ( _currentStepPiece > _maxStepPiece ) {
-        [_decelerateTimer invalidate];
-        _decelerateTimer = nil;
-        _isDecelerating = NO;
-        [((NSObject *)self.delegate)
-         tryPerformSelector:@selector(pyScrollViewDidEndDecelerate:)
-         withObject:self];
-    } else {
-        [self _setContentOffset:_offset
-             withAnimatDuration:PYScrollDecelerateDurationPiece];
-    }
-}
-
-- (void)_setContentOffset:(CGSize)contentOffset withAnimatDuration:(CGFloat)duration
-{
-    if ( duration > 0 ) {
-        [CATransaction begin];
-        [CATransaction setAnimationDuration:duration];
-        [CATransaction
-         setAnimationTimingFunction:
-         [CAMediaTimingFunction
-          functionWithName:kCAMediaTimingFunctionLinear]];
-    }
-    //[self _visiableSectionsMoveWithOffset:_offset];
-    for ( UIView *_sub in self.subviews ) {
-        CGRect _sFrame = _sub.frame;
-        _sFrame.origin.x += contentOffset.width;
-        _sFrame.origin.y += contentOffset.height;
-        [_sub setFrame:_sFrame];
-    }
-    
-    if ( duration > 0 ) {
-        [CATransaction commit];
-    }
-}
-
 - (void)setContentOffset:(CGSize)contentOffset animated:(BOOL)animated
 {
-    CGFloat _duration = (animated ? .175 : 0.f);
-    [self _setContentOffset:contentOffset withAnimatDuration:_duration];
+    CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
+    CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
+    CGSize _movingOffset = CGSizeMake(_stopPoint.width - _currentPoint.width,
+                                      _stopPoint.height - _currentPoint.height);
+    if ( animated ) {
+        [self animatedScrollWithOffsetDistance:_movingOffset
+                              withinTimePieces:PYScrollDirectOffsetTimePiece];
+    } else {
+        [self setMovingOffset:_movingOffset withAnimatDuration:0];
+    }
 }
 
 - (void)scrollToTop
@@ -239,7 +212,8 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
     } else {
         [self
          setContentOffset:CGSizeMake(_contentOffset.width,
-                                     self.bounds.size.height - _contentSize.height)
+                                     _contentSize.height -
+                                     self.bounds.size.height)
          animated:YES];
     }
 }
@@ -249,8 +223,8 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
         [self scrollToLeft];
     } else {
         [self
-         setContentOffset:CGSizeMake(
-                                     self.bounds.size.width - _contentSize.width,
+         setContentOffset:CGSizeMake(_contentSize.width -
+                                     self.bounds.size.width,
                                      _contentOffset.height)
          animated:YES];
     }
@@ -258,51 +232,26 @@ CGFloat const            PYScrollDecelerateDurationPiece    = .025f;
 
 - (void)addSubview:(UIView *)view
 {
-    [super addSubview:view];
-    if ( CGRectIsEmpty(_contentRect) ) {
-        _contentRect = view.frame;
+    if ( view == _contentView ) {
+        [super addSubview:view];
     } else {
-        _contentRect = PYRectCombine(_contentRect, view.frame);
+        [_contentView addSubview:view];
     }
 }
 
 - (void)insertSubview:(UIView *)view aboveSubview:(UIView *)siblingSubview
 {
-    [super insertSubview:view aboveSubview:siblingSubview];
-    if ( CGRectIsEmpty(_contentRect) ) {
-        _contentRect = view.frame;
-    } else {
-        _contentRect = PYRectCombine(_contentRect, view.frame);
-    }
+    [_contentView insertSubview:view aboveSubview:siblingSubview];
 }
 
 - (void)insertSubview:(UIView *)view atIndex:(NSInteger)index
 {
-    [super insertSubview:view atIndex:index];
-    if ( CGRectIsEmpty(_contentRect) ) {
-        _contentRect = view.frame;
-    } else {
-        _contentRect = PYRectCombine(_contentRect, view.frame);
-    }
+    [_contentView insertSubview:view atIndex:index];
 }
 
 - (void)insertSubview:(UIView *)view belowSubview:(UIView *)siblingSubview
 {
-    [super insertSubview:view belowSubview:siblingSubview];
-    if ( CGRectIsEmpty(_contentRect) ) {
-        _contentRect = view.frame;
-    } else {
-        _contentRect = PYRectCombine(_contentRect, view.frame);
-    }
-}
-
-- (void)willRemoveSubview:(UIView *)subview
-{
-    [super willRemoveSubview:subview];
-    // Inside one...do nothing, side one, resize
-    if ( !CGRectContainsRect(_contentRect, subview.frame) ) {
-        [self _generateContentRect];
-    }
+    [_contentView insertSubview:view belowSubview:siblingSubview];
 }
 
 - (BOOL)willScrollWithMovingDistance:(CGSize)movingDistance

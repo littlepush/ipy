@@ -70,14 +70,14 @@ static NSString *_networkImages[10];
 {
 #ifdef __PYIMAGEVIEW_TEST__
     _contentImageView = [PYImageView object];
-    [_contentImageView setFrame:CGRectMake(10.f, 10.f, 300.f, 300.f)];
+    [_contentImageView setFrame:CGRectMake(10.f, 10.f, [UIScreen mainScreen].applicationFrame.size.width, 300.f)];
     [_contentImageView setBackgroundColor:[UIColor colorWithWhite:.75 alpha:.5]];
     [_contentImageView setDropShadowColor:[UIColor darkGrayColor]];
     [_contentImageView setDropShadowOffset:CGSizeMake(0, 7.f)];
     [_contentImageView setDropShadowOpacity:.7f];
     [_contentImageView setDropShadowRadius:7.f];
     [_contentImageView setDropShadowPath:[UIBezierPath bezierPathWithRect:_contentImageView.bounds]];
-    [_contentImageView setContentMode:UIViewContentModeScaleAspectFit];
+    [_contentImageView setContentMode:UIViewContentModeScaleAspectFill];
     [self addSubview:_contentImageView];
 #else
     _uiImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.f, 10.f, 300.f, 300.f)];

@@ -22,9 +22,9 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-#import "PYResponderView.h"
+#import "PYTableView.h"
 
-@interface PYSlider : PYResponderView
+@interface PYSlider : PYTableView
 
 @end
 

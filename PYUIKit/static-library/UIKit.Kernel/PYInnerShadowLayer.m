@@ -71,12 +71,12 @@
                       MAX(_shadowPadding.left, _shadowPadding.right),
                       MAX(_shadowPadding.top, _shadowPadding.bottom)
                       );
-    _noShadowRect.origin.x -= ABS(_maxPadding - _shadowPadding.left);
-    _noShadowRect.origin.y -= (ABS(_maxPadding - _shadowPadding.top) + 1);
-    _noShadowRect.size.width += ABS(_maxPadding - _shadowPadding.left);
-    _noShadowRect.size.width += ABS(_maxPadding - _shadowPadding.right);
-    _noShadowRect.size.height += ABS(_maxPadding - _shadowPadding.top);
-    _noShadowRect.size.height += (ABS(_maxPadding - _shadowPadding.bottom) + 1);
+    _noShadowRect.origin.x -= PYABSF(_maxPadding - _shadowPadding.left);
+    _noShadowRect.origin.y -= (PYABSF(_maxPadding - _shadowPadding.top) + 1);
+    _noShadowRect.size.width += PYABSF(_maxPadding - _shadowPadding.left);
+    _noShadowRect.size.width += PYABSF(_maxPadding - _shadowPadding.right);
+    _noShadowRect.size.height += PYABSF(_maxPadding - _shadowPadding.top);
+    _noShadowRect.size.height += (PYABSF(_maxPadding - _shadowPadding.bottom) + 1);
     
     // Create the no shadow path
     _innerShadowPath = [UIBezierPath

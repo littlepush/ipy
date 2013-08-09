@@ -55,8 +55,6 @@
 		E67CE0E517A7E1C7009BC886 /* PYScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CE0E317A7E1C7009BC886 /* PYScrollView.m */; };
 		E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = E67CE0E617A7E23A009BC886 /* PYTableView.h */; };
 		E67CE0E917A7E23A009BC886 /* PYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CE0E717A7E23A009BC886 /* PYTableView.m */; };
-		E67CE0EC17A7E24D009BC886 /* PYLoopView.h in Headers */ = {isa = PBXBuildFile; fileRef = E67CE0EA17A7E24D009BC886 /* PYLoopView.h */; };
-		E67CE0ED17A7E24D009BC886 /* PYLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CE0EB17A7E24D009BC886 /* PYLoopView.m */; };
 		E67F68C0179EE33B0086F03C /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
 		E67F68C3179EE37D0086F03C /* PYLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C1179EE37D0086F03C /* PYLayer.h */; };
 		E67F68C4179EE37D0086F03C /* PYLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68C2179EE37D0086F03C /* PYLayer.m */; };
@@ -73,9 +71,13 @@
 		E69B1EC317AA3E2100158033 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69B1EC217AA3E2100158033 /* OpenGLES.framework */; };
 		E69B1EC417AA3E4F00158033 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FF115B4327100DCF831 /* ImageIO.framework */; };
 		E69B1EC617AA3E6E00158033 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69B1EC517AA3E6E00158033 /* CoreImage.framework */; };
+		E69CC5C517B246EA00288631 /* PYScrollView+SideAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = E69CC5C317B246EA00288631 /* PYScrollView+SideAnimation.h */; };
+		E69CC5C617B246EA00288631 /* PYScrollView+SideAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E69CC5C417B246EA00288631 /* PYScrollView+SideAnimation.m */; };
 		E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6BC1BE717A023C300D480E2 /* PYResponderView.h */; };
 		E6BC1BEA17A023C300D480E2 /* PYResponderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6BC1BE817A023C300D480E2 /* PYResponderView.m */; };
 		E6D57F3E15F5A8C400C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8515B42B1400DCF831 /* Foundation.framework */; };
+		E6D9166E17B346230021D73D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166C17B346230021D73D /* icon.png */; };
+		E6D9166F17B346230021D73D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166D17B346230021D73D /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,8 +144,6 @@
 		E67CE0E317A7E1C7009BC886 /* PYScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYScrollView.m; sourceTree = "<group>"; };
 		E67CE0E617A7E23A009BC886 /* PYTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTableView.h; sourceTree = "<group>"; };
 		E67CE0E717A7E23A009BC886 /* PYTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYTableView.m; sourceTree = "<group>"; };
-		E67CE0EA17A7E24D009BC886 /* PYLoopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLoopView.h; sourceTree = "<group>"; };
-		E67CE0EB17A7E24D009BC886 /* PYLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLoopView.m; sourceTree = "<group>"; };
 		E67F68C1179EE37D0086F03C /* PYLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYLayer.h; sourceTree = "<group>"; };
 		E67F68C2179EE37D0086F03C /* PYLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYLayer.m; sourceTree = "<group>"; };
 		E67F68C5179EE4E90086F03C /* PYStaticLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYStaticLayer.h; sourceTree = "<group>"; };
@@ -160,11 +160,15 @@
 		E67F68DB179EEB9C0086F03C /* PYInnerShadowLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYInnerShadowLayer.m; sourceTree = "<group>"; };
 		E69B1EC217AA3E2100158033 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E69B1EC517AA3E6E00158033 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		E69CC5C317B246EA00288631 /* PYScrollView+SideAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYScrollView+SideAnimation.h"; sourceTree = "<group>"; };
+		E69CC5C417B246EA00288631 /* PYScrollView+SideAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PYScrollView+SideAnimation.m"; sourceTree = "<group>"; };
 		E6A3871315B5468D0096A14A /* PYCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PYCore.framework; path = System/Library/Frameworks/PYCore.framework; sourceTree = SDKROOT; };
 		E6BC1BE717A023C300D480E2 /* PYResponderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYResponderView.h; sourceTree = "<group>"; };
 		E6BC1BE817A023C300D480E2 /* PYResponderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYResponderView.m; sourceTree = "<group>"; };
 		E6D57F3D15F5A8C400C1ED25 /* libPYUIKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYUIKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D57F4115F5A8C400C1ED25 /* PYUIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYUIKit-Prefix.pch"; sourceTree = "<group>"; };
+		E6D9166C17B346230021D73D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		E6D9166D17B346230021D73D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +267,8 @@
 		E66E466E17A3847600D1FF55 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E6D9166C17B346230021D73D /* icon.png */,
+				E6D9166D17B346230021D73D /* icon@2x.png */,
 				E66E466F17A3847600D1FF55 /* UIKitDemo-Info.plist */,
 				E66E467017A3847600D1FF55 /* InfoPlist.strings */,
 				E66E467317A3847600D1FF55 /* main.m */,
@@ -278,7 +284,6 @@
 			isa = PBXGroup;
 			children = (
 				E67CE0E117A7E1B9009BC886 /* Scroll */,
-				E67CE0DC17A7E1AB009BC886 /* Slider */,
 				E67CE0D717A7E19D009BC886 /* Switcher */,
 				E67CE0D617A7E15F009BC886 /* Button */,
 				E66E46E417A7A94D00D1FF55 /* Label */,
@@ -341,24 +346,17 @@
 			name = Switcher;
 			sourceTree = "<group>";
 		};
-		E67CE0DC17A7E1AB009BC886 /* Slider */ = {
-			isa = PBXGroup;
-			children = (
-				E67CE0DD17A7E1B5009BC886 /* PYSlider.h */,
-				E67CE0DE17A7E1B5009BC886 /* PYSlider.m */,
-			);
-			name = Slider;
-			sourceTree = "<group>";
-		};
 		E67CE0E117A7E1B9009BC886 /* Scroll */ = {
 			isa = PBXGroup;
 			children = (
 				E67CE0E217A7E1C7009BC886 /* PYScrollView.h */,
 				E67CE0E317A7E1C7009BC886 /* PYScrollView.m */,
+				E69CC5C317B246EA00288631 /* PYScrollView+SideAnimation.h */,
+				E69CC5C417B246EA00288631 /* PYScrollView+SideAnimation.m */,
 				E67CE0E617A7E23A009BC886 /* PYTableView.h */,
 				E67CE0E717A7E23A009BC886 /* PYTableView.m */,
-				E67CE0EA17A7E24D009BC886 /* PYLoopView.h */,
-				E67CE0EB17A7E24D009BC886 /* PYLoopView.m */,
+				E67CE0DD17A7E1B5009BC886 /* PYSlider.h */,
+				E67CE0DE17A7E1B5009BC886 /* PYSlider.m */,
 			);
 			name = Scroll;
 			sourceTree = "<group>";
@@ -432,6 +430,7 @@
 			files = (
 				E67F68C3179EE37D0086F03C /* PYLayer.h in Headers */,
 				E67F68C7179EE4E90086F03C /* PYStaticLayer.h in Headers */,
+				E69CC5C517B246EA00288631 /* PYScrollView+SideAnimation.h in Headers */,
 				E67F68CB179EE56C0086F03C /* PYView.h in Headers */,
 				E67F68D0179EE6040086F03C /* UIColor+PYUIKit.h in Headers */,
 				E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */,
@@ -453,7 +452,6 @@
 				E67CE0DF17A7E1B5009BC886 /* PYSlider.h in Headers */,
 				E67CE0E417A7E1C7009BC886 /* PYScrollView.h in Headers */,
 				E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */,
-				E67CE0EC17A7E24D009BC886 /* PYLoopView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,8 +526,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6D9166F17B346230021D73D /* icon@2x.png in Resources */,
 				E66E467217A3847600D1FF55 /* InfoPlist.strings in Resources */,
 				E66E467A17A3847600D1FF55 /* Default.png in Resources */,
+				E6D9166E17B346230021D73D /* icon.png in Resources */,
 				E66E467C17A3847600D1FF55 /* Default@2x.png in Resources */,
 				E66E467E17A3847600D1FF55 /* Default-568h@2x.png in Resources */,
 				E66E468417A3847600D1FF55 /* PYViewController.xib in Resources */,
@@ -566,6 +566,7 @@
 				E66E46A717A57DB800D1FF55 /* PYImageView.m in Sources */,
 				E66E46AC17A57E2000D1FF55 /* UIImage+UIKit.m in Sources */,
 				E66E46C917A6641500D1FF55 /* PYLabelLayer.m in Sources */,
+				E69CC5C617B246EA00288631 /* PYScrollView+SideAnimation.m in Sources */,
 				E66E46CD17A71C7A00D1FF55 /* PYLabel.m in Sources */,
 				E66E46D217A71F5D00D1FF55 /* PYRichText.m in Sources */,
 				E66E46D617A71F7B00D1FF55 /* PYRichText+Label.m in Sources */,
@@ -577,7 +578,6 @@
 				E67CE0E017A7E1B5009BC886 /* PYSlider.m in Sources */,
 				E67CE0E517A7E1C7009BC886 /* PYScrollView.m in Sources */,
 				E67CE0E917A7E23A009BC886 /* PYTableView.m in Sources */,
-				E67CE0ED17A7E24D009BC886 /* PYLoopView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,7 +682,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UIKitDemo/UIKitDemo-Prefix.pch";
 				INFOPLIST_FILE = "UIKitDemo/UIKitDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -704,7 +704,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UIKitDemo/UIKitDemo-Prefix.pch";
 				INFOPLIST_FILE = "UIKitDemo/UIKitDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

@@ -91,8 +91,8 @@ BOOL PYIsRectJoined( CGRect r1, CGRect r2 )
         (r2.origin.y + r2.size.height / 2)
     };
     
-    BOOL _widthCheck = (ABS(_c2.x - _c1.x) <= ((r1.size.width + r2.size.width) / 2));
-    BOOL _heightCheck = (ABS(_c2.y - _c1.y) <= ((r1.size.height + r2.size.height) / 2));
+    BOOL _widthCheck = (PYABSF(_c2.x - _c1.x) <= ((r1.size.width + r2.size.width) / 2));
+    BOOL _heightCheck = (PYABSF(_c2.y - _c1.y) <= ((r1.size.height + r2.size.height) / 2));
     return ( _widthCheck && _heightCheck );
 }
 

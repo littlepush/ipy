@@ -19,6 +19,8 @@
     self.viewController = [[PYViewController alloc] initWithNibName:@"PYViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+    
     return YES;
 }
 

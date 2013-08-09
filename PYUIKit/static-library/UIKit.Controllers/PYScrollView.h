@@ -50,20 +50,40 @@ extern CGFloat const            PYScrollDecelerateDurationPiece;
 @interface PYScrollView : PYResponderView
 {
     @private
+    NSMutableArray              *_subContentList;
+    UIView                      *_contentView;
     CGSize                      _contentSize;
     CGRect                      _contentRect;
     PYScrollDirection           _scrllSide;
     CGSize                      _contentOffset;
     UIEdgeInsets                _contentInsets;
+    
+    BOOL                        _bounceHor;
+    BOOL                        _bounceVer;
+    
     // Decelerate Speed, default is normal.
     PYDecelerateSpeed           _decelerateSpeed;
+    
+    // Status & Timer
+    BOOL                        _willBounceBack;
+    NSTimer                     *_decelerateTimer;
+    
+    // Pre-calculate info
     CGSize                      _willStopOffset;
+    CGSize                      _willBounceOffset;
+
+    // For decelerate animated/time handler.
     CGSize                      _decelerateInitSpeed;
+    CGSize                      _currentDeceleratedOffset;
     int                         _currentStepPiece;
     int                         _maxStepPiece;
-    CGSize                      _currentDeceleratedOffset;
-    NSTimer                     *_decelerateTimer;
-    BOOL                        _isDecelerating;
+    
+    // Make current scroll view to support loop scroll,
+    // I will use a double-cache machanism (according to the content size, maybe more caches)
+    // Default is NO, and is not availabe in scroll view.
+    // In develop mode with source code, one can include PYScrollView+SideAnimation.h to
+    // Enable this feature.
+    BOOL                        _loopSupported;
 }
 
 // The delegate to get the callback.
@@ -76,7 +96,7 @@ extern CGFloat const            PYScrollDecelerateDurationPiece;
 @property (nonatomic, assign)   PYScrollDirection                   scrollSide;
 
 // Get the content size ( combine all subview's frame )
-@property (nonatomic, readonly) CGSize                              contentSize;
+@property (nonatomic, assign)   CGSize                              contentSize;
 
 // Get current content offset.
 @property (nonatomic, readonly) CGSize                              contentOffset;
@@ -91,6 +111,10 @@ extern CGFloat const            PYScrollDecelerateDurationPiece;
 // You can modify this value to make the scroll to decelerate and stop
 // at a different position.
 @property (nonatomic, assign)   CGSize                              willStopOffset;
+
+// Always bounce setting
+@property (nonatomic, assign)   BOOL                                alwaysBounceVertical;
+@property (nonatomic, assign)   BOOL                                alwaysBounceHorizontal;
 
 // Specified message to redirect the content offset.
 - (void)scrollToTop;

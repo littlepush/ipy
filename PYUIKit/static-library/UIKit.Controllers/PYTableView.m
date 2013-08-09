@@ -23,6 +23,7 @@
  */
 
 #import "PYTableView.h"
+#import "PYScrollView+SideAnimation.h"
 
 @implementation PYTableView
 
