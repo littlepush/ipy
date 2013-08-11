@@ -25,21 +25,39 @@
 #import "PYScrollView.h"
 #import "PYScrollView+SideAnimation.h"
 
-CGFloat const       PYScrollDecelerateDuration         = 3.f;
-CGFloat const       PYScrollDecelerateDurationPiece    = .01f;
-NSUInteger const    PYScrollDecelerateTimePiece        = (int)(PYScrollDecelerateDuration /
-                                                               PYScrollDecelerateDurationPiece);
-CGFloat const       PYScrollDirectOffsetDuration       = .175;
-NSUInteger const    PYScrollDirectOffsetTimePiece      = (int)(PYScrollDirectOffsetDuration /
-                                                               PYScrollDecelerateDurationPiece);
-CGFloat const       PYScrollDecelerateStepRate         = .95f;
+CGFloat const       PYScrollDecelerateDuration          = 3.f;
+CGFloat const       PYScrollDecelerateDurationPiece     = .01f;
+CGFloat const       PYScrollDecelerateNeedBounceDuration= .35f;
+CGFloat const       PYScrollBounceBackDuration          = .2f;
+NSUInteger const    PYScrollDecelerateTimePiece         = (int)(PYScrollDecelerateDuration /
+                                                                PYScrollDecelerateDurationPiece);
+CGFloat const       PYScrollDirectOffsetDuration        = .175;
+NSUInteger const    PYScrollDirectOffsetTimePiece       = (int)(PYScrollDirectOffsetDuration /
+                                                                PYScrollDecelerateDurationPiece);
+CGFloat const       PYScrollDecelerateStepRate          = .95f;
 
 @implementation PYScrollView
 
 @synthesize scrollSide = _scrllSide;
 @synthesize decelerateSpeed = _decelerateSpeed;
-@synthesize alwaysBounceHorizontal = _bounceHor;
-@synthesize alwaysBounceVertical = _bounceVer;
+@dynamic alwaysBounceHorizontal;
+- (BOOL)alwaysBounceHorizontal
+{
+    return _bounceStatus[0];
+}
+- (void)setAlwaysBounceHorizontal:(BOOL)alwaysBounceHorizontal
+{
+    _bounceStatus[0] = alwaysBounceHorizontal;
+}
+@dynamic alwaysBounceVertical;
+- (BOOL)alwaysBounceVertical
+{
+    return _bounceStatus[1];
+}
+- (void)setAlwaysBounceVertical:(BOOL)alwaysBounceVertical
+{
+    _bounceStatus[1] = alwaysBounceVertical;
+}
 
 // Dynamic properities setter.
 - (void)setContentSize:(CGSize)contentSize
@@ -118,8 +136,9 @@ CGFloat const       PYScrollDecelerateStepRate         = .95f;
         if ( (_scrllSide & PYScrollVerticalis) == 0 ) _initDecelerateSpeed.height = 0;
         
         // Calculate the decelerate distance.
-        [self calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:_initDecelerateSpeed];
-        
+        [self calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:_initDecelerateSpeed
+                                                    decelerateDuration:&_decelerateDuration
+                                                        bounceDuration:&_bounceDuration];
         // Ask if we should continue with these setting.
         _willDecelerate = [self willScrollWithMovingDistance:_willStopOffset];
     }
@@ -133,7 +152,7 @@ CGFloat const       PYScrollDecelerateStepRate         = .95f;
     if ( _willDecelerate == NO ) return;
     
     [self animatedScrollWithOffsetDistance:_willStopOffset
-                          withinTimePieces:PYScrollDecelerateTimePiece];
+                          withinTimePieces:_SCROLL_TIME_PIECE_(_decelerateDuration)];
 }
 
 - (void)_actionTouchPenHandler:(id)sender event:(PYViewEvent *)event
@@ -163,8 +182,7 @@ CGFloat const       PYScrollDecelerateStepRate         = .95f;
     _willStopOffset = CGSizeZero;
     _contentRect = CGRectZero;
     _loopSupported = NO;
-    _bounceHor = YES;
-    _bounceVer = YES;
+    _bounceStatus[0] = _bounceStatus[1] = YES;
     
     _contentView = [UIView object];
     [self addSubview:_contentView];

@@ -38,7 +38,13 @@
 }
 
 - (void)calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:(CGSize)initSpeed
+                                              decelerateDuration:(CGFloat *)dduration
+                                                  bounceDuration:(CGFloat *)bduration
 {
+    // for default
+    if ( dduration == NULL ) return;
+    *dduration = PYScrollDecelerateDuration;
+    
     _willBounceBack = NO;
     CGFloat _horDistance = [PYResponderView
                             distanceToMoveWithInitSpeed:initSpeed.width
@@ -66,41 +72,55 @@
                                                _contentSize.width,
                                                _contentSize.height);
     BOOL _needBounceBack = !PYIsRectInside(_minimalVisiableFrame, _predirectContentFrame);
-    PYLog(@"Need Bounce Back: %@", (_needBounceBack ? @"YES" : @"NO"));
     // Just scroll it!
     if ( _needBounceBack == NO ) return;
-    CGSize _currentPoint = CGSizeMake(-_contentOffset.width,
-                                      -_contentOffset.height);
     
-    CGFloat _horFinalVisiablePosition = 0.f;
-    if ( _minimalVisiableFrame.size.width < _bounds.size.width ) {
-        _horFinalVisiablePosition = 0.f;
-    } else {
-        if ( _predirectContentFrame.origin.x > 0 ) _horFinalVisiablePosition = 0;
-        else _horFinalVisiablePosition = _contentSize.width - _bounds.size.width;
-    }
+    CGPoint _currentPoint = CGPointMake(-_contentOffset.width,
+                                       -_contentOffset.height);
+    CGPoint _predirectPoint = _predirectContentFrame.origin;
     
-    CGFloat _verFinalVisiablePosition = 0.f;
-    if ( _minimalVisiableFrame.size.height < _bounds.size.height ) {
-        _verFinalVisiablePosition = 0.f;
-    } else {
-        if ( _predirectContentFrame.origin.y > 0 ) _verFinalVisiablePosition = 0;
-        else _verFinalVisiablePosition = _contentSize.height - _bounds.size.height;
-    }
-    
-    if ( _bounceHor == NO ) {
-        _willStopOffset.width = (_contentOffset.width - _horFinalVisiablePosition);
-    } else {
-        CGFloat _toBoundsDistance = 0.f;
-    }
-    
-    if ( _bounceVer == NO ) {
-        _willStopOffset.height = (_contentOffset.height - _verFinalVisiablePosition);
-    } else {
+#define _SIDE(__point__)                    (((float *)(&__point__))[i])
+#define _BOUNCE_STATUE_                     (_bounceStatus[i])
+    // calculate each side.
+    _willBounceOffset = CGSizeZero;
+    for ( int i = 0; i < 2; ++i ) {
+        CGFloat _finalVisiablePosition = 0.f;
+        // Get the final stop position.
+        if ( _SIDE(_minimalVisiableFrame.size) < _SIDE(_bounds.size) ) {
+            _finalVisiablePosition = 0.f;
+        } else {
+            if ( _SIDE(_predirectPoint) > 0 ) _finalVisiablePosition = 0;
+            else _finalVisiablePosition = _SIDE(_bounds.size) - _SIDE(_contentSize);
+        }
         
+        // calculate the reentry point
+        if ( _BOUNCE_STATUE_ == NO ) {
+            _SIDE(_willStopOffset) = (_SIDE(_contentOffset) - _finalVisiablePosition);
+            *dduration = PYScrollDecelerateDuration;
+        } else {
+            CGFloat _tmp = ((_SIDE(_currentPoint) - _finalVisiablePosition) *
+                            (_SIDE(_predirectPoint) - _finalVisiablePosition));
+            if ( _tmp > 0 ) {
+                // Already overhead
+                CGFloat _distance = _SIDE(_predirectPoint) - _SIDE(_currentPoint);
+                _distance = PYINDICATION_F(powf(PYABSF(_distance), .4), _distance);
+                _SIDE(_willStopOffset) = _distance;
+                _SIDE(_willBounceOffset) = -(_SIDE(_currentPoint) - _finalVisiablePosition + _distance);
+                *dduration = PYScrollBounceBackDuration / 2;
+            } else {
+                CGFloat _step1 = _finalVisiablePosition - _SIDE(_currentPoint);
+                CGFloat _step2 = _SIDE(_predirectPoint) - _finalVisiablePosition;
+                _step2 = PYINDICATION_F(pow(PYABSF(_step2), .4), _step2);
+                _SIDE(_willStopOffset) = _step1 + _step2;
+                _SIDE(_willBounceOffset) = -_step2;
+                *dduration = PYScrollDecelerateNeedBounceDuration;
+            }
+            *bduration = PYScrollBounceBackDuration;
+        }
     }
+    
     // check if need bounce back.
-    _willBounceBack = ((_bounceVer | _bounceHor) & _needBounceBack);
+    _willBounceBack = ((_bounceStatus[0] | _bounceStatus[1]) & _needBounceBack);
 }
 
 - (void)reorderContentViewCache
@@ -146,7 +166,7 @@
         _willBounceBack = NO;
         // Todo... bounce back.
         [self animatedScrollWithOffsetDistance:_willBounceOffset
-                              withinTimePieces:60];
+                              withinTimePieces:_SCROLL_TIME_PIECE_(_bounceDuration)];
     } else {
         // We did stop the animation.
         [((NSObject *)self.delegate)

@@ -44,6 +44,8 @@ typedef enum {
 
 extern NSUInteger const         PYScrollDecelerateTimePiece;
 extern CGFloat const            PYScrollDecelerateStepRate;
+extern CGFloat const            PYScrollDecelerateNeedBounceDuration;
+extern CGFloat const            PYScrollBounceBackDuration;
 extern CGFloat const            PYScrollDecelerateDuration;
 extern CGFloat const            PYScrollDecelerateDurationPiece;
 
@@ -58,8 +60,7 @@ extern CGFloat const            PYScrollDecelerateDurationPiece;
     CGSize                      _contentOffset;
     UIEdgeInsets                _contentInsets;
     
-    BOOL                        _bounceHor;
-    BOOL                        _bounceVer;
+    BOOL                        _bounceStatus[2];
     
     // Decelerate Speed, default is normal.
     PYDecelerateSpeed           _decelerateSpeed;
@@ -71,6 +72,8 @@ extern CGFloat const            PYScrollDecelerateDurationPiece;
     // Pre-calculate info
     CGSize                      _willStopOffset;
     CGSize                      _willBounceOffset;
+    CGFloat                     _decelerateDuration;
+    CGFloat                     _bounceDuration;
 
     // For decelerate animated/time handler.
     CGSize                      _decelerateInitSpeed;

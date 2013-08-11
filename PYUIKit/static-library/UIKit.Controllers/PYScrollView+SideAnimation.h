@@ -24,6 +24,8 @@
 
 #import "PYScrollView.h"
 
+#define _SCROLL_TIME_PIECE_(T)                          (int)(((float)T) / PYScrollDecelerateDurationPiece)
+
 @interface PYScrollView (SideAnimation)
 
 // Make the content stop when arrive the side. set it to NO for further
@@ -36,7 +38,9 @@
 // use direct mathmatic function to get the resutl.
 // If not loop-able, and after calculation, the content will out-of-bounds,
 // set the jelly-effective to be enabled.
-- (void)calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:(CGSize)initSpeed;
+- (void)calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:(CGSize)initSpeed
+                                              decelerateDuration:(CGFloat *)dduration
+                                                  bounceDuration:(CGFloat *)bduration;
 
 // Reorder the content caches, according to the content size.
 - (void)reorderContentViewCache;

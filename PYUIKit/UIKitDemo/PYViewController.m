@@ -76,16 +76,14 @@
     [_scrollView setBackgroundColor:[UIColor grayColor]];
     [self.view addSubview:_scrollView];
     
-    PYView *_s1 = [PYView object];
-    [_s1 setFrame:CGRectMake(0, 0, 320, 120.f)];
-    [_s1 setBackgroundColor:[UIColor redColor]];
-    PYView *_s2 = [PYView object];
-    [_s2 setFrame:CGRectMake(0, 120.f, 320.f, 120.f)];
-    [_s2 setBackgroundColor:[UIColor greenColor]];
-    [_scrollView addSubview:_s1];
-    [_scrollView addSubview:_s2];
+    for ( int i = 0; i < 10; ++i ) {
+        PYView *_s = [PYView object];
+        [_s setFrame:CGRectMake(0, 120 * i, 320, 120)];
+        [_s setBackgroundColor:[UIColor randomColor]];
+        [_scrollView addSubview:_s];
+    }
     [_scrollView setScrollSide:PYScrollVerticalis];
-    [_scrollView setContentSize:CGSizeMake(320.f, 240.f)];
+    [_scrollView setContentSize:CGSizeMake(320.f, 1200.f)];
     [_scrollView setAlwaysBounceVertical:YES];
 }
 
