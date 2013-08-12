@@ -48,6 +48,7 @@ extern CGFloat const            PYScrollDecelerateNeedBounceDuration;
 extern CGFloat const            PYScrollBounceBackDuration;
 extern CGFloat const            PYScrollDecelerateDuration;
 extern CGFloat const            PYScrollDecelerateDurationPiece;
+extern CGFloat const            PYScrollOverheadRate;
 
 @interface PYScrollView : PYResponderView
 {

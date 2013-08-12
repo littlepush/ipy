@@ -35,6 +35,7 @@ CGFloat const       PYScrollDirectOffsetDuration        = .175;
 NSUInteger const    PYScrollDirectOffsetTimePiece       = (int)(PYScrollDirectOffsetDuration /
                                                                 PYScrollDecelerateDurationPiece);
 CGFloat const       PYScrollDecelerateStepRate          = .95f;
+CGFloat const       PYScrollOverheadRate                = .5;
 
 @implementation PYScrollView
 

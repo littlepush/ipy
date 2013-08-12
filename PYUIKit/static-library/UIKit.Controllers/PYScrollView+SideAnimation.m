@@ -103,14 +103,14 @@
             if ( _tmp > 0 ) {
                 // Already overhead
                 CGFloat _distance = _SIDE(_predirectPoint) - _SIDE(_currentPoint);
-                _distance = PYINDICATION_F(powf(PYABSF(_distance), .4), _distance);
+                _distance = PYINDICATION_F(powf(PYABSF(_distance), PYScrollOverheadRate), _distance);
                 _SIDE(_willStopOffset) = _distance;
                 _SIDE(_willBounceOffset) = -(_SIDE(_currentPoint) - _finalVisiablePosition + _distance);
                 *dduration = PYScrollBounceBackDuration / 2;
             } else {
                 CGFloat _step1 = _finalVisiablePosition - _SIDE(_currentPoint);
                 CGFloat _step2 = _SIDE(_predirectPoint) - _finalVisiablePosition;
-                _step2 = PYINDICATION_F(pow(PYABSF(_step2), .4), _step2);
+                _step2 = PYINDICATION_F(pow(PYABSF(_step2), PYScrollOverheadRate), _step2);
                 _SIDE(_willStopOffset) = _step1 + _step2;
                 _SIDE(_willBounceOffset) = -_step2;
                 *dduration = PYScrollDecelerateNeedBounceDuration;
