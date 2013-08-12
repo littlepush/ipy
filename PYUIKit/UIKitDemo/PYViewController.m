@@ -76,15 +76,17 @@
     [_scrollView setBackgroundColor:[UIColor grayColor]];
     [self.view addSubview:_scrollView];
     
-    for ( int i = 0; i < 10; ++i ) {
+    for ( int i = 0; i < 20; ++i ) {
         PYView *_s = [PYView object];
         [_s setFrame:CGRectMake(0, 120 * i, 320, 120)];
         [_s setBackgroundColor:[UIColor randomColor]];
         [_scrollView addSubview:_s];
     }
     [_scrollView setScrollSide:PYScrollVerticalis];
-    [_scrollView setContentSize:CGSizeMake(320.f, 1200.f)];
+    [_scrollView setContentSize:CGSizeMake(320.f, 120 * 20)];
     [_scrollView setAlwaysBounceVertical:YES];
+    [_scrollView setPagable:YES];
+    [_scrollView setPageSize:CGSizeMake(320.f, 120.f)];
 }
 
 //- (UIStatusBarStyle)preferredStatusBarStyle

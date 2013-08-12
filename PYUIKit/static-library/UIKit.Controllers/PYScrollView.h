@@ -35,11 +35,11 @@ typedef enum {
 
 typedef enum {
     PYDecelerateSpeedZero                   = 0,        // Disable the decelerate, Stop immediately
-    PYDecelerateSpeedVerySlow               = 10,
-    PYDecelerateSpeedSlow                   = 15,
-    PYDecelerateSpeedNormal                 = 20,       // Default decelerate speed.
-    PYDecelerateSpeedFast                   = 25,
-    PYDecelerateSpeedVeryFast               = 30
+    PYDecelerateSpeedVerySlow               = 5,
+    PYDecelerateSpeedSlow                   = 10,
+    PYDecelerateSpeedNormal                 = 15,       // Default decelerate speed.
+    PYDecelerateSpeedFast                   = 20,
+    PYDecelerateSpeedVeryFast               = 25
 } PYDecelerateSpeed;
 
 extern NSUInteger const         PYScrollDecelerateTimePiece;
@@ -82,6 +82,11 @@ extern CGFloat const            PYScrollOverheadRate;
     int                         _currentStepPiece;
     int                         _maxStepPiece;
     
+    // Pagable
+    // The paging property will affect the decelerate distance.
+    CGSize                      _pageSize;
+    BOOL                        _pagable;
+    
     // Make current scroll view to support loop scroll,
     // I will use a double-cache machanism (according to the content size, maybe more caches)
     // Default is NO, and is not availabe in scroll view.
@@ -89,6 +94,9 @@ extern CGFloat const            PYScrollOverheadRate;
     // Enable this feature.
     BOOL                        _loopSupported;
 }
+
+// Get the content view's class, default is UIView.
++ (Class)contentViewClass;
 
 // The delegate to get the callback.
 @property (nonatomic, assign)   id<PYScrollViewDelegate>            delegate;
@@ -109,6 +117,10 @@ extern CGFloat const            PYScrollOverheadRate;
 
 // The content insets
 @property (nonatomic, assign)   UIEdgeInsets                        contentInsets;
+
+// Page
+@property (nonatomic, assign)   CGSize                              pageSize;
+@property (nonatomic, assign, setter = setPagable:) BOOL            isPagable;
 
 // When the scroll end scroll and prepare for decelerating, this
 // property will be set to tell where the content will stop.

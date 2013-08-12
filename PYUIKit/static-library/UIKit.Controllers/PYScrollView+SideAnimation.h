@@ -43,7 +43,9 @@
                                                   bounceDuration:(CGFloat *)bduration;
 
 // Reorder the content caches, according to the content size.
-- (void)reorderContentViewCache;
+- (void)willMoveToOffsetWithDistance:(CGSize)distance;
+- (void)didMoveToOffsetWithDistance:(CGSize)distance;
+//- (void)reorderContentViewCache;
 
 // Animated scroll to specified offset within time.
 - (void)animatedScrollWithOffsetDistance:(CGSize)offsetDistance

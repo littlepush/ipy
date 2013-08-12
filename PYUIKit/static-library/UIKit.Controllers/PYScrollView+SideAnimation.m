@@ -41,6 +41,8 @@
                                               decelerateDuration:(CGFloat *)dduration
                                                   bounceDuration:(CGFloat *)bduration
 {
+#define _SIDE(__point__)                    (((float *)(&__point__))[i])
+#define _BOUNCE_STATUE_                     (_bounceStatus[i])
     // for default
     if ( dduration == NULL ) return;
     *dduration = PYScrollDecelerateDuration;
@@ -55,7 +57,21 @@
                             stepRate:PYScrollDecelerateStepRate
                             timePieces:PYScrollDecelerateTimePiece];
     
+    CGRect _predirectContentFrame = CGRectMake(
+                                               -(_contentOffset.width - _horDistance),
+                                               -(_contentOffset.height - _verDistance),
+                                               _contentSize.width,
+                                               _contentSize.height);
     _willStopOffset = CGSizeMake(_horDistance, _verDistance);
+    if ( _pagable == YES && (_pageSize.width * _pageSize.height) != 0.f ) {
+        for ( int i = 0; i < 2; ++i ) {
+            if ( _SIDE(_pageSize) == 0 ) continue;
+            CGFloat _position = _SIDE(_predirectContentFrame.origin);
+            int _pages = (int)(_position / _SIDE(_pageSize));
+            CGFloat _stopPosition = _pages * _SIDE(_pageSize);
+            _SIDE(_willStopOffset) += (_stopPosition - _position);
+        }
+    }
     
     // If current scroll view support loop, the stop offset is what we will stop place.
     if ( _loopSupported == YES ) return;
@@ -66,11 +82,6 @@
     CGRect _minimalVisiableFrame = CGRectMake(0, 0,
                                               MIN(_bounds.size.width, _contentSize.width),
                                               MIN(_bounds.size.height, _contentSize.height));
-    CGRect _predirectContentFrame = CGRectMake(
-                                               -(_contentOffset.width - _horDistance),
-                                               -(_contentOffset.height - _verDistance),
-                                               _contentSize.width,
-                                               _contentSize.height);
     BOOL _needBounceBack = !PYIsRectInside(_minimalVisiableFrame, _predirectContentFrame);
     // Just scroll it!
     if ( _needBounceBack == NO ) return;
@@ -79,8 +90,6 @@
                                        -_contentOffset.height);
     CGPoint _predirectPoint = _predirectContentFrame.origin;
     
-#define _SIDE(__point__)                    (((float *)(&__point__))[i])
-#define _BOUNCE_STATUE_                     (_bounceStatus[i])
     // calculate each side.
     _willBounceOffset = CGSizeZero;
     for ( int i = 0; i < 2; ++i ) {
@@ -121,11 +130,6 @@
     
     // check if need bounce back.
     _willBounceBack = ((_bounceStatus[0] | _bounceStatus[1]) & _needBounceBack);
-}
-
-- (void)reorderContentViewCache
-{
-    
 }
 
 - (void)animatedScrollWithOffsetDistance:(CGSize)offsetDistance
@@ -209,7 +213,12 @@
          setAnimationTimingFunction:
          [CAMediaTimingFunction
           functionWithName:kCAMediaTimingFunctionLinear]];
+        [CATransaction setCompletionBlock:^{
+            [self didMoveToOffsetWithDistance:contentOffset];
+        }];
     }
+    
+    [self willMoveToOffsetWithDistance:contentOffset];
     
     //[self _visiableSectionsMoveWithOffset:_offset];
     CATransform3D _transform = _contentView.layer.transform;
@@ -218,6 +227,10 @@
     // Set the content offset.
     _contentOffset.width -= contentOffset.width;
     _contentOffset.height -= contentOffset.height;
+    
+    if ( duration == 0 ) {
+        [self didMoveToOffsetWithDistance:contentOffset];
+    }
     
     // Tell the delegate we are moving...
     [((NSObject *)self.delegate)
@@ -229,6 +242,15 @@
     }
 }
 
+- (void)willMoveToOffsetWithDistance:(CGSize)distance
+{
+    
+}
+
+- (void)didMoveToOffsetWithDistance:(CGSize)distance
+{
+    
+}
 
 @end
 

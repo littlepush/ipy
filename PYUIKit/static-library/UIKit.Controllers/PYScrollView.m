@@ -27,7 +27,7 @@
 
 CGFloat const       PYScrollDecelerateDuration          = 3.f;
 CGFloat const       PYScrollDecelerateDurationPiece     = .01f;
-CGFloat const       PYScrollDecelerateNeedBounceDuration= .35f;
+CGFloat const       PYScrollDecelerateNeedBounceDuration= .15f;
 CGFloat const       PYScrollBounceBackDuration          = .2f;
 NSUInteger const    PYScrollDecelerateTimePiece         = (int)(PYScrollDecelerateDuration /
                                                                 PYScrollDecelerateDurationPiece);
@@ -35,9 +35,14 @@ CGFloat const       PYScrollDirectOffsetDuration        = .175;
 NSUInteger const    PYScrollDirectOffsetTimePiece       = (int)(PYScrollDirectOffsetDuration /
                                                                 PYScrollDecelerateDurationPiece);
 CGFloat const       PYScrollDecelerateStepRate          = .95f;
-CGFloat const       PYScrollOverheadRate                = .5;
+CGFloat const       PYScrollOverheadRate                = .45;
 
 @implementation PYScrollView
+
++ (Class)contentViewClass
+{
+    return [UIView class];
+}
 
 @synthesize scrollSide = _scrllSide;
 @synthesize decelerateSpeed = _decelerateSpeed;
@@ -58,6 +63,12 @@ CGFloat const       PYScrollOverheadRate                = .5;
 - (void)setAlwaysBounceVertical:(BOOL)alwaysBounceVertical
 {
     _bounceStatus[1] = alwaysBounceVertical;
+}
+@synthesize pageSize = _pageSize;
+@synthesize isPagable = _pagable;
+- (void)setPagable:(BOOL)pagable
+{
+    _pagable = pagable;
 }
 
 // Dynamic properities setter.
@@ -182,10 +193,14 @@ CGFloat const       PYScrollOverheadRate                = .5;
     _contentInsets = UIEdgeInsetsZero;
     _willStopOffset = CGSizeZero;
     _contentRect = CGRectZero;
+    _pageSize = CGSizeZero;
+    _pagable = NO;
     _loopSupported = NO;
     _bounceStatus[0] = _bounceStatus[1] = YES;
     
-    _contentView = [UIView object];
+    _contentView = (UIView *)[[[self class] contentViewClass] object];
+    PYASSERT([_contentView isKindOfClass:[UIView class]],
+             @"The content view class must be a subclass of UIView");
     [self addSubview:_contentView];
 
     [self setClipsToBounds:YES];
