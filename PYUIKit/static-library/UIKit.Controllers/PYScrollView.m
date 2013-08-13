@@ -71,18 +71,80 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _pagable = pagable;
 }
 
-// Dynamic properities setter.
 - (void)setContentSize:(CGSize)contentSize
 {
+    [self setContentSize:contentSize animated:NO];
+}
+
+// Dynamic properities setter.
+- (void)setContentSize:(CGSize)contentSize animated:(BOOL)animated
+{
     _contentSize = contentSize;
-    CGRect _ctntFrame = _contentView.frame;
-    _ctntFrame.size = contentSize;
-    [_contentView setFrame:_ctntFrame];
+    
+    for ( int i = 0; i < 2; ++i ) {
+        int _rate = _SIDE(_contentOffset) / _SIDE(contentSize);
+        CGFloat _max = _SIDE(contentSize) * _rate;
+        _SIDE(_contentOffset) -= _max;
+    }
+    
+    CGSize _appendSize = contentSize;
+    if ( (_scrllSide & PYScrollHorizontal) > 0 ) {
+        _appendSize.height = 0;
+    } else {
+        _appendSize.width = 0;
+    }
+    
+    _coverFrame = CGRectZero;
+    for ( int i = 0; i < [_subContentList count]; ++i ) {
+        UIView *_sc = [_subContentList safeObjectAtIndex:i];
+        CGRect _sf = CGRectMake(i * _appendSize.width,
+                                i * _appendSize.height,
+                                contentSize.width,
+                                contentSize.height);
+        [_sc setFrame:_sf];
+        _coverFrame = PYRectCombine(_coverFrame, _sf);
+    }
+    _coverFrame.origin.x -= _contentOffset.width;
+    _coverFrame.origin.y -= _contentOffset.height;
+    
+    // Animate to move the view.
+    if ( animated ) {
+        [UIView beginAnimations:@"ContentSize" context:nil];
+        [UIView setAnimationDuration:.175];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    }
+    for ( UIView *_sc in _subContentList ) {
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+        _sc.layer.transform = CATransform3DMakeTranslation(-_contentOffset.width,
+                                                           -_contentOffset.height,
+                                                           0);
+#else
+        _sc.transform = CGAffineTransformMakeTranslation(-_contentOffset.width,
+                                                         -_contentOffset.height);
+#endif
+    }
+    if ( animated ) {
+        [UIView commitAnimations];
+    }
 }
 
 - (void)setContentOffset:(CGSize)contentOffset
 {
     [self setContentOffset:contentOffset animated:NO];
+}
+
+- (void)setContentOffset:(CGSize)contentOffset animated:(BOOL)animated
+{
+    CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
+    CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
+    CGSize _movingOffset = CGSizeMake(_stopPoint.width - _currentPoint.width,
+                                      _stopPoint.height - _currentPoint.height);
+    if ( animated ) {
+        [self animatedScrollWithOffsetDistance:_movingOffset
+                              withinTimePieces:PYScrollDirectOffsetTimePiece];
+    } else {
+        [self setMovingOffset:_movingOffset withAnimatDuration:0];
+    }
 }
 
 - (void)setContentInsets:(UIEdgeInsets)contentInsets
@@ -151,8 +213,6 @@ CGFloat const       PYScrollOverheadRate                = .45;
         [self calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:_initDecelerateSpeed
                                                     decelerateDuration:&_decelerateDuration
                                                         bounceDuration:&_bounceDuration];
-        // Ask if we should continue with these setting.
-        _willDecelerate = [self willScrollWithMovingDistance:_willStopOffset];
     }
     
     // Tell the delegate.
@@ -197,10 +257,12 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _pagable = NO;
     _loopSupported = NO;
     _bounceStatus[0] = _bounceStatus[1] = YES;
+    _subContentList = [NSMutableArray array];
     
     _contentView = (UIView *)[[[self class] contentViewClass] object];
     PYASSERT([_contentView isKindOfClass:[UIView class]],
              @"The content view class must be a subclass of UIView");
+    [_subContentList addObject:_contentView];
     [self addSubview:_contentView];
 
     [self setClipsToBounds:YES];
@@ -217,30 +279,19 @@ CGFloat const       PYScrollOverheadRate                = .45;
   forResponderEvent:PYResponderEventPen];
 }
 
-- (void)setContentOffset:(CGSize)contentOffset animated:(BOOL)animated
-{
-    CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
-    CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
-    CGSize _movingOffset = CGSizeMake(_stopPoint.width - _currentPoint.width,
-                                      _stopPoint.height - _currentPoint.height);
-    if ( animated ) {
-        [self animatedScrollWithOffsetDistance:_movingOffset
-                              withinTimePieces:PYScrollDirectOffsetTimePiece];
-    } else {
-        [self setMovingOffset:_movingOffset withAnimatDuration:0];
-    }
-}
-
 - (void)scrollToTop
 {
+    if ( _loopSupported == YES ) return;
     [self setContentOffset:CGSizeMake(_contentOffset.width, 0) animated:YES];
 }
 - (void)scrollToLeft
 {
+    if ( _loopSupported == YES ) return;
     [self setContentOffset:CGSizeMake(0, _contentOffset.height) animated:YES];
 }
 - (void)scrollToBottom
 {
+    if ( _loopSupported == YES ) return;
     if ( _contentSize.height < self.bounds.size.height ) {
         [self scrollToTop];
     } else {
@@ -253,6 +304,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 }
 - (void)scrollToRight
 {
+    if ( _loopSupported == YES ) return;
     if ( _contentSize.width < self.bounds.size.width ) {
         [self scrollToLeft];
     } else {
@@ -266,7 +318,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
 - (void)addSubview:(UIView *)view
 {
-    if ( view == _contentView ) {
+    if ( [_subContentList containsObject:view] ) {
         [super addSubview:view];
     } else {
         [_contentView addSubview:view];
@@ -275,23 +327,29 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
 - (void)insertSubview:(UIView *)view aboveSubview:(UIView *)siblingSubview
 {
-    [_contentView insertSubview:view aboveSubview:siblingSubview];
+    if ( [_subContentList containsObject:view] ) {
+        [super insertSubview:view aboveSubview:siblingSubview];
+    } else {
+        [_contentView insertSubview:view aboveSubview:siblingSubview];
+    }
 }
 
 - (void)insertSubview:(UIView *)view atIndex:(NSInteger)index
 {
-    [_contentView insertSubview:view atIndex:index];
+    if ( [_subContentList containsObject:view] ) {
+        [super insertSubview:view atIndex:index];
+    } else {
+        [_contentView insertSubview:view atIndex:index];
+    }
 }
 
 - (void)insertSubview:(UIView *)view belowSubview:(UIView *)siblingSubview
 {
-    [_contentView insertSubview:view belowSubview:siblingSubview];
-}
-
-- (BOOL)willScrollWithMovingDistance:(CGSize)movingDistance
-{
-    // nothing to do in super class
-    return YES;
+    if ( [_subContentList containsObject:view] ) {
+        [super insertSubview:view belowSubview:siblingSubview];
+    } else {
+        [_contentView insertSubview:view belowSubview:siblingSubview];
+    }
 }
 
 @end

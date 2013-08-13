@@ -23,6 +23,8 @@
  */
 
 #import "PYScrollView+SideAnimation.h"
+#import "UIColor+PYUIKit.h"
+#import "PYUIKitMacro.h"
 
 @implementation PYScrollView (SideAnimation)
 
@@ -41,8 +43,6 @@
                                               decelerateDuration:(CGFloat *)dduration
                                                   bounceDuration:(CGFloat *)bduration
 {
-#define _SIDE(__point__)                    (((float *)(&__point__))[i])
-#define _BOUNCE_STATUE_                     (_bounceStatus[i])
     // for default
     if ( dduration == NULL ) return;
     *dduration = PYScrollDecelerateDuration;
@@ -206,6 +206,8 @@
 
 - (void)setMovingOffset:(CGSize)contentOffset withAnimatDuration:(CGFloat)duration
 {
+    //DUMPFloat(contentOffset.height);
+    [self willMoveToOffsetWithDistance:contentOffset];
     if ( duration > 0 ) {
         [CATransaction begin];
         [CATransaction setAnimationDuration:duration];
@@ -213,20 +215,33 @@
          setAnimationTimingFunction:
          [CAMediaTimingFunction
           functionWithName:kCAMediaTimingFunctionLinear]];
+        __block PYScrollView *_bss = self;
         [CATransaction setCompletionBlock:^{
-            [self didMoveToOffsetWithDistance:contentOffset];
+            [_bss didMoveToOffsetWithDistance:contentOffset];
         }];
     }
     
-    [self willMoveToOffsetWithDistance:contentOffset];
-    
     //[self _visiableSectionsMoveWithOffset:_offset];
-    CATransform3D _transform = _contentView.layer.transform;
-    _transform = CATransform3DTranslate(_transform, contentOffset.width, contentOffset.height, 0);
-    [_contentView.layer setTransform:_transform];
+    for ( UIView *_sc in _subContentList ) {
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+        CATransform3D _transform = _sc.layer.transform;
+        _transform = CATransform3DTranslate(_transform, contentOffset.width, contentOffset.height, 0);
+        [_sc.layer setTransform:_transform];
+#else
+        CGAffineTransform _transform = _sc.transform;
+        _transform = CGAffineTransformTranslate(_transform, contentOffset.width, contentOffset.height);
+        [_sc setTransform:_transform];
+#endif
+        //DUMPRect(_sc.frame);
+    }
+    
     // Set the content offset.
     _contentOffset.width -= contentOffset.width;
     _contentOffset.height -= contentOffset.height;
+    
+    // Change the cover frame origin.
+    _coverFrame.origin.x += contentOffset.width;
+    _coverFrame.origin.y += contentOffset.height;
     
     if ( duration == 0 ) {
         [self didMoveToOffsetWithDistance:contentOffset];
@@ -242,14 +257,112 @@
     }
 }
 
+@dynamic subContentViews;
+- (NSArray *)subContentViews
+{
+    return _subContentList;
+}
+
 - (void)willMoveToOffsetWithDistance:(CGSize)distance
 {
+    // Calculate the cover frame
+    // If not fill the bounds
+    // load more content view
+    // if fill all, do nothing, just tell the child view
+    // we will move.
     
+    CGRect _fakeCoverFrame = _coverFrame;
+    _fakeCoverFrame.origin.x += distance.width;
+    _fakeCoverFrame.origin.y += distance.height;
+    
+    while ( !PYIsRectInside(self.bounds, _fakeCoverFrame) ) {
+        UIView *_sc = [[[self class] contentViewClass] object];
+        [_sc setBackgroundColor:[UIColor whiteColor]];
+        if ( _fakeCoverFrame.origin.x > 0 || _fakeCoverFrame.origin.y > 0 ) {
+            // Insert
+            UIView *_fsc = (UIView *)[_subContentList safeObjectAtIndex:0];
+            CGRect _sf = _fsc.frame;
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+            CATransform3D _t = _fsc.layer.transform;
+            _sf.origin.x -= _t.m41;
+            _sf.origin.y -= _t.m42;
+#else
+            CGAffineTransform _t = _fsc.transform;
+            _sf.origin.x -= _t.tx;
+            _sf.origin.y -= _t.ty;
+#endif
+            if ( (_scrllSide & PYScrollHorizontal) > 0 ) {
+                _sf.origin.x -= _sf.size.width;
+                _fakeCoverFrame.origin.x -= _sf.size.width;
+                _fakeCoverFrame.size.width += _sf.size.width;
+                _coverFrame.origin.x -= _sf.size.width;
+                _coverFrame.size.width += _sf.size.width;
+            } else {
+                _sf.origin.y -= _sf.size.height;
+                _fakeCoverFrame.origin.y -= _sf.size.height;
+                _fakeCoverFrame.size.height += _sf.size.height;
+                _coverFrame.origin.y -= _sf.size.height;
+                _coverFrame.size.height += _sf.size.height;
+            }
+            [_sc setFrame:_sf];
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+            [_sc.layer setTransform:_fsc.layer.transform];
+#else
+            [_sc setTransform:_fsc.transform];
+#endif
+            [_subContentList insertObject:_sc atIndex:0];
+        } else {
+            // Append
+            UIView *_lsc = (UIView *)[_subContentList lastObject];
+            CGRect _sf = _lsc.frame;
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+            CATransform3D _t = _lsc.layer.transform;
+            _sf.origin.x -= _t.m41;
+            _sf.origin.y -= _t.m42;
+#else
+            CGAffineTransform _t = _lsc.transform;
+            _sf.origin.x -= _t.tx;
+            _sf.origin.y -= _t.ty;
+#endif
+            if ( (_scrllSide & PYScrollHorizontal) > 0 ) {
+                _sf.origin.x += _sf.size.width;
+                _fakeCoverFrame.size.width += _sf.size.width;
+                _coverFrame.size.width += _sf.size.width;
+            } else {
+                _sf.origin.y += _sf.size.height;
+                _fakeCoverFrame.size.height += _sf.size.height;
+                _coverFrame.size.height += _sf.size.height;
+            }
+            [_sc setFrame:_sf];
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+            [_sc.layer setTransform:_lsc.layer.transform];
+#else
+            [_sc setTransform:_lsc.transform];
+#endif
+            [_subContentList addObject:_sc];
+        }
+        [self addSubview:_sc];
+    }
 }
 
 - (void)didMoveToOffsetWithDistance:(CGSize)distance
 {
+    // Calculate the cover frame
+    // Whether or not need to remove a previous content view.
+    // Then tell the child we have been moved.
     
+    /*
+     
+     _coverFrame += distance
+     for each sub content view {
+        if sub content view is out of bounds {
+            remove sub content view
+            _coverFrame -= contentSize
+        }
+     }
+     content offset = first sub content view's offset.
+     
+     */
 }
 
 @end
