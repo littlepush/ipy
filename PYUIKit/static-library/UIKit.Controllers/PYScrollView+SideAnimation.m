@@ -271,13 +271,14 @@
     // if fill all, do nothing, just tell the child view
     // we will move.
     
+    if ( _loopSupported != YES ) return;
     CGRect _fakeCoverFrame = _coverFrame;
     _fakeCoverFrame.origin.x += distance.width;
     _fakeCoverFrame.origin.y += distance.height;
     
     while ( !PYIsRectInside(self.bounds, _fakeCoverFrame) ) {
         UIView *_sc = [[[self class] contentViewClass] object];
-        [_sc setBackgroundColor:[UIColor whiteColor]];
+        [_sc setBackgroundColor:self.backgroundColor];
         if ( _fakeCoverFrame.origin.x > 0 || _fakeCoverFrame.origin.y > 0 ) {
             // Insert
             UIView *_fsc = (UIView *)[_subContentList safeObjectAtIndex:0];
@@ -351,6 +352,7 @@
     // Whether or not need to remove a previous content view.
     // Then tell the child we have been moved.
     
+    if ( _loopSupported != YES ) return;
     /*
      
      _coverFrame += distance

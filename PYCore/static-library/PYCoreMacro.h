@@ -202,6 +202,12 @@ extern "C" {
      Skip the iCloud Backup
      */
     BOOL __skipFileFromiCloudBackup(NSURL *url);
+    
+    /*
+     For iOS 7 Beta 5 Assert Macro output clean...
+     Call this function at application launch.
+     */
+    void __iOS7B5CleanConsoleOutput(void);
 
 #ifdef __cplusplus
 }
@@ -222,6 +228,7 @@ extern "C" {
 #define PYDEVICEMODELNAME   (__currentDeviceModelName())
 #define PYHUMANSIZE(b)      (__bytesToHumanReadableString(b))
 #define PYSKIPICLOUD(f)     (__skipFileFromiCloudBackup([NSURL fileURLWithPath:(f)]))
+#define PYCLEANCONSOLE      (__iOS7B5CleanConsoleOutput())
 
 #ifdef DEBUG
 #    define PYLog(f, ...)	__formatLogLine(__FILE__, __FUNCTION__,                         \
