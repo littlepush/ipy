@@ -26,7 +26,7 @@
 
 @interface PYSlider : PYScrollView
 {
-    NSUInteger              _pageCount;
+    NSUInteger                      _pageCount;
 }
 
 @end

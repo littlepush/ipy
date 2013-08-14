@@ -45,8 +45,10 @@
 // Controllers
 #import "PYImageLayer.h"
 #import "PYImageView.h"
+#import "PYAnimator.h"
 #import "PYLabelLayer.h"
 #import "PYLabel.h"
+#import "PYBillBoard.h"
 #import "PYSwitcher.h"
 #import "PYScrollView.h"
 // -- Rich.Text
