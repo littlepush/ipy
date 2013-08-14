@@ -24,7 +24,11 @@
 
 #import "PYScrollView.h"
 
-#define _SCROLL_TIME_PIECE_(T)                          (int)(((float)T) / PYScrollDecelerateDurationPiece)
+#define _SCROLL_TIME_PIECE_(T)              (int)(((float)T) / PYScrollDecelerateDurationPiece)
+#define _SIDE(__point__)                    (((float *)(&__point__))[i])
+#define _BOUNCE_STATUE_                     (_bounceStatus[i])
+
+#define _SCROLL_USE_LAYER_TRANSFORM_
 
 @interface PYScrollView (SideAnimation)
 
@@ -42,10 +46,15 @@
                                               decelerateDuration:(CGFloat *)dduration
                                                   bounceDuration:(CGFloat *)bduration;
 
+// Get the content view list. In loop mode,
+// the child class can get this list to determin add sub view
+// to which sub content view.
+@property (nonatomic, readonly) NSArray         *subContentViews;
 // Reorder the content caches, according to the content size.
+// The child class can override these two method with a super call
+// to add more operations.
 - (void)willMoveToOffsetWithDistance:(CGSize)distance;
 - (void)didMoveToOffsetWithDistance:(CGSize)distance;
-//- (void)reorderContentViewCache;
 
 // Animated scroll to specified offset within time.
 - (void)animatedScrollWithOffsetDistance:(CGSize)offsetDistance

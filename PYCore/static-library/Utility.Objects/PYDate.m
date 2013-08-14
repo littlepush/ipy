@@ -226,6 +226,18 @@
     [aCoder encodeInt32:_timestamp forKey:@"PYDateTimeStamp"];
 }
 
+- (id)copy
+{
+    PYDate *_newDate = [PYDate dateFromDate:self];
+    return _newDate;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    PYDate *_newData = [[PYDate allocWithZone:zone] initWithDate:self];
+    return _newData;
+}
+
 // Convert to NSDate
 - (NSDate *)nsDate
 {

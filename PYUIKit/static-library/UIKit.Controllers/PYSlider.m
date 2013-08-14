@@ -23,26 +23,23 @@
  */
 
 #import "PYSlider.h"
+#import "PYScrollView+SideAnimation.h"
 
 @implementation PYSlider
 
-- (id)initWithFrame:(CGRect)frame
+- (void)viewJustBeenCreated
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    [super viewJustBeenCreated];
+    [self setLoopEnabled:YES];
+    [self setPagable:YES];
+    [self setScrollSide:PYScrollVerticalis];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)setFrame:(CGRect)frame
 {
-    // Drawing code
+    [super setFrame:frame];
+    [self setPageSize:frame.size];
 }
-*/
 
 @end
 

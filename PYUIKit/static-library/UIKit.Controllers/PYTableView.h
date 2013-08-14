@@ -24,7 +24,20 @@
 
 #import "PYScrollView.h"
 
+@protocol PYTableViewDatasource;
+@protocol PYTableViewDelegate;
+
+// Pre-define class.
+@class PYTableViewCell;
+
 @interface PYTableView : PYScrollView
+{
+    NSMutableDictionary                 *_cachedCells;
+    
+}
+
+// reload the content data.
+- (void)reloadData;
 
 @end
 

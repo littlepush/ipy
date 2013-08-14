@@ -12,6 +12,7 @@
 
 int main(int argc, char *argv[])
 {
+    PYCLEANCONSOLE;
     @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([PYAppDelegate class]));
     }

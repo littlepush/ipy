@@ -35,7 +35,7 @@ typedef enum {
     PYWeekDaySat
 } PYWeekDay;
 
-@interface PYDate : NSObject<NSCoding>
+@interface PYDate : NSObject<NSCoding, NSCopying>
 {
     NSUInteger                  _year;
     NSUInteger                  _month;

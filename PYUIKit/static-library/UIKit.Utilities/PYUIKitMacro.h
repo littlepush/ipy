@@ -34,6 +34,15 @@
 #define PYFLOATEQUAL( f1, f2 )                  (PYABSF((f1) - (f2)) < 0.001)
 #endif
 
+#ifdef DEBUG
+#define DUMPRect(r)                                                 \
+    __print_logHead(__FUNCTION__, __LINE__);                        \
+    printf("%s:(%f,%f,%f,%f)\n", #r, (r).origin.x, (r).origin.y,\
+            (r).size.width, (r).size.height)
+#else
+#define DUMPRect(r)
+#endif
+
 #endif
 
 // @littlepush

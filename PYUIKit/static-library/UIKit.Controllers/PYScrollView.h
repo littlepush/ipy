@@ -55,6 +55,7 @@ extern CGFloat const            PYScrollOverheadRate;
     @private
     NSMutableArray              *_subContentList;
     UIView                      *_contentView;
+    CGRect                      _coverFrame;
     CGSize                      _contentSize;
     CGRect                      _contentRect;
     PYScrollDirection           _scrllSide;
@@ -109,6 +110,7 @@ extern CGFloat const            PYScrollOverheadRate;
 
 // Get the content size ( combine all subview's frame )
 @property (nonatomic, assign)   CGSize                              contentSize;
+- (void)setContentSize:(CGSize)contentSize animated:(BOOL)animated;
 
 // Get current content offset.
 @property (nonatomic, readonly) CGSize                              contentOffset;
@@ -137,9 +139,6 @@ extern CGFloat const            PYScrollOverheadRate;
 - (void)scrollToLeft;
 - (void)scrollToRight;
 - (void)scrollToBottom;
-
-// For sub-class to override.
-- (BOOL)willScrollWithMovingDistance:(CGSize)movingDistance;
 
 @end
 
