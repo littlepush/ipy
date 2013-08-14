@@ -22,9 +22,12 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-#import "PYTableView.h"
+#import "PYScrollView.h"
 
-@interface PYSlider : PYTableView
+@interface PYSlider : PYScrollView
+{
+    NSUInteger              _pageCount;
+}
 
 @end
 

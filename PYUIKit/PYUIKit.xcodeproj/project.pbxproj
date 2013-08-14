@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E64A8FB417BB30C000B132BA /* PYHUDView+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E64A8FB017BB30C000B132BA /* PYHUDView+Singleton.h */; };
+		E64A8FB517BB30C000B132BA /* PYHUDView+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FB117BB30C000B132BA /* PYHUDView+Singleton.m */; };
+		E64A8FB617BB30C000B132BA /* PYHUDView.h in Headers */ = {isa = PBXBuildFile; fileRef = E64A8FB217BB30C000B132BA /* PYHUDView.h */; };
+		E64A8FB717BB30C000B132BA /* PYHUDView.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FB317BB30C000B132BA /* PYHUDView.m */; };
+		E64A8FB817BB348700B132BA /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
 		E66E466A17A3847600D1FF55 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8315B42B1400DCF831 /* UIKit.framework */; };
 		E66E466B17A3847600D1FF55 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8515B42B1400DCF831 /* Foundation.framework */; };
 		E66E466C17A3847600D1FF55 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8715B42B1400DCF831 /* CoreGraphics.framework */; };
@@ -19,7 +24,6 @@
 		E66E468117A3847600D1FF55 /* PYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E468017A3847600D1FF55 /* PYViewController.m */; };
 		E66E468417A3847600D1FF55 /* PYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E66E468217A3847600D1FF55 /* PYViewController.xib */; };
 		E66E468A17A3848100D1FF55 /* libPYUIKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D57F3D15F5A8C400C1ED25 /* libPYUIKit.a */; };
-		E66E468B17A3848700D1FF55 /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
 		E66E468C17A3851600D1FF55 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FF115B4327100DCF831 /* ImageIO.framework */; };
 		E66E468D17A3851B00D1FF55 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FEF15B4326B00DCF831 /* QuartzCore.framework */; };
 		E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E469A17A57D9600D1FF55 /* PYImageCache.h */; };
@@ -55,7 +59,6 @@
 		E67CE0E517A7E1C7009BC886 /* PYScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CE0E317A7E1C7009BC886 /* PYScrollView.m */; };
 		E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = E67CE0E617A7E23A009BC886 /* PYTableView.h */; };
 		E67CE0E917A7E23A009BC886 /* PYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67CE0E717A7E23A009BC886 /* PYTableView.m */; };
-		E67F68C0179EE33B0086F03C /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A3871315B5468D0096A14A /* PYCore.framework */; };
 		E67F68C3179EE37D0086F03C /* PYLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C1179EE37D0086F03C /* PYLayer.h */; };
 		E67F68C4179EE37D0086F03C /* PYLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E67F68C2179EE37D0086F03C /* PYLayer.m */; };
 		E67F68C7179EE4E90086F03C /* PYStaticLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E67F68C5179EE4E90086F03C /* PYStaticLayer.h */; };
@@ -97,6 +100,10 @@
 		E6263FED15B4326700DCF831 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E6263FEF15B4326B00DCF831 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E6263FF115B4327100DCF831 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		E64A8FB017BB30C000B132BA /* PYHUDView+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYHUDView+Singleton.h"; sourceTree = "<group>"; };
+		E64A8FB117BB30C000B132BA /* PYHUDView+Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PYHUDView+Singleton.m"; sourceTree = "<group>"; };
+		E64A8FB217BB30C000B132BA /* PYHUDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYHUDView.h; sourceTree = "<group>"; };
+		E64A8FB317BB30C000B132BA /* PYHUDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYHUDView.m; sourceTree = "<group>"; };
 		E66E466917A3847600D1FF55 /* UIKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66E466F17A3847600D1FF55 /* UIKitDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UIKitDemo-Info.plist"; sourceTree = "<group>"; };
 		E66E467117A3847600D1FF55 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -176,11 +183,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E64A8FB817BB348700B132BA /* PYCore.framework in Frameworks */,
 				E69B1EC617AA3E6E00158033 /* CoreImage.framework in Frameworks */,
 				E66E468D17A3851B00D1FF55 /* QuartzCore.framework in Frameworks */,
 				E69B1EC317AA3E2100158033 /* OpenGLES.framework in Frameworks */,
 				E66E468C17A3851600D1FF55 /* ImageIO.framework in Frameworks */,
-				E66E468B17A3848700D1FF55 /* PYCore.framework in Frameworks */,
 				E66E468A17A3848100D1FF55 /* libPYUIKit.a in Frameworks */,
 				E66E466A17A3847600D1FF55 /* UIKit.framework in Frameworks */,
 				E66E466B17A3847600D1FF55 /* Foundation.framework in Frameworks */,
@@ -193,7 +200,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E69B1EC417AA3E4F00158033 /* ImageIO.framework in Frameworks */,
-				E67F68C0179EE33B0086F03C /* PYCore.framework in Frameworks */,
 				E6D57F3E15F5A8C400C1ED25 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,6 +255,17 @@
 			path = "static-library";
 			sourceTree = "<group>";
 		};
+		E64A8FAF17BB30C000B132BA /* HUDView */ = {
+			isa = PBXGroup;
+			children = (
+				E64A8FB017BB30C000B132BA /* PYHUDView+Singleton.h */,
+				E64A8FB117BB30C000B132BA /* PYHUDView+Singleton.m */,
+				E64A8FB217BB30C000B132BA /* PYHUDView.h */,
+				E64A8FB317BB30C000B132BA /* PYHUDView.m */,
+			);
+			path = HUDView;
+			sourceTree = "<group>";
+		};
 		E66E466D17A3847600D1FF55 /* UIKitDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +300,7 @@
 		E66E469917A57D1A00D1FF55 /* UIKit.Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E64A8FAF17BB30C000B132BA /* HUDView */,
 				E67CE0E117A7E1B9009BC886 /* Scroll */,
 				E67CE0D717A7E19D009BC886 /* Switcher */,
 				E67CE0D617A7E15F009BC886 /* Button */,
@@ -441,10 +459,12 @@
 				E66E46A617A57DB800D1FF55 /* PYImageView.h in Headers */,
 				E66E46AB17A57E2000D1FF55 /* UIImage+UIKit.h in Headers */,
 				E66E46C817A6641500D1FF55 /* PYLabelLayer.h in Headers */,
+				E64A8FB417BB30C000B132BA /* PYHUDView+Singleton.h in Headers */,
 				E66E46CC17A71C7A00D1FF55 /* PYLabel.h in Headers */,
 				E66E46D117A71F5D00D1FF55 /* PYRichText.h in Headers */,
 				E66E46D517A71F7B00D1FF55 /* PYRichText+Label.h in Headers */,
 				E66E46D917A71F8A00D1FF55 /* PYRichLabel.h in Headers */,
+				E64A8FB617BB30C000B132BA /* PYHUDView.h in Headers */,
 				E66E46DD17A7216800D1FF55 /* UIView+PYUIKit.h in Headers */,
 				E66E46E117A721FA00D1FF55 /* PYView+Animation.h in Headers */,
 				E67CE0D417A7E15B009BC886 /* PYButton.h in Headers */,
@@ -557,6 +577,7 @@
 				E67F68C4179EE37D0086F03C /* PYLayer.m in Sources */,
 				E67F68C8179EE4E90086F03C /* PYStaticLayer.m in Sources */,
 				E67F68CC179EE56C0086F03C /* PYView.m in Sources */,
+				E64A8FB517BB30C000B132BA /* PYHUDView+Singleton.m in Sources */,
 				E67F68D1179EE6040086F03C /* UIColor+PYUIKit.m in Sources */,
 				E67F68D8179EE9DE0086F03C /* PYRectangleCalc.m in Sources */,
 				E67F68DD179EEB9D0086F03C /* PYInnerShadowLayer.m in Sources */,
@@ -572,6 +593,7 @@
 				E66E46D617A71F7B00D1FF55 /* PYRichText+Label.m in Sources */,
 				E66E46DA17A71F8A00D1FF55 /* PYRichLabel.m in Sources */,
 				E66E46DE17A7216800D1FF55 /* UIView+PYUIKit.m in Sources */,
+				E64A8FB717BB30C000B132BA /* PYHUDView.m in Sources */,
 				E66E46E217A721FA00D1FF55 /* PYView+Animation.m in Sources */,
 				E67CE0D517A7E15B009BC886 /* PYButton.m in Sources */,
 				E67CE0DB17A7E1A8009BC886 /* PYSwitcher.m in Sources */,

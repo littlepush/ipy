@@ -27,23 +27,18 @@
 
 @implementation PYTableView
 
-- (id)initWithFrame:(CGRect)frame
+- (void)viewJustBeenCreated
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    [super viewJustBeenCreated];
+    self.scrollSide = PYScrollVerticalis;
+    self.alwaysBounceHorizontal = NO;
+    self.alwaysBounceVertical = YES;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)willMoveToSuperview:(UIView *)newSuperview
 {
-    // Drawing code
+    
 }
-*/
 
 @end
 

@@ -52,6 +52,8 @@
 // -- Rich.Text
 #import "PYRichText.h"
 #import "PYRichLabel.h"
+// -- HUDView
+#import "PYHUDView.h"
 
 #endif
 

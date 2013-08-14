@@ -19,6 +19,8 @@
 		E644D42E1767A59000DFEA20 /* PYSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D42C1767A59000DFEA20 /* PYSemaphore.m */; };
 		E644D4311767A6CC00DFEA20 /* PYMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42F1767A6CC00DFEA20 /* PYMutex.h */; };
 		E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D4301767A6CC00DFEA20 /* PYMutex.m */; };
+		E64A8FAD17BB2B6600B132BA /* PYKVOObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E64A8FAB17BB2B6600B132BA /* PYKVOObject.h */; };
+		E64A8FAE17BB2B6600B132BA /* PYKVOObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FAC17BB2B6600B132BA /* PYKVOObject.m */; };
 		E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68A1764EE1E009294FE /* NSArray+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E64EB68D1764EE1F009294FE /* NSArray+PYCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB68B1764EE1E009294FE /* NSArray+PYCore.m */; };
 		E64EB6901764EE93009294FE /* NSString+PYCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB68E1764EE92009294FE /* NSString+PYCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,6 +88,8 @@
 		E644D42C1767A59000DFEA20 /* PYSemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSemaphore.m; sourceTree = "<group>"; };
 		E644D42F1767A6CC00DFEA20 /* PYMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYMutex.h; sourceTree = "<group>"; };
 		E644D4301767A6CC00DFEA20 /* PYMutex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYMutex.m; sourceTree = "<group>"; };
+		E64A8FAB17BB2B6600B132BA /* PYKVOObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYKVOObject.h; sourceTree = "<group>"; };
+		E64A8FAC17BB2B6600B132BA /* PYKVOObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYKVOObject.m; sourceTree = "<group>"; };
 		E64EB68A1764EE1E009294FE /* NSArray+PYCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PYCore.h"; sourceTree = "<group>"; };
 		E64EB68B1764EE1E009294FE /* NSArray+PYCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PYCore.m"; sourceTree = "<group>"; };
 		E64EB68E1764EE92009294FE /* NSString+PYCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PYCore.h"; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 		E64EB6971764F1C8009294FE /* Utility Objects */ = {
 			isa = PBXGroup;
 			children = (
+				E64A8FAB17BB2B6600B132BA /* PYKVOObject.h */,
+				E64A8FAC17BB2B6600B132BA /* PYKVOObject.m */,
 				E64EB6981764F1EF009294FE /* PYDate.h */,
 				E64EB6991764F1EF009294FE /* PYDate.m */,
 				E64EB69C1764F27E009294FE /* PYLocalizedString.h */,
@@ -324,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E64F409C17088CEF0037BB6B /* NSObject+PYCore.h in Headers */,
+				E64A8FAD17BB2B6600B132BA /* PYKVOObject.h in Headers */,
 				E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */,
 				E64EB6901764EE93009294FE /* NSString+PYCore.h in Headers */,
 				E64EB6951764EF82009294FE /* PYEncoder.h in Headers */,
@@ -458,6 +465,7 @@
 				E644D42617679BB000DFEA20 /* PYSocketJob.m in Sources */,
 				E644D42A17679C6B00DFEA20 /* PYSocketJobQueue.m in Sources */,
 				E644D42E1767A59000DFEA20 /* PYSemaphore.m in Sources */,
+				E64A8FAE17BB2B6600B132BA /* PYKVOObject.m in Sources */,
 				E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */,
 				E6389E0E1796FA940096B452 /* PYSocketJobDispatcher.m in Sources */,
 				E6389E121796FAA50096B452 /* PYSocketJobList.m in Sources */,
@@ -631,6 +639,7 @@
 				E66E465D17A251D900D1FF55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E6AE342315B1896000AFBA96 /* Build configuration list for PBXProject "PYCore" */ = {
 			isa = XCConfigurationList;
