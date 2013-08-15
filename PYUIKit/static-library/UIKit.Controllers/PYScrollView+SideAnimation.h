@@ -34,7 +34,7 @@
 
 // Make the content stop when arrive the side. set it to NO for further
 // feature.
-@property (nonatomic, assign, setter = setLoopEnabled:) BOOL        isLoopEnabled;
+@property (nonatomic, assign, setter = setSupportLoop:) BOOL        isLoopEnabled;
 
 // This is a ... function! Which is designed to calculate the decelerate
 // distance according to the init speed and current statue.

@@ -50,8 +50,11 @@
 #import "PYLabel.h"
 #import "PYBillBoard.h"
 #import "PYSwitcher.h"
-#import "PYScrollView.h"
 #import "PYHitCover.h"
+// -- Scroll
+#import "PYScrollView.h"
+#import "PYTableView.h"
+#import "PYTableViewCell.h"
 // -- Rich.Text
 #import "PYRichText.h"
 #import "PYRichLabel.h"

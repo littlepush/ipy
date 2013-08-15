@@ -1,8 +1,8 @@
 //
-//  PYSlider.m
+//  PYTableView+Content.h
 //  PYUIKit
 //
-//  Created by Push Chen on 7/30/13.
+//  Created by Push Chen on 8/15/13.
 //  Copyright (c) 2013 Push Lab. All rights reserved.
 //
 
@@ -22,24 +22,19 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-#import "PYSlider.h"
-#import "PYScrollView+SideAnimation.h"
+#import "PYTableView.h"
 
-@implementation PYSlider
+@interface PYTableView (Content)
 
-- (void)viewJustBeenCreated
-{
-    [super viewJustBeenCreated];
-    [self setSupportLoop:NO];
-    [self setPagable:YES];
-    [self setScrollSide:PYScrollVerticalis];
-}
+// Clear all content cells.
+- (void)clearContents;
 
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-    [self setPageSize:frame.size];
-}
+// Get the cell at specified index from the datasource.
+- (PYTableViewCell *)getCellAtIndexFromDataSource:(NSInteger)index;
+
+// Enqueue & Dequeue the cell.
+- (void)enqueueCellForReuse:(PYTableViewCell *)cell;
+- (PYTableViewCell *)dequeueCellWithSpecifiedReuseIdentify:(NSString *)identify;
 
 @end
 

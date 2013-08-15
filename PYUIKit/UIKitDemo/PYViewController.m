@@ -62,6 +62,7 @@
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view, typically from a nib.
+    /*
     _tableView = [UITableView object];
     [_tableView setDataSource:self];
     [_tableView setDelegate:self];
@@ -87,6 +88,16 @@
     [_scrollView setAlwaysBounceVertical:YES];
     [_scrollView setPagable:YES];
     [_scrollView setPageSize:CGSizeMake(320.f, 120.f)];
+     */
+    
+    _pyTableView = [PYTableView object];
+    [_pyTableView setDataSource:self];
+    CGRect _tf = [UIScreen mainScreen].bounds;
+    [_pyTableView setFrame:_tf];
+    [_pyTableView setLoopEnabled:YES];
+    [_pyTableView setPageSize:CGSizeMake(320.f, 120.f)];
+    [_pyTableView setPagable:YES];
+    [self.view addSubview:_pyTableView];
 }
 
 //- (UIStatusBarStyle)preferredStatusBarStyle
@@ -130,6 +141,29 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PYPhotoListCell *_cell = (PYPhotoListCell *)cell;
     [_cell rendCellContentWithIdentify:PYIntToString(indexPath.row)];
+}
+
+- (NSInteger)pytableViewNumberOfRows:(PYTableView *)tableView
+{
+    return 10;
+}
+
+- (CGFloat)pytableView:(PYTableView *)tableView heightForRowAtIndex:(NSInteger)index
+{
+    return 120.f;
+}
+
+- (PYTableViewCell *)pytableView:(PYTableView *)tableView cellForRowAtIndex:(NSInteger)index
+{
+    static NSString *const _identify = @"TestContentCell";
+    PYTableViewCell *_cell = [tableView dequeueReusableCellWithIdentifier:_identify];
+    if ( _cell == nil ) {
+        _cell = [[PYTableViewCell alloc]
+                 initWithStyle:UITableViewCellStyleDefault
+                 reuseIdentifier:_identify];
+        [_cell setBackgroundColor:[UIColor randomColor]];
+    }
+    return _cell;
 }
 
 @end

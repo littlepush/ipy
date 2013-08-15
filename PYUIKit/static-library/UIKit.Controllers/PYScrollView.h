@@ -24,6 +24,11 @@
 
 #import "PYResponderView.h"
 
+#define _SIDE_ITEM(_item)                                                   \
+    ((float *)(&(_item)))[(int)((self.scrollSide & PYScrollHorizontal) == 0)]
+#define _VSIDE_ITEM(_item)                                                  \
+    ((float *)(&(_item)))[(int)((self.scrollSide & PYScrollHorizontal) != 0)]
+
 // Predefined Delegate
 @protocol PYScrollViewDelegate;
 

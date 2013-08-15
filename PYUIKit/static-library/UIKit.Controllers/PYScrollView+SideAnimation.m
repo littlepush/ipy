@@ -34,7 +34,7 @@
     return _loopSupported;
 }
 
-- (void)setLoopEnabled:(BOOL)isLoopEnabled
+- (void)setSupportLoop:(BOOL)isLoopEnabled
 {
     _loopSupported = isLoopEnabled;
 }
@@ -353,18 +353,29 @@
     // Then tell the child we have been moved.
     
     if ( _loopSupported != YES ) return;
-    /*
-     
-     _coverFrame += distance
-     for each sub content view {
-        if sub content view is out of bounds {
-            remove sub content view
-            _coverFrame -= contentSize
+    
+    NSMutableArray *_removeContentList = [NSMutableArray array];
+    CGRect _myBounds = self.bounds;
+    for ( PYView *_subContentView in _subContentList ) {
+        CGRect _sFrame = _subContentView.frame;
+        if ( PYIsRectJoined(_sFrame, _myBounds) ) {
+            continue;
         }
-     }
-     content offset = first sub content view's offset.
-     
-     */
+        [_removeContentList addObject:_subContentView];
+        
+        if ( _SIDE_ITEM(distance) < 0 ) {
+            // remove top
+            _SIDE_ITEM(_coverFrame.origin) += _SIDE_ITEM(_sFrame.size);
+        } else {
+            // remove bottom
+        }
+        _SIDE_ITEM(_coverFrame.size) -= _SIDE_ITEM(_sFrame.size);
+    }
+    if ( [_removeContentList count] == 0 ) return;
+    for ( PYView *_rContent in _removeContentList ) {
+        [_subContentList removeObject:_rContent];
+        [_rContent removeFromSuperview];
+    }
 }
 
 @end

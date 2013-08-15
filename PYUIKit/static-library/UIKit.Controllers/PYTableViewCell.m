@@ -1,8 +1,8 @@
 //
-//  PYSlider.m
+//  PYTableViewCell.m
 //  PYUIKit
 //
-//  Created by Push Chen on 7/30/13.
+//  Created by Push Chen on 8/15/13.
 //  Copyright (c) 2013 Push Lab. All rights reserved.
 //
 
@@ -22,23 +22,27 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-#import "PYSlider.h"
-#import "PYScrollView+SideAnimation.h"
+#import "PYTableViewCell.h"
 
-@implementation PYSlider
+@implementation PYTableViewCell
 
-- (void)viewJustBeenCreated
+@synthesize cellIndex = _cellIndex;
+@synthesize reuseIdentifier = _reuseIdentifier;
+
+// Initialize the cell.
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    [super viewJustBeenCreated];
-    [self setSupportLoop:NO];
-    [self setPagable:YES];
-    [self setScrollSide:PYScrollVerticalis];
+    self = [super init];
+    if ( self ) {
+        _reuseIdentifier = [reuseIdentifier copy];
+    }
+    return self;
 }
 
-- (void)setFrame:(CGRect)frame
+// When deuque the cell, call this.
+- (void)prepareForReuse
 {
-    [super setFrame:frame];
-    [self setPageSize:frame.size];
+    // nothing to do...
 }
 
 @end
