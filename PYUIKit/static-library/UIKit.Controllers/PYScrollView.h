@@ -145,6 +145,10 @@ extern CGFloat const            PYScrollOverheadRate;
 - (void)scrollToRight;
 - (void)scrollToBottom;
 
+// When page enabled, the following methods is available.
+- (void)scrollToNextPage:(BOOL)animated;
+- (void)scrollToPreviousPage:(BOOL)animated;
+
 @end
 
 // The delegate

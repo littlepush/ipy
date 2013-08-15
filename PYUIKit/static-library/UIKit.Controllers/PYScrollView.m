@@ -316,6 +316,21 @@ CGFloat const       PYScrollOverheadRate                = .45;
     }
 }
 
+- (void)scrollToNextPage:(BOOL)animated
+{
+    if ( _pagable == NO ) return;
+    CGSize _ctntOffset = _contentOffset;
+    _SIDE_ITEM(_ctntOffset) += _SIDE_ITEM(_pageSize);
+    [self setContentOffset:_ctntOffset animated:animated];
+}
+- (void)scrollToPreviousPage:(BOOL)animated
+{
+    if ( _pagable == NO ) return;
+    CGSize _ctntOffset = _contentOffset;
+    _SIDE_ITEM(_ctntOffset) -= _SIDE_ITEM(_pageSize);
+    [self setContentOffset:_ctntOffset animated:animated];
+}
+
 - (void)addSubview:(UIView *)view
 {
     if ( [_subContentList containsObject:view] ) {

@@ -98,6 +98,17 @@
     [_pyTableView setPageSize:CGSizeMake(320.f, 120.f)];
     [_pyTableView setPagable:YES];
     [self.view addSubview:_pyTableView];
+    
+    NSTimer *_timer = [NSTimer scheduledTimerWithTimeInterval:3.f
+                                                       target:self
+                                                     selector:@selector(_testTimerHandler:)
+                                                     userInfo:nil
+                                                      repeats:YES];
+}
+
+- (void)_testTimerHandler:(id)sender
+{
+    [_pyTableView scrollToNextPage:YES];
 }
 
 //- (UIStatusBarStyle)preferredStatusBarStyle
