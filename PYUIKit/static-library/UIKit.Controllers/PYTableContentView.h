@@ -22,11 +22,10 @@
  ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
  */
 
-#import "PYView.h"
 #import "PYTableView.h"
 #import "PYTableViewCell.h"
 
-@interface PYTableContentView : PYView
+@interface PYTableContentView : PYResponderView
 {
     CGRect                      _visiableContentFrame;
     CGRect                      _visiableBounds;

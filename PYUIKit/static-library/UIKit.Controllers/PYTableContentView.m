@@ -39,6 +39,7 @@
 - (void)setCellIndex:(NSInteger)index
 {
     _cellIndex = index;
+    [self setTitle:PYIntToString(index)];
 }
 @end
 
@@ -55,8 +56,29 @@
 - (void)viewJustBeenCreated
 {
     [super viewJustBeenCreated];
+    [self setUserInteractionEnabled:YES];
     _visiableContentFrame = CGRectZero;
     _visiableBounds = CGRectZero;
+    
+    [self setEvent:PYResponderEventTap withRestraint:PYResponderRestraintSingleTap];
+    [self addTarget:self
+             action:@selector(_actionTapHandler:event:)
+  forResponderEvent:PYResponderEventTap];
+}
+
+- (void)_actionTapHandler:(PYResponderView *)rView event:(PYViewEvent *)event
+{
+    UITouch *_touch = [event.touches anyObject];
+    CGPoint _point = [_touch locationInView:self];
+    for ( PYTableViewCell *_cell in self.subviews ) {
+        if ( ![_cell isKindOfClass:[PYTableViewCell class]] ) continue;
+        if ( CGRectContainsPoint(_cell.frame, _point) ) {
+            if ( [self.tableView.delegate respondsToSelector:@selector(pytableView:didSelectCellAtIndex:)] ) {
+                [self.tableView.delegate pytableView:self.tableView didSelectCellAtIndex:_cell.cellIndex];
+            }
+            return;
+        }
+    }
 }
 
 - (CGRect)tableViewBoundsToContentOffset
@@ -100,6 +122,12 @@
             if ( _newCell == nil ) return;
             [_newCell setCellIndex:(_currentIndex - 1)];
             // Tell the delegate.
+            if ( [self.tableView.delegate
+                  respondsToSelector:@selector(pytableView:willDisplayCell:atIndex:)] ) {
+                [self.tableView.delegate pytableView:self.tableView
+                                     willDisplayCell:_newCell
+                                             atIndex:_newCell.cellIndex];
+            }
             [self insertSubview:_newCell atIndex:0];
             CGRect _cFrame = _newCell.frame;
             _SIDE_ITEM_C(_visiableContentFrame.origin) -= _SIDE_ITEM_C(_cFrame.size);
@@ -117,6 +145,12 @@
             if ( _newCell == nil ) return;
             [_newCell setCellIndex:(_currentIndex + 1)];
             // Tell the delegate;
+            if ( [self.tableView.delegate
+                  respondsToSelector:@selector(pytableView:willDisplayCell:atIndex:)] ) {
+                [self.tableView.delegate pytableView:self.tableView
+                                     willDisplayCell:_newCell
+                                             atIndex:_newCell.cellIndex];
+            }
             [self addSubview:_newCell];
             CGRect _cFrame = _newCell.frame;
             _SIDE_ITEM_C(_visiableContentFrame.size) += _SIDE_ITEM_C(_cFrame.size);

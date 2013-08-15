@@ -35,8 +35,18 @@
     self = [super init];
     if ( self ) {
         _reuseIdentifier = [reuseIdentifier copy];
+        _testTitleLayer = [PYLabelLayer layer];
+        [_testTitleLayer setFrame:CGRectMake(0, 0, 320.f, 120.f)];
+        [_testTitleLayer setTextAlignment:NSTextAlignmentCenter];
+        [_testTitleLayer setTextFont:[UIFont systemFontOfSize:18.f]];
+        [self addChild:_testTitleLayer];
     }
     return self;
+}
+
+- (void)setTitle:(NSString *)title
+{
+    [_testTitleLayer setText:title];
 }
 
 // When deuque the cell, call this.

@@ -92,6 +92,7 @@
     
     _pyTableView = [PYTableView object];
     [_pyTableView setDataSource:self];
+    [_pyTableView setDelegate:self];
     CGRect _tf = [UIScreen mainScreen].bounds;
     [_pyTableView setFrame:_tf];
     [_pyTableView setLoopEnabled:YES];
@@ -99,11 +100,11 @@
     [_pyTableView setPagable:YES];
     [self.view addSubview:_pyTableView];
     
-    NSTimer *_timer = [NSTimer scheduledTimerWithTimeInterval:3.f
-                                                       target:self
-                                                     selector:@selector(_testTimerHandler:)
-                                                     userInfo:nil
-                                                      repeats:YES];
+//    NSTimer *_timer = [NSTimer scheduledTimerWithTimeInterval:3.f
+//                                                       target:self
+//                                                     selector:@selector(_testTimerHandler:)
+//                                                     userInfo:nil
+//                                                      repeats:YES];
 }
 
 - (void)_testTimerHandler:(id)sender
@@ -175,6 +176,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         [_cell setBackgroundColor:[UIColor randomColor]];
     }
     return _cell;
+}
+
+- (void)pytableView:(PYTableView *)tableView didSelectCellAtIndex:(NSInteger)index
+{
+    PYLog(@"select cell at index: %d", index);
+    DUMPObj([tableView cellForRowAtIndex:index]);
 }
 
 @end

@@ -279,6 +279,7 @@
     while ( !PYIsRectInside(self.bounds, _fakeCoverFrame) ) {
         UIView *_sc = [[[self class] contentViewClass] object];
         [_sc setBackgroundColor:self.backgroundColor];
+        [_sc setClipsToBounds:self.clipsToBounds];
         if ( _fakeCoverFrame.origin.x > 0 || _fakeCoverFrame.origin.y > 0 ) {
             // Insert
             UIView *_fsc = (UIView *)[_subContentList safeObjectAtIndex:0];

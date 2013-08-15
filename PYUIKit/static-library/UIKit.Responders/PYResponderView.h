@@ -81,6 +81,7 @@ typedef enum {
 
 @property (nonatomic, assign)   PYResponderEvent        eventId;
 @property (nonatomic, strong)   NSSet                   *touches;
+@property (nonatomic, strong)   UIEvent                 *sysEvent;
 @property (nonatomic, assign)   CGFloat                 pinchRate;
 @property (nonatomic, assign)   CGFloat                 rotateDeltaArc;
 @property (nonatomic, assign)   CGSize                  movingDeltaDistance;

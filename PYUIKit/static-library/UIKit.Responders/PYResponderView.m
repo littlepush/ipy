@@ -30,6 +30,7 @@
 
 @synthesize eventId;
 @synthesize touches;
+@synthesize sysEvent;
 @synthesize pinchRate;
 @synthesize rotateDeltaArc;
 @synthesize movingDeltaDistance;
@@ -189,6 +190,7 @@
     
     PYViewEvent *_event = [PYViewEvent object];
     _event.touches = [[event touchesForWindow:[UIApplication sharedApplication].keyWindow] copy];
+    _event.sysEvent = event;
     [self _invokeTargetForEvent:PYResponderEventTouchBegin info:_event];
     // Increase the tap count.
     _tapCount += 1;
@@ -269,6 +271,7 @@
     PYViewEvent *_event = [PYViewEvent object];
     _event.hasMoved = YES;
     _event.touches = [[event touchesForWindow:[UIApplication sharedApplication].keyWindow] copy];
+    _event.sysEvent = event;
     [self _invokeTargetForEvent:PYResponderEventTouchMove info:_event];
     // DUMPInt([[event touchesForView:self] count]);
     if ( _isUserIntractiviting == NO ) {
@@ -378,6 +381,7 @@
 {
     PYViewEvent *_event = [PYViewEvent object];
     _event.touches = [[event touchesForWindow:[UIApplication sharedApplication].keyWindow] copy];
+    _event.sysEvent = event;
     _event.movingSpeed = _movingSpeed;
     _event.movingDeltaDistance = CGSizeZero;
     _event.hasMoved = _isUserMoved;
@@ -408,7 +412,8 @@
                           userInfo:_event
                           repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:_lagEventTimer forMode:NSRunLoopCommonModes];
-        return [self.nextResponder touchesEnded:touches withEvent:event];
+        return;
+        //return [self.nextResponder touchesEnded:touches withEvent:event];
     }
     
     if ( (_possibleAction & PYResponderEventPress) > 0 ) {
@@ -437,6 +442,7 @@
 {
     PYViewEvent *_event = [PYViewEvent object];
     _event.touches = [[event touchesForView:self] copy];
+    _event.sysEvent = event;
     [self _invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
     if ( _isUserIntractiviting == NO ) {
         return [self.nextResponder touchesCancelled:touches withEvent:event];
@@ -449,10 +455,13 @@
 - (void)_tapEventHandler:(id)sender
 {
     int _tapId = PYLAST1INDEX(PYResponderEventTap);
+    PYViewEvent *_event = (PYViewEvent *)_lagEventTimer.userInfo;
     unsigned int _tapRestraint = ((0x0000000F << _tapId) & _responderRestraint);
     if ( _tapCount == _tapRestraint ) {
         [self _invokeTargetForEvent:PYResponderEventTap
                                info:(PYViewEvent *)_lagEventTimer.userInfo];
+    } else {
+        [self.nextResponder touchesEnded:_event.touches withEvent:_event.sysEvent];
     }
     _tapCount = 0;
     [_lagEventTimer invalidate];

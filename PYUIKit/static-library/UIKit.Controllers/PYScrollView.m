@@ -161,19 +161,27 @@ CGFloat const       PYScrollOverheadRate                = .45;
 // Override super properties
 - (NSArray *)subviews
 {
-    return [_contentView subviews];
+    NSMutableArray *_subs = [NSMutableArray array];
+    for ( UIView *_ctntView in _subContentList ) {
+        [_subs addObjectsFromArray:_ctntView.subviews];
+    }
+    return _subs;
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:backgroundColor];
-    [_contentView setBackgroundColor:backgroundColor];
+    for ( UIView *_ctntView in _subContentList ) {
+        [_ctntView setBackgroundColor:backgroundColor];
+    }
 }
 
 - (void)setClipsToBounds:(BOOL)clipsToBounds
 {
     [super setClipsToBounds:clipsToBounds];
-    [_contentView setClipsToBounds:clipsToBounds];
+    for ( UIView *_ctntView in _subContentList ) {
+        [_ctntView setClipsToBounds:clipsToBounds];
+    }
 }
 
 - (void)_actionTouchBeginHandler:(id)sender event:(PYViewEvent *)event

@@ -23,13 +23,16 @@
  */
 
 #import "PYView.h"
+#import "PYLabelLayer.h"
 
 @interface PYTableViewCell : PYView
 {
     NSInteger                   _cellIndex;
     NSString                    *_reuseIdentifier;
+    PYLabelLayer                *_testTitleLayer;
 }
 
+- (void)setTitle:(NSString *)title;
 // Cell Index.
 @property (nonatomic, readonly)         NSInteger       cellIndex;
 
