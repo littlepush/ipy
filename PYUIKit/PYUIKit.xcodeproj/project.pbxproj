@@ -16,6 +16,8 @@
 		E64A8FBD17BB7DDC00B132BA /* PYAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FBB17BB7DDC00B132BA /* PYAnimator.m */; };
 		E64A8FC017BB7EA900B132BA /* PYBillBoard.h in Headers */ = {isa = PBXBuildFile; fileRef = E64A8FBE17BB7EA900B132BA /* PYBillBoard.h */; };
 		E64A8FC117BB7EA900B132BA /* PYBillBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FBF17BB7EA900B132BA /* PYBillBoard.m */; };
+		E64A8FC417BC7D9A00B132BA /* PYHitCover.h in Headers */ = {isa = PBXBuildFile; fileRef = E64A8FC217BC7D9A00B132BA /* PYHitCover.h */; };
+		E64A8FC517BC7D9A00B132BA /* PYHitCover.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FC317BC7D9A00B132BA /* PYHitCover.m */; };
 		E66E466A17A3847600D1FF55 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8315B42B1400DCF831 /* UIKit.framework */; };
 		E66E466B17A3847600D1FF55 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8515B42B1400DCF831 /* Foundation.framework */; };
 		E66E466C17A3847600D1FF55 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8715B42B1400DCF831 /* CoreGraphics.framework */; };
@@ -112,6 +114,8 @@
 		E64A8FBB17BB7DDC00B132BA /* PYAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYAnimator.m; sourceTree = "<group>"; };
 		E64A8FBE17BB7EA900B132BA /* PYBillBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYBillBoard.h; sourceTree = "<group>"; };
 		E64A8FBF17BB7EA900B132BA /* PYBillBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYBillBoard.m; sourceTree = "<group>"; };
+		E64A8FC217BC7D9A00B132BA /* PYHitCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYHitCover.h; sourceTree = "<group>"; };
+		E64A8FC317BC7D9A00B132BA /* PYHitCover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYHitCover.m; sourceTree = "<group>"; };
 		E66E466917A3847600D1FF55 /* UIKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66E466F17A3847600D1FF55 /* UIKitDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UIKitDemo-Info.plist"; sourceTree = "<group>"; };
 		E66E467117A3847600D1FF55 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -274,6 +278,15 @@
 			path = HUDView;
 			sourceTree = "<group>";
 		};
+		E64A8FC617BC7DA200B132BA /* HitCover */ = {
+			isa = PBXGroup;
+			children = (
+				E64A8FC217BC7D9A00B132BA /* PYHitCover.h */,
+				E64A8FC317BC7D9A00B132BA /* PYHitCover.m */,
+			);
+			name = HitCover;
+			sourceTree = "<group>";
+		};
 		E66E466D17A3847600D1FF55 /* UIKitDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +321,7 @@
 		E66E469917A57D1A00D1FF55 /* UIKit.Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E64A8FC617BC7DA200B132BA /* HitCover */,
 				E64A8FAF17BB30C000B132BA /* HUDView */,
 				E67CE0E117A7E1B9009BC886 /* Scroll */,
 				E67CE0D717A7E19D009BC886 /* Switcher */,
@@ -465,6 +479,7 @@
 				E67F68D0179EE6040086F03C /* UIColor+PYUIKit.h in Headers */,
 				E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */,
 				E67F68DC179EEB9D0086F03C /* PYInnerShadowLayer.h in Headers */,
+				E64A8FC417BC7D9A00B132BA /* PYHitCover.h in Headers */,
 				E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */,
 				E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */,
 				E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */,
@@ -606,6 +621,7 @@
 				E66E46CD17A71C7A00D1FF55 /* PYLabel.m in Sources */,
 				E64A8FC117BB7EA900B132BA /* PYBillBoard.m in Sources */,
 				E66E46D217A71F5D00D1FF55 /* PYRichText.m in Sources */,
+				E64A8FC517BC7D9A00B132BA /* PYHitCover.m in Sources */,
 				E66E46D617A71F7B00D1FF55 /* PYRichText+Label.m in Sources */,
 				E66E46DA17A71F8A00D1FF55 /* PYRichLabel.m in Sources */,
 				E66E46DE17A7216800D1FF55 /* UIView+PYUIKit.m in Sources */,

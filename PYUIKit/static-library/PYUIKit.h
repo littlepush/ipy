@@ -51,6 +51,7 @@
 #import "PYBillBoard.h"
 #import "PYSwitcher.h"
 #import "PYScrollView.h"
+#import "PYHitCover.h"
 // -- Rich.Text
 #import "PYRichText.h"
 #import "PYRichLabel.h"
