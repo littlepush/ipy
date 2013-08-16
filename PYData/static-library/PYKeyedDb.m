@@ -26,7 +26,7 @@
 #import "PYSqlStatement.h"
 
 static NSMutableDictionary			*_gPYKeyedDBCache;
-#define		kKeyedDBTableName		@"_PYkeyedCache"
+#define		kKeyedDBTableName		@"_QTkeyedCache"
 
 // The Row
 @implementation PYKeyedDbRow
