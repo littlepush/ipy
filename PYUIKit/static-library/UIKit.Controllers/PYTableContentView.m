@@ -39,7 +39,6 @@
 - (void)setCellIndex:(NSInteger)index
 {
     _cellIndex = index;
-    [self setTitle:PYIntToString(index)];
 }
 @end
 

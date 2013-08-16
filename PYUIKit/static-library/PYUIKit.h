@@ -41,6 +41,7 @@
 
 // Responders
 #import "PYResponderView.h"
+#import "PYResponderGestureRecognizer.h"
 
 // Controllers
 #import "PYImageLayer.h"

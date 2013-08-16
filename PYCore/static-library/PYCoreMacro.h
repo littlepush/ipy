@@ -113,15 +113,17 @@ extern "C" {
      The [__file] is ignored.
      */
     void __formatLogLine(const char * __file,
-                         const char * __func, Uint32
-                         __line, NSString *__log);
+                         const char * __func,
+                         Uint32 __line,
+                         NSObject *__item,
+                         NSString *__log);
     /*
      Print only the log head part, not include the log message.
      As the following:
         [TIME]<FUNCTION_NAME:CODE_LINE>
      Always return YES.
      */
-    BOOL __print_logHead(const char * __func, Uint32 __line );
+    BOOL __print_logHead(const char * __func, Uint32 __line, NSObject * __item );
     /*
      Print the condition expression and return the result of the condition.
      Used in the macro [IF].
@@ -231,8 +233,8 @@ extern "C" {
 #define PYCLEANCONSOLE      (__iOS7B5CleanConsoleOutput())
 
 #ifdef DEBUG
-#    define PYLog(f, ...)	__formatLogLine(__FILE__, __FUNCTION__,                         \
-                                __LINE__, [NSString stringWithFormat:(f), ##__VA_ARGS__])
+#    define PYLog(f, ...)	__formatLogLine(__FILE__, __FUNCTION__, __LINE__,               \
+                                self, [NSString stringWithFormat:(f), ##__VA_ARGS__])
 #	 define IF(exp)         __print_logHead(__FUNCTION__, __LINE__);                        \
                             if (__print_bool( #exp, (exp) ))
 #	 define ELSEIF(exp)     else if (__print_logHead(__FUNCTION__, __LINE__) &&             \

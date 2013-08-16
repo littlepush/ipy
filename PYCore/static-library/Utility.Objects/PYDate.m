@@ -216,14 +216,14 @@
 {
     self = [super init];
     if ( self ) {
-        _timestamp = [aDecoder decodeInt32ForKey:@"PYDateTimeStamp"];
+        _timestamp = [aDecoder decodeInt32ForKey:@"QTDateTimeStamp"];
         [self _initFromDate:[NSDate dateWithTimeIntervalSince1970:_timestamp]];
     }
     return self;
 }
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeInt32:_timestamp forKey:@"PYDateTimeStamp"];
+    [aCoder encodeInt32:_timestamp forKey:@"QTDateTimeStamp"];
 }
 
 - (id)copy
