@@ -177,7 +177,7 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 		
 	// Create the table
 	static const char * _createTableSql =
-		"CREATE TABLE _PYkeyedCache("	\
+		"CREATE TABLE _QTkeyedCache("	\
 		"dbKey TEXT PRIMARY KEY,"		\
 		"dbValue BLOB,"                 \
         "dbExpire INT);";
