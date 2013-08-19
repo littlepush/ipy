@@ -25,7 +25,7 @@
 #import "PYScrollView.h"
 #import "PYScrollView+SideAnimation.h"
 
-CGFloat const       PYScrollDecelerateDuration          = 3.f;
+CGFloat const       PYScrollDecelerateDuration          = 2.5f;
 CGFloat const       PYScrollDecelerateDurationPiece     = .01f;
 CGFloat const       PYScrollDecelerateNeedBounceDuration= .15f;
 CGFloat const       PYScrollBounceBackDuration          = .2f;
@@ -186,15 +186,17 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
 - (void)_actionTouchBeginHandler:(id)sender event:(PYViewEvent *)event
 {
-    // Tell the delegate
-    if ( _decelerateTimer != nil ) {
-        [_decelerateTimer invalidate];
-        _decelerateTimer = nil;
+    @synchronized ( self ) {
+        // Tell the delegate
+        if ( _decelerateTimer != nil ) {
+            [_decelerateTimer invalidate];
+            _decelerateTimer = nil;
+        }
+        if ( _contentSize.width * _contentSize.height == 0 ) return;
+        [((NSObject *)self.delegate)
+         tryPerformSelector:@selector(pyScrollViewWillBeginToScroll:)
+         withObject:self];
     }
-    if ( _contentSize.width * _contentSize.height == 0 ) return;
-    [((NSObject *)self.delegate)
-     tryPerformSelector:@selector(pyScrollViewWillBeginToScroll:)
-     withObject:self];
 }
 
 - (void)_actionTouchEndHandler:(id)sender event:(PYViewEvent *)event
@@ -256,6 +258,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _decelerateSpeed = PYDecelerateSpeedNormal;
     
     // Initialize the data
+    _coverFrame = CGRectZero;
     _contentSize = CGSizeZero;
     _contentOffset = CGSizeZero;
     _contentInsets = UIEdgeInsetsZero;
@@ -326,17 +329,33 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
 - (void)scrollToNextPage:(BOOL)animated
 {
-    if ( _pagable == NO ) return;
-    CGSize _ctntOffset = _contentOffset;
-    _SIDE_ITEM(_ctntOffset) += _SIDE_ITEM(_pageSize);
-    [self setContentOffset:_ctntOffset animated:animated];
+    @synchronized( self ) {
+        if ( _pagable == NO ) return;
+        // Last decelerate hasn't stopped
+        if ( _decelerateTimer != nil ) return;
+        CGSize _ctntOffset = _contentOffset;
+        CGFloat _value = _SIDE_ITEM(_ctntOffset);
+        int _t = ((_value + PYINDICATION_F(1.f, _value)) / _SIDE_ITEM(_pageSize));
+        _value = _SIDE_ITEM(_pageSize) * (_t + 1);
+        _SIDE_ITEM(_ctntOffset) = _value;
+        _VSIDE_ITEM(_ctntOffset) = 0.f;
+        [self setContentOffset:_ctntOffset animated:animated];
+    }
 }
 - (void)scrollToPreviousPage:(BOOL)animated
 {
-    if ( _pagable == NO ) return;
-    CGSize _ctntOffset = _contentOffset;
-    _SIDE_ITEM(_ctntOffset) -= _SIDE_ITEM(_pageSize);
-    [self setContentOffset:_ctntOffset animated:animated];
+    @synchronized( self ) {
+        if ( _pagable == NO ) return;
+        // Last decelerate hasn't stopped
+        if ( _decelerateTimer != nil ) return;
+        CGSize _ctntOffset = _contentOffset;
+        CGFloat _value = _SIDE_ITEM(_ctntOffset);
+        int _t = ((_value + PYINDICATION_F(1.f, _value)) / _SIDE_ITEM(_pageSize));
+        _value = _SIDE_ITEM(_pageSize) * (_t - 1);
+        _SIDE_ITEM(_ctntOffset) = _value;
+        _VSIDE_ITEM(_ctntOffset) = 0.f;
+        [self setContentOffset:_ctntOffset animated:animated];
+    }
 }
 
 - (void)addSubview:(UIView *)view

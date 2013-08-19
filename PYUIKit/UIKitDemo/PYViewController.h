@@ -15,6 +15,8 @@
     UIImageView                         *_imageView;
     
     PYTableView                         *_pyTableView;
+    
+    NSTimer                             *_slideTimer;
 }
 
 @end

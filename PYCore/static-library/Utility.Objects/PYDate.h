@@ -35,7 +35,48 @@ typedef enum {
     PYWeekDaySat
 } PYWeekDay;
 
-@interface PYDate : NSObject<NSCoding, NSCopying>
+@protocol PYDate <NSObject>
+
+@required
+@property (nonatomic, readonly) NSUInteger          year;
+@property (nonatomic, readonly) NSUInteger          month;
+@property (nonatomic, readonly) NSUInteger          day;
+@property (nonatomic, readonly) PYWeekDay           weekday;
+@property (nonatomic, readonly) NSUInteger          hour;
+@property (nonatomic, readonly) NSUInteger          minute;
+@property (nonatomic, readonly) NSUInteger          second;
+// The timestamp property.
+@property (nonatomic, readonly) long                timestamp;
+
+// Initialize functions
+// Now date
++ (id)date;
+// Specified date
++ (id)dateWithTimpstamp:(NSUInteger)timestamp;
+// From an NSDate
++ (id)dateWithDate:(NSDate *)date;
+// Date from string, default format "yyyy-MM-dd hh:mm:ss"
++ (id)dateWithString:(NSString *)dateString;
+// Date format: "yyyy-MM-dd"
++ (id)dateWithDayString:(NSString *)dayString;
++ (id)dateWithString:(NSString *)dateString format:(NSString *)format;
+
++ (id)dateFromDate:(id<PYDate>)date;
+
+//
+- (id)beginOfDay;
+- (id)endOfDay;
+
+// Date Navigation
+- (id)yesterday;
+- (id)tomorrow;
+- (id)dateDaysAgo:(NSUInteger)dayCount;
+- (id)dateDaysAfter:(NSUInteger)dayCount;
+- (id)dateMinuterAfter:(NSUInteger)minuterCount;
+
+@end
+
+@interface PYDate : NSObject<PYDate, NSCoding, NSCopying>
 {
     NSUInteger                  _year;
     NSUInteger                  _month;
@@ -49,31 +90,7 @@ typedef enum {
     long                        _timestamp;
 }
 
-@property (nonatomic, readonly) NSUInteger          year;
-@property (nonatomic, readonly) NSUInteger          month;
-@property (nonatomic, readonly) NSUInteger          day;
-@property (nonatomic, readonly) PYWeekDay           weekday;
-@property (nonatomic, readonly) NSUInteger          hour;
-@property (nonatomic, readonly) NSUInteger          minute;
-@property (nonatomic, readonly) NSUInteger          second;
-
-@property (nonatomic, readonly) long                timestamp;
-
 // Date Creater
-// Now date
-+ (PYDate *)date;
-// Specified date
-+ (PYDate *)dateWithTimpstamp:(NSUInteger)timestamp;
-// From an NSDate
-+ (PYDate *)dateWithDate:(NSDate *)date;
-// Date from string, default format "yyyy-MM-dd hh:mm:ss"
-+ (PYDate *)dateWithString:(NSString *)dateString;
-// Date format: "yyyy-MM-dd"
-+ (PYDate *)dateWithDayString:(NSString *)dayString;
-+ (PYDate *)dateWithString:(NSString *)dateString format:(NSString *)format;
-
-+ (PYDate *)dateFromDate:(PYDate *)date;
-
 // Get the weekday name
 + (NSString *)weekdayNameofDay:(NSUInteger)day;
 
@@ -94,15 +111,6 @@ typedef enum {
 - (NSString *)timeIntervalStringFromNow;
 - (NSString *)timeIntervalStringFromDate:(PYDate *)date;
 - (NSInteger)timeIntervalSince:(PYDate *)date;
-- (PYDate *)beginOfDay;
-- (PYDate *)endOfDay;
-
-// Date Navigation
-- (PYDate *)yesterday;
-- (PYDate *)tomorrow;
-- (PYDate *)dateDaysAgo:(NSUInteger)dayCount;
-- (PYDate *)dateDaysAfter:(NSUInteger)dayCount;
-- (PYDate *)dateMinuterAfter:(NSUInteger)minuterCount;
 
 //
 // Expire Checking

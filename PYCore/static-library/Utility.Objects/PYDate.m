@@ -127,39 +127,39 @@
 // Date
 // Date Creater
 // Now date
-+ (PYDate *)date
++ (id)date
 {
     return [PYDate object];
 }
 // Specified date
-+ (PYDate *)dateWithTimpstamp:(NSUInteger)timestamp
++ (id)dateWithTimpstamp:(NSUInteger)timestamp
 {
     return __AUTO_RELEASE([[PYDate alloc] initWithTimpstamp:timestamp]);
 }
 // From an NSDate
-+ (PYDate *)dateWithDate:(NSDate *)date
++ (id)dateWithDate:(NSDate *)date
 {
     return [PYDate dateWithTimpstamp:(NSUInteger)[date timeIntervalSince1970]];
 }
 // Date from string, default format "YYYY-MM-DD HH:mm"
-+ (PYDate *)dateWithString:(NSString *)dateString
++ (id)dateWithString:(NSString *)dateString
 {
     return [PYDate dateWithString:dateString format:@"yyyy-MM-dd hh:mm:ss"];
 }
-+ (PYDate *)dateWithDayString:(NSString *)dayString
++ (id)dateWithDayString:(NSString *)dayString
 {
     return [PYDate dateWithString:dayString format:@"yyyy-MM-dd"];
 }
-+ (PYDate *)dateWithString:(NSString *)dateString format:(NSString *)format
++ (id)dateWithString:(NSString *)dateString format:(NSString *)format
 {
     NSDateFormatter *_fmt = __AUTO_RELEASE([[NSDateFormatter alloc] init]);
     [_fmt setDateFormat:format];
     NSDate *_theDate = [_fmt dateFromString:dateString];
     return [PYDate dateWithDate:_theDate];
 }
-+ (PYDate *)dateFromDate:(PYDate *)date
++ (id)dateFromDate:(id<PYDate>)date
 {
-    return __AUTO_RELEASE([[PYDate alloc] initWithDate:date]);
+    return __AUTO_RELEASE([[PYDate alloc] initWithTimpstamp:date.timestamp]);
 }
 
 // Get the weekday name
@@ -228,13 +228,13 @@
 
 - (id)copy
 {
-    PYDate *_newDate = [PYDate dateFromDate:self];
+    PYDate *_newDate = (PYDate *)[PYDate dateWithTimpstamp:self.timestamp];
     return _newDate;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    PYDate *_newData = [[PYDate allocWithZone:zone] initWithDate:self];
+    PYDate *_newData = [[PYDate allocWithZone:zone] initWithTimpstamp:self.timestamp];
     return _newData;
 }
 
@@ -259,7 +259,7 @@
 - (NSString *)timeIntervalStringFromNow
 {
 	//NSTimeInterval _interval = [NOWDATE timeIntervalSinceDate:date];
-    return [self timeIntervalStringFromDate:[PYDate date]];
+    return [self timeIntervalStringFromDate:(PYDate *)[PYDate date]];
 }
 - (NSString *)timeIntervalStringFromDate:(PYDate *)date
 {
@@ -283,22 +283,20 @@
 {
     return _timestamp - date.timestamp;
 }
-- (PYDate *)beginOfDay
+- (id)beginOfDay
 {
     int _secondPass = _hour * 3600 + _minute * 60 + _second;
     int _beginTimeStamp = _timestamp - _secondPass;
-    PYDate *_date = [PYDate dateWithTimpstamp:_beginTimeStamp];
-    return _date;
+    return [PYDate dateWithTimpstamp:_beginTimeStamp];
 }
-- (PYDate *)endOfDay
+- (id)endOfDay
 {
     int _secondPass = _hour * 3600 + _minute * 60 + _second;
     int _timeLeft = 86400 - _secondPass;
-    PYDate *_date = [PYDate dateWithTimpstamp:(_timestamp + _timeLeft)];
-    return _date;
+    return [PYDate dateWithTimpstamp:(_timestamp + _timeLeft)];
 }
 
-- (PYDate *)yesterday
+- (id)yesterday
 {
     PYDate *_yesterday = [PYDate dateFromDate:self];
     if (_yesterday->_weekday != PYWeekDaySun) {
@@ -321,7 +319,7 @@
     _yesterday->_timestamp -= 86400;
     return _yesterday;
 }
-- (PYDate *)tomorrow
+- (id)tomorrow
 {
     PYDate *_tomorrow = [PYDate dateFromDate:self];
 	if ( _tomorrow->_weekday != PYWeekDaySat ) {
@@ -347,16 +345,16 @@
 	_tomorrow->_timestamp += 86400;
 	return _tomorrow;
 }
-- (PYDate *)dateDaysAgo:(NSUInteger)dayCount
+- (id)dateDaysAgo:(NSUInteger)dayCount
 {
     return [PYDate dateWithTimpstamp:(_timestamp - (dayCount * 86400))];
 }
-- (PYDate *)dateDaysAfter:(NSUInteger)dayCount
+- (id)dateDaysAfter:(NSUInteger)dayCount
 {
     return [PYDate dateWithTimpstamp:(_timestamp + (dayCount * 86400))];
 }
 
-- (PYDate *)dateMinuterAfter:(NSUInteger)minuterCount
+- (id)dateMinuterAfter:(NSUInteger)minuterCount
 {
     return [PYDate dateWithTimpstamp:(_timestamp + (minuterCount * 60))];
 }

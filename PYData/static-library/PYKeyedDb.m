@@ -26,7 +26,7 @@
 #import "PYSqlStatement.h"
 
 static NSMutableDictionary			*_gPYKeyedDBCache;
-#define		kKeyedDBTableName		@"_QTkeyedCache"
+static Class                        _keyedDbDateClass;
 
 // The Row
 @implementation PYKeyedDbRow
@@ -35,9 +35,11 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 
 @interface PYKeyedDb ()
 
+- (BOOL)initializeDbWithPath:(NSString *)dbPath cacheTableName:(NSString *)cacheTbname;
 - (BOOL)initializeDbWithPath:(NSString *)dbPath;
 
 // Create the db at specified path if the database is not existed.
+- (BOOL)createDbWithPath:(NSString *)dbPath cacheTableName:(NSString *)cacheTbname;
 - (BOOL)createDbWithPath:(NSString *)dbPath;
 
 @end
@@ -48,9 +50,15 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 {
 	// Initialize the global cache
 	_gPYKeyedDBCache = [NSMutableDictionary dictionary];
+    _keyedDbDateClass = [PYDate class];
 }
 
-+ (PYKeyedDb *)keyedDbWithPath:(NSString *)dbPath
++ (void)setKeyedDbDateClass:(Class)dateClass
+{
+    _keyedDbDateClass = dateClass;
+}
+
++ (PYKeyedDb *)keyedDbWithPath:(NSString *)dbPath cacheTableName:(NSString *)cacheTbname
 {
 	NSString *_dbKey = [dbPath md5sum];
 	if ( [_gPYKeyedDBCache objectForKey:_dbKey] != nil ) {
@@ -58,11 +66,17 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 	}
 	
 	PYKeyedDb *_newDb = [[PYKeyedDb alloc] init];
-	if ( [_newDb initializeDbWithPath:dbPath] == NO ) {
-		if ( [_newDb createDbWithPath:dbPath] == NO ) return nil;
+	if ( [_newDb initializeDbWithPath:dbPath cacheTableName:cacheTbname] == NO ) {
+		if ( [_newDb createDbWithPath:dbPath cacheTableName:cacheTbname] == NO ) return nil;
 	}
+    _newDb->_cacheTbName = [cacheTbname copy];
 	[_gPYKeyedDBCache setObject:_newDb forKey:_dbKey];
 	return _newDb;
+}
+
++ (PYKeyedDb *)keyedDbWithPath:(NSString *)dbPath
+{
+    return [PYKeyedDb keyedDbWithPath:dbPath cacheTableName:kKeyedDBTableName];
 }
 
 // 
@@ -80,7 +94,7 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 	if ( _innerDb != NULL ) sqlite3_close(_innerDb);
 }
 
-- (BOOL)initializeDbWithPath:(NSString *)dbPath
+- (BOOL)initializeDbWithPath:(NSString *)dbPath cacheTableName:(NSString *)cacheTbname
 {
     _dbPath = dbPath;
 	NSFileManager *fm = [NSFileManager defaultManager];
@@ -104,7 +118,8 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
         // Initialize the sql statements
         
         // Insert
-        NSString *_insertSql = @"INSERT INTO " kKeyedDBTableName @" VALUES(?, ?, ?);";
+        NSString *_insertSql = [NSString stringWithFormat:
+                                @"INSERT INTO %@ VALUES(?, ?, ?);", cacheTbname];
         _insertStat = [PYSqlStatement sqlStatementWithSQL:_insertSql];
         if (sqlite3_prepare_v2(_innerDb, _insertSql.UTF8String, -1,
                                &_insertStat->sqlstmt, NULL) != SQLITE_OK) {
@@ -113,7 +128,8 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
         }
 
         // Update
-        NSString *_updateSql = @"UPDATE " kKeyedDBTableName @" set dbValue=?, dbExpire=? WHERE dbKey=?";
+        NSString *_updateSql = [NSString stringWithFormat:
+                                @"UPDATE %@ set dbValue=?, dbExpire=? WHERE dbKey=?", cacheTbname];
         _updateStat = [PYSqlStatement sqlStatementWithSQL:_updateSql];
         if (sqlite3_prepare_v2(_innerDb, _updateSql.UTF8String, -1,
                                &_updateStat->sqlstmt, NULL) != SQLITE_OK) {
@@ -122,7 +138,8 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
         }
         
         // Delete
-        NSString *_deleteSql = @"DELETE FROM " kKeyedDBTableName @" WHERE dbKey=?";
+        NSString *_deleteSql = [NSString stringWithFormat:
+                                @"DELETE FROM %@ WHERE dbKey=?", cacheTbname];
         _deleteStat = [PYSqlStatement sqlStatementWithSQL:_deleteSql];
         if (sqlite3_prepare_v2(_innerDb, _deleteSql.UTF8String, -1,
                                &_deleteStat->sqlstmt, NULL) != SQLITE_OK) {
@@ -131,7 +148,8 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
         }
         
         // Check
-        NSString *_checkSql = @"SELECT dbKey FROM " kKeyedDBTableName @" WHERE dbKey=?";
+        NSString *_checkSql = [NSString stringWithFormat:
+                               @"SELECT dbKey FROM %@ WHERE dbKey=?", cacheTbname];
         _checkStat = [PYSqlStatement sqlStatementWithSQL:_checkSql];
         if (sqlite3_prepare_v2(_innerDb, _checkSql.UTF8String, -1,
                                &_checkStat->sqlstmt, NULL) != SQLITE_OK) {
@@ -140,7 +158,8 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
         }
         
         // Select
-        NSString *_selectSql = @"SELECT dbValue, dbExpire FROM " kKeyedDBTableName @" WHERE dbKey=?";
+        NSString *_selectSql = [NSString stringWithFormat:
+                                @"SELECT dbValue, dbExpire FROM %@ WHERE dbKey=?", cacheTbname];
         _selectStat = [PYSqlStatement sqlStatementWithSQL:_selectSql];
         if (sqlite3_prepare_v2(_innerDb, _selectSql.UTF8String, -1,
                                &_selectStat->sqlstmt, NULL) != SQLITE_OK) {
@@ -149,7 +168,8 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
         }
         
         // Count
-        NSString *_countSql = @"SELECT COUNT(dbKey) FROM " kKeyedDBTableName;
+        NSString *_countSql = [NSString stringWithFormat:
+                               @"SELECT COUNT(dbKey) FROM %@", cacheTbname];
         _countStat = [PYSqlStatement sqlStatementWithSQL:_countSql];
         if (sqlite3_prepare_v2(_innerDb, _countSql.UTF8String, -1,
                                &_countStat->sqlstmt, NULL) != SQLITE_OK) {
@@ -164,8 +184,13 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 	return NO;
 }
 
+- (BOOL)initializeDbWithPath:(NSString *)dbPath
+{
+    return [self initializeDbWithPath:dbPath cacheTableName:kKeyedDBTableName];
+}
+
 // Create the db at specified path if the database is not existed.
-- (BOOL)createDbWithPath:(NSString *)dbPath
+- (BOOL)createDbWithPath:(NSString *)dbPath cacheTableName:(NSString *)cacheTbname
 {
     _dbPath = dbPath;
 	NSFileManager *fm = [NSFileManager defaultManager];
@@ -176,13 +201,13 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 		return NO;
 		
 	// Create the table
-	static const char * _createTableSql =
-		"CREATE TABLE _QTkeyedCache("	\
-		"dbKey TEXT PRIMARY KEY,"		\
-		"dbValue BLOB,"                 \
-        "dbExpire INT);";
+    NSString *_ctsql = [NSString stringWithFormat:
+                        @"CREATE TABLE %@("             \
+                        @"dbKey TEXT PRIMARY KEY,"		\
+                        @"dbValue BLOB,"                \
+                        @"dbExpire INT);", cacheTbname];
 	char *_error;
-	if( sqlite3_exec(_innerDb, _createTableSql, nil, nil, &_error) != SQLITE_OK ) {
+	if( sqlite3_exec(_innerDb, [_ctsql UTF8String], nil, nil, &_error) != SQLITE_OK ) {
 		sqlite3_close(_innerDb);
 		_innerDb = NULL;
 		[fm removeItemAtPath:dbPath error:nil];
@@ -191,6 +216,10 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
 	
 	sqlite3_close(_innerDb);
 	return [self initializeDbWithPath:dbPath];
+}
+- (BOOL)createDbWithPath:(NSString *)dbPath
+{
+    return [self createDbWithPath:dbPath cacheTableName:kKeyedDBTableName];
 }
 
 - (BOOL)beginBatchOperation
@@ -215,7 +244,7 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
     return YES;
 }
 
-- (BOOL)addValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(PYDate *)expire
+- (BOOL)addValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(id<PYDate>)expire
 {
     PYSingletonLock
     [_insertStat resetBinding];
@@ -230,7 +259,7 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
     PYSingletonUnLock
 }
 
-- (BOOL)updateValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(PYDate *)expire
+- (BOOL)updateValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(id<PYDate>)expire
 {
     PYSingletonLock
     [_updateStat resetBinding];
@@ -278,7 +307,7 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
     {
         [_selectStat prepareForReading];
         NSData *_value = [_selectStat getInOrderData];
-        PYDate *_expire = [PYDate dateWithTimpstamp:[_selectStat getInOrderInt]];
+        id<PYDate> _expire = [_keyedDbDateClass dateWithTimpstamp:[_selectStat getInOrderInt]];
         PYKeyedDbRow *_row = [PYKeyedDbRow object];
         _row.value = _value;
         _row.expire = _expire;
@@ -308,7 +337,7 @@ static NSMutableDictionary			*_gPYKeyedDBCache;
     NSError *_error = nil;
     [[NSFileManager defaultManager] removeItemAtPath:_dbPath error:&_error];
     if ( _error ) @throw _error;
-    [self createDbWithPath:_dbPath];
+    [self createDbWithPath:_dbPath cacheTableName:_cacheTbName];
 }
 
 @end

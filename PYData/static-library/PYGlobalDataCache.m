@@ -24,6 +24,12 @@
 
 #import "PYGlobalDataCache.h"
 
+// The GDC init options supported key.
+NSString *const kGDCInitCacheTableName  = @"kGDCInitCacheTableName";
+NSString *const kGDCInitLibraryFolder   = @"kGDCInitLibraryFolder";
+NSString *const kGDCInitDBPath          = @"kGDCInitDBPath";
+NSString *const kGDCInitiCloudEnable    = @"kGDCInitiCloudEnable";
+
 @implementation PYGDCObject
 @synthesize object, expire;
 @end
@@ -109,7 +115,7 @@ static NSMutableDictionary		*_gdcDict;
     [self setObject:value forKey:key expire:[PYDate dateWithTimpstamp:(-1)]];
 }
 
-- (void)setObject:(id<NSCoding>)value forKey:(NSString *)key expire:(PYDate *)expire
+- (void)setObject:(id<NSCoding>)value forKey:(NSString *)key expire:(id<PYDate>)expire
 {
     if ( [key isEqual:[NSNull null]] ||
         (![key isKindOfClass:[NSString class]]) ||
@@ -249,18 +255,30 @@ static NSMutableDictionary		*_gdcDict;
 #pragma mark --
 #pragma mark -- Global && Init
 
-+ (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify
++ (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify options:(NSDictionary *)options
 {
     @synchronized(self) {
         if ( [_gdcDict objectForKey:identify] != nil )
             return [_gdcDict objectForKey:identify];
         PYGlobalDataCache *_gdc = [[PYGlobalDataCache alloc]
-            initGDCWithIdentify:identify];
+            initGDCWithIdentify:identify options:options];
         if ( _gdc == nil ) return nil;
         [_gdcDict setValue:_gdc forKey:identify];
         return _gdc;
     }
 }
++ (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify
+{
+    return [PYGlobalDataCache
+            gdcWithIdentify:identify
+            options:@{
+                      kGDCInitCacheTableName:kKeyedDBTableName,
+                      kGDCInitLibraryFolder:@"PYData",
+                      kGDCInitDBPath:PYLIBRARYPATH,
+                      kGDCInitiCloudEnable:PYBoolToObject(NO)
+                      }];
+}
+
 + (void)releaseGdcWithIdentify:(NSString *)identify
 {
     @synchronized(self) {
@@ -277,19 +295,24 @@ static NSMutableDictionary		*_gdcDict;
 	return self;
 }
 
-- (id)initGDCWithIdentify:(NSString *)identify
+- (id)initGDCWithIdentify:(NSString *)identify options:(NSDictionary *)options
 {
 	self = [super init];
 	if ( self ) {
 		_cacheSizeInBytes = PYGDCSize4M;
 		_cacheSizeInUse = 0;
 		_identify = identify;
+        
+        NSString *_path = [options stringObjectForKey:kGDCInitDBPath withDefaultValue:PYLIBRARYPATH];
+        NSString *_folder = [options stringObjectForKey:kGDCInitLibraryFolder withDefaultValue:@"PYData"];
+        NSString *_tbname = [options stringObjectForKey:kGDCInitCacheTableName withDefaultValue:kKeyedDBTableName];
+        BOOL _iCloudEnable = [options boolObjectForKey:kGDCInitiCloudEnable withDefaultValue:NO];
 		
 		_coreInMemCache = [NSMutableDictionary dictionary];
 		_coreKeysCache = [NSMutableArray array];
 		
         NSFileManager *_fm = [NSFileManager defaultManager];
-        NSString *_dbPath = [PYLIBRARYPATH stringByAppendingPathComponent:@"QTData"];
+        NSString *_dbPath = [_path stringByAppendingPathComponent:_folder];
         if ( ![_fm fileExistsAtPath:_dbPath] ) {
             NSError *_error;
             [_fm createDirectoryAtPath:_dbPath
@@ -303,7 +326,7 @@ static NSMutableDictionary		*_gdcDict;
             }
         }
         NSString *_filePath = [_dbPath stringByAppendingPathComponent:identify];
-		_innerDb = [PYKeyedDb keyedDbWithPath:_filePath];
+		_innerDb = [PYKeyedDb keyedDbWithPath:_filePath cacheTableName:_tbname];
 		
 		if ( _innerDb == nil ) {
 			// Failed to initialize the database.
@@ -311,7 +334,9 @@ static NSMutableDictionary		*_gdcDict;
 			return self;
 		}
 		
-        PYSKIPICLOUD(_filePath);
+        if ( _iCloudEnable == NO ) {
+            PYSKIPICLOUD(_filePath);
+        }
 		
 		_hitMemPercentage = 0.f;
 		_allObjectCount = [_innerDb count];
@@ -335,7 +360,7 @@ static NSMutableDictionary		*_gdcDict;
             @"Cache Limit Size: %u Bytes\n"
             @"Cache Size In Use: %u Bytes\n"
             @")",
-		_identify, _allObjectCount, _hitMemPercentage * 100,
+            _identify, _allObjectCount, _hitMemPercentage * 100,
             _lastSearchedKey, _lastHitInMemKey,
             _cacheSizeInBytes, _cacheSizeInUse];
 }

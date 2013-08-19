@@ -101,11 +101,11 @@
     [_pyTableView setPagable:YES];
     [self.view addSubview:_pyTableView];
     
-//    NSTimer *_timer = [NSTimer scheduledTimerWithTimeInterval:3.f
-//                                                       target:self
-//                                                     selector:@selector(_testTimerHandler:)
-//                                                     userInfo:nil
-//                                                      repeats:YES];
+    _slideTimer = [NSTimer scheduledTimerWithTimeInterval:3.f
+                                                   target:self
+                                                 selector:@selector(_testTimerHandler:)
+                                                 userInfo:nil
+                                                  repeats:YES];
 }
 
 - (void)_testTimerHandler:(id)sender
@@ -158,7 +158,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSInteger)pytableViewNumberOfRows:(PYTableView *)tableView
 {
-    return 10;
+    return 5;
 }
 
 - (CGFloat)pytableView:(PYTableView *)tableView heightForRowAtIndex:(NSInteger)index

@@ -27,8 +27,8 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 
-#import "PYCore.h"
 #import "PYCoreMacro.h"
+#import "PYCore.h"
 #import <sys/mount.h>
 #import <mach/mach.h>
 #import <sys/utsname.h>
@@ -62,8 +62,9 @@ NSString * __getCurrentFormatDate()
 }
 
 void __formatLogLine(const char * __file,
-                     const char * __func, Uint32
-                     __line, NSString *__log)
+                     const char * __func,
+                     Uint32 __line,
+                     NSString *__log)
 {
     printf("[%s]<%s:%u> %s\n", [__getCurrentFormatDate() UTF8String],
            __func, __line, [__log UTF8String]);

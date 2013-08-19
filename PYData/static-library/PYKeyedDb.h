@@ -26,11 +26,13 @@
 #import "PYDataPredefination.h"
 #import "PYSqlStatement.h"
 
+#define		kKeyedDBTableName		@"_PYkeyedCache"
+
 // DB Row
 @interface PYKeyedDbRow : NSObject
 
 @property (nonatomic, strong)   NSData          *value;
-@property (nonatomic, strong)   PYDate          *expire;
+@property (nonatomic, strong)   id<PYDate>      expire;
 
 @end
 
@@ -45,14 +47,21 @@
     PYSqlStatement      *_countStat;
     PYSqlStatement      *_selectStat;
     PYSqlStatement      *_checkStat;
+    
+    NSString            *_cacheTbName;
 }
 
+// Set the keyed db default date object class.
+// Default is PYDate.
++ (void)setKeyedDbDateClass:(Class)dateClass;
+
++ (PYKeyedDb *)keyedDbWithPath:(NSString *)dbPath cacheTableName:(NSString *)cacheTbname;
 + (PYKeyedDb *)keyedDbWithPath:(NSString *)dbPath;
 
 - (BOOL)beginBatchOperation;
 - (BOOL)endBatchOperation;
-- (BOOL)addValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(PYDate *)expire;
-- (BOOL)updateValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(PYDate *)expire;
+- (BOOL)addValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(id<PYDate>)expire;
+- (BOOL)updateValue:(NSData *)formatedValue forKey:(NSString *)key expireOn:(id<PYDate>)expire;
 - (void)deleteValueForKey:(NSString *)key;
 
 - (BOOL)containsKey:(NSString *)key;

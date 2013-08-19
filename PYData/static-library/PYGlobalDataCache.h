@@ -25,11 +25,17 @@
 #import <Foundation/Foundation.h>
 #import "PYKeyedDb.h"
 
+// The GDC init options supported key.
+extern NSString *const kGDCInitCacheTableName;
+extern NSString *const kGDCInitLibraryFolder;
+extern NSString *const kGDCInitDBPath;
+extern NSString *const kGDCInitiCloudEnable;
+
 // The object which contains the expire time.
 @interface PYGDCObject : NSObject
 
 @property (nonatomic, strong)   NSObject<NSCoding>          *object;
-@property (nonatomic, strong)   PYDate                      *expire;
+@property (nonatomic, strong)   id<PYDate>                  expire;
 
 @end
 
@@ -80,6 +86,8 @@ enum {
 @property (nonatomic, readonly)		long			allObjectCount;
 
 + (void)initializeSqliteForMultithreadSupport;
+
++ (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify options:(NSDictionary *)options;
 + (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify;
 + (void)releaseGdcWithIdentify:(NSString *)identify;
 
@@ -89,7 +97,7 @@ enum {
 // Type: GDCObject
 // If no expire specified, the object will never expired.
 - (void)setObject:(id<NSCoding>)value forKey:(NSString *)key;
-- (void)setObject:(id<NSCoding>)value forKey:(NSString *)key expire:(PYDate *)expire;
+- (void)setObject:(id<NSCoding>)value forKey:(NSString *)key expire:(id<PYDate>)expire;
 - (id)objectForKey:(NSString *)key;
 // Full object info with expire time.
 - (PYGDCObject *)fullObjectForKey:(NSString *)key;

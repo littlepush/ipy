@@ -135,33 +135,35 @@
 - (void)animatedScrollWithOffsetDistance:(CGSize)offsetDistance
                         withinTimePieces:(NSUInteger)timepiece
 {
-    // Begin to decelerate
-    _currentDeceleratedOffset = CGSizeZero;
-    _currentStepPiece = 1;
-    _maxStepPiece = timepiece;
-    _willStopOffset = offsetDistance;
-    
-    // Re-calculate the init speed
-    CGFloat _horSpeed = [PYResponderView
-                         initSpeedWithAllMovingDistance:_willStopOffset.width
-                         stepRate:PYScrollDecelerateStepRate
-                         timePieces:timepiece];
-    CGFloat _verSpeed = [PYResponderView
-                         initSpeedWithAllMovingDistance:_willStopOffset.height
-                         stepRate:PYScrollDecelerateStepRate
-                         timePieces:timepiece];
-    _decelerateInitSpeed = CGSizeMake(_horSpeed, _verSpeed);
-    
-    // Set the timer to run the animation.
-    _decelerateTimer = [[NSTimer alloc]
-                        initWithFireDate:[NSDate date]
-                        interval:PYScrollDecelerateDurationPiece
-                        target:self
-                        selector:@selector(_decelerateAnimationTimerHandler:)
-                        userInfo:nil
-                        repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_decelerateTimer
-                                 forMode:NSRunLoopCommonModes];
+    @synchronized( self ) {
+        // Begin to decelerate
+        _currentDeceleratedOffset = CGSizeZero;
+        _currentStepPiece = 1;
+        _maxStepPiece = timepiece;
+        _willStopOffset = offsetDistance;
+        
+        // Re-calculate the init speed
+        CGFloat _horSpeed = [PYResponderView
+                             initSpeedWithAllMovingDistance:_willStopOffset.width
+                             stepRate:PYScrollDecelerateStepRate
+                             timePieces:timepiece];
+        CGFloat _verSpeed = [PYResponderView
+                             initSpeedWithAllMovingDistance:_willStopOffset.height
+                             stepRate:PYScrollDecelerateStepRate
+                             timePieces:timepiece];
+        _decelerateInitSpeed = CGSizeMake(_horSpeed, _verSpeed);
+        
+        // Set the timer to run the animation.
+        _decelerateTimer = [[NSTimer alloc]
+                            initWithFireDate:[NSDate date]
+                            interval:PYScrollDecelerateDurationPiece
+                            target:self
+                            selector:@selector(_decelerateAnimationTimerHandler:)
+                            userInfo:nil
+                            repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_decelerateTimer
+                                     forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void)_decelerateAnimationDidStop
@@ -181,26 +183,27 @@
 
 - (void)_decelerateAnimationTimerHandler:(id)sender
 {
-    CGFloat _rate = powf(PYScrollDecelerateStepRate, _currentStepPiece);
-    CGFloat _horFn = (_decelerateInitSpeed.width * _rate);
-    CGFloat _verFn = (_decelerateInitSpeed.height * _rate);
-    _currentStepPiece += 1;
-    
-    if ( _currentStepPiece == _maxStepPiece ) {
-        _horFn = _willStopOffset.width - _currentDeceleratedOffset.width;
-        _verFn = _willStopOffset.height - _currentDeceleratedOffset.height;
-    } else {
-        _currentDeceleratedOffset.width += _horFn;
-        _currentDeceleratedOffset.height += _verFn;
-    }
-    CGSize _offset = CGSizeMake(_horFn, _verFn);
-    if ( _currentStepPiece > _maxStepPiece ) {
-        [_decelerateTimer invalidate];
-        _decelerateTimer = nil;
-        [self _decelerateAnimationDidStop];
-    } else {
-        [self setMovingOffset:_offset
-           withAnimatDuration:PYScrollDecelerateDurationPiece];
+    @synchronized( self ) {
+        CGFloat _rate = powf(PYScrollDecelerateStepRate, _currentStepPiece);
+        CGFloat _horFn = (_decelerateInitSpeed.width * _rate);
+        CGFloat _verFn = (_decelerateInitSpeed.height * _rate);
+        _currentStepPiece += 1;
+        if ( _currentStepPiece == _maxStepPiece ) {
+            _horFn = _willStopOffset.width - _currentDeceleratedOffset.width;
+            _verFn = _willStopOffset.height - _currentDeceleratedOffset.height;
+        } else {
+            _currentDeceleratedOffset.width += _horFn;
+            _currentDeceleratedOffset.height += _verFn;
+        }
+        CGSize _offset = CGSizeMake(_horFn, _verFn);
+        if ( _currentStepPiece > _maxStepPiece ) {
+            [_decelerateTimer invalidate];
+            _decelerateTimer = nil;
+            [self _decelerateAnimationDidStop];
+        } else {
+            [self setMovingOffset:_offset
+               withAnimatDuration:PYScrollDecelerateDurationPiece];
+        }
     }
 }
 
@@ -275,12 +278,11 @@
     CGRect _fakeCoverFrame = _coverFrame;
     _fakeCoverFrame.origin.x += distance.width;
     _fakeCoverFrame.origin.y += distance.height;
-    
     while ( !PYIsRectInside(self.bounds, _fakeCoverFrame) ) {
         UIView *_sc = [[[self class] contentViewClass] object];
         [_sc setBackgroundColor:self.backgroundColor];
         [_sc setClipsToBounds:self.clipsToBounds];
-        if ( _fakeCoverFrame.origin.x > 0 || _fakeCoverFrame.origin.y > 0 ) {
+        if ( _SIDE_ITEM(distance) > 0 ) {
             // Insert
             UIView *_fsc = (UIView *)[_subContentList safeObjectAtIndex:0];
             CGRect _sf = _fsc.frame;
@@ -363,19 +365,16 @@
             continue;
         }
         [_removeContentList addObject:_subContentView];
-        
-        if ( _SIDE_ITEM(distance) < 0 ) {
-            // remove top
-            _SIDE_ITEM(_coverFrame.origin) += _SIDE_ITEM(_sFrame.size);
-        } else {
-            // remove bottom
-        }
-        _SIDE_ITEM(_coverFrame.size) -= _SIDE_ITEM(_sFrame.size);
     }
     if ( [_removeContentList count] == 0 ) return;
     for ( PYView *_rContent in _removeContentList ) {
         [_subContentList removeObject:_rContent];
         [_rContent removeFromSuperview];
+    }
+    _coverFrame = CGRectZero;
+    for ( PYView *_subCtntView in _subContentList ) {
+        CGRect _sFrame = _subCtntView.frame;
+        _coverFrame = PYRectCombine(_coverFrame, _sFrame);
     }
 }
 
