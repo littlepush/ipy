@@ -107,17 +107,18 @@
     _tableViewOffset.origin.x -= distance.width;
     _tableViewOffset.origin.y -= distance.height;
     PYRectCrop(self.bounds, _tableViewOffset, &_visiableBounds);
+
     while ( !PYIsRectInside(_visiableBounds, _visiableContentFrame) ) {
         // Load new cell.
         if ( _SIDE_ITEM_C(distance) > 0 ) {
             // Load previous
             PYTableViewCell *_topCell = [self.subviews safeObjectAtIndex:0];
             int _currentIndex = self.tableView.cellCount;
-            if ( _topCell != nil ) {
+            IF ( _topCell != nil ) {
                 _currentIndex = _topCell.cellIndex;
             }
             if ( _currentIndex == 0 ) return;
-            PYTableViewCell *_newCell = [self.tableView getCellAtIndexFromDataSource:_currentIndex - 1];
+            PYTableViewCell *_newCell = [self.tableView getCellAtIndexFromDataSource:(_currentIndex - 1)];
             if ( _newCell == nil ) return;
             [_newCell setCellIndex:(_currentIndex - 1)];
             // Tell the delegate.
@@ -129,7 +130,7 @@
             }
             [self insertSubview:_newCell atIndex:0];
             CGRect _cFrame = _newCell.frame;
-            _SIDE_ITEM_C(_visiableContentFrame.origin) -= _SIDE_ITEM_C(_cFrame.size);
+            _SIDE_ITEM_C(_visiableContentFrame.origin) = _SIDE_ITEM_C(_cFrame.origin);
             _SIDE_ITEM_C(_visiableContentFrame.size) += _SIDE_ITEM_C(_cFrame.size);
             _VSIDE_ITEM_C(_visiableContentFrame.size) = _VSIDE_ITEM_C(_cFrame.size);
         } else {
@@ -140,7 +141,7 @@
                 _currentIndex = _lastCell.cellIndex;
             }
             if ( _currentIndex == (self.tableView.cellCount - 1) ) return;
-            PYTableViewCell *_newCell = [self.tableView getCellAtIndexFromDataSource:_currentIndex + 1];
+            PYTableViewCell *_newCell = [self.tableView getCellAtIndexFromDataSource:(_currentIndex + 1)];
             if ( _newCell == nil ) return;
             [_newCell setCellIndex:(_currentIndex + 1)];
             // Tell the delegate;

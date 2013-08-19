@@ -18,6 +18,8 @@
 		E6D57F1315F5A7EB00C1ED25 /* PYData.h in Headers */ = {isa = PBXBuildFile; fileRef = E67EDAE515D4DEA9001F12CF /* PYData.h */; };
 		E6D57F1415F5A7EB00C1ED25 /* PYData.m in Sources */ = {isa = PBXBuildFile; fileRef = E67EDAE615D4DEA9001F12CF /* PYData.m */; };
 		E6D57F1715F5A7EB00C1ED25 /* PYDataPredefination.h in Headers */ = {isa = PBXBuildFile; fileRef = E67EDAF115D4E0B7001F12CF /* PYDataPredefination.h */; };
+		E6F2AE2117C143D70004463E /* PYObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F2AE2017C143D70004463E /* PYObject.h */; };
+		E6F2AE2417C15AF10004463E /* PYObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F2AE2317C15AF10004463E /* PYObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		E6B8E1CB15F0EAD100291E27 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E6D57F0815F5A7E000C1ED25 /* libPYData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYData.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D57F0C15F5A7E000C1ED25 /* PYData-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYData-Prefix.pch"; sourceTree = "<group>"; };
+		E6F2AE2017C143D70004463E /* PYObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYObject.h; sourceTree = "<group>"; };
+		E6F2AE2317C15AF10004463E /* PYObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,8 @@
 				E67EDAE515D4DEA9001F12CF /* PYData.h */,
 				E67EDAE615D4DEA9001F12CF /* PYData.m */,
 				E67EDAF115D4E0B7001F12CF /* PYDataPredefination.h */,
+				E6F2AE2017C143D70004463E /* PYObject.h */,
+				E6F2AE2317C15AF10004463E /* PYObject.m */,
 			);
 			path = "static-library";
 			sourceTree = "<group>";
@@ -123,6 +129,7 @@
 				E6D57F1715F5A7EB00C1ED25 /* PYDataPredefination.h in Headers */,
 				E68B6F5516B034BE00E1B3FD /* PYGlobalDataCache.h in Headers */,
 				E68B6F5716B034BE00E1B3FD /* PYKeyedDb.h in Headers */,
+				E6F2AE2117C143D70004463E /* PYObject.h in Headers */,
 				E67AE0F916F417A5000D6AB6 /* PYSqlStatement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6D57F1415F5A7EB00C1ED25 /* PYData.m in Sources */,
+				E6F2AE2417C15AF10004463E /* PYObject.m in Sources */,
 				E68B6F5616B034BE00E1B3FD /* PYGlobalDataCache.m in Sources */,
 				E68B6F5816B034BE00E1B3FD /* PYKeyedDb.m in Sources */,
 				E67AE12F16F5727F000D6AB6 /* PYSqlStatement.m in Sources */,
