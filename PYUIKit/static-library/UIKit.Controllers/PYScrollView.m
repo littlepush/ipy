@@ -278,7 +278,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
     [self setClipsToBounds:YES];
     
-    [self setEvent:PYResponderEventPen withRestraint:PYResponderRestraintPenFreedom];
+    [self setEvent:PYResponderEventPan withRestraint:PYResponderRestraintPanFreedom];
     [self addTarget:self
              action:@selector(_actionTouchBeginHandler:event:)
   forResponderEvent:PYResponderEventTouchBegin];
@@ -287,7 +287,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
   forResponderEvent:PYResponderEventTouchEnd];
     [self addTarget:self
              action:@selector(_actionTouchPenHandler:event:)
-  forResponderEvent:PYResponderEventPen];
+  forResponderEvent:PYResponderEventPan];
 }
 
 - (void)scrollToTop

@@ -46,7 +46,7 @@
 @dynamic canPen;
 - (BOOL)canPen
 {
-    return (_responderAction & PYResponderEventPen) > 0;
+    return (_responderAction & PYResponderEventPan) > 0;
 }
 @dynamic canSwipe;
 - (BOOL)canSwipe
@@ -74,7 +74,7 @@
 @dynamic penDirections;
 - (NSUInteger)penDirections
 {
-    return (_responderRestraint & PYResponderRestraintPenFreedom);
+    return (_responderRestraint & PYResponderRestraintPanFreedom);
 }
 @dynamic swipeDirections;
 - (NSUInteger)swipeDirections
@@ -235,7 +235,7 @@
         CGPoint _movePoint = [_touch locationInView:self.view.window];
         CGSize _delta = CGSizeMake((_movePoint.x - _firstTouchPoint.x),
                                    (_movePoint.y - _firstTouchPoint.y));
-        if ( (_possibleAction & PYResponderEventPen) > 0 ) {
+        if ( (_possibleAction & PYResponderEventPan) > 0 ) {
             // Calculate the point in side
             CGSize _moveDistance = CGSizeMake(
                                               PYINDICATION_F(powf(PYABSF(_delta.width), .9f), _delta.width),
@@ -252,7 +252,7 @@
                                        _moveDelta.height / _timePassed);
             _eventInfo.movingSpeed = _movingSpeed;
             _eventInfo.movingDeltaDistance = _moveDelta;
-            _eventInfo.eventId = PYResponderEventPen;
+            _eventInfo.eventId = PYResponderEventPan;
             self.state = UIGestureRecognizerStateChanged;
         } else if ( (_possibleAction & PYResponderEventSwipe) > 0 ) {
             BOOL _isVel = PYABSF(_delta.width) < PYABSF(_delta.height);

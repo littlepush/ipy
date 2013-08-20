@@ -31,7 +31,7 @@
     [super viewJustBeenCreated];
     // Set Responder Actions.
     [self setEvent:PYResponderEventTap withRestraint:PYResponderRestraintSingleTap];
-    [self setEvent:PYResponderEventPen withRestraint:PYResponderRestraintPenFreedom];
+    [self setEvent:PYResponderEventPan withRestraint:PYResponderRestraintPanFreedom];
     [self setEvent:PYResponderEventPress withRestraint:PYResponderRestraintOneFingerPress];
     
     

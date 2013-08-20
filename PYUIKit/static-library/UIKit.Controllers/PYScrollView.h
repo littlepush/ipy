@@ -33,8 +33,8 @@
 @protocol PYScrollViewDelegate;
 
 typedef enum {
-    PYScrollHorizontal      = PYResponderRestraintPenHorizontal,
-    PYScrollVerticalis      = PYResponderRestraintPenVerticalis,
+    PYScrollHorizontal      = PYResponderRestraintPanHorizontal,
+    PYScrollVerticalis      = PYResponderRestraintPanVerticalis,
     PYScrollFreedom         = (PYScrollHorizontal | PYScrollVerticalis)
 } PYScrollDirection;
 

@@ -12,16 +12,16 @@
 typedef enum {
     PYResponderEventTap                 = 0x0001,
     PYResponderEventPress               = 0x0002,
-    PYResponderEventPen                 = 0x0004,
+    PYResponderEventPan                 = 0x0004,
     PYResponderEventSwipe               = 0x0008,
     PYResponderEventPinch               = 0x0010,
     PYResponderEventRotate              = 0x0020,
     PYResponderEventNeedPredirect       = (PYResponderEventTap | PYResponderEventPress |
-                                           PYResponderEventPen | PYResponderEventSwipe |
+                                           PYResponderEventPan | PYResponderEventSwipe |
                                            PYResponderEventPinch | PYResponderEventRotate),
-    PYResponderEventSupportDragging     = (PYResponderEventPen | PYResponderEventSwipe |
+    PYResponderEventSupportDragging     = (PYResponderEventPan | PYResponderEventSwipe |
                                            PYResponderEventPinch | PYResponderEventRotate),
-    PYResponderEventSingleDragging      = (PYResponderEventPen | PYResponderEventSwipe),
+    PYResponderEventSingleDragging      = (PYResponderEventPan | PYResponderEventSwipe),
     PYResponderEventMultipleTouches     = (PYResponderEventPress | PYResponderEventPinch |
                                            PYResponderEventRotate),
     PYResponderEventDoubleDragging      = (PYResponderEventPinch | PYResponderEventRotate),
@@ -46,9 +46,9 @@ typedef enum {
     PYResponderRestraintTwoFingersPress     = 0x00000020,
     PYResponderRestraintThreeFingersPress   = 0x00000040,
     // Sub action for pen
-    PYResponderRestraintPenFreedom          = 0x80000F00,   // Default
-    PYResponderRestraintPenHorizontal       = (0x00000100 | 0x00000200),
-    PYResponderRestraintPenVerticalis       = (0x00000400 | 0x00000800),
+    PYResponderRestraintPanFreedom          = 0x80000F00,   // Default
+    PYResponderRestraintPanHorizontal       = (0x00000100 | 0x00000200),
+    PYResponderRestraintPanVerticalis       = (0x00000400 | 0x00000800),
     // Sub action for swipe
     PYResponderRestraintSwipeLeft           = 0x00001000,
     PYResponderRestraintSwipeRight          = 0x00002000,
