@@ -43,6 +43,9 @@
 #import "PYResponderView.h"
 #import "PYResponderGestureRecognizer.h"
 
+// Animations
+#import "UIViewController+PopUp.h"
+
 // Controllers
 #import "PYImageLayer.h"
 #import "PYImageView.h"

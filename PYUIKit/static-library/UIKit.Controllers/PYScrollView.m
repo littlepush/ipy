@@ -45,6 +45,11 @@ CGFloat const       PYScrollOverheadRate                = .45;
 }
 
 @synthesize scrollSide = _scrllSide;
+- (void)setScrollSide:(PYScrollDirection)scrollSide
+{
+    _scrllSide = scrollSide;
+    [self setEvent:PYResponderEventPan withRestraint:(PYResponderRestraint)scrollSide];
+}
 @synthesize decelerateSpeed = _decelerateSpeed;
 @dynamic alwaysBounceHorizontal;
 - (BOOL)alwaysBounceHorizontal
@@ -135,6 +140,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
 - (void)setContentOffset:(CGSize)contentOffset animated:(BOOL)animated
 {
+    if ( _contentSize.width * _contentSize.height == 0 ) return;
     CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
     CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
     CGSize _movingOffset = CGSizeMake(_stopPoint.width - _currentPoint.width,

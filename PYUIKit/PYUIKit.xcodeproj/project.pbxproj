@@ -90,6 +90,8 @@
 		E69CC5C617B246EA00288631 /* PYScrollView+SideAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E69CC5C417B246EA00288631 /* PYScrollView+SideAnimation.m */; };
 		E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6BC1BE717A023C300D480E2 /* PYResponderView.h */; };
 		E6BC1BEA17A023C300D480E2 /* PYResponderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6BC1BE817A023C300D480E2 /* PYResponderView.m */; };
+		E6C58D6517CB5486003D32EA /* UIViewController+PopUp.h in Headers */ = {isa = PBXBuildFile; fileRef = E6C58D6317CB5486003D32EA /* UIViewController+PopUp.h */; };
+		E6C58D6617CB5486003D32EA /* UIViewController+PopUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C58D6417CB5486003D32EA /* UIViewController+PopUp.m */; };
 		E6D57F3E15F5A8C400C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8515B42B1400DCF831 /* Foundation.framework */; };
 		E6D70DEE17BE735700542844 /* PYResponderGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D70DEC17BE735700542844 /* PYResponderGestureRecognizer.h */; };
 		E6D70DEF17BE735700542844 /* PYResponderGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D70DED17BE735700542844 /* PYResponderGestureRecognizer.m */; };
@@ -198,6 +200,8 @@
 		E6A3871315B5468D0096A14A /* PYCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PYCore.framework; path = System/Library/Frameworks/PYCore.framework; sourceTree = SDKROOT; };
 		E6BC1BE717A023C300D480E2 /* PYResponderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYResponderView.h; sourceTree = "<group>"; };
 		E6BC1BE817A023C300D480E2 /* PYResponderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYResponderView.m; sourceTree = "<group>"; };
+		E6C58D6317CB5486003D32EA /* UIViewController+PopUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PopUp.h"; sourceTree = "<group>"; };
+		E6C58D6417CB5486003D32EA /* UIViewController+PopUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PopUp.m"; sourceTree = "<group>"; };
 		E6D57F3D15F5A8C400C1ED25 /* libPYUIKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYUIKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D57F4115F5A8C400C1ED25 /* PYUIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYUIKit-Prefix.pch"; sourceTree = "<group>"; };
 		E6D70DEC17BE735700542844 /* PYResponderGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYResponderGestureRecognizer.h; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				E67F68D6179EE9340086F03C /* PYUIKit.h */,
+				E6C58D6217CB5450003D32EA /* UIKit.Animations */,
 				E67F68CD179EE58C0086F03C /* UIKit.Utilities */,
 				E67F68BF179EE3170086F03C /* UIKit.Kernel */,
 				E6BC1BE617A0237E00D480E2 /* UIKit.Responders */,
@@ -473,6 +478,15 @@
 			path = UIKit.Responders;
 			sourceTree = "<group>";
 		};
+		E6C58D6217CB5450003D32EA /* UIKit.Animations */ = {
+			isa = PBXGroup;
+			children = (
+				E6C58D6317CB5486003D32EA /* UIViewController+PopUp.h */,
+				E6C58D6417CB5486003D32EA /* UIViewController+PopUp.m */,
+			);
+			path = UIKit.Animations;
+			sourceTree = "<group>";
+		};
 		E6D57F3F15F5A8C400C1ED25 /* PYUIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,6 +538,7 @@
 				E64A8FBC17BB7DDC00B132BA /* PYAnimator.h in Headers */,
 				E66E46E117A721FA00D1FF55 /* PYView+Animation.h in Headers */,
 				E67CE0D417A7E15B009BC886 /* PYButton.h in Headers */,
+				E6C58D6517CB5486003D32EA /* UIViewController+PopUp.h in Headers */,
 				E64A8FC917BC834600B132BA /* PYTableContentView.h in Headers */,
 				E67CE0DA17A7E1A8009BC886 /* PYSwitcher.h in Headers */,
 				E67CE0DF17A7E1B5009BC886 /* PYSlider.h in Headers */,
@@ -652,6 +667,7 @@
 				E64A8FCE17BCA39D00B132BA /* PYTableView+Content.m in Sources */,
 				E64A8FC517BC7D9A00B132BA /* PYHitCover.m in Sources */,
 				E66E46D617A71F7B00D1FF55 /* PYRichText+Label.m in Sources */,
+				E6C58D6617CB5486003D32EA /* UIViewController+PopUp.m in Sources */,
 				E64A8FCA17BC834600B132BA /* PYTableContentView.m in Sources */,
 				E66E46DA17A71F8A00D1FF55 /* PYRichLabel.m in Sources */,
 				E66E46DE17A7216800D1FF55 /* UIView+PYUIKit.m in Sources */,

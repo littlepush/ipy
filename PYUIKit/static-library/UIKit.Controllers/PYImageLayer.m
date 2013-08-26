@@ -261,6 +261,12 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     [self _setImageToContext];
 }
 
+- (void)willMoveToSuperLayer:(CALayer *)layer
+{
+    if ( layer == nil ) return;
+    [self _setImageToContext];
+}
+
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
     if ( layer != _contentLayer ) return;

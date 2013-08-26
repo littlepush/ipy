@@ -135,6 +135,7 @@
 - (void)animatedScrollWithOffsetDistance:(CGSize)offsetDistance
                         withinTimePieces:(NSUInteger)timepiece
 {
+    if ( _contentSize.width * _contentSize.height == 0 ) return;
     @synchronized( self ) {
         // Begin to decelerate
         _currentDeceleratedOffset = CGSizeZero;
@@ -209,6 +210,7 @@
 
 - (void)setMovingOffset:(CGSize)contentOffset withAnimatDuration:(CGFloat)duration
 {
+    if ( _contentSize.width * _contentSize.height == 0 ) return;
     //DUMPFloat(contentOffset.height);
     [self willMoveToOffsetWithDistance:contentOffset];
     if ( duration > 0 ) {
