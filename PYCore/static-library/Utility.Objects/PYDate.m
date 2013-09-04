@@ -132,7 +132,7 @@
     return [PYDate object];
 }
 // Specified date
-+ (id)dateWithTimpstamp:(NSUInteger)timestamp
++ (id)dateWithTimestamp:(NSUInteger)timestamp
 {
     return __AUTO_RELEASE([[PYDate alloc] initWithTimpstamp:timestamp]);
 }
