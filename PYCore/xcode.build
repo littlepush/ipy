@@ -47,6 +47,7 @@ cd ../
 rm -rf ._version.temp
 echo "Highest SDK Version: \""${highestSDKVersion}"\""
 
+rm -rf /tmp/${ProjectName}
 mkdir -p /tmp/${ProjectName}/PCH
 
 for sdk in $XCodeSDKs; do
@@ -62,8 +63,6 @@ for sdk in $XCodeSDKs; do
 		exit 1;
 	fi
 done
-
-rm -rf /tmp/${ProjectName}/PCH
 
 cd ./build/${ProjectName}-lib
 rm -rf libs

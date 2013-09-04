@@ -123,7 +123,7 @@ static Class                        _keyedDbDateClass;
         _insertStat = [PYSqlStatement sqlStatementWithSQL:_insertSql];
         if (sqlite3_prepare_v2(_innerDb, _insertSql.UTF8String, -1,
                                &_insertStat->sqlstmt, NULL) != SQLITE_OK) {
-            NSLog(@"Failed to initialize the insert statement");
+            NSLog(@"Failed to initialize the insert statement: %s", sqlite3_errmsg(_innerDb));
             return NO;
         }
 
@@ -133,7 +133,7 @@ static Class                        _keyedDbDateClass;
         _updateStat = [PYSqlStatement sqlStatementWithSQL:_updateSql];
         if (sqlite3_prepare_v2(_innerDb, _updateSql.UTF8String, -1,
                                &_updateStat->sqlstmt, NULL) != SQLITE_OK) {
-            NSLog(@"Failed to initialize the update statement");
+            NSLog(@"Failed to initialize the update statement: %s", sqlite3_errmsg(_innerDb));
             return NO;
         }
         
@@ -143,7 +143,7 @@ static Class                        _keyedDbDateClass;
         _deleteStat = [PYSqlStatement sqlStatementWithSQL:_deleteSql];
         if (sqlite3_prepare_v2(_innerDb, _deleteSql.UTF8String, -1,
                                &_deleteStat->sqlstmt, NULL) != SQLITE_OK) {
-            NSLog(@"Failed to initialize the delete statement");
+            NSLog(@"Failed to initialize the delete statement: %s", sqlite3_errmsg(_innerDb));
             return NO;
         }
         
@@ -153,7 +153,7 @@ static Class                        _keyedDbDateClass;
         _checkStat = [PYSqlStatement sqlStatementWithSQL:_checkSql];
         if (sqlite3_prepare_v2(_innerDb, _checkSql.UTF8String, -1,
                                &_checkStat->sqlstmt, NULL) != SQLITE_OK) {
-            NSLog(@"Failed to initialize the check statement");
+            NSLog(@"Failed to initialize the check statement: %s", sqlite3_errmsg(_innerDb));
             return NO;
         }
         
@@ -163,7 +163,7 @@ static Class                        _keyedDbDateClass;
         _selectStat = [PYSqlStatement sqlStatementWithSQL:_selectSql];
         if (sqlite3_prepare_v2(_innerDb, _selectSql.UTF8String, -1,
                                &_selectStat->sqlstmt, NULL) != SQLITE_OK) {
-            NSLog(@"Failed to initialize the select statement");
+            NSLog(@"Failed to initialize the select statement: %s", sqlite3_errmsg(_innerDb));
             return NO;
         }
         
@@ -173,7 +173,7 @@ static Class                        _keyedDbDateClass;
         _countStat = [PYSqlStatement sqlStatementWithSQL:_countSql];
         if (sqlite3_prepare_v2(_innerDb, _countSql.UTF8String, -1,
                                &_countStat->sqlstmt, NULL) != SQLITE_OK) {
-            NSLog(@"Failed to initialize the count statement");
+            NSLog(@"Failed to initialize the count statement: %s", sqlite3_errmsg(_innerDb));
             return NO;
         }
         
@@ -215,7 +215,7 @@ static Class                        _keyedDbDateClass;
 	}
 	
 	sqlite3_close(_innerDb);
-	return [self initializeDbWithPath:dbPath];
+	return [self initializeDbWithPath:dbPath cacheTableName:cacheTbname];
 }
 - (BOOL)createDbWithPath:(NSString *)dbPath
 {
