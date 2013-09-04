@@ -112,7 +112,7 @@ static NSMutableDictionary		*_gdcDict;
 - (void)setObject:(id<NSCoding>)value forKey:(NSString *)key
 {
     // The key will never expired.
-    [self setObject:value forKey:key expire:[PYDate dateWithTimpstamp:(-1)]];
+    [self setObject:value forKey:key expire:[PYDate dateWithTimestamp:(-1)]];
 }
 
 - (void)setObject:(id<NSCoding>)value forKey:(NSString *)key expire:(id<PYDate>)expire

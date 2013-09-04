@@ -307,7 +307,7 @@ static Class                        _keyedDbDateClass;
     {
         [_selectStat prepareForReading];
         NSData *_value = [_selectStat getInOrderData];
-        id<PYDate> _expire = [_keyedDbDateClass dateWithTimpstamp:[_selectStat getInOrderInt]];
+        id<PYDate> _expire = [_keyedDbDateClass dateWithTimestamp:[_selectStat getInOrderInt]];
         PYKeyedDbRow *_row = [PYKeyedDbRow object];
         _row.value = _value;
         _row.expire = _expire;
