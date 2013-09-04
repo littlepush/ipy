@@ -99,7 +99,7 @@ typedef enum {
 
 // Instance
 - (id)initWithDate:(PYDate *)date;
-- (id)initWithTimpstamp:(NSUInteger)timestamp;
+- (id)initWithTimestamp:(NSUInteger)timestamp;
 - (id)initWithString:(NSString *)dateString format:(NSString *)format;
 
 // Convert to NSDate

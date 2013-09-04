@@ -134,12 +134,12 @@
 // Specified date
 + (id)dateWithTimestamp:(NSUInteger)timestamp
 {
-    return __AUTO_RELEASE([[PYDate alloc] initWithTimpstamp:timestamp]);
+    return __AUTO_RELEASE([[PYDate alloc] initWithTimestamp:timestamp]);
 }
 // From an NSDate
 + (id)dateWithDate:(NSDate *)date
 {
-    return [PYDate dateWithTimpstamp:(NSUInteger)[date timeIntervalSince1970]];
+    return [PYDate dateWithTimestamp:(NSUInteger)[date timeIntervalSince1970]];
 }
 // Date from string, default format "YYYY-MM-DD HH:mm"
 + (id)dateWithString:(NSString *)dateString
@@ -159,7 +159,7 @@
 }
 + (id)dateFromDate:(id<PYDate>)date
 {
-    return __AUTO_RELEASE([[PYDate alloc] initWithTimpstamp:date.timestamp]);
+    return __AUTO_RELEASE([[PYDate alloc] initWithTimestamp:date.timestamp]);
 }
 
 // Get the weekday name
@@ -178,7 +178,7 @@
     }
     return self;
 }
-- (id)initWithTimpstamp:(NSUInteger)timestamp
+- (id)initWithTimestamp:(NSUInteger)timestamp
 {
     self = [super init];
     if ( self ) {
@@ -228,13 +228,13 @@
 
 - (id)copy
 {
-    PYDate *_newDate = (PYDate *)[PYDate dateWithTimpstamp:self.timestamp];
+    PYDate *_newDate = (PYDate *)[PYDate dateWithTimestamp:self.timestamp];
     return _newDate;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    PYDate *_newData = [[PYDate allocWithZone:zone] initWithTimpstamp:self.timestamp];
+    PYDate *_newData = [[PYDate allocWithZone:zone] initWithTimestamp:self.timestamp];
     return _newData;
 }
 
@@ -287,13 +287,13 @@
 {
     int _secondPass = _hour * 3600 + _minute * 60 + _second;
     int _beginTimeStamp = _timestamp - _secondPass;
-    return [PYDate dateWithTimpstamp:_beginTimeStamp];
+    return [PYDate dateWithTimestamp:_beginTimeStamp];
 }
 - (id)endOfDay
 {
     int _secondPass = _hour * 3600 + _minute * 60 + _second;
     int _timeLeft = 86400 - _secondPass;
-    return [PYDate dateWithTimpstamp:(_timestamp + _timeLeft)];
+    return [PYDate dateWithTimestamp:(_timestamp + _timeLeft)];
 }
 
 - (id)yesterday
@@ -347,16 +347,16 @@
 }
 - (id)dateDaysAgo:(NSUInteger)dayCount
 {
-    return [PYDate dateWithTimpstamp:(_timestamp - (dayCount * 86400))];
+    return [PYDate dateWithTimestamp:(_timestamp - (dayCount * 86400))];
 }
 - (id)dateDaysAfter:(NSUInteger)dayCount
 {
-    return [PYDate dateWithTimpstamp:(_timestamp + (dayCount * 86400))];
+    return [PYDate dateWithTimestamp:(_timestamp + (dayCount * 86400))];
 }
 
 - (id)dateMinuterAfter:(NSUInteger)minuterCount
 {
-    return [PYDate dateWithTimpstamp:(_timestamp + (minuterCount * 60))];
+    return [PYDate dateWithTimestamp:(_timestamp + (minuterCount * 60))];
 }
 
 - (BOOL)isExpiredFromNow
