@@ -69,6 +69,16 @@
     }
 }
 
+- (NSArray *)reverseArray
+{
+    NSMutableArray *_reversedArray = [NSMutableArray array];
+    NSEnumerator *_reverseEnum = self.reverseObjectEnumerator;
+    for ( NSObject *_obj in _reverseEnum ) {
+        [_reversedArray addObject:_obj];
+    }
+    return [NSArray arrayWithArray:_reversedArray];
+}
+
 @end
 
 @implementation NSMutableArray (PYCore)

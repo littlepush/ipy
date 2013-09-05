@@ -34,6 +34,9 @@
 // Safely to get the object at index.
 - (id)safeObjectAtIndex:(NSUInteger)index;
 
+// Reverse current array.
+- (NSArray *)reverseArray;
+
 @end
 
 @interface NSMutableArray (PYCore)
