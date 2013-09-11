@@ -93,11 +93,11 @@
     _pyTableView = [PYTableView object];
     [_pyTableView setDataSource:self];
     [_pyTableView setDelegate:self];
-    [_pyTableView setScrollSide:PYScrollHorizontal];
+    [_pyTableView setScrollSide:PYScrollVerticalis];
 //    CGRect _tf = [UIScreen mainScreen].bounds;
     [_pyTableView setFrame:CGRectMake(0, 100, 320, 240)];
     [_pyTableView setLoopEnabled:YES];
-    [_pyTableView setPageSize:CGSizeMake(320.f, 240.f)];
+    [_pyTableView setPageSize:CGSizeMake(320.f, 80.f)];
     [_pyTableView setPagable:YES];
     [self.view addSubview:_pyTableView];
     
@@ -174,7 +174,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (CGFloat)pytableView:(PYTableView *)tableView heightForRowAtIndex:(NSInteger)index
 {
-    return 320.f;
+    return 80.f;
 }
 
 - (PYTableViewCell *)pytableView:(PYTableView *)tableView cellForRowAtIndex:(NSInteger)index
@@ -187,7 +187,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                  reuseIdentifier:_identify];
         [_cell setBackgroundColor:[UIColor grayColor]];
         PYImageView *_imageView2 = [PYImageView object];
-        [_imageView2 setFrame:CGRectMake(0, 0, 320.f, 240.f)];
+        [_imageView2 setContentMode:UIViewContentModeScaleAspectFit];
+        [_imageView2 setFrame:CGRectMake(0, 0, 320.f, 80.f)];
         [_cell addChild:_imageView2];
         [_imageView2 setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
 //        PYImageLayer *_imageLayer = [PYImageLayer layer];

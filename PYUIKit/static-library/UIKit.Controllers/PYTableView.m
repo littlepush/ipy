@@ -91,6 +91,12 @@
     }
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self reloadData];
+}
+
 - (void)reloadData
 {
     if ( self.dataSource == nil ) return;

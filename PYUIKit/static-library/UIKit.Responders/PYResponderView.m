@@ -169,6 +169,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"[%@] touches end", NSStringFromClass([self class]));
     PYViewEvent *_event = _responderGesture.eventInfo;
     _event.touches = [touches copy];
     _event.sysEvent = event;

@@ -177,7 +177,7 @@
     
     if ( _touchCount == 1 ) {
         UITouch *_touch = [_eventInfo.touches anyObject];
-        _firstTouchPoint = [_touch locationInView:self.view];
+        _firstTouchPoint = [_touch locationInView:self.view.window];
         _lastMovePoint = _firstTouchPoint;
         [_speedTicker start];
     }
