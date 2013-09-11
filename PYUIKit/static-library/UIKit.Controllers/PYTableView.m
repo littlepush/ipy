@@ -134,7 +134,7 @@
     _VSIDE_ITEM(_ctntSize) = _VSIDE_ITEM(_myBounds.size);
     [self setContentSize:_ctntSize animated:NO];
     // Try to move.
-    [self setContentOffset:self.contentOffset animated:NO];
+    [self setContentOffset:CGSizeMake(0, 0) animated:NO];
 }
 
 - (PYTableViewCell *)cellForRowAtIndex:(NSInteger)index

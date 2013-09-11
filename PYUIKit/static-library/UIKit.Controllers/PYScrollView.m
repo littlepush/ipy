@@ -44,6 +44,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     return [UIView class];
 }
 
+@synthesize delegate;
 @synthesize scrollSide = _scrllSide;
 - (void)setScrollSide:(PYScrollDirection)scrollSide
 {
@@ -76,6 +77,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _pagable = pagable;
 }
 
+@synthesize contentSize = _contentSize;
 - (void)setContentSize:(CGSize)contentSize
 {
     [self setContentSize:contentSize animated:NO];
@@ -133,6 +135,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     }
 }
 
+@synthesize contentOffset = _contentOffset;
 - (void)setContentOffset:(CGSize)contentOffset
 {
     [self setContentOffset:contentOffset animated:NO];
@@ -153,6 +156,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     }
 }
 
+@synthesize contentInsets = _contentInsets;
 - (void)setContentInsets:(UIEdgeInsets)contentInsets
 {
     CGRect _ctntFrame = _contentView.frame;
@@ -192,12 +196,8 @@ CGFloat const       PYScrollOverheadRate                = .45;
 
 - (void)_actionTouchBeginHandler:(id)sender event:(PYViewEvent *)event
 {
+    [self cancelAllAnimation];
     @synchronized ( self ) {
-        // Tell the delegate
-        if ( _decelerateTimer != nil ) {
-            [_decelerateTimer invalidate];
-            _decelerateTimer = nil;
-        }
         if ( _contentSize.width * _contentSize.height == 0 ) return;
         [((NSObject *)self.delegate)
          tryPerformSelector:@selector(pyScrollViewWillBeginToScroll:)
@@ -294,6 +294,28 @@ CGFloat const       PYScrollOverheadRate                = .45;
     [self addTarget:self
              action:@selector(_actionTouchPenHandler:event:)
   forResponderEvent:PYResponderEventPan];
+    [self addTarget:self
+             action:@selector(_actionTouchEndHandler:event:)
+  forResponderEvent:PYResponderEventTouchCancel];
+}
+
+- (void)cancelAllAnimation
+{
+    // Clear all animation...
+    @synchronized ( self ) {
+        if ( _decelerateTimer != nil ) {
+            [_decelerateTimer invalidate];
+            _decelerateTimer = nil;
+        }
+        for ( UIView *_ctntView in _subContentList ) {
+            [_ctntView.layer removeAllAnimations];
+        }
+    }
+}
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if ( newSuperview != nil ) return;
+    [self cancelAllAnimation];
 }
 
 - (void)scrollToTop

@@ -32,6 +32,8 @@
 // Clear all content cells.
 - (void)clearContents
 {
+    [self cancelAllAnimation];
+    [self resetContentData];
     if ( _pCellFrame == NULL ) return;
     free( _pCellFrame );
     _pCellFrame = NULL;

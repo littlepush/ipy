@@ -149,6 +149,9 @@ extern CGFloat const            PYScrollOverheadRate;
 - (void)scrollToNextPage:(BOOL)animated;
 - (void)scrollToPreviousPage:(BOOL)animated;
 
+// For securety reason, invoke this message to make the object be thread safe...
+- (void)cancelAllAnimation;
+
 @end
 
 // The delegate

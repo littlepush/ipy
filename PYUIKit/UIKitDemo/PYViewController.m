@@ -101,13 +101,24 @@
     [_pyTableView setPagable:YES];
     [self.view addSubview:_pyTableView];
     
-    _slideTimer = [NSTimer scheduledTimerWithTimeInterval:3.f
-                                                   target:self
-                                                 selector:@selector(_testTimerHandler:)
-                                                 userInfo:nil
-                                                  repeats:YES];
+//    _slideTimer = [NSTimer scheduledTimerWithTimeInterval:3.f
+//                                                   target:self
+//                                                 selector:@selector(_testTimerHandler:)
+//                                                 userInfo:nil
+//                                                  repeats:YES];
+    
+    UIButton *_reloadButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_reloadButton setTitle:@"Reload" forState:UIControlStateNormal];
+    [_reloadButton setFrame:CGRectMake(120, 390, 80, 36)];
+    [self.view addSubview:_reloadButton];
+    [_reloadButton addTarget:self action:@selector(_reloadButtonTouchUpInside:)
+            forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)_reloadButtonTouchUpInside:(id)sender
+{
+    [_pyTableView reloadData];
+}
 - (void)_testTimerHandler:(id)sender
 {
     [_pyTableView scrollToNextPage:YES];

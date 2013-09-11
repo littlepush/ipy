@@ -36,6 +36,9 @@
 // feature.
 @property (nonatomic, assign, setter = setSupportLoop:) BOOL        isLoopEnabled;
 
+// Reset the content offset/content size/...
+- (void)resetContentData;
+
 // This is a ... function! Which is designed to calculate the decelerate
 // distance according to the init speed and current statue.
 // If current scroll view has been set to support loop,

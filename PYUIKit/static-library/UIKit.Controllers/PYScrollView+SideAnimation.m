@@ -39,6 +39,22 @@
     _loopSupported = isLoopEnabled;
 }
 
+- (void)resetContentData
+{
+    for ( UIView *_sc in _subContentList ) {
+#ifdef _SCROLL_USE_LAYER_TRANSFORM_
+        CATransform3D _transform = _sc.layer.transform;
+        _transform = CATransform3DIdentity;
+        [_sc.layer setTransform:_transform];
+#else
+        CGAffineTransform _transform = _sc.transform;
+        _transform = CGAffineTransformIdentify
+        [_sc setTransform:_transform];
+#endif
+    }
+    _contentOffset = CGSizeMake(0, 0);
+}
+
 - (void)calculateDecelerateDistanceAndSetJellyPointWithInitSpeed:(CGSize)initSpeed
                                               decelerateDuration:(CGFloat *)dduration
                                                   bounceDuration:(CGFloat *)bduration
@@ -176,9 +192,13 @@
                               withinTimePieces:_SCROLL_TIME_PIECE_(_bounceDuration)];
     } else {
         // We did stop the animation.
-        [((NSObject *)self.delegate)
-         tryPerformSelector:@selector(pyScrollViewDidEndDecelerate:)
-         withObject:self];
+        @synchronized ( self ) {
+            if ( self.superview != nil ) {
+                [((NSObject *)self.delegate)
+                 tryPerformSelector:@selector(pyScrollViewDidEndDecelerate:)
+                 withObject:self];
+            }
+        }
     }
 }
 
@@ -253,9 +273,13 @@
     }
     
     // Tell the delegate we are moving...
-    [((NSObject *)self.delegate)
-     tryPerformSelector:@selector(pyScrollViewDidScroll:)
-     withObject:self];
+    @synchronized( self ) {
+        if ( self.superview != nil ) {
+            [((NSObject *)self.delegate)
+             tryPerformSelector:@selector(pyScrollViewDidScroll:)
+             withObject:self];
+        }
+    }
     
     if ( duration > 0 ) {
         [CATransaction commit];

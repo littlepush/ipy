@@ -116,6 +116,8 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
             _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
         }
     }
+    //self.contents = nil;
+    [self setContents:nil];
     [_contentLayer setHidden:NO];
     [_contentLayer setFrame:self.bounds];
     [_contentLayer setNeedsDisplay];
