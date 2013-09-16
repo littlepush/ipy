@@ -23,14 +23,26 @@
  */
 
 #import "PYLayer.h"
+#import "UIColor+PYUIKit.h"
+
+static BOOL _gEnableDebug = NO;
 
 @implementation PYLayer
+
++ (void)setDebugEnabled:(BOOL)enableDebug
+{
+    _gEnableDebug = enableDebug;
+}
 
 @synthesize tag = _layerTag;
 
 - (void)layerJustBeenCreated
 {
     self.contentsScale = [UIScreen mainScreen].scale;
+    if ( _gEnableDebug == YES ) {
+        self.borderWidth = 1.f;
+        self.borderColor = [UIColor randomColor].CGColor;
+    }
 }
 
 - (void)layerJustBeenCopyed

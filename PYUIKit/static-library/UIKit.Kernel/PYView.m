@@ -28,6 +28,12 @@
 
 @implementation PYView
 
+// Make PYView to support debug
++ (void)setDebugEnabled:(BOOL)enableDebug
+{
+    [PYLayer setDebugEnabled:enableDebug];
+}
+
 @dynamic coreLayer;
 - (PYLayer *)coreLayer
 {

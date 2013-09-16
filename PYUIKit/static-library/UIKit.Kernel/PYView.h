@@ -31,6 +31,9 @@
     BOOL                                            _hasInvokeInit;
 }
 
+// Make PYView to support debug
++ (void)setDebugEnabled:(BOOL)enableDebug;
+
 // Override the layer property.
 @property (nonatomic, readonly) PYLayer             *coreLayer;
 // Test
