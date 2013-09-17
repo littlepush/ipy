@@ -253,10 +253,7 @@ NSArray *__getCPUUsage()
             size_t prevCpuInfoSize = sizeof(integer_t) * _numPrevCPUInfo;
             vm_deallocate(mach_task_self(), (vm_address_t)_prevCPUInfo, prevCpuInfoSize);
         }
-        
-        _prevCPUInfo = _cpuInfo;
-        _numPrevCPUInfo = _numCPUInfo;
-        
+                
         _cpuInfo = nil;
         _numCPUInfo = 0U;
     } else {

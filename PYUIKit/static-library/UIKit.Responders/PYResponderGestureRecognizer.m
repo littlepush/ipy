@@ -134,7 +134,7 @@
     _eventInfo.pinchRate = 0.f;
     
     [super touchesBegan:touches withEvent:event];
-    _eventInfo.touches = [[event touchesForWindow:self.view.window] copy];
+    _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
     
     // Increase the tap count.
@@ -200,7 +200,7 @@
 {
     [super touchesMoved:touches withEvent:event];
     _eventInfo.hasMoved = YES;
-    _eventInfo.touches = [[event touchesForWindow:self.view.window] copy];
+    _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
 
     // Reset the tap count.
@@ -303,7 +303,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
-    _eventInfo.touches = [[event touchesForWindow:self.view.window] copy];
+    _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
     _eventInfo.movingDeltaDistance = CGSizeZero;
 
@@ -363,7 +363,7 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesCancelled:touches withEvent:event];
-    _eventInfo.touches = [[event touchesForWindow:self.view.window] copy];
+    _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
     self.state = UIGestureRecognizerStateFailed;
 }

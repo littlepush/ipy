@@ -63,6 +63,12 @@ typedef enum {
     PYResponderRestraintRotateDefault       = 0x00020000,   // Default
 } PYResponderRestraint;
 
+#ifdef __COPY_TOUCHES__
+#define __GET_TOUCHES(touchSet)             [(touchSet) copy]
+#else
+#define __GET_TOUCHES(touchSet)             (touchSet)
+#endif
+
 // Event for the target.
 @interface PYViewEvent : NSObject
 

@@ -9,6 +9,20 @@
 #import "PYViewController.h"
 #import "PYPhotoListCell.h"
 
+@interface TestView : UIView
+
+@end
+
+@implementation TestView
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    DUMPInt(PYMEMORYINUSE);
+    [super touchesMoved:touches withEvent:event];
+}
+
+@end
+
 @interface PYViewController ()
 
 @end
@@ -113,6 +127,11 @@
     [self.view addSubview:_reloadButton];
     [_reloadButton addTarget:self action:@selector(_reloadButtonTouchUpInside:)
             forControlEvents:UIControlEventTouchUpInside];
+    
+    TestView *_responderView = [TestView object];
+    [_responderView setFrame:CGRectMake(0, 446, 320, 120)];
+    [_responderView setBackgroundColor:[UIColor randomColor]];
+    [self.view addSubview:_responderView];
 }
 
 - (void)_reloadButtonTouchUpInside:(id)sender
@@ -185,12 +204,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         _cell = [[PYTableViewCell alloc]
                  initWithStyle:UITableViewCellStyleDefault
                  reuseIdentifier:_identify];
-        [_cell setBackgroundColor:[UIColor grayColor]];
-        PYImageView *_imageView2 = [PYImageView object];
-        [_imageView2 setContentMode:UIViewContentModeScaleAspectFit];
-        [_imageView2 setFrame:CGRectMake(0, 0, 320.f, 80.f)];
-        [_cell addChild:_imageView2];
-        [_imageView2 setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
+        [_cell setBackgroundColor:[UIColor randomColor]];
+//        [_cell setBackgroundColor:[UIColor grayColor]];
+//        PYImageView *_imageView2 = [PYImageView object];
+//        [_imageView2 setContentMode:UIViewContentModeScaleAspectFit];
+//        [_imageView2 setFrame:CGRectMake(0, 0, 320.f, 80.f)];
+//        [_cell addChild:_imageView2];
+//        [_imageView2 setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
+        
 //        PYImageLayer *_imageLayer = [PYImageLayer layer];
 //        [_imageLayer setFrame:CGRectMake(0, 0, 320.f, 240.f)];
 //        [_cell addChild:_imageLayer];

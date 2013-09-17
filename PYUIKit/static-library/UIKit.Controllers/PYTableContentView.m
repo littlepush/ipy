@@ -114,7 +114,7 @@
             // Load previous
             PYTableViewCell *_topCell = [self.subviews safeObjectAtIndex:0];
             int _currentIndex = self.tableView.cellCount;
-            IF ( _topCell != nil ) {
+            if ( _topCell != nil ) {
                 _currentIndex = _topCell.cellIndex;
             }
             if ( _currentIndex == 0 ) return;
