@@ -37,15 +37,6 @@
     _piecesOfFrame = [NSMutableArray array];
 }
 
-- (void)layerJustBeenCopyed
-{
-    [super layerJustBeenCopyed];
-    _animationStatue = NO;
-    _currentFrame = 0;
-    self.interval = 1.f / 7.f;
-    _piecesOfFrame = [NSMutableArray array];
-}
-
 #pragma mark Methods
 
 - (void)setAnimationImage:(UIImage *)animationImage
@@ -82,7 +73,8 @@
     //NSLog(@"%@", [UIApplication sharedApplication].keyWindow);
     if ( self.isAnimating == NO || self.hidden == YES ) return;
     if ( _currentFrame < [_piecesOfFrame count] ) {
-        self.contents = (id)((UIImage *)[_piecesOfFrame objectAtIndex:_currentFrame]).CGImage;
+        [self forceUpdateContentWithImage:(UIImage *)[_piecesOfFrame objectAtIndex:_currentFrame]];
+//        self.contents = (id)((UIImage *)[_piecesOfFrame objectAtIndex:_currentFrame]).CGImage;
     }
     _currentFrame += 1;
     if ( _currentFrame == [_piecesOfFrame count] )

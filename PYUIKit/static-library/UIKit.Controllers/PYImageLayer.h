@@ -59,6 +59,9 @@
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;
 
+// force to update content image, without re-draw, just set the content.
+- (void)forceUpdateContentWithImage:(UIImage *)image;
+
 // Refresh the content after reset the frame.
 - (void)refreshContent;
 

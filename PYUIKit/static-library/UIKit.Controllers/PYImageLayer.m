@@ -144,29 +144,6 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     self.contentMode = UIViewContentModeScaleAspectFill;
 }
 
-- (void)layerJustBeenCopied
-{
-    _mutex = [PYMutex object];
-    
-    CGFloat _scale = [UIScreen mainScreen].scale;
-    self.contentsScale = _scale;
-    
-    //_mutex.enableDebug = YES;
-    for ( CALayer *_subLayer in self.sublayers ) {
-        if ( [_subLayer isKindOfClass:[PYTiledLayer class]] ) {
-            _contentLayer = (PYTiledLayer *)_subLayer;
-            _contentLayer.delegate = self;
-            _contentLayer.actions = @{
-                                      kCAOnOrderIn:[NSNull null],
-                                      kCAOnOrderOut:[NSNull null],
-                                      @"contents":[NSNull null]
-                                      };
-            break;
-        }
-    }
-    self.contentMode = UIViewContentModeScaleAspectFill;
-}
-
 - (PYImageLayer *)initWithPlaceholdImage:(UIImage *)image
 {
     self = [super init];
@@ -196,6 +173,27 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         return nil;
     }];
     //}
+}
+
+- (void)forceUpdateContentWithImage:(UIImage *)image
+{
+    [_mutex lockAndDo:^id{
+        if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+            // Nothing to do...
+            //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
+            _aspectImage = image;
+        } else {
+            CGRect aspectFillRect = __rectOfAspectFillImage(image, self.bounds);
+            _aspectImage = [image cropInRect:aspectFillRect];
+        }
+
+        if ( _contentLayer.contents != nil ) {
+            [_contentLayer setContents:nil];
+        }
+        
+        [self setNeedsDisplay];
+        return nil;
+    }];
 }
 
 - (void)setImageUrl:(NSString *)imageUrl
@@ -290,6 +288,20 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     }
     UIGraphicsPopContext();
     //}
+}
+
+- (void)drawInContext:(CGContextRef)ctx
+{
+    if ( _aspectImage == nil ) return;
+    UIGraphicsPushContext(ctx);
+    if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+        //CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
+        CGRect _aspectFit = __rectOfAspectFitImage(_aspectImage, self.bounds);
+        [_aspectImage drawInRect:_aspectFit];
+    } else {
+        [_aspectImage drawInRect:self.bounds];
+    }
+    UIGraphicsPopContext();
 }
 
 @end
