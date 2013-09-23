@@ -45,6 +45,7 @@ enum { SEM_MAXCOUNT = 0x0FFFF, SEM_MAXTIMEOUT = 0xFFFFFFFF };
 // Signal count
 @property (nonatomic, readonly) NSUInteger              count;
 @property (nonatomic, readonly) BOOL                    isAvailable;
+@property (nonatomic, readonly) Int32                   maxCount;
 
 - (id)initWithCount:(int)initCount;
 - (id)initWithCount:(int)initCount maxCount:(int)max;
@@ -52,12 +53,16 @@ enum { SEM_MAXCOUNT = 0x0FFFF, SEM_MAXTIMEOUT = 0xFFFFFFFF };
 // Get the semaphore with specified timeout
 - (BOOL)get;
 - (BOOL)getUntil:(NSUInteger)timedout;
+- (BOOL)tryGet;
 
 // Release a semaphore
 - (BOOL)give;
 
 // Destroy the semaphore
 - (void)destroy;
+
+// Clear all signal.
+- (void)clear;
 
 @end
 

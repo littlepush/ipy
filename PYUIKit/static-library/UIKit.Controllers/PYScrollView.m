@@ -86,6 +86,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 // Dynamic properities setter.
 - (void)setContentSize:(CGSize)contentSize animated:(BOOL)animated
 {
+    [self cancelAllAnimation];
     _contentSize = contentSize;
     
     for ( int i = 0; i < 2; ++i ) {
@@ -144,6 +145,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 - (void)setContentOffset:(CGSize)contentOffset animated:(BOOL)animated
 {
     if ( _contentSize.width * _contentSize.height == 0 ) return;
+    [self cancelAllAnimation];
     CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
     CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
     CGSize _movingOffset = CGSizeMake(_stopPoint.width - _currentPoint.width,

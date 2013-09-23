@@ -55,6 +55,8 @@
     return [_av boolValue];
 }
 
+@synthesize maxCount = _max;
+
 - (id)init
 {
     self = [super init];
@@ -124,6 +126,18 @@
     }];
     return [_result boolValue];
 }
+- (BOOL)tryGet
+{
+    if ( [self isAvailable] == NO ) return NO;
+    NSNumber *_result = [_mutex lockAndDo:^id{
+        if ( _current > 0 ) {
+            _current -= 1;
+            return PYBoolToObject(YES);
+        }
+        return PYBoolToObject(NO);
+    }];
+    return [_result boolValue];
+}
 
 // Release a semaphore
 - (BOOL)give
@@ -173,6 +187,14 @@
             return nil;
         }
         _available = statue;
+        return nil;
+    }];
+}
+
+- (void)clear
+{
+    [_mutex lockAndDo:^id{
+        _current = 0;
         return nil;
     }];
 }
