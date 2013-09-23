@@ -166,23 +166,11 @@ static UIColor      *_gPYLabelColor = nil;
     if ( ctx == NULL ) return;
     if ( [_text length] == 0 ) return;
     
-    //[self.textColor setFill];
-    CGContextSetFillColorWithColor(ctx, _textColor.CGColor);
-    if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
-        CGContextSetStrokeColorWithColor(ctx, _textBorderColor.CGColor);
-        CGContextSetTextDrawingMode(ctx, kCGTextFillStroke);
-    } else {
-        CGContextSetTextDrawingMode(ctx, kCGTextFill);
-    }
-    // Set shadow
-    CGContextSetShadowWithColor
-    (ctx, _textShadowOffset, _textShadowRadius,
-     _textShadowColor.CGColor);
-    
     // Calculate the text size.
     if ( _textFont == nil ) _textFont = _gPYLabelFont;
     if ( _textColor == nil ) _textColor = _gPYLabelColor;
     
+    //[self.textColor setFill];
     CGRect _bounds = self.bounds;
     CGSize _textSize = [_text sizeWithFont:_textFont];
     CGRect _textFrame = _bounds;
@@ -199,6 +187,18 @@ static UIColor      *_gPYLabelColor = nil;
     UIGraphicsPushContext(ctx);
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
     if ( SYSTEM_VERSION_LESS_THAN(@"7.0") ) {
+        CGContextSetFillColorWithColor(ctx, _textColor.CGColor);
+        if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
+            CGContextSetStrokeColorWithColor(ctx, _textBorderColor.CGColor);
+            CGContextSetTextDrawingMode(ctx, kCGTextFillStroke);
+        } else {
+            CGContextSetTextDrawingMode(ctx, kCGTextFill);
+        }
+        // Set shadow
+        CGContextSetShadowWithColor
+        (ctx, _textShadowOffset, _textShadowRadius,
+         _textShadowColor.CGColor);
+        
         [_text drawInRect:_textFrame
                  withFont:_textFont
             lineBreakMode:(NSLineBreakMode)_lineBreakMode
@@ -207,12 +207,36 @@ static UIColor      *_gPYLabelColor = nil;
         NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
         [_style setAlignment:_textAlignment];
         [_style setLineBreakMode:_lineBreakMode];
-        [_text drawInRect:_textFrame
-           withAttributes:@{
-NSParagraphStyleAttributeName:_style
-         }];
+        NSMutableDictionary *_attributes = [NSMutableDictionary dictionary];
+        [_attributes setObject:_style forKey:NSParagraphStyleAttributeName];
+        [_attributes setObject:_textColor forKey:NSForegroundColorAttributeName];
+        [_attributes setObject:_textFont forKey:NSFontAttributeName];
+        if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
+            [_attributes setObject:_textBorderColor forKey:NSStrokeColorAttributeName];
+            [_attributes setObject:PYDoubleToObject(_textBorderWidth) forKey:NSStrokeWidthAttributeName];
+        }
+        if ( _textShadowColor != nil && !CGSizeEqualToSize(_textShadowOffset, CGSizeZero)) {
+            NSShadow *_shadowObj = [NSShadow object];
+            _shadowObj.shadowOffset = _textShadowOffset;
+            _shadowObj.shadowBlurRadius = _textShadowRadius;
+            _shadowObj.shadowColor = _textShadowColor;
+            [_attributes setObject:_shadowObj forKey:NSShadowAttributeName];
+        }
+        [_text drawInRect:_textFrame withAttributes:_attributes];
     }
 #else
+    CGContextSetFillColorWithColor(ctx, _textColor.CGColor);
+    if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
+        CGContextSetStrokeColorWithColor(ctx, _textBorderColor.CGColor);
+        CGContextSetTextDrawingMode(ctx, kCGTextFillStroke);
+    } else {
+        CGContextSetTextDrawingMode(ctx, kCGTextFill);
+    }
+    // Set shadow
+    CGContextSetShadowWithColor
+    (ctx, _textShadowOffset, _textShadowRadius,
+     _textShadowColor.CGColor);
+    
     [_text drawInRect:_textFrame
              withFont:_textFont
         lineBreakMode:(NSLineBreakMode)_lineBreakMode
