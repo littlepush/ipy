@@ -170,6 +170,11 @@ static UIColor      *_gPYLabelColor = nil;
     if ( _textFont == nil ) _textFont = _gPYLabelFont;
     if ( _textColor == nil ) _textColor = _gPYLabelColor;
     
+    // Set shadow
+    CGContextSetShadowWithColor
+    (ctx, _textShadowOffset, _textShadowRadius,
+     _textShadowColor.CGColor);
+
     //[self.textColor setFill];
     CGRect _bounds = self.bounds;
     CGSize _textSize = [_text sizeWithFont:_textFont];
@@ -232,10 +237,6 @@ static UIColor      *_gPYLabelColor = nil;
     } else {
         CGContextSetTextDrawingMode(ctx, kCGTextFill);
     }
-    // Set shadow
-    CGContextSetShadowWithColor
-    (ctx, _textShadowOffset, _textShadowRadius,
-     _textShadowColor.CGColor);
     
     [_text drawInRect:_textFrame
              withFont:_textFont

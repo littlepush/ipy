@@ -77,6 +77,12 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _pagable = pagable;
 }
 
+@dynamic isScrolling;
+- (BOOL)isScrolling
+{
+    return _decelerateTimer != nil;
+}
+
 @synthesize contentSize = _contentSize;
 - (void)setContentSize:(CGSize)contentSize
 {
@@ -145,6 +151,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 - (void)setContentOffset:(CGSize)contentOffset animated:(BOOL)animated
 {
     if ( _contentSize.width * _contentSize.height == 0 ) return;
+    if ( _willDecelerate == YES ) return;
     [self cancelAllAnimation];
     CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
     CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
@@ -211,7 +218,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 {
     if ( _contentSize.width * _contentSize.height == 0 ) return;
     if ( event.hasMoved == NO ) return;
-    BOOL _willDecelerate = YES;
+    _willDecelerate = YES;
     if ( event.movingSpeed.x == 0 && event.movingSpeed.y == 0 ) {
         _willDecelerate = NO;
     }
@@ -243,6 +250,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     
     [self animatedScrollWithOffsetDistance:_willStopOffset
                           withinTimePieces:_SCROLL_TIME_PIECE_(_decelerateDuration)];
+    _willDecelerate = NO;
 }
 
 - (void)_actionTouchPenHandler:(id)sender event:(PYViewEvent *)event

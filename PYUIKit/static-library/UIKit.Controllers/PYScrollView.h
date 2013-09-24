@@ -66,6 +66,7 @@ extern CGFloat const            PYScrollOverheadRate;
     PYScrollDirection           _scrllSide;
     CGSize                      _contentOffset;
     UIEdgeInsets                _contentInsets;
+    BOOL                        _willDecelerate;
     
     BOOL                        _bounceStatus[2];
     
@@ -112,6 +113,9 @@ extern CGFloat const            PYScrollOverheadRate;
 
 // Set the scroll side, default is freedom.
 @property (nonatomic, assign)   PYScrollDirection                   scrollSide;
+
+// To get the scrolling statue.
+@property (nonatomic, readonly) BOOL                                isScrolling;
 
 // Get the content size ( combine all subview's frame )
 @property (nonatomic, assign)   CGSize                              contentSize;
