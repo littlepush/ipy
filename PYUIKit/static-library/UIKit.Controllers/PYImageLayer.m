@@ -36,18 +36,30 @@
 {
     return 0.15f;
 }
-- (id<CAAction>)actionForKey:(NSString *)event
+//- (id<CAAction>)actionForKey:(NSString *)event
+//{
+//    if ( [event isEqualToString:kCAOnOrderIn] ) {
+//        CGFloat _scale = [UIScreen mainScreen].scale;
+//        CGSize _superSize = self.superlayer.bounds.size;
+//        _superSize.width *= _scale;
+//        _superSize.height *= _scale;
+//        [self setTileSize:_superSize];
+//        self.contentsScale = _scale;
+//    }
+//    return [super actionForKey:event];
+//}
+
+- (void)setFrame:(CGRect)frame
 {
-    if ( [event isEqualToString:kCAOnOrderIn] ) {
-        CGFloat _scale = [UIScreen mainScreen].scale;
-        CGSize _superSize = self.superlayer.bounds.size;
-        _superSize.width *= _scale;
-        _superSize.height *= _scale;
-        [self setTileSize:_superSize];
-        self.contentsScale = _scale;
-    }
-    return [super actionForKey:event];
+    [super setFrame:frame];
+    CGFloat _scale = [UIScreen mainScreen].scale;
+    CGSize _superSize = self.bounds.size;
+    _superSize.width *= _scale;
+    _superSize.height *= _scale;
+    [self setTileSize:_superSize];
+    self.contentsScale = _scale;
 }
+
 @end
 
 // Image Functions.
@@ -118,8 +130,10 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     }
     //self.contents = nil;
     [self setContents:nil];
-    [_contentLayer setHidden:NO];
-    [_contentLayer setFrame:self.bounds];
+    CGRect _ctntFrame = _contentLayer.frame;
+    if ( CGSizeEqualToSize(_ctntFrame.size, self.bounds.size) == NO ) {
+        [_contentLayer setFrame:self.bounds];
+    }
     [_contentLayer setNeedsDisplay];
 }
 
@@ -177,6 +191,8 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 
 - (void)forceUpdateContentWithImage:(UIImage *)image
 {
+    [self setImage:image];
+    /*
     [_mutex lockAndDo:^id{
         if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
             // Nothing to do...
@@ -194,6 +210,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         [self setNeedsDisplay];
         return nil;
     }];
+    */
 }
 
 - (void)setImageUrl:(NSString *)imageUrl
@@ -239,15 +256,19 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 {
     [super setFrame:frame];
     // First time...Nothing
-    if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-        if ( _contentLayer.contents != nil ) {
-            self.contents = _contentLayer.contents;
+    if ( self.contents != nil ) {
+        if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+            if ( _contentLayer.contents != nil ) {
+                self.contents = _contentLayer.contents;
+            }
+        } else {
+            if ( _aspectImage != nil ) {
+                self.contents = (id)_aspectImage.CGImage;
+            }
         }
-    } else {
-        self.contents = (id)_aspectImage.CGImage;
     }
     _contentLayer.contents = nil;
-    [_contentLayer setHidden:YES];
+    [_contentLayer setFrame:self.bounds];
 }
 
 - (void)refreshContent
