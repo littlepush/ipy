@@ -93,6 +93,18 @@
     return self;
 }
 
+- (void)dealloc
+{
+    if ( [PYLayer isDebugEnabled] ) {
+        __formatLogLine(__FILE__, __FUNCTION__, __LINE__,
+                        [NSString stringWithFormat:@"***[%@:%p] Dealloced [Layer: %p]***",
+                         NSStringFromClass([self class]), self, self.layer]);
+    }
+#if !__has_feature(objc_arc)
+    [super dealloc];
+#endif
+}
+
 // Add sub layer or sub view.
 - (void)addChild:(id)child
 {

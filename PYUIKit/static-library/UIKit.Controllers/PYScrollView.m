@@ -322,6 +322,12 @@ CGFloat const       PYScrollOverheadRate                = .45;
         }
     }
 }
+
+- (void)dealloc
+{
+    [self cancelAllAnimation];
+}
+
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     if ( newSuperview != nil ) return;

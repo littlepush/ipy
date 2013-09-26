@@ -33,6 +33,7 @@
 
 // Make PYLayer to support debug, draw a random border with width 1.
 + (void)setDebugEnabled:(BOOL)enableDebug;
++ (BOOL)isDebugEnabled;
 
 // Properties
 @property (nonatomic, assign)   int         tag;

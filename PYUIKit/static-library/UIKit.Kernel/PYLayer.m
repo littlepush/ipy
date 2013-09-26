@@ -34,6 +34,11 @@ static BOOL _gEnableDebug = NO;
     _gEnableDebug = enableDebug;
 }
 
++ (BOOL)isDebugEnabled
+{
+    return _gEnableDebug;
+}
+
 @synthesize tag = _layerTag;
 
 - (void)layerJustBeenCreated
@@ -102,6 +107,18 @@ static BOOL _gEnableDebug = NO;
         [self layerJustBeenCopyed];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    if ( _gEnableDebug ) {
+        __formatLogLine(__FILE__, __FUNCTION__, __LINE__,
+                        [NSString stringWithFormat:@"***[%@:%p] Dealloced***",
+                         NSStringFromClass([self class]), self]);
+    }
+#if !__has_feature(objc_arc)
+    [super dealloc];
+#endif
 }
 
 @end

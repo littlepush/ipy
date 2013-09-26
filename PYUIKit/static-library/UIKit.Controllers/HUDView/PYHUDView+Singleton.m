@@ -202,7 +202,7 @@ static PYHUDView                        *_gQTHudView;
      _width / contentSize.height >= (4 / 3) ? (_width / 4 * 3) : contentSize.height
      );
     CGRect _frame = CGRectInset(CGRectMake(0, 0, _width, _height), -5, -5);
-    _frame.origin.x = (320 - _frame.size.width) / 2;
+    _frame.origin.x = ([UIScreen mainScreen].applicationFrame.size.width - _frame.size.width) / 2;
     _frame.origin.y = ([UIScreen mainScreen].applicationFrame.size.height - _frame.size.height) / 2;
     return _frame;
 }
