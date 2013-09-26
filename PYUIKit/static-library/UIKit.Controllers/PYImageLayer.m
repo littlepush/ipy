@@ -256,6 +256,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 {
     [super setFrame:frame];
     // First time...Nothing
+    if ( CGSizeEqualToSize(frame.size, _contentLayer.frame.size) == YES ) return;
     if ( self.contents != nil ) {
         if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
             if ( _contentLayer.contents != nil ) {
