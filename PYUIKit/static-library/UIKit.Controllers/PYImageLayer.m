@@ -252,6 +252,12 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     //}
 }
 
+- (void)setNeedsDisplay
+{
+    [super setNeedsDisplay];
+    [_contentLayer setNeedsDisplay];
+}
+
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
