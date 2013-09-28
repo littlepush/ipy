@@ -35,7 +35,7 @@
     // Backgrond
     _backgroundLayer = [PYLayer layer];
     [self.layer addSublayer:_backgroundLayer];
-    [_backgroundLayer setBackgroundColor:[UIColor darkGrayColor].CGColor];
+    [_backgroundLayer setBackgroundColor:[UIColor clearColor].CGColor];
     
     // Left
     _leftLabel = [PYLabelLayer layer];
@@ -60,7 +60,7 @@
     // Button
     _buttonLayer = [PYLayer layer];
     [self.layer addSublayer:_buttonLayer];
-    [_buttonLayer setBackgroundColor:[UIColor lightGrayColor].CGColor];
+    [_buttonLayer setBackgroundColor:[UIColor clearColor].CGColor];
     _showSide = PYSwitcherShowSideRight;
     
     // Add Actions
