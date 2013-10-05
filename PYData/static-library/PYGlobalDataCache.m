@@ -94,7 +94,7 @@ static NSMutableDictionary		*_gdcDict;
 @synthesize lastSearchedKey = _lastSearchedKey;
 
 @dynamic inMemObjectCount;
-- (int)inMemObjectCount { return [_coreInMemCache count]; }
+- (NSUInteger)inMemObjectCount { return [_coreInMemCache count]; }
 @synthesize allObjectCount = _allObjectCount;
 
 #pragma mark --

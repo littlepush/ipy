@@ -251,7 +251,7 @@ static Class                        _keyedDbDateClass;
 	BOOL _statue = NO;
     [_insertStat bindInOrderText:key];
     [_insertStat bindInOrderData:formatedValue];
-    [_insertStat bindInOrderInt:expire.timestamp];
+    [_insertStat bindInOrderInt:(int)expire.timestamp];
     if (sqlite3_step(_insertStat.statement) == SQLITE_DONE ) {
         _statue = YES;
     }
@@ -265,7 +265,7 @@ static Class                        _keyedDbDateClass;
     [_updateStat resetBinding];
 	BOOL _statue = NO;
     [_updateStat bindInOrderData:formatedValue];
-    [_updateStat bindInOrderInt:expire.timestamp];
+    [_updateStat bindInOrderInt:(int)expire.timestamp];
     [_updateStat bindInOrderText:key];
     if (sqlite3_step(_updateStat.statement) == SQLITE_DONE ) {
         _statue = YES;

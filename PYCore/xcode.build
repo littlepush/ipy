@@ -1,26 +1,40 @@
 #! /bin/sh
 
+source ../config.hd
+
 function usage() {
-	echo "usage: xcode.build <projectname>"
+	echo "usage: xcode.build TARGET=<projectname> ACTION=<actions>"
 }
 
-# make sure the XCode is at least version 4.2
-XPath=$(xcode-select -print-path)
-AppXPath="/Applications/Xcode.app/Contents/Developer"
-if [ "$XPath" != $AppXPath ]; then
-	xcode-select -switch /Applications/Xcode.app
+for arg in $@; do
+	key=$(echo $arg | cut -d = -f 1)
+	if [ $? -ne 0 ]; then
+		echo "Wrong Command."
+		usage
+		exit 1
+	fi
+	value=$(echo $arg | cut -d = -f 2)
+	case $key in
+	"TARGET")
+		ProjectName=$value
+		;;
+	"ACTION")
+		ExecutePart=$value
+		;;
+	*)
+		echo "Unknow command $key."
+		usage
+		exit 1
+		;;
+	esac
+done
+
+if [ "${ProjectName}" == "" ]; then
+	ProjectName=$(FindFirstTarget)
 fi
 
-if [ ! $1 ]; then
-	ProjectName=PYCore
-else
-	ProjectName=$1
-fi
-
-if [ ! $2 ]; then
+if [ "${ExecutePart}" == "" ]; then
 	ExecutePart="ALL"
-else
-	ExecutePart="$2"
 fi
 
 if [ "${ExecutePart}" != "ALL" ]; then
@@ -30,63 +44,35 @@ if [ "${ExecutePart}" != "ALL" ]; then
 	fi
 fi
 
-XCodeSDKs=$(xcodebuild -showsdks | grep iOS | grep "sdk" | awk -F"-sdk " '{print $2}')
-echo "Installed SDK(s): " $XCodeSDKs
-XCodeSDKsPath=$(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v MacOSX | awk -F": " '{print $2}')
-
-mkdir -p ._version.temp
-cd ._version.temp
-for sname in $XCodeSDKs; do
-	lsdk=${#sname}
-	version=${sname:$((lsdk-3))}
-	echo "Version: " $version
-	true > $version
-done
-highestSDKVersion=$(ls * | sort | tail -n 1)
-cd ../
-rm -rf ._version.temp
-echo "Highest SDK Version: \""${highestSDKVersion}"\""
-
-rm -rf /tmp/${ProjectName}
-mkdir -p /tmp/${ProjectName}/PCH
-
-for sdk in $XCodeSDKs; do
-	lsdk=${#sdk}
-	platform=${sdk:0:$((lsdk-3))}
-	version=${sdk:$((lsdk-3))}
-	if [ "$version" != "${highestSDKVersion}" ]; then continue; fi
-	echo "Current Building Platform: " $version
-	xcodebuild -target ${ProjectName} -configuration=Release -sdk ${sdk} \
-		TARGET_NAME=${ProjectName}-${sdk} CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib \
-		SHARED_PRECOMPS_DIR=/tmp/${ProjectName}/PCH 
+for ((i=0;i<4;++i)); do
+	rm -rf /tmp/${ProjectName}
+	mkdir -p /tmp/${ProjectName}/PCH
+	arch=${Archs[$i]}
+	xcodebuild 	-target ${ProjectName}									\
+				-configuration=Release									\
+				-sdk ${SDKNames[$i]}									\
+				TARGET_NAME=${ProjectName}-${arch}						\
+				CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib 		\
+				SHARED_PRECOMPS_DIR=/tmp/${ProjectName}/PCH				\
+				ARCHS=${arch}											\
+				IPHONEOS_DEPLOYMENT_TARGET=${XIOS_VER_MINs[$i]}
 	if [ $? -ne 0 ]; then
-		exit 1;
+		echo "Failed to build ${ProjectName}"
+		exit 1
 	fi
 done
 
 cd ./build/${ProjectName}-lib
-rm -rf libs
-mkdir -p libs
-libs=$(ls | grep ".a" | sort | uniq)
-#echo $libs
-for lib in $libs; do
-	version=$(echo $lib | grep -o -E "(.{5})$")
-	#echo version: ${version}
-	same_version_lib=$(ls | grep ${version})
-	lib_count=$(ls | grep ${version} | wc -l)
-	if [ $lib_count -ne 2 ]; then
-		continue
-	fi
-	lipo $same_version_lib -create -output libs/lib${ProjectName}-$version
-	rm -rf $same_version_lib
-done
 
-mkdir ./libs/include
-cp -r ../../static-library/*.h ./libs/include/
-cp -r ../../static-library/*/*.h ./libs/include/
-#mv -f ./local/include ./libs/include
-cd ./libs
+lipoArg=$( for arch in ${Archs[@]}; do echo "-arch $arch lib${ProjectName}-${arch}.a"; done | tr '\n' ' ')
+xcrun -sdk iphoneos lipo -output lib${ProjectName}.a -create $lipoArg
 
+if [ ! -d ./usr ]; then
+	echo "Must set the copy headers in the Project setting and put the copy header files in the public section."
+	exit 1
+fi
+
+mv -f ./usr/local/include ./include
 includeFiles=$(ls include)
 for headfile in $includeFiles; do
 	filePath=include/${headfile}
@@ -101,45 +87,14 @@ for headfile in $includeFiles; do
 	done
 done
 
+cd ../../
+rm -rf ${ProjectName}.framework
+mkdir ${ProjectName}.framework
+mv ./build/${ProjectName}-lib/lib${ProjectName}.a ./${ProjectName}.framework/${ProjectName}
+mv -f ./build/${ProjectName}-lib/include ./${ProjectName}.framework/Headers
+
 if [ "${ExecutePart}" == "ALL" ]; then
-
-	mkdir -p /usr/local/lib
-	mkdir -p /usr/local/include
-
-	rm -rf /usr/local/lib/${ProjectName}*
-	rm -rf /usr/local/include/${ProjectName}*
-
-	cp -r ./include /usr/local/include/${ProjectName}
-	cp ./*.a /usr/local/lib/
-
-	highestVersionLib=$(ls lib${ProjectName}* | sort | tail -n 1)
-	libs=$(ls lib${ProjectName}*)
-	for sdkPath in $XCodeSDKsPath; do
-		sdkVersion=$(echo $sdkPath | grep -o -E "[0-9]\.[0-9]")
-		hasSpecifiedVersion=0
-		for lib in $libs; do
-			libVersion=$(echo $lib | grep -o -E "[0-9]\.[0-9]")
-			if [ "$sdkVersion" != "$libVersion" ]; then
-				continue
-			fi
-			hasSpecifiedVersion=1
-			break
-		done
-		if [ $hasSpecifiedVersion -eq 1 ]; then
-			usingLib=lib${ProjectName}-$sdkVersion.a
-		else
-			usingLib=$highestVersionLib
-		fi
-		sdkFrameworkPath=${sdkPath}/System/Library/Frameworks/${ProjectName}.framework
-		rm -rf $sdkFrameworkPath
-		mkdir -p $sdkFrameworkPath
-		ln -s /usr/local/include/${ProjectName} ${sdkFrameworkPath}/Headers
-		ln -s /usr/local/lib/${usingLib} ${sdkFrameworkPath}/${ProjectName}
-	done
+	InstallFrameworkToDefault ${ProjectName}
 fi
 
-echo "Install done"
-
-cd ../../../
-rm -rf build
-
+echo "Done"

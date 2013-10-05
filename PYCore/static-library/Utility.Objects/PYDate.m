@@ -65,7 +65,7 @@
     _year = _dateComponents.year;
     _month = _dateComponents.month;
     _day = _dateComponents.day;
-    _weekday = _dateComponents.weekday;
+    _weekday = (PYWeekDay)_dateComponents.weekday;
     _hour = _dateComponents.hour;
     _minute = _dateComponents.minute;
     _second = _dateComponents.second;
@@ -165,7 +165,7 @@
 // Get the weekday name
 + (NSString *)weekdayNameofDay:(NSUInteger)day
 {
-    NSString *_dayKey = [NSString stringWithFormat:@"DAY_%d", day];
+    NSString *_dayKey = [NSString stringWithFormat:@"DAY_%u", (unsigned int)day];
     return [PYLocalizedString stringForKey:_dayKey];
 }
 
@@ -223,7 +223,7 @@
 }
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeInt32:_timestamp forKey:@"QTDateTimeStamp"];
+    [aCoder encodeInteger:(NSInteger)_timestamp forKey:@"QTDateTimeStamp"];
 }
 
 - (id)copy
@@ -247,7 +247,8 @@
 // Current date actions
 - (NSString *)stringOfDay
 {
-    return [NSString stringWithFormat:@"%04d-%02d-%02d", _year, _month, _day];
+    return [NSString stringWithFormat:@"%04u-%02u-%02u",
+            (unsigned int)_year, (unsigned int)_month, (unsigned int)_day];
 }
 - (NSString *)stringOfDate:(NSString *)format
 {
@@ -285,8 +286,8 @@
 }
 - (id)beginOfDay
 {
-    int _secondPass = _hour * 3600 + _minute * 60 + _second;
-    int _beginTimeStamp = _timestamp - _secondPass;
+    NSUInteger _secondPass = _hour * 3600 + _minute * 60 + _second;
+    NSUInteger _beginTimeStamp = _timestamp - _secondPass;
     return [PYDate dateWithTimestamp:_beginTimeStamp];
 }
 - (id)endOfDay

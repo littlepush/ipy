@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define USING_PYDATA__
+
 #import "PYGlobalDataCache.h"
 #import "PYKeyedDb.h"
 #import "PYObject.h"

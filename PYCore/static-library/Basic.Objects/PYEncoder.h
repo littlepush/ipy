@@ -31,7 +31,7 @@
 @interface PYEncoder : NSObject
 
 // Base64 Coder of data
-+ (NSString *)encodeBase64FromData:(const char *)input length:(int)length;
++ (NSString *)encodeBase64FromData:(const char *)input length:(unsigned long)length;
 + (NSData *)decodeBase64ToData:(NSString *)input;
 
 // String Coder for base64

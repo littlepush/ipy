@@ -116,7 +116,7 @@
     if ( value == nil || [value isEqual:[NSNull null]] )
         [self bindInOrderNull];
     else
-        sqlite3_bind_blob( sqlstmt, bindCount++, [value bytes], [value length], NULL);
+        sqlite3_bind_blob( sqlstmt, bindCount++, [value bytes], (int)[value length], NULL);
 }
 - (void)bindInOrderNull
 {
@@ -162,7 +162,7 @@
 /* Parameters */
 - (NSString *)columnNameAtIndex:(NSUInteger)index
 {
-	return [NSString stringWithCString:sqlite3_column_name(sqlstmt, index)
+	return [NSString stringWithCString:sqlite3_column_name(sqlstmt, (int)index)
 		encoding:NSUTF8StringEncoding];
 }
 
@@ -173,7 +173,7 @@
 
 - (NSString *)bindParameterNameAtIndex:(NSUInteger)index
 {
-	return [NSString stringWithCString:sqlite3_bind_parameter_name(sqlstmt, index)
+	return [NSString stringWithCString:sqlite3_bind_parameter_name(sqlstmt, (int)index)
 		encoding:NSUTF8StringEncoding];
 }
 

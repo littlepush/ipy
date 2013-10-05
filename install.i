@@ -1,11 +1,12 @@
 #! /bin/sh
 
+sudo rm -rf /tmp/PY*
 cd PYCore
-sudo ./xcode.build
+./xcode.build
 cd ../
 cd PYData
-sudo ./xcode.build
+./xcode.build
 cd ../
 cd PYUIKit
-sudo ./xcode.build
+./xcode.build
 cd ../

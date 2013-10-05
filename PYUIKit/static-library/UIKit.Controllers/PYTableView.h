@@ -51,7 +51,7 @@
 @property (nonatomic, assign)   id<PYTableViewDatasource>   dataSource;
 @property (nonatomic, assign)   id<PYTableViewDelegate>     delegate;
 
-@property (nonatomic, readonly) int                         cellCount;
+@property (nonatomic, readonly) NSInteger                   cellCount;
 // Default row height.
 @property (nonatomic, assign)   CGFloat                     rowHeight;
 @property (nonatomic, readonly) NSArray                     *visiableCells;

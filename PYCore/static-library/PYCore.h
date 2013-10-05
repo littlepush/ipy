@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define USING_PYCORE__
+
 #import "PYCoreMacro.h"
 
 // Extend
@@ -37,13 +39,8 @@
 
 // Basic
 #import "PYEncoder.h"
-#import "PYNetworkPeerInfo.h"
-#import "PYSocket.h"
 #import "PYMutex.h"
 #import "PYSemaphore.h"
-#import "PYSocket+Protocol.h"
-#import "PYSocketJob.h"
-#import "PYSocketJobQueue.h"
 
 // Utility
 #import "PYDate.h"

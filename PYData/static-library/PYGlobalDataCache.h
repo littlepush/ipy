@@ -82,7 +82,7 @@ enum {
 @property (nonatomic, readonly)		double			hitMemoryPercentage;
 @property (nonatomic, readonly)		NSString		*lastHitInMemKey;
 @property (nonatomic, readonly)		NSString		*lastSearchedKey;
-@property (nonatomic, readonly)		int				inMemObjectCount;
+@property (nonatomic, readonly)		NSUInteger      inMemObjectCount;
 @property (nonatomic, readonly)		long			allObjectCount;
 
 + (void)initializeSqliteForMultithreadSupport;

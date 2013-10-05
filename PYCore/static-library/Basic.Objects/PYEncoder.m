@@ -28,17 +28,17 @@
 
 @implementation PYEncoder
 // Base64 Coder of data
-+ (NSString *)encodeBase64FromData:(const char *)input length:(int)length
++ (NSString *)encodeBase64FromData:(const char *)input length:(unsigned long)length
 {
 	int wrapWidth = 0;
     const char lookup[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     
-    long long inputLength = length;
+    unsigned long long inputLength = (unsigned long long)length;
     const unsigned char *inputBytes = (const unsigned char *)input;
     
     long long maxOutputLength = (inputLength / 3 + 1) * 4;
     maxOutputLength += wrapWidth? (maxOutputLength / wrapWidth) * 2: 0;
-    unsigned char *outputBytes = (unsigned char *)malloc(maxOutputLength);
+    unsigned char *outputBytes = (unsigned char *)malloc((size_t)maxOutputLength);
     
     long long i;
     long long outputLength = 0;
@@ -78,10 +78,10 @@
     if (outputLength >= 4)
     {
         //truncate data to match actual output length
-        outputBytes = realloc(outputBytes, outputLength);
+        outputBytes = (unsigned char *)realloc(outputBytes, (size_t)outputLength);
         return __AUTO_RELEASE([[NSString alloc]
                                initWithBytesNoCopy:outputBytes
-                               length:outputLength
+                               length:(NSUInteger)outputLength
                                encoding:NSASCIIStringEncoding
                                freeWhenDone:YES]);
     }
@@ -111,7 +111,7 @@
     const unsigned char *inputBytes = [inputData bytes];
     
     long long maxOutputLength = (inputLength / 4 + 1) * 3;
-    NSMutableData *outputData = [NSMutableData dataWithLength:maxOutputLength];
+    NSMutableData *outputData = [NSMutableData dataWithLength:(NSUInteger)maxOutputLength];
     unsigned char *outputBytes = (unsigned char *)[outputData mutableBytes];
     
     int accumulator = 0;
@@ -164,7 +164,7 @@
 {
     const char *cStr = [input UTF8String];
     unsigned char result[16];
-    CC_MD5( cStr, strlen(cStr), result ); // This is the md5 call
+    CC_MD5( cStr, (CC_LONG)strlen(cStr), result ); // This is the md5 call
     return [NSString stringWithFormat:
             @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
             result[0], result[1], result[2], result[3],

@@ -25,6 +25,8 @@
 #ifndef PYUIKit_PYUIKit_h
 #define PYUIKit_PYUIKit_h
 
+#define USING_PYUIKIT__
+
 // Utilities
 #import "PYUIKitMacro.h"
 #import "UIColor+PYUIKit.h"
