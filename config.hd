@@ -23,6 +23,42 @@ XCodeSDKs=($(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v M
 XCodePlatforms=($( xcodebuild -version -sdk | grep -E "^PlatformPath" | grep -v MacOSX | awk '{print $2}' | uniq | tr '\n' ' '))
 ROOT_PATH=$(pwd)
 
+XCodeVersion=$(xcodebuild -version | grep Xcode | cut -d ' ' -f 2)
+
+# Compare two version
+# if V1 < V2, return -1
+# if V1 > V2, return 1
+# if V1 = V2, return 0
+function VersionCompare() {
+    v1=($(echo $1 | tr '.' ' '))
+    v2=($(echo $2 | tr '.' ' '))
+    lv1=${#v1[@]}
+    lv2=${#v2[@]}
+    if [ $lv1 -gt $lv2 ]; then
+        cmprLength=$lv2
+        longerVersion="1"
+    elif [ $lv1 -lt $lv2 ]; then
+        cmprLength=$lv1
+        longerVersion="-1"
+    else
+        longerVersion="0"
+    fi
+    for ((i=0;i<$cmprLength;++i)); do
+        p1=${v1[$i]}
+        p2=${v2[$i]}
+        if [ $p1 -gt $p2 ]; then
+            echo "1"
+            return
+        elif [ $p1 -lt $p2 ]; then
+            echo "-1"
+            return
+        else
+            continue
+        fi
+    done
+    echo $longerVersion
+}
+
 # Say the message and echo to the screen.
 function msg() {
     if [ ! "$1" ]; then
@@ -41,8 +77,15 @@ function FindFirstTarget() {
     echo ${__target}
 }
 
+vResult=$(VersionCompare $XCodeVersion "5.0")
 # Define the available Archs
-Archs=("i386" "armv7" "armv7s" "arm64")
+if [ "$vResult" == "-1" ]; then
+    Archs=("i386" "armv7" "armv7s")
+else
+    Archs=("i386" "armv7" "armv7s" "arm64")
+fi
+countOfSupportedArchs=${#Archs[@]}
+
 Version=$(InitConfig)
 XCodeSDKNames=($(xcodebuild -showsdks | grep iOS | grep "sdk" | grep $Version | awk -F"-sdk " '{print $2}'))
 

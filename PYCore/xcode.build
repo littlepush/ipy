@@ -44,7 +44,7 @@ if [ "${ExecutePart}" != "ALL" ]; then
 	fi
 fi
 
-for ((i=0;i<4;++i)); do
+for ((i=0;i<$countOfSupportedArchs;++i)); do
 	rm -rf /tmp/${ProjectName}
 	mkdir -p /tmp/${ProjectName}/PCH
 	arch=${Archs[$i]}
