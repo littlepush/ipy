@@ -2,11 +2,11 @@
 
 sudo rm -rf /tmp/PY*
 cd PYCore
-./xcode.build
+sudo ./xcode.build
 cd ../
 cd PYData
-./xcode.build
+sudo ./xcode.build
 cd ../
 cd PYUIKit
-./xcode.build
+sudo ./xcode.build
 cd ../
