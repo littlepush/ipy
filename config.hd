@@ -34,6 +34,7 @@ function VersionCompare() {
     v2=($(echo $2 | tr '.' ' '))
     lv1=${#v1[@]}
     lv2=${#v2[@]}
+	cmprLength=0
     if [ $lv1 -gt $lv2 ]; then
         cmprLength=$lv2
         longerVersion="1"
@@ -41,6 +42,7 @@ function VersionCompare() {
         cmprLength=$lv1
         longerVersion="-1"
     else
+		cmprLength=$lv1
         longerVersion="0"
     fi
     for ((i=0;i<$cmprLength;++i)); do
