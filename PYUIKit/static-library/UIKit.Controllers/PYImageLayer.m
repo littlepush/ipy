@@ -134,6 +134,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     if ( CGSizeEqualToSize(_ctntFrame.size, self.bounds.size) == NO ) {
         [_contentLayer setFrame:self.bounds];
     }
+    [_contentLayer setHidden:NO];
     [_contentLayer setNeedsDisplay];
 }
 
@@ -182,8 +183,20 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         _image = anImage;
         _loadingUrl = [@"" copy];
         // Set new value
-        _contentLayer.contents = nil;
-        [self _setImageToContext];
+        UIImage *_imageToDraw = (_image != nil) ? _image : _placeholdImage;
+        if ( _imageToDraw == nil ) {
+            _aspectImage = nil;
+        } else {
+            if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+                // Nothing to do...
+                //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
+            } else {
+                CGRect aspectFillRect = __rectOfAspectFillImage(_imageToDraw, self.bounds);
+                _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
+            }
+        }
+        [_contentLayer setHidden:YES];
+        [self setNeedsDisplay];
         return nil;
     }];
     //}
@@ -213,6 +226,12 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     */
 }
 
+- (void)_internalSetImage:(UIImage *)image
+{
+    _image = image;
+    [self _setImageToContext];
+}
+
 - (void)setImageUrl:(NSString *)imageUrl
 {
     //@synchronized(self) {
@@ -238,14 +257,13 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
             return nil;
         }
         
-        __block PYImageLayer *_bss = self;
+        __weak PYImageLayer *_bss = self;
         [SHARED_IMAGECACHE
          loadImageNamed:_loadingUrl
          get:^(UIImage *loadedImage, NSString *imageName){
              // Did loaded the image...
-             if ( ![imageName isEqualToString:_bss->_loadingUrl] ) return;
-             _bss->_image = loadedImage;
-             [_bss _setImageToContext];
+             if ( ![imageName isEqualToString:_bss.loadingUrl] ) return;
+             [_bss _internalSetImage:loadedImage];
          }];
         return nil;
     }];
@@ -263,19 +281,22 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     [super setFrame:frame];
     // First time...Nothing
     if ( CGSizeEqualToSize(frame.size, _contentLayer.frame.size) == YES ) return;
-    if ( self.contents != nil ) {
-        if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-            if ( _contentLayer.contents != nil ) {
-                self.contents = _contentLayer.contents;
-            }
-        } else {
-            if ( _aspectImage != nil ) {
-                self.contents = (id)_aspectImage.CGImage;
+    if ( _contentLayer.isHidden == NO ) {
+        if ( self.contents != nil ) {
+            if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
+                if ( _contentLayer.contents != nil ) {
+                    self.contents = _contentLayer.contents;
+                }
+            } else {
+                if ( _aspectImage != nil ) {
+                    self.contents = (id)_aspectImage.CGImage;
+                }
             }
         }
     }
     _contentLayer.contents = nil;
     [_contentLayer setFrame:self.bounds];
+    [self setNeedsDisplay];
 }
 
 - (void)refreshContent
