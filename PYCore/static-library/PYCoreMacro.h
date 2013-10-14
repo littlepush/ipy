@@ -247,6 +247,12 @@ extern "C" {
 #	 define DUMPObj(o)      __print_logHead(__FUNCTION__, __LINE__);                        \
                             printf("{%s}:%s\n", #o, [[o description] UTF8String])
 #    define __ON_DEBUG(...) __VA_ARGS__
+#    define PYTick(...)     do {                                                            \
+                                PYStopWatch *__sw__ = [PYStopWatch object];                 \
+                                [__sw__ start];                                             \
+                                __VA_ARGS__;                                                \
+                                PYLog(@"Time Passed: %.03fms", [__sw__ tick]);              \
+                            } while(0);
 #else
 #    define PYLog(f, ...)   /* */
 #	 define IF(exp)         if ( exp )
@@ -256,6 +262,7 @@ extern "C" {
 #	 define DUMPFloat(f)	/* */
 #	 define DUMPObj(o)      /* */
 #    define __ON_DEBUG(...) /* */
+#    define PYTick(...)     __VA_ARGS__
 #endif
 
 // Always Log
