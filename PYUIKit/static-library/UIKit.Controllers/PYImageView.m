@@ -95,6 +95,12 @@
     [self.layer refreshContent];
 }
 
+- (void)viewJustBeenCreated
+{
+    [super viewJustBeenCreated];
+    [self setOpaque:NO];
+}
+
 @end
 
 // @littlepush

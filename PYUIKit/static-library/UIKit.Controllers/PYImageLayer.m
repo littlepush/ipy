@@ -36,18 +36,6 @@
 {
     return 0.15f;
 }
-//- (id<CAAction>)actionForKey:(NSString *)event
-//{
-//    if ( [event isEqualToString:kCAOnOrderIn] ) {
-//        CGFloat _scale = [UIScreen mainScreen].scale;
-//        CGSize _superSize = self.superlayer.bounds.size;
-//        _superSize.width *= _scale;
-//        _superSize.height *= _scale;
-//        [self setTileSize:_superSize];
-//        self.contentsScale = _scale;
-//    }
-//    return [super actionForKey:event];
-//}
 
 - (void)setFrame:(CGRect)frame
 {
@@ -123,11 +111,13 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
             // Nothing to do...
             //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
+            _aspectImage = _imageToDraw;
         } else {
             CGRect aspectFillRect = __rectOfAspectFillImage(_imageToDraw, self.bounds);
             _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
         }
     }
+#ifdef __PYUIKIT_USE_TILEDLAYER_
     //self.contents = nil;
     [self setContents:nil];
     CGRect _ctntFrame = _contentLayer.frame;
@@ -136,6 +126,9 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     }
     [_contentLayer setHidden:NO];
     [_contentLayer setNeedsDisplay];
+#else
+    [self setNeedsDisplay];
+#endif
 }
 
 - (void)layerJustBeenCreated
@@ -144,8 +137,11 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     
     CGFloat _scale = [UIScreen mainScreen].scale;
     self.contentsScale = _scale;
+    [self setBackgroundColor:[UIColor clearColor].CGColor];
+    //[self setOpacity:NO];
     
     //_mutex.enableDebug = YES;
+#ifdef __PYUIKIT_USE_TILEDLAYER_
     _contentLayer = [PYTiledLayer layer];
     _contentLayer.actions = @{
                               kCAOnOrderIn:[NSNull null],
@@ -156,6 +152,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     _contentLayer.opaque = NO;
     [_contentLayer setBackgroundColor:[UIColor clearColor].CGColor];
     [self addSublayer:_contentLayer];
+#endif
     self.contentMode = UIViewContentModeScaleAspectFill;
 }
 
@@ -190,12 +187,15 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
             if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
                 // Nothing to do...
                 //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
+                _aspectImage = _imageToDraw;
             } else {
                 CGRect aspectFillRect = __rectOfAspectFillImage(_imageToDraw, self.bounds);
                 _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
             }
         }
+#ifdef __PYUIKIT_USE_TILEDLAYER_
         [_contentLayer setHidden:YES];
+#endif
         [self setNeedsDisplay];
         return nil;
     }];
@@ -205,25 +205,6 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 - (void)forceUpdateContentWithImage:(UIImage *)image
 {
     [self setImage:image];
-    /*
-    [_mutex lockAndDo:^id{
-        if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-            // Nothing to do...
-            //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
-            _aspectImage = image;
-        } else {
-            CGRect aspectFillRect = __rectOfAspectFillImage(image, self.bounds);
-            _aspectImage = [image cropInRect:aspectFillRect];
-        }
-
-        if ( _contentLayer.contents != nil ) {
-            [_contentLayer setContents:nil];
-        }
-        
-        [self setNeedsDisplay];
-        return nil;
-    }];
-    */
 }
 
 - (void)_internalSetImage:(UIImage *)image
@@ -273,14 +254,19 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 - (void)setNeedsDisplay
 {
     [super setNeedsDisplay];
+#ifdef __PYUIKIT_USE_TILEDLAYER_
     [_contentLayer setNeedsDisplay];
+#endif
 }
 
+#ifdef __PYUIKIT_USE_TILEDLAYER_
 - (void)setFrame:(CGRect)frame
 {
+    CGRect _oldFrame = self.frame;
     [super setFrame:frame];
     // First time...Nothing
-    if ( CGSizeEqualToSize(frame.size, _contentLayer.frame.size) == YES ) return;
+    if ( CGSizeEqualToSize(frame.size, _oldFrame.size) == YES ) return;
+    
     if ( _contentLayer.isHidden == NO ) {
         if ( self.contents != nil ) {
             if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
@@ -298,9 +284,11 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     [_contentLayer setFrame:self.bounds];
     [self setNeedsDisplay];
 }
+#endif
 
 - (void)refreshContent
 {
+#ifdef __PYUIKIT_USE_TILEDLAYER_
     CGFloat _scale = [UIScreen mainScreen].scale;
     self.contentsScale = _scale;
     _contentLayer.contents = nil;
@@ -308,6 +296,9 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     _contentLayer.tileSize = CGSizeMake(self.bounds.size.width * _scale,
                                         self.bounds.size.height * _scale);
     [self _setImageToContext];
+#else
+    [self setNeedsDisplay];
+#endif
 }
 
 - (void)willMoveToSuperLayer:(CALayer *)layer
@@ -316,6 +307,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     [self _setImageToContext];
 }
 
+#ifdef __PYUIKIT_USE_TILEDLAYER_
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
     if ( layer != _contentLayer ) return;
@@ -338,6 +330,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     UIGraphicsPopContext();
     //}
 }
+#endif
 
 - (void)drawInContext:(CGContextRef)ctx
 {

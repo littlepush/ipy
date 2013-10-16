@@ -212,10 +212,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //        [_cell addChild:_imageView2];
 //        [_imageView2 setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
         
-//        PYImageLayer *_imageLayer = [PYImageLayer layer];
-//        [_imageLayer setFrame:CGRectMake(0, 0, 320.f, 240.f)];
-//        [_cell addChild:_imageLayer];
-//        [_imageLayer setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
+        PYImageLayer *_imageLayer = [PYImageLayer layer];
+        [_imageLayer setFrame:CGRectMake(0, 0, 320.f, 240.f)];
+        [_cell addChild:_imageLayer];
+        [_imageLayer setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
     }
     return _cell;
 }
