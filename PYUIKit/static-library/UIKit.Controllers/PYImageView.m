@@ -99,6 +99,7 @@
 {
     [super viewJustBeenCreated];
     [self setOpaque:NO];
+    //[self setBackgroundColor:[UIColor clearColor]];
 }
 
 @end
