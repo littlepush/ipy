@@ -33,7 +33,6 @@
 #import "PYRectangleCalc.h"
 #import "UIImage+UIKit.h"
 #import "UIView+PYUIKit.h"
-#import "PYImageCache.h"
 
 // Kernel
 #import "PYLayer.h"

@@ -12,6 +12,7 @@
 
 + (id)objectWithOption:(NSDictionary *)option
 {
+    __TRY
     NSString *_objectClass = [option stringObjectForKey:@"type"];
     Class _class = NSClassFromString(_objectClass);
     if ( _class == NULL ) return nil;
@@ -24,6 +25,9 @@
         
     }
     return _object;
+    __CATCH(e)
+    return nil;
+    __END
 }
 
 @end

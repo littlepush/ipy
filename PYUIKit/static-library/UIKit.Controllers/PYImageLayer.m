@@ -27,29 +27,6 @@
 #import "PYImageCache.h"
 #import "UIImage+UIKit.h"
 
-@interface PYTiledLayer : CATiledLayer
-//@property (nonatomic, assign)   CGSize          tileSize;
-@end
-@implementation PYTiledLayer
-//@synthesize tileSize;
-+ (CFTimeInterval)fadeDuration
-{
-    return 0.15f;
-}
-
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-    CGFloat _scale = [UIScreen mainScreen].scale;
-    CGSize _superSize = self.bounds.size;
-    _superSize.width *= _scale;
-    _superSize.height *= _scale;
-    [self setTileSize:_superSize];
-    self.contentsScale = _scale;
-}
-
-@end
-
 // Image Functions.
 UIImage * __flipImageForTiledLayerDrawing( UIImage *_in )
 {
@@ -117,18 +94,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
             _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
         }
     }
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-    //self.contents = nil;
-    [self setContents:nil];
-    CGRect _ctntFrame = _contentLayer.frame;
-    if ( CGSizeEqualToSize(_ctntFrame.size, self.bounds.size) == NO ) {
-        [_contentLayer setFrame:self.bounds];
-    }
-    [_contentLayer setHidden:NO];
-    [_contentLayer setNeedsDisplay];
-#else
     [self setNeedsDisplay];
-#endif
 }
 
 - (void)layerJustBeenCreated
@@ -138,21 +104,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     CGFloat _scale = [UIScreen mainScreen].scale;
     self.contentsScale = _scale;
     [self setBackgroundColor:[UIColor clearColor].CGColor];
-    //[self setOpacity:NO];
     
-    //_mutex.enableDebug = YES;
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-    _contentLayer = [PYTiledLayer layer];
-    _contentLayer.actions = @{
-                              kCAOnOrderIn:[NSNull null],
-                              kCAOnOrderOut:[NSNull null],
-                              @"contents":[NSNull null]
-                              };
-    _contentLayer.delegate = self;
-    _contentLayer.opaque = NO;
-    [_contentLayer setBackgroundColor:[UIColor clearColor].CGColor];
-    [self addSublayer:_contentLayer];
-#endif
     self.contentMode = UIViewContentModeScaleAspectFill;
 }
 
@@ -193,13 +145,9 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
                 _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
             }
         }
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-        [_contentLayer setHidden:YES];
-#endif
         [self setNeedsDisplay];
         return nil;
     }];
-    //}
 }
 
 - (void)forceUpdateContentWithImage:(UIImage *)image
@@ -229,7 +177,6 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         
         _image = nil;
         
-        _contentLayer.contents = nil;
         _loadingUrl = [imageUrl copy];
         // Fetch the cache.
         _image = [SHARED_IMAGECACHE imageByName:_loadingUrl];
@@ -251,54 +198,9 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     //}
 }
 
-- (void)setNeedsDisplay
-{
-    [super setNeedsDisplay];
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-    [_contentLayer setNeedsDisplay];
-#endif
-}
-
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-- (void)setFrame:(CGRect)frame
-{
-    CGRect _oldFrame = self.frame;
-    [super setFrame:frame];
-    // First time...Nothing
-    if ( CGSizeEqualToSize(frame.size, _oldFrame.size) == YES ) return;
-    
-    if ( _contentLayer.isHidden == NO ) {
-        if ( self.contents != nil ) {
-            if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-                if ( _contentLayer.contents != nil ) {
-                    self.contents = _contentLayer.contents;
-                }
-            } else {
-                if ( _aspectImage != nil ) {
-                    self.contents = (id)_aspectImage.CGImage;
-                }
-            }
-        }
-    }
-    _contentLayer.contents = nil;
-    [_contentLayer setFrame:self.bounds];
-    [self setNeedsDisplay];
-}
-#endif
-
 - (void)refreshContent
 {
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-    CGFloat _scale = [UIScreen mainScreen].scale;
-    self.contentsScale = _scale;
-    _contentLayer.contents = nil;
-    _contentLayer.contentsScale = _scale;
-    _contentLayer.tileSize = CGSizeMake(self.bounds.size.width * _scale,
-                                        self.bounds.size.height * _scale);
-    [self _setImageToContext];
-#else
     [self setNeedsDisplay];
-#endif
 }
 
 - (void)willMoveToSuperLayer:(CALayer *)layer
@@ -306,31 +208,6 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     if ( layer == nil ) return;
     [self _setImageToContext];
 }
-
-#ifdef __PYUIKIT_USE_TILEDLAYER_
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
-{
-    if ( layer != _contentLayer ) return;
-    //@synchronized( self ) {
-    UIImage *_imageToDraw = (_image != nil) ? _image : _placeholdImage;
-    
-    if ( _imageToDraw == nil ) {
-        //layer.contents = nil;
-        return;
-    }
-    
-    UIGraphicsPushContext(ctx);
-    if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-        //CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
-        CGRect _aspectFit = __rectOfAspectFitImage(_imageToDraw, self.bounds);
-        [_imageToDraw drawInRect:_aspectFit];
-    } else {
-        [_aspectImage drawInRect:self.bounds];
-    }
-    UIGraphicsPopContext();
-    //}
-}
-#endif
 
 - (void)drawInContext:(CGContextRef)ctx
 {

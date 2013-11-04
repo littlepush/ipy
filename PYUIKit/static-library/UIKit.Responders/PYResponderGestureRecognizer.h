@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
+#import <PYCore/PYStopWatch.h>
 
 typedef enum {
     PYResponderEventTap                 = 0x0001,

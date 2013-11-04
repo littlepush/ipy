@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E61B2367181D65E200AA7B0F /* PYCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61B2366181D65E200AA7B0F /* PYCore.framework */; };
 		E6BDC6561808F58E000DF780 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BDC6551808F58E000DF780 /* Foundation.framework */; };
 		E6BDC65B1808F58E000DF780 /* PYLoader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E6BDC65A1808F58E000DF780 /* PYLoader.h */; };
 		E6BDC65D1808F58E000DF780 /* PYLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = E6BDC65C1808F58E000DF780 /* PYLoader.m */; };
@@ -27,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E61B2366181D65E200AA7B0F /* PYCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PYCore.framework; path = System/Library/Frameworks/PYCore.framework; sourceTree = SDKROOT; };
 		E6BDC6521808F58E000DF780 /* libPYLoader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYLoader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6BDC6551808F58E000DF780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6BDC6591808F58E000DF780 /* PYLoader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYLoader-Prefix.pch"; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E61B2367181D65E200AA7B0F /* PYCore.framework in Frameworks */,
 				E6BDC6561808F58E000DF780 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +74,7 @@
 		E6BDC6541808F58E000DF780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E61B2366181D65E200AA7B0F /* PYCore.framework */,
 				E6BDC6551808F58E000DF780 /* Foundation.framework */,
 				E6BDC6631808F58E000DF780 /* XCTest.framework */,
 				E6BDC6661808F58F000DF780 /* UIKit.framework */,
@@ -279,6 +283,7 @@
 				E6BDC6771808F58F000DF780 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -36,7 +36,8 @@
                      kCAOnOrderIn:[NSNull null],
                      kCAOnOrderOut:[NSNull null],
                      @"contents":[NSNull null],
-                     @"frame":[NSNull null]
+                     @"frame":[NSNull null],
+                     @"bounds":[NSNull null]
                      };
 }
 
@@ -48,8 +49,20 @@
                      kCAOnOrderIn:[NSNull null],
                      kCAOnOrderOut:[NSNull null],
                      @"contents":[NSNull null],
-                     @"frame":[NSNull null]
+                     @"frame":[NSNull null],
+                     @"bounds":[NSNull null]
                      };
+}
+
+- (id<CAAction>)actionForKey:(NSString *)event
+{
+    id<CAAction> _action = [super actionForKey:event];
+    if ( [event isEqualToString:kCAOnOrderIn] ) return nil;
+    if ( [event isEqualToString:kCAOnOrderOut] ) return nil;
+    if ( [event isEqualToString:@"contents"] ) return nil;
+    if ( [event isEqualToString:@"frame"] ) return nil;
+    if ( [event isEqualToString:@"bounds"] ) return nil;
+    return _action;
 }
 
 @end

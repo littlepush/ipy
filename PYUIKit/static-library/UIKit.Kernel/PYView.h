@@ -25,20 +25,9 @@
 #import <UIKit/UIKit.h>
 #import "PYInnerShadowLayer.h"
 
-@interface PYView : UIView
-{
-    PYInnerShadowLayer                              *_shadowLayer;
-    BOOL                                            _hasInvokeInit;
-}
+@protocol PYView <NSObject>
 
-// Make PYView to support debug
-+ (void)setDebugEnabled:(BOOL)enableDebug;
-
-// Override the layer property.
-@property (nonatomic, readonly) PYLayer             *coreLayer;
-// Test
-@property (nonatomic, readonly) PYLayer             *layer;
-
+@required
 // Corner Radius
 @property (nonatomic, assign)   CGFloat             cornerRadius;
 
@@ -62,6 +51,24 @@
 
 // Default Messages
 - (void)viewJustBeenCreated;
+
+@end
+
+// The PYView common object type
+typedef UIView<PYView>          tPYView;
+
+// The PYView object.
+@interface PYView : UIView<PYView>
+{
+    PYInnerShadowLayer                              *_shadowLayer;
+    BOOL                                            _hasInvokeInit;
+}
+
+// Make PYView to support debug
++ (void)setDebugEnabled:(BOOL)enableDebug;
+
+// Override the layer property.
+@property (nonatomic, readonly) PYLayer             *layer;
 
 @end
 

@@ -34,12 +34,6 @@
     [PYLayer setDebugEnabled:enableDebug];
 }
 
-@dynamic coreLayer;
-- (PYLayer *)coreLayer
-{
-    return (PYLayer *)self.layer;
-}
-
 @dynamic layer;
 - (PYLayer *)layer
 {

@@ -23,6 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <PYCore/PYCoreMacro.h>
 
 typedef enum {
     PYPopUpAnimationTypeNone            = 0,        // No animation

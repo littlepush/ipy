@@ -24,11 +24,12 @@
 
 #import "PYResponderView.h"
 #import "PYLabelLayer.h"
-#import "PYImageView.h"
+#import "PYImageLayer.h"
 
-@interface PYButton : PYImageView
+@interface PYButton : PYResponderView
 {
     PYImageLayer                    *_imageLayer;
+    PYImageLayer                    *_bkgImageLayer;
     PYLabelLayer                    *_labelLayer;
     
     BOOL                            _isEnabled;

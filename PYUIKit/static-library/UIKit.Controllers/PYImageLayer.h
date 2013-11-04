@@ -24,13 +24,10 @@
 
 #import "PYStaticLayer.h"
 #import <QuartzCore/QuartzCore.h>
+#import <PYCore/PYMutex.h>
 
-// Predefine
-@class PYTiledLayer;
-
-@interface PYImageLayer : PYLayer
+@interface PYImageLayer : PYStaticLayer
 {
-    PYTiledLayer                    *_contentLayer;
     // Inner Image Data
     UIImage                         *_image;
     UIImage                         *_placeholdImage;

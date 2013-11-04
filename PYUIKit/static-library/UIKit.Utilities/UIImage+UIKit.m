@@ -25,6 +25,7 @@
 #import "UIImage+UIKit.h"
 #import "PYUIKitMacro.h"
 #import <ImageIO/ImageIO.h>
+#import <CoreImage/CoreImage.h>
 
 #if __has_feature(objc_arc)
 #define CastToCFType(d)         ((__bridge CFTypeRef)(d))
@@ -148,6 +149,8 @@
     uint8_t c;
     [theData getBytes:&c length:1];
     if ( c != 0x47 ) {
+        //CIImage *_ciImage = [CIImage imageWithData:theData];
+        //return [UIImage imageWithCIImage:_ciImage];
         return [UIImage imageWithData:theData];
     }
     

@@ -68,7 +68,8 @@
 
 - (void)_actionRViewTouchEndHandler:(PYResponderView *)rview event:(PYViewEvent *)event
 {
-    [(PYImageView *)rview refreshContent];
+    //#import "PYImageCache.h"
+//_bkgImage
 }
 
 - (void)viewDidLoad

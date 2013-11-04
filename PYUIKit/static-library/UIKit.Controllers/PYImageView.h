@@ -23,18 +23,22 @@
  */
 
 #import "PYResponderView.h"
-#import "PYImageLayer.h"
+#import <PYCore/PYMutex.h>
 
-@interface PYImageView : PYResponderView
+@interface PYImageView : UIImageView<PYView>
+{
+    PYInnerShadowLayer              *_shadowLayer;
+    BOOL                            _hasInvokeInit;
+    UIImage                         *_placeholdImage;
+    NSString                        *_loadingUrl;
+    PYMutex                         *_mutex;
+}
 
-@property (nonatomic, readonly) PYImageLayer        *layer;
+//@property (nonatomic, readonly) PYImageLayer        *layer;
 
 // create the layer with the placehold image.
 - (PYImageView *)initWithPlaceholdImage:(UIImage *)image;
 + (PYImageView *)viewWithPlaceholdImage:(UIImage *)image;
-
-// The image to draw on the layer
-@property (nonatomic, strong)	UIImage             *image;
 
 // Placehold image.
 @property (nonatomic, strong)   UIImage             *placeholdImage;
