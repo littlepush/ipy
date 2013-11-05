@@ -25,16 +25,18 @@
 #import "PYView.h"
 #import "PYResponderGestureRecognizer.h"
 
-@interface PYResponderView : PYView <UIGestureRecognizerDelegate>
+@interface PYResponderView : PYView <PYResponderGestureRecognizerDelegate>
 {
     @private
     // Action Status
     NSSet                               *_beginTouchSet;
     UIEvent                             *_beginEvent;
     
+    @protected
     // Gesture
     PYResponderGestureRecognizer        *_responderGesture;
     
+    @private
     // Call back
     NSMutableArray                      *_eventTargetsActions[10];
     BOOL                                _nextResponderReceivedBeginEvent;

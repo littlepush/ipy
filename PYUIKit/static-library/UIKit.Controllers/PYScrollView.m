@@ -256,12 +256,17 @@ CGFloat const       PYScrollOverheadRate                = .45;
 - (void)_actionTouchPenHandler:(id)sender event:(PYViewEvent *)event
 {
     if ( _contentSize.width * _contentSize.height == 0 ) return;
-    // Move the subviews
-    CGSize _movingDistance = event.movingDeltaDistance;
-    if ( (_scrllSide & PYScrollHorizontal) == 0 ) _movingDistance.width = 0;
-    if ( (_scrllSide & PYScrollVerticalis) == 0 ) _movingDistance.height = 0;
-
-    [self setMovingOffset:_movingDistance withAnimatDuration:0];
+    
+    if ( _responderGesture.state == UIGestureRecognizerStateRecognized ) {
+        [self _actionTouchEndHandler:sender event:event];
+    } else {
+        // Move the subviews
+        CGSize _movingDistance = event.movingDeltaDistance;
+        if ( (_scrllSide & PYScrollHorizontal) == 0 ) _movingDistance.width = 0;
+        if ( (_scrllSide & PYScrollVerticalis) == 0 ) _movingDistance.height = 0;
+        
+        [self setMovingOffset:_movingDistance withAnimatDuration:0];
+    }
 }
 
 - (void)viewJustBeenCreated
@@ -298,9 +303,9 @@ CGFloat const       PYScrollOverheadRate                = .45;
     [self addTarget:self
              action:@selector(_actionTouchBeginHandler:event:)
   forResponderEvent:PYResponderEventTouchBegin];
-    [self addTarget:self
-             action:@selector(_actionTouchEndHandler:event:)
-  forResponderEvent:PYResponderEventTouchEnd];
+//    [self addTarget:self
+//             action:@selector(_actionTouchEndHandler:event:)
+//  forResponderEvent:PYResponderEventTouchEnd];
     [self addTarget:self
              action:@selector(_actionTouchPenHandler:event:)
   forResponderEvent:PYResponderEventPan];

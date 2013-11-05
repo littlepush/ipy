@@ -112,7 +112,7 @@
 //    CGRect _tf = [UIScreen mainScreen].bounds;
     [_pyTableView setFrame:CGRectMake(0, 100, 320, 240)];
     [_pyTableView setLoopEnabled:YES];
-    [_pyTableView setPageSize:CGSizeMake(320.f, 80.f)];
+    [_pyTableView setPageSize:CGSizeMake(320.f, 240.f)];
     [_pyTableView setPagable:YES];
     [self.view addSubview:_pyTableView];
     
@@ -194,7 +194,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (CGFloat)pytableView:(PYTableView *)tableView heightForRowAtIndex:(NSInteger)index
 {
-    return 80.f;
+    return 240.f;
 }
 
 - (PYTableViewCell *)pytableView:(PYTableView *)tableView cellForRowAtIndex:(NSInteger)index
@@ -216,7 +216,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         PYImageLayer *_imageLayer = [PYImageLayer layer];
         [_imageLayer setFrame:CGRectMake(0, 0, 320.f, 240.f)];
         [_cell addChild:_imageLayer];
-        [_imageLayer setImageUrl:@"http://hdwallpaper9.com/wp-content/uploads/2012/12/beautiful_girls_17-wallpaper-1920x1080.jpg"];
+        [_imageLayer setImageUrl:@"http://res.qingting.fm/uploadfile/2013/1031/20131031125702847.jpg"];
     }
     return _cell;
 }

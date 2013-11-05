@@ -25,6 +25,8 @@
 
 @implementation PYResponderGestureRecognizer
 
+@synthesize delegate;
+
 // Touch Info.
 @synthesize firstTouchPoint = _firstTouchPoint;
 @synthesize lastMovePoint = _lastMovePoint;
@@ -132,6 +134,7 @@
     _eventInfo.hasMoved = NO;
     _eventInfo.rotateDeltaArc = 0.f;
     _eventInfo.pinchRate = 0.f;
+    _eventInfo.movingDeltaDistance = CGSizeZero;
     
     [super touchesBegan:touches withEvent:event];
     _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
@@ -196,13 +199,14 @@
         _rotateArc = atan(_y / _x);
     }
 }
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesMoved:touches withEvent:event];
     _eventInfo.hasMoved = YES;
     _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
-
+    
     // Reset the tap count.
     _tapCount = 0;
     
@@ -243,6 +247,29 @@
                                               );
             CGSize _moveDelta = CGSizeMake(_moveDistance.width - _lastMoveDistrance.width,
                                            _moveDistance.height - _lastMoveDistrance.height);
+            // Check corner
+            if ( ((_responderRestraint & PYResponderRestraintPanFreedom) != PYResponderRestraintPanFreedom)
+                &&
+                self.state == UIGestureRecognizerStatePossible ) {
+                float _absX = PYABSF(_delta.width);
+                float _absY = PYABSF(_delta.height);
+                if ( (_responderRestraint & PYResponderRestraintPanHorizontal) == PYResponderRestraintPanHorizontal ) {
+                    // Need Pan Horizontal
+                    if ( _absX < _absY ) {  // Pan Verticalis
+                        _possibleAction &= ~PYResponderEventPan;
+                        self.state = UIGestureRecognizerStateFailed;
+                        return;
+                    }
+                }
+                if ( (_responderRestraint & PYResponderRestraintPanVerticalis) == PYResponderRestraintPanVerticalis ) {
+                    // Need Pan Verticalis
+                    if ( _absX > _absY ) { // Pan Horizontal
+                        _possibleAction &= ~PYResponderEventPan;
+                        self.state = UIGestureRecognizerStateFailed;
+                        return;
+                    }
+                }
+            }
             _lastMoveDistrance = _moveDistance;
             _lastMovePoint = _movePoint;
             [_speedTicker tick];
@@ -263,6 +290,7 @@
             } else {
                 if ( _swipeSide != _side ) {
                     _possibleAction &= ~PYResponderEventSwipe;
+                    self.state = UIGestureRecognizerStateFailed;
                     _swipeSide = 0;
                 }
             }
@@ -305,8 +333,8 @@
     [super touchesEnded:touches withEvent:event];
     _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
-    _eventInfo.movingDeltaDistance = CGSizeZero;
-
+    //_eventInfo.movingDeltaDistance = CGSizeZero;
+    
     // All supported events been canceled.
     if ( (_possibleAction & PYResponderEventNeedPredirect) == 0 ) {
         self.state = UIGestureRecognizerStateFailed;
@@ -343,6 +371,7 @@
                 _eventInfo.swipeSide = _swipeSide;
                 _eventInfo.eventId = PYResponderEventSwipe;
                 self.state = UIGestureRecognizerStateRecognized;
+                return;
             } else {
                 _possibleAction &= ~PYResponderEventSwipe;
             }
@@ -352,10 +381,14 @@
     }
     
     if ( (_possibleAction & PYResponderEventNeedPredirect) == 0 ) {
+        _eventInfo.eventId = PYResponderEventTouchEnd;
         self.state = UIGestureRecognizerStateFailed;
     } else {
         if ( _lagEventTimer == nil ) {
+            _eventInfo.eventId = PYResponderEventPan;
             self.state = UIGestureRecognizerStateRecognized;
+        } else {
+            self.state = UIGestureRecognizerStatePossible;
         }
     }
 }

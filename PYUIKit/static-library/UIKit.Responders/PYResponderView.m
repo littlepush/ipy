@@ -27,9 +27,6 @@
 
 @interface PYResponderView (Internal)
 
-// Invoke the target of specified event.
-- (void)_invokeTargetForEvent:(PYResponderEvent)event;
-
 // Responder Gesture Handler
 - (void)_responderGestureHandler:(id)sender;
 
@@ -96,6 +93,7 @@
     _responderGesture = [[PYResponderGestureRecognizer alloc]
                          initWithTarget:self action:@selector(_responderGestureHandler:)];
     [_responderGesture setCancelsTouchesInView:NO];
+    _responderGesture.delegate = self;
     [self addGestureRecognizer:_responderGesture];
 }
 
@@ -104,7 +102,7 @@
     [_responderGesture setEvent:event withRestraint:restraint];
 }
 
-- (void)_invokeTargetForEvent:(PYResponderEvent)event info:(PYViewEvent *)info
+- (void)invokeTargetForEvent:(PYResponderEvent)event info:(PYViewEvent *)info
 {
     NSMutableArray *_callbackList = _eventTargetsActions[PYLAST1INDEX(event)];
     if ( _callbackList == nil ) return;
@@ -154,8 +152,8 @@
     PYViewEvent *_event = _responderGesture.eventInfo;
     _event.touches = __GET_TOUCHES(touches);
     _event.sysEvent = event;
-    [self _invokeTargetForEvent:PYResponderEventTouchBegin info:_event];
-    [super touchesBegan:touches withEvent:event];
+    [self invokeTargetForEvent:PYResponderEventTouchBegin info:_event];
+    [self.nextResponder touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -163,8 +161,8 @@
     PYViewEvent *_event = _responderGesture.eventInfo;
     _event.touches = __GET_TOUCHES(touches);
     _event.sysEvent = event;
-    [self _invokeTargetForEvent:PYResponderEventTouchMove info:_event];
-    [super touchesMoved:touches withEvent:event];
+    [self invokeTargetForEvent:PYResponderEventTouchMove info:_event];
+    [self.nextResponder touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -172,8 +170,8 @@
     PYViewEvent *_event = _responderGesture.eventInfo;
     _event.touches = __GET_TOUCHES(touches);
     _event.sysEvent = event;
-    [self _invokeTargetForEvent:PYResponderEventTouchEnd info:_event];
-    [super touchesEnded:touches withEvent:event];
+    [self invokeTargetForEvent:PYResponderEventTouchEnd info:_event];
+    [self.nextResponder touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
@@ -181,15 +179,14 @@
     PYViewEvent *_event = _responderGesture.eventInfo;
     _event.touches = __GET_TOUCHES(touches);
     _event.sysEvent = event;
-    [self _invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
-    [super touchesCancelled:touches withEvent:event];
+    [self invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
+    [self.nextResponder touchesCancelled:touches withEvent:event];
 }
 
 - (void)_responderGestureHandler:(id)sender
 {
-    DUMPInt(PYMEMORYINUSE);
-    [self _invokeTargetForEvent:_responderGesture.eventInfo.eventId
-                           info:_responderGesture.eventInfo];
+    [self invokeTargetForEvent:_responderGesture.eventInfo.eventId
+                          info:_responderGesture.eventInfo];
 }
 
 #pragma mark --

@@ -47,7 +47,7 @@ typedef enum {
     PYResponderRestraintTwoFingersPress     = 0x00000020,
     PYResponderRestraintThreeFingersPress   = 0x00000040,
     // Sub action for pen
-    PYResponderRestraintPanFreedom          = 0x80000F00,   // Default
+    PYResponderRestraintPanFreedom          = 0x00000F00,   // Default
     PYResponderRestraintPanHorizontal       = (0x00000100 | 0x00000200),
     PYResponderRestraintPanVerticalis       = (0x00000400 | 0x00000800),
     // Sub action for swipe
@@ -85,6 +85,13 @@ typedef enum {
 
 @end
 
+@protocol PYResponderGestureRecognizerDelegate <UIGestureRecognizerDelegate>
+
+@optional
+- (void)invokeTargetForEvent:(PYResponderEvent)event info:(PYViewEvent *)info;
+
+@end
+
 @interface PYResponderGestureRecognizer : UIGestureRecognizer
 {
     PYResponderEvent                    _possibleAction;
@@ -110,6 +117,8 @@ typedef enum {
     PYViewEvent                         *_eventInfo;
 }
 
+// The delegate override the super defination.
+@property (nonatomic, assign)   id<PYResponderGestureRecognizerDelegate>    delegate;
 
 @property (nonatomic, readonly) CGPoint             firstTouchPoint;
 @property (nonatomic, readonly) CGPoint             lastMovePoint;
