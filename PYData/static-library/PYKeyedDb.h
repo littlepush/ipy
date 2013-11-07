@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "PYDataPredefination.h"
 #import "PYSqlStatement.h"
+#import <PYCore/PYDate.h>
 
 #define		kKeyedDBTableName		@"_PYkeyedCache"
 
