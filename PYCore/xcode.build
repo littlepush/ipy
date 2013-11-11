@@ -44,8 +44,18 @@ if [ "${ExecutePart}" != "ALL" ]; then
 	fi
 fi
 
+PCH_DIR=/tmp/SharedPrecompiledHeaders
+
+function cleanXcodeModuleCache() {
+	mcf=$(find /var/folders -name com.apple.DeveloperTools)
+	for f in $mcf; do 
+		rm -rf $f
+	done
+}
+
+sudo cleanXcodeModuleCache
 for ((i=0;i<$countOfSupportedArchs;++i)); do
-	rm -rf /tmp/SharedPrecompiledHeaders
+	rm -rf ${PCH_DIR}
 	arch=${Archs[$i]}
 	xcodebuild 	-target ${ProjectName}									\
 				-configuration=Release									\
@@ -53,8 +63,9 @@ for ((i=0;i<$countOfSupportedArchs;++i)); do
 				TARGET_NAME=${ProjectName}-${arch}						\
 				CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib 		\
 				CACHE_ROOT=/tmp/										\
+				SHARED_PRECOMPS_DIR=${PCH_DIR}/${ProjectName}			\
 				ARCHS=${arch}											\
-				IPHONEOS_DEPLOYMENT_TARGET=${XIOS_VER_MINs[$i]}
+				IPHONEOS_DEPLOYMENT_TARGET=${XIOS_VER_MINs[$i]}		
 	if [ $? -ne 0 ]; then
 		echo "Failed to build ${ProjectName}"
 		exit 1
@@ -95,5 +106,7 @@ mv -f ./build/${ProjectName}-lib/include ./${ProjectName}.framework/Headers
 if [ "${ExecutePart}" == "ALL" ]; then
 	InstallFrameworkToDefault ${ProjectName}
 fi
+
+rm -rf ./build
 
 echo "Done"
