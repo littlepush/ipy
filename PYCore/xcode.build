@@ -47,13 +47,13 @@ fi
 PCH_DIR=/tmp/SharedPrecompiledHeaders
 
 function cleanXcodeModuleCache() {
-	mcf=$(find /var/folders -name com.apple.DeveloperTools)
+	mcf=$(sudo find /var/folders -name com.apple.DeveloperTools)
 	for f in $mcf; do 
-		rm -rf $f
+		sudo rm -rfv $f
 	done
 }
 
-sudo cleanXcodeModuleCache
+cleanXcodeModuleCache
 for ((i=0;i<$countOfSupportedArchs;++i)); do
 	rm -rf ${PCH_DIR}
 	arch=${Archs[$i]}
