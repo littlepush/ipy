@@ -45,15 +45,14 @@ if [ "${ExecutePart}" != "ALL" ]; then
 fi
 
 for ((i=0;i<$countOfSupportedArchs;++i)); do
-	rm -rf /tmp/${ProjectName}
-	mkdir -p /tmp/${ProjectName}/PCH
+	rm -rf /tmp/SharedPrecompiledHeaders
 	arch=${Archs[$i]}
 	xcodebuild 	-target ${ProjectName}									\
 				-configuration=Release									\
 				-sdk ${SDKNames[$i]}									\
 				TARGET_NAME=${ProjectName}-${arch}						\
 				CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib 		\
-				SHARED_PRECOMPS_DIR=/tmp/${ProjectName}/PCH				\
+				CACHE_ROOT=/tmp/										\
 				ARCHS=${arch}											\
 				IPHONEOS_DEPLOYMENT_TARGET=${XIOS_VER_MINs[$i]}
 	if [ $? -ne 0 ]; then
