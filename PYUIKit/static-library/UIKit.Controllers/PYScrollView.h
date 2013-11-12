@@ -93,6 +93,7 @@ extern CGFloat const            PYScrollOverheadRate;
     // The paging property will affect the decelerate distance.
     CGSize                      _pageSize;
     BOOL                        _pagable;
+    int                         _maxDeceleratePageCount;    // Default is 1.
     
     // Make current scroll view to support loop scroll,
     // I will use a double-cache machanism (according to the content size, maybe more caches)
@@ -132,6 +133,7 @@ extern CGFloat const            PYScrollOverheadRate;
 // Page
 @property (nonatomic, assign)   CGSize                              pageSize;
 @property (nonatomic, assign, setter = setPagable:) BOOL            isPagable;
+@property (nonatomic, assign)   int                                 maxDeceleratePageCount;
 
 // When the scroll end scroll and prepare for decelerating, this
 // property will be set to tell where the content will stop.

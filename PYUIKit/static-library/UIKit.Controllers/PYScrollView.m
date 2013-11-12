@@ -76,6 +76,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 {
     _pagable = pagable;
 }
+@synthesize maxDeceleratePageCount = _maxDeceleratePageCount;
 
 @dynamic isScrolling;
 - (BOOL)isScrolling
@@ -290,6 +291,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _loopSupported = NO;
     _bounceStatus[0] = _bounceStatus[1] = YES;
     _subContentList = [NSMutableArray array];
+    _maxDeceleratePageCount = 1;
     
     _contentView = (UIView *)[[[self class] contentViewClass] object];
     PYASSERT([_contentView isKindOfClass:[UIView class]],
