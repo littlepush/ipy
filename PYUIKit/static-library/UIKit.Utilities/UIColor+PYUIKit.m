@@ -64,6 +64,37 @@
     return RGBACOLOR(r, g, b, alpha);
 }
 
+@dynamic colorInfo;
+- (PYColorInfo)colorInfo
+{
+    PYColorInfo _colorInfo = {0.f, 0.f, 0.f, 0.f};
+    
+    // This is a non-RGB color
+    if( CGColorGetNumberOfComponents(self.CGColor) == 2 ) {
+        float _white = 0.f;
+        [self getWhite:&_white alpha:&_colorInfo.alpha];
+        _colorInfo.red = _white;
+        _colorInfo.green = _white;
+        _colorInfo.blue = _white;
+    } else {
+        // iOS 5
+        if ( [self respondsToSelector:@selector(getRed:green:blue:alpha:)] ) {
+            [self getRed:&_colorInfo.red
+                   green:&_colorInfo.green
+                    blue:&_colorInfo.blue
+                   alpha:&_colorInfo.alpha];
+        } else {
+            // < iOS 5
+            const CGFloat *components = CGColorGetComponents(self.CGColor);
+            _colorInfo.red = components[0];
+            _colorInfo.green = components[1];
+            _colorInfo.blue = components[2];
+            _colorInfo.alpha = components[3];
+        }
+    }
+    return _colorInfo;
+}
+
 + (UIColor *)colorWithGradientPatternFrom:(NSString *)fromString to:(NSString *)toString fillHeight:(CGFloat)height
 {
     CGFloat _width = 2.f;
@@ -140,33 +171,11 @@
     
     for ( int l = 0; l < [colors count]; ++l ){
         UIColor *_color = [colors objectAtIndex:l];
-        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0, white = 0.0;
-        
-        // This is a non-RGB color
-        if(CGColorGetNumberOfComponents(_color.CGColor) == 2) {
-            [_color getWhite:&white alpha:&alpha];
-            red = white;
-            green = white;
-            blue = white;
-        }
-        else {
-            // iOS 5
-            if ([_color respondsToSelector:@selector(getRed:green:blue:alpha:)]) {
-                [_color getRed:&red green:&green blue:&blue alpha:&alpha];
-            } else {
-                // < iOS 5
-                const CGFloat *components = CGColorGetComponents(_color.CGColor);
-                red = components[0];
-                green = components[1];
-                blue = components[2];
-                alpha = components[3];
-            }
-        }
-        
-        *(_components + l * 4 + 0) = red;
-        *(_components + l * 4 + 1) = green;
-        *(_components + l * 4 + 2) = blue;
-        *(_components + l * 4 + 3) = alpha;
+        PYColorInfo _colorInfo = _color.colorInfo;
+        *(_components + l * 4 + 0) = _colorInfo.red;
+        *(_components + l * 4 + 1) = _colorInfo.green;
+        *(_components + l * 4 + 2) = _colorInfo.blue;
+        *(_components + l * 4 + 3) = _colorInfo.alpha;
     }
     size_t _locationsCount = 2;
     CGFloat locations[2] = {0.0, 1.0};
@@ -211,10 +220,11 @@
     
     for ( int l = 0; l < [colors count]; ++l ){
         UIColor *_color = [colors objectAtIndex:l];
-        [_color getRed:(_components + l * 4 + 0)
-                 green:(_components + l * 4 + 1)
-                  blue:(_components + l * 4 + 2)
-                 alpha:(_components + l * 4 + 3)];
+        PYColorInfo _colorInfo = _color.colorInfo;
+        *(_components + l * 4 + 0) = _colorInfo.red;
+        *(_components + l * 4 + 1) = _colorInfo.green;
+        *(_components + l * 4 + 2) = _colorInfo.blue;
+        *(_components + l * 4 + 3) = _colorInfo.alpha;
     }
     size_t _locationsCount = 2;
     CGFloat locations[2] = {0.0, 1.0};
@@ -243,6 +253,29 @@
     
     // Get the image color
     return [UIColor colorWithPatternImage:_gradientImage];    
+}
+
++ (UIColor *)colorWithOptionString:(NSString *)colorString
+{
+    NSArray *_gradientInfo = [colorString componentsSeparatedByString:@"$"];
+    UIColor *_color = nil;
+    if ( [_gradientInfo count] > 1 ) {
+        NSString *_gradientFlag = [_gradientInfo safeObjectAtIndex:0];
+        NSString *_colorGroup = [_gradientInfo safeObjectAtIndex:1];
+        NSArray *_colors = [_colorGroup componentsSeparatedByString:@":"];
+        
+        float _gradientSize = 0.f;
+        char _direction = 0;
+        sscanf(_gradientFlag.UTF8String, "@%c(%f)", &_direction, &_gradientSize);
+        if ( _direction == 'v' ) {
+            _color = [UIColor colorWithGradientColors:_colors fillHeight:_gradientSize];
+        } else {
+            _color = [UIColor colorWithGradientColors:_colors fillWidth:_gradientSize];
+        }
+    } else {
+        _color = [UIColor colorWithString:colorString];
+    }
+    return _color;
 }
 
 @end

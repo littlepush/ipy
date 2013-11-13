@@ -37,6 +37,12 @@ extern "C" {
         CGFloat                 bottom;
     } PYPadding;
     
+    // Create a padding object from string
+    PYPadding PYPaddingFromString(NSString *string);
+    
+    // Format the padding object into string.
+    NSString *NSStringFromPYPadding(PYPadding padding);
+    
     // Create a shadow rect
     PYPadding PYPaddingMake(CGFloat l, CGFloat r, CGFloat t, CGFloat b);
     

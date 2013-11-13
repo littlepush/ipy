@@ -66,7 +66,14 @@
 /* The value must be bool(true or false) */
 - (BOOL)boolObjectForKey:(NSString *)key
 {
-    __DEFAULT_TYPE_VALIDATE__(NSNumber)
+    __GET_VALUE_OBJECT__;
+    if ( [_object isKindOfClass:[NSNumber class]] == NO ) {
+        if ( [_object isKindOfClass:[NSString class]] == NO ) {
+            NSString *_errInfo = [NSString stringWithFormat:
+                                  @"the object for %@ cannot be recognized as bool value", key];
+            [self raiseExceptionWithMessage:_errInfo];
+        }
+    }
 	return [_object boolValue];
 }
 /* The value must be a double */
@@ -145,7 +152,11 @@
 {
     id _object = [self objectForKey:key];
 	if ( _object == nil ) return defaultValue;
-	if ( ![_object isKindOfClass:[NSNumber class]] ) return defaultValue;
+	if ( ![_object isKindOfClass:[NSNumber class]] ) {
+        if ( ![_object isKindOfClass:[NSString class]] ) {
+            return defaultValue;
+        }
+    }
 	return [_object boolValue];
 }
 /* The value must be a double */

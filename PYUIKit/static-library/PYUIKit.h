@@ -33,6 +33,8 @@
 #import "PYRectangleCalc.h"
 #import "UIImage+UIKit.h"
 #import "UIView+PYUIKit.h"
+#import "UIView+AttributeLoader.h"
+#import "PYResource.h"
 
 // Kernel
 #import "PYLayer.h"

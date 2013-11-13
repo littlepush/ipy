@@ -97,6 +97,12 @@
 		E6D57F3E15F5A8C400C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263F8515B42B1400DCF831 /* Foundation.framework */; };
 		E6D70DEE17BE735700542844 /* PYResponderGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D70DEC17BE735700542844 /* PYResponderGestureRecognizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6D70DEF17BE735700542844 /* PYResponderGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D70DED17BE735700542844 /* PYResponderGestureRecognizer.m */; };
+		E6D7828318335680007FAF3F /* UIView+AttributeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D7828118335680007FAF3F /* UIView+AttributeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6D7828418335680007FAF3F /* UIView+AttributeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D7828218335680007FAF3F /* UIView+AttributeLoader.m */; };
+		E6D78287183369EE007FAF3F /* PYResource.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D78285183369EE007FAF3F /* PYResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6D78288183369EE007FAF3F /* PYResource.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D78286183369EE007FAF3F /* PYResource.m */; };
+		E6D7828B18336FF1007FAF3F /* PYView+AttributeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D7828918336FF1007FAF3F /* PYView+AttributeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6D7828C18336FF1007FAF3F /* PYView+AttributeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D7828A18336FF1007FAF3F /* PYView+AttributeLoader.m */; };
 		E6D9166E17B346230021D73D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166C17B346230021D73D /* icon.png */; };
 		E6D9166F17B346230021D73D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166D17B346230021D73D /* icon@2x.png */; };
 /* End PBXBuildFile section */
@@ -208,6 +214,12 @@
 		E6D57F4115F5A8C400C1ED25 /* PYUIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYUIKit-Prefix.pch"; sourceTree = "<group>"; };
 		E6D70DEC17BE735700542844 /* PYResponderGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYResponderGestureRecognizer.h; sourceTree = "<group>"; };
 		E6D70DED17BE735700542844 /* PYResponderGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYResponderGestureRecognizer.m; sourceTree = "<group>"; };
+		E6D7828118335680007FAF3F /* UIView+AttributeLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AttributeLoader.h"; sourceTree = "<group>"; };
+		E6D7828218335680007FAF3F /* UIView+AttributeLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AttributeLoader.m"; sourceTree = "<group>"; };
+		E6D78285183369EE007FAF3F /* PYResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYResource.h; sourceTree = "<group>"; };
+		E6D78286183369EE007FAF3F /* PYResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYResource.m; sourceTree = "<group>"; };
+		E6D7828918336FF1007FAF3F /* PYView+AttributeLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYView+AttributeLoader.h"; sourceTree = "<group>"; };
+		E6D7828A18336FF1007FAF3F /* PYView+AttributeLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PYView+AttributeLoader.m"; sourceTree = "<group>"; };
 		E6D9166C17B346230021D73D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E6D9166D17B346230021D73D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -352,6 +364,8 @@
 				E66E46E417A7A94D00D1FF55 /* Label */,
 				E66E46CE17A71F3300D1FF55 /* Rich.Text */,
 				E66E46E317A7A93200D1FF55 /* Image */,
+				E6D7828918336FF1007FAF3F /* PYView+AttributeLoader.h */,
+				E6D7828A18336FF1007FAF3F /* PYView+AttributeLoader.m */,
 			);
 			path = UIKit.Controllers;
 			sourceTree = "<group>";
@@ -465,6 +479,10 @@
 				E66E46AA17A57E2000D1FF55 /* UIImage+UIKit.m */,
 				E66E46DB17A7216800D1FF55 /* UIView+PYUIKit.h */,
 				E66E46DC17A7216800D1FF55 /* UIView+PYUIKit.m */,
+				E6D7828118335680007FAF3F /* UIView+AttributeLoader.h */,
+				E6D7828218335680007FAF3F /* UIView+AttributeLoader.m */,
+				E6D78285183369EE007FAF3F /* PYResource.h */,
+				E6D78286183369EE007FAF3F /* PYResource.m */,
 			);
 			path = UIKit.Utilities;
 			sourceTree = "<group>";
@@ -540,8 +558,11 @@
 				E67CE0E417A7E1C7009BC886 /* PYScrollView.h in Headers */,
 				E69D0B851803C163007DCBF5 /* PYUIKitMacro.h in Headers */,
 				E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */,
+				E6D78287183369EE007FAF3F /* PYResource.h in Headers */,
+				E6D7828318335680007FAF3F /* UIView+AttributeLoader.h in Headers */,
 				E69D0B861803D661007DCBF5 /* PYRectangleCalc.h in Headers */,
 				E6D70DEE17BE735700542844 /* PYResponderGestureRecognizer.h in Headers */,
+				E6D7828B18336FF1007FAF3F /* PYView+AttributeLoader.h in Headers */,
 				E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */,
 				E64A8FC917BC834600B132BA /* PYTableContentView.h in Headers */,
 				E64A8FCD17BCA39D00B132BA /* PYTableView+Content.h in Headers */,
@@ -658,6 +679,8 @@
 				E67F68D8179EE9DE0086F03C /* PYRectangleCalc.m in Sources */,
 				E67F68DD179EEB9D0086F03C /* PYInnerShadowLayer.m in Sources */,
 				E6BC1BEA17A023C300D480E2 /* PYResponderView.m in Sources */,
+				E6D78288183369EE007FAF3F /* PYResource.m in Sources */,
+				E6D7828418335680007FAF3F /* UIView+AttributeLoader.m in Sources */,
 				E66E469D17A57D9600D1FF55 /* PYImageCache.m in Sources */,
 				E66E46A217A57DAA00D1FF55 /* PYImageLayer.m in Sources */,
 				E66E46A717A57DB800D1FF55 /* PYImageView.m in Sources */,
@@ -667,6 +690,7 @@
 				E69CC5C617B246EA00288631 /* PYScrollView+SideAnimation.m in Sources */,
 				E66E46CD17A71C7A00D1FF55 /* PYLabel.m in Sources */,
 				E64A8FC117BB7EA900B132BA /* PYBillBoard.m in Sources */,
+				E6D7828C18336FF1007FAF3F /* PYView+AttributeLoader.m in Sources */,
 				E66E46D217A71F5D00D1FF55 /* PYRichText.m in Sources */,
 				E64A8FCE17BCA39D00B132BA /* PYTableView+Content.m in Sources */,
 				E64A8FC517BC7D9A00B132BA /* PYHitCover.m in Sources */,

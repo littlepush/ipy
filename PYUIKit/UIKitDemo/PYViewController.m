@@ -9,6 +9,29 @@
 #import "PYViewController.h"
 #import "PYPhotoListCell.h"
 
+@interface UIView (Test)
++ (void)testFunction:(UIView *)view;
+@end
+
+@interface PYView (Test)
++ (void)testFunction:(PYView *)view;
+@end
+
+@implementation UIView (Test)
++ (void)testFunction:(UIView *)view
+{
+    PYLog(@"UIView: %p", view);
+}
+@end
+
+@implementation PYView (Test)
++ (void)testFunction:(PYView *)view
+{
+    [super testFunction:view];
+    PYLog(@"PYView: %p", view);
+}
+@end
+
 @interface TestView : UIView
 
 @end
@@ -106,6 +129,7 @@
      */
     
     _pyTableView = [PYTableView object];
+    [PYView testFunction:_pyTableView];
     [_pyTableView setDataSource:self];
     [_pyTableView setDelegate:self];
     [_pyTableView setScrollSide:PYScrollVerticalis];

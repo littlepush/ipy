@@ -28,6 +28,22 @@
 
 const PYPadding PYPaddingZero = (PYPadding){0, 0, 0, 0};
 
+// Create a padding object from string
+PYPadding PYPaddingFromString(NSString *string)
+{
+    float l, r, t, b;
+    NSString *_cleanString = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+    sscanf(_cleanString.UTF8String, "{%f,%f,%f,%f}", &l, &r, &t, &b);
+    return (PYPadding){l, r, t, b};
+}
+
+// Format the padding object into string.
+NSString *NSStringFromPYPadding(PYPadding padding)
+{
+    return [NSString stringWithFormat:@"{%.2f, %.2f, %.2f, %.2f}",
+            padding.left, padding.right, padding.top, padding.bottom];
+}
+
 // Create a shadow rect
 PYPadding PYPaddingMake(CGFloat l, CGFloat r, CGFloat t, CGFloat b)
 {
