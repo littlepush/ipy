@@ -173,6 +173,16 @@
     self.layer.paddingLeft = paddingLeft;
 }
 
+@dynamic paddingRight;
+- (CGFloat)paddingRight
+{
+    return self.layer.paddingRight;
+}
+- (void)setPaddingRight:(CGFloat)paddingRight
+{
+    self.layer.paddingRight = paddingRight;
+}
+
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     if ( newSuperview == nil ) return;

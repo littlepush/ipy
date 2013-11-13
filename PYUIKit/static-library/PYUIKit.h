@@ -68,6 +68,9 @@
 // -- HUDView
 #import "PYHUDView.h"
 
+// Attribute Loader
+#import "PYView+AttributeLoader.h"
+
 #endif
 
 // @littlepush

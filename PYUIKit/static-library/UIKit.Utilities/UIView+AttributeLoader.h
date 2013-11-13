@@ -54,6 +54,14 @@
 
 @end
 
+// Rend a layer with option, the attributes supported are the
+// same as UIView.
+@interface CALayer (AttributeLoader)
+
++ (void)rendLayer:(CALayer *)layer withOption:(NSDictionary *)option;
+
+@end
+
 // Attribute support by UILabel
 //  text: NSString object
 //  color: NSString object, a UIColor option string

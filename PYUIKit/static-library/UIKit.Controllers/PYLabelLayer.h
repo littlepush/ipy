@@ -43,6 +43,7 @@
     UILineBreakMode                                 _lineBreakMode;
 #endif
     CGFloat                                         _paddingLeft;
+    CGFloat                                         _paddingRight;
 }
 
 // Properties like UILabel.
@@ -67,6 +68,7 @@
 
 // Padding the left side.
 @property (nonatomic, assign)   CGFloat             paddingLeft;
+@property (nonatomic, assign)   CGFloat             paddingRight;
 
 @end
 

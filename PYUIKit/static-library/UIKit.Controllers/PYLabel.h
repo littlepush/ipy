@@ -49,6 +49,7 @@
 
 // Padding the left side.
 @property (nonatomic, assign)   CGFloat             paddingLeft;
+@property (nonatomic, assign)   CGFloat             paddingRight;
 
 @end
 

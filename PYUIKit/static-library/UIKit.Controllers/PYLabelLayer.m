@@ -104,6 +104,7 @@ static UIColor      *_gPYLabelColor = nil;
 @synthesize lineBreakMode = _lineBreakMode;
 @synthesize multipleLine = _multipleLine;
 @synthesize paddingLeft = _paddingLeft;
+@synthesize paddingRight = _paddingRight;
 - (void)setTextAlignment:(NSTextAlignment)alignment
 {
     _textAlignment = alignment;
@@ -132,6 +133,13 @@ static UIColor      *_gPYLabelColor = nil;
 - (void)setPaddingLeft:(CGFloat)padding
 {
     _paddingLeft = padding;
+    if ( self.superlayer ) {
+        [self setNeedsDisplay];
+    }
+}
+- (void)setPaddingRight:(CGFloat)padding
+{
+    _paddingRight = padding;
     if ( self.superlayer ) {
         [self setNeedsDisplay];
     }
@@ -180,9 +188,9 @@ static UIColor      *_gPYLabelColor = nil;
     CGSize _textSize = [_text sizeWithFont:_textFont];
     CGRect _textFrame = _bounds;
     _textFrame.origin.x += _paddingLeft;
-    _textFrame.size.width -= _paddingLeft;
+    _textFrame.size.width -= (_paddingLeft + _paddingRight);
     if ( _multipleLine ) {
-        _textSize.height = _textSize.height * (((int)_textSize.width / (int)_bounds.size.width) + 1);
+        _textSize.height = _textSize.height * (((int)_textSize.width / (int)_textFrame.size.width) + 1);
         if ( _textSize.height > _bounds.size.height )
             _textSize.height = _bounds.size.height;
     }

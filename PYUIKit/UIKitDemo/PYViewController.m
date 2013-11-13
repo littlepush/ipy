@@ -157,6 +157,17 @@
     [_responderView setFrame:CGRectMake(0, 446, 320, 120)];
     [_responderView setBackgroundColor:[UIColor randomColor]];
     [self.view addSubview:_responderView];
+    
+    
+    UIView *_testView = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    [self.view addSubview:_testView];
+    DUMPObj(NSStringFromCGRect(_testView.frame));
+    [_testView setBackgroundColor:[UIColor redColor]];
+    DUMPObj(_testView.backgroundColor);
+    [_testView.layer setFrame:CGRectMake(100, 200, 100, 100)];
+    [_testView.layer setBackgroundColor:[UIColor greenColor].CGColor];
+    DUMPObj(NSStringFromCGRect(_testView.frame));
+    DUMPObj(_testView.backgroundColor);
 }
 
 - (void)_reloadButtonTouchUpInside:(id)sender

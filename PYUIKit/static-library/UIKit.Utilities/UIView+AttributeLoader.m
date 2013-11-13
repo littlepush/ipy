@@ -65,50 +65,62 @@
 {
     if ( view == nil ) return;
 
+    // UI Attribute in deep is all CALayer's job...
+    [CALayer rendLayer:view.layer withOption:option];
+}
+
+@end
+
+@implementation CALayer (AttributeLoader)
+
++ (void)rendLayer:(CALayer *)layer withOption:(NSDictionary *)option
+{
+    if ( layer == nil ) return;
     // Load frame
     NSString *_frameInfo = [option stringObjectForKey:@"frame" withDefaultValue:@""];
     if ( [_frameInfo length] > 0 ) {
         CGRect _frame = CGRectFromString(_frameInfo);
-        [view setFrame:_frame];
+        [layer setFrame:_frame];
     }
     
     // Load background color
     NSString *_bkgColorInfo = [option stringObjectForKey:@"backgroundColor" withDefaultValue:@""];
     if ( [_bkgColorInfo length] != 0 ) {
         UIColor *_bkgColor = [UIColor colorWithOptionString:_bkgColorInfo];
-        [view setBackgroundColor:_bkgColor];
+        [layer setBackgroundColor:_bkgColor.CGColor];
     }
     
     // Load border
     NSDictionary *_borderInfo = [option objectForKey:@"border"];
     if ( _borderInfo != nil ) {
         float _borderWidth = [_borderInfo doubleObjectForKey:@"borderWidth" withDefaultValue:0.5];
-        NSString *_borderColorInfo = [_borderInfo stringObjectForKey:@"borderColor" withDefaultValue:@"#CCCCCC"];
+        NSString *_borderColorInfo = [_borderInfo stringObjectForKey:@"borderColor"
+                                                    withDefaultValue:@"#CCCCCC"];
         UIColor *_borderColor = [UIColor colorWithOptionString:_borderColorInfo];
-        view.layer.borderWidth = _borderWidth;
-        view.layer.borderColor = _borderColor.CGColor;
+        layer.borderWidth = _borderWidth;
+        layer.borderColor = _borderColor.CGColor;
     }
     
     // Load corner radius
     float _cornerRadius = [option doubleObjectForKey:@"cornerRadius" withDefaultValue:0.f];
-    view.layer.cornerRadius = _cornerRadius;
+    layer.cornerRadius = _cornerRadius;
     
     // Load shadow
     NSDictionary *_shadowInfo = [option objectForKey:@"shadow"];
     if ( _shadowInfo != nil ) {
         BOOL _disablePath = [_shadowInfo boolObjectForKey:@"disable-path" withDefaultValue:NO];
         if ( _disablePath == NO ) {
-            view.layer.shadowPath = [UIBezierPath
-                                     bezierPathWithRoundedRect:view.bounds
-                                     cornerRadius:view.layer.cornerRadius].CGPath;
+            layer.shadowPath = [UIBezierPath
+                                bezierPathWithRoundedRect:layer.bounds
+                                cornerRadius:layer.cornerRadius].CGPath;
         }
-        view.layer.shadowOffset = CGSizeFromString([_shadowInfo stringObjectForKey:@"offset"
-                                                                  withDefaultValue:@"{1, 1}"]);
-        view.layer.shadowColor = [UIColor colorWithOptionString:
-                                  [_shadowInfo stringObjectForKey:@"color"
-                                                 withDefaultValue:@"#333333"]].CGColor;
-        view.layer.shadowOpacity = [_shadowInfo doubleObjectForKey:@"opacity" withDefaultValue:.7f];
-        view.layer.shadowRadius = [_shadowInfo doubleObjectForKey:@"radius" withDefaultValue:3.f];
+        layer.shadowOffset = CGSizeFromString([_shadowInfo stringObjectForKey:@"offset"
+                                                             withDefaultValue:@"{1, 1}"]);
+        layer.shadowColor = [UIColor colorWithOptionString:
+                             [_shadowInfo stringObjectForKey:@"color"
+                                            withDefaultValue:@"#333333"]].CGColor;
+        layer.shadowOpacity = [_shadowInfo doubleObjectForKey:@"opacity" withDefaultValue:.7f];
+        layer.shadowRadius = [_shadowInfo doubleObjectForKey:@"radius" withDefaultValue:3.f];
     }
 }
 
@@ -127,7 +139,7 @@
         label.text = _text;
     }
     label.textColor = [UIColor colorWithOptionString:
-                       [option stringObjectForKey:@"color"
+                       [option stringObjectForKey:@"textColor"
                                  withDefaultValue:@"#000000"]];
     NSDictionary *_fontInfo = [option objectForKey:@"font"];
     if ( _fontInfo != nil ) {
