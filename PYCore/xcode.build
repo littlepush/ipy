@@ -65,7 +65,7 @@ for ((i=0;i<$countOfSupportedArchs;++i)); do
 				CACHE_ROOT=/tmp/										\
 				SHARED_PRECOMPS_DIR=${PCH_DIR}/${ProjectName}			\
 				ARCHS=${arch}											\
-				VALID_ARCHS=${arch}
+				VALID_ARCHS=${arch}										\
 				IPHONEOS_DEPLOYMENT_TARGET=${XIOS_VER_MINs[$i]}		
 	if [ $? -ne 0 ]; then
 		echo "Failed to build ${ProjectName}"
