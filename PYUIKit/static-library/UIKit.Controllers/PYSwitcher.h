@@ -26,10 +26,10 @@
 #import "PYImageLayer.h"
 #import "PYLabelLayer.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, PYSwitcherShowSide) {
     PYSwitcherShowSideLeft          = 0,
     PYSwitcherShowSideRight         = 1
-} PYSwitcherShowSide;
+};
 
 @protocol PYSwitcherDelegate;
 

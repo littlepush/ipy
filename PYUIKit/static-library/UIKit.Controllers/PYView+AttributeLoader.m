@@ -130,7 +130,56 @@
 
 + (void)rendView:(PYSlider *)slider withOption:(NSDictionary *)option
 {
+    if ( slider == nil ) return;
     [super rendView:slider withOption:option];
+    if ( [slider isKindOfClass:[PYSlider class]] == NO ) return;
+    
+    // backgroundImage
+    NSString *_bkgImageInfo = [option stringObjectForKey:@"backgroundImage" withDefaultValue:@""];
+    if ( [_bkgImageInfo length] > 0 ) {
+        UIImage *_bkgImage = [PYResource imageNamed:_bkgImageInfo];
+        [slider setBackgroundImage:_bkgImage];
+    }
+    // slideButtonImage
+    NSString *_slideBtnImageInfo = [option stringObjectForKey:@"slideButtonImage" withDefaultValue:@""];
+    if ( [_slideBtnImageInfo length] > 0 ) {
+        UIImage *_slideBtnImage = [PYResource imageNamed:_slideBtnImageInfo];
+        [slider setSlideButtonImage:_slideBtnImage];
+    }
+    // slideButtonColor
+    NSString *_slideBtnColorInfo = [option stringObjectForKey:@"slideButtonColor" withDefaultValue:@""];
+    if ( [_slideBtnColorInfo length] > 0 ) {
+        UIColor *_slideBtnColor = [UIColor colorWithOptionString:_slideBtnColorInfo];
+        [slider setSlideButtonColor:_slideBtnColor];
+    }
+    // minTrackTintImage
+    NSString *_minTrackTintImageInfo = [option stringObjectForKey:@"minTrackTintImage" withDefaultValue:@""];
+    if ( [_minTrackTintImageInfo length] > 0 ) {
+        UIImage *_minTrackTintImage = [PYResource imageNamed:_minTrackTintImageInfo];
+        [slider setMinTrackTintImage:_minTrackTintImage];
+    }
+    // minTrackTintColor
+    NSString *_minTrackTintColorInfo = [option stringObjectForKey:@"minTrackTintColor" withDefaultValue:@""];
+    if ( [_minTrackTintColorInfo length] > 0 ) {
+        UIColor *_minTrackTintColor = [UIColor colorWithOptionString:_minTrackTintColorInfo];
+        [slider setMinTrackTintColor:_minTrackTintColor];
+    }
+    // minimum
+    slider.minimum = [option doubleObjectForKey:@"minimum" withDefaultValue:slider.minimum];
+    // maximum
+    slider.maximum = [option doubleObjectForKey:@"maximum" withDefaultValue:slider.maximum];
+    // hideSlideButton
+    slider.hideSlideButton = [option boolObjectForKey:@"hideSlideButton"
+                                     withDefaultValue:slider.hideSlideButton];
+    // slideDirection
+    NSString *_slideDirection = [option stringObjectForKey:@"slideDirection" withDefaultValue:@""];
+    if ( [_slideDirection length] > 0 ) {
+        if ( [_slideDirection isEqualToString:@"horizontal"] ) {
+            slider.slideDirection = PYSliderDirectionHorizontal;
+        } else if ( [_slideDirection isEqualToString:@"verticalis"] ) {
+            slider.slideDirection = PYSliderDirectionVerticalis;
+        }
+    }
 }
 
 @end

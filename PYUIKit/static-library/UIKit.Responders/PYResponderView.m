@@ -133,8 +133,8 @@
 {
     NSMutableArray *_callbackList = _eventTargetsActions[PYLAST1INDEX(event)];
     if ( _callbackList == nil ) return;
-    int _targetIndex = 0;
-    int _taCount = [_callbackList count];
+    NSUInteger _targetIndex = 0;
+    NSUInteger _taCount = [_callbackList count];
     for ( ; _targetIndex < _taCount; ++_targetIndex ) {
         PYPair *_taPair = [_callbackList safeObjectAtIndex:_targetIndex];
         if ( _taPair == nil ) return;

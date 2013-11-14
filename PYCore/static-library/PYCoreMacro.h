@@ -240,8 +240,13 @@ extern "C" {
                                 __print_else_bool( #exp, (exp)))
 #	 define WHILE(exp)      __print_logHead(__FUNCTION__, __LINE__);                        \
                             while (__print_while( #exp, (exp) ))
+#if defined(_LP64)
+#    define DUMPInt(i)      __print_logHead(__FUNCTION__, __LINE__);                        \
+                            printf("{%s}:%ld\n", #i, (long)i)
+#else
 #	 define DUMPInt(i)      __print_logHead(__FUNCTION__, __LINE__);                        \
                             printf("{%s}:%d\n", #i, i)
+#endif
 #	 define DUMPFloat(f)	__print_logHead(__FUNCTION__, __LINE__);                        \
                             printf("{%s}:%f\n", #f, f)
 #	 define DUMPObj(o)      __print_logHead(__FUNCTION__, __LINE__);                        \
@@ -268,9 +273,14 @@ extern "C" {
 // Always Log
 #define ALog(...)           NSLog(__VA_ARGS__)
 
+#if defined(_LP64)
 #define PYLongToString(value)	[NSString stringWithFormat:@"%ld", value]
+#define PYIntToString(value)	[NSString stringWithFormat:@"%ld", (long)value]
+#else
+#define PYLongToString(value)	[NSString stringWithFormat:@"%ld", value]
+#define PYIntToString(value)	[NSString stringWithFormat:@"%d", (int)value]
+#endif
 #define PYLongToObject(value)	[NSNumber numberWithLong:value]
-#define PYIntToString(value)	[NSString stringWithFormat:@"%d", value]
 #define PYIntToObject(value)	[NSNumber numberWithInt:value]
 #define PYDoubleToObject(value)	[NSNumber numberWithDouble:value]
 #define PYBoolToObject(value)	[NSNumber numberWithBool:value]

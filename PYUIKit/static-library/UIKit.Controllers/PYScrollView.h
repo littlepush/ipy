@@ -32,20 +32,20 @@
 // Predefined Delegate
 @protocol PYScrollViewDelegate;
 
-typedef enum {
+typedef NS_OPTIONS(int32_t, PYScrollDirection) {
     PYScrollHorizontal      = PYResponderRestraintPanHorizontal,
     PYScrollVerticalis      = PYResponderRestraintPanVerticalis,
     PYScrollFreedom         = (PYScrollHorizontal | PYScrollVerticalis)
-} PYScrollDirection;
+};
 
-typedef enum {
+typedef NS_OPTIONS(NSInteger, PYDecelerateSpeed) {
     PYDecelerateSpeedZero                   = 0,        // Disable the decelerate, Stop immediately
     PYDecelerateSpeedVerySlow               = 5,
     PYDecelerateSpeedSlow                   = 10,
     PYDecelerateSpeedNormal                 = 15,       // Default decelerate speed.
     PYDecelerateSpeedFast                   = 20,
     PYDecelerateSpeedVeryFast               = 25
-} PYDecelerateSpeed;
+};
 
 extern NSUInteger const         PYScrollDecelerateTimePiece;
 extern CGFloat const            PYScrollDecelerateStepRate;
@@ -86,14 +86,14 @@ extern CGFloat const            PYScrollOverheadRate;
     // For decelerate animated/time handler.
     CGSize                      _decelerateInitSpeed;
     CGSize                      _currentDeceleratedOffset;
-    int                         _currentStepPiece;
-    int                         _maxStepPiece;
+    NSUInteger                  _currentStepPiece;
+    NSUInteger                  _maxStepPiece;
     
     // Pagable
     // The paging property will affect the decelerate distance.
     CGSize                      _pageSize;
     BOOL                        _pagable;
-    int                         _maxDeceleratePageCount;    // Default is 1.
+    NSUInteger                  _maxDeceleratePageCount;    // Default is 1.
     
     // Make current scroll view to support loop scroll,
     // I will use a double-cache machanism (according to the content size, maybe more caches)
@@ -133,7 +133,7 @@ extern CGFloat const            PYScrollOverheadRate;
 // Page
 @property (nonatomic, assign)   CGSize                              pageSize;
 @property (nonatomic, assign, setter = setPagable:) BOOL            isPagable;
-@property (nonatomic, assign)   int                                 maxDeceleratePageCount;
+@property (nonatomic, assign)   NSUInteger                          maxDeceleratePageCount;
 
 // When the scroll end scroll and prepare for decelerating, this
 // property will be set to tell where the content will stop.

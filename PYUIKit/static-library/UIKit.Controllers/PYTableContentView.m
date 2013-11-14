@@ -113,7 +113,7 @@
         if ( _SIDE_ITEM_C(distance) > 0 ) {
             // Load previous
             PYTableViewCell *_topCell = [self.subviews safeObjectAtIndex:0];
-            int _currentIndex = self.tableView.cellCount;
+            NSInteger _currentIndex = self.tableView.cellCount;
             if ( _topCell != nil ) {
                 _currentIndex = _topCell.cellIndex;
             }
@@ -136,7 +136,7 @@
         } else {
             // Load more
             PYTableViewCell *_lastCell = [self.subviews lastObject];
-            int _currentIndex = -1;
+            NSInteger _currentIndex = -1;
             if ( _lastCell != nil ) {
                 _currentIndex = _lastCell.cellIndex;
             }

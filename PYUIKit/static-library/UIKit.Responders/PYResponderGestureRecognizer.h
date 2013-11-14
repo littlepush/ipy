@@ -10,7 +10,7 @@
 #import <UIKit/UIGestureRecognizerSubclass.h>
 #import <PYCore/PYStopWatch.h>
 
-typedef enum {
+typedef NS_OPTIONS(int32_t, PYResponderEvent) {
     PYResponderEventTap                 = 0x0001,
     PYResponderEventPress               = 0x0002,
     PYResponderEventPan                 = 0x0004,
@@ -33,9 +33,9 @@ typedef enum {
     PYResponderEventTouchMove           = 0x0080,
     PYResponderEventTouchEnd            = 0x0100,
     PYResponderEventTouchCancel         = 0x0200
-} PYResponderEvent;
+};
 
-typedef enum {
+typedef NS_OPTIONS(int32_t, PYResponderRestraint) {
     // Sub action default
     PYResponderRestraintDisable             = 0x00000000,
     // Sub action for tap
@@ -62,7 +62,7 @@ typedef enum {
     // Sub action for Pinch
     PYResponderRestraintPinchDefault        = 0x00010000,   // Default
     PYResponderRestraintRotateDefault       = 0x00020000,   // Default
-} PYResponderRestraint;
+};
 
 #ifdef __COPY_TOUCHES__
 #define __GET_TOUCHES(touchSet)             [(touchSet) copy]
@@ -78,6 +78,7 @@ typedef enum {
 @property (nonatomic, strong)   UIEvent                 *sysEvent;
 @property (nonatomic, assign)   CGFloat                 pinchRate;
 @property (nonatomic, assign)   CGFloat                 rotateDeltaArc;
+@property (nonatomic, assign)   CGSize                  preciseDistance;
 @property (nonatomic, assign)   CGSize                  movingDeltaDistance;
 @property (nonatomic, assign)   CGPoint                 movingSpeed;
 @property (nonatomic, assign)   PYResponderRestraint    swipeSide;

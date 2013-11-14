@@ -61,7 +61,16 @@
 + (void)rendView:(PYTableView *)tableView withOption:(NSDictionary *)option;
 @end
 
-// Not implemented yet.
+// Attribute support by PYSlider
+// backgroundImage: NSString object, a background image name, load by PYResource
+// slideButtonImage: NSString object, the slide button's image name, load by PYResource
+// slideButtonColor: NSString object, the slide button's background color, a UIColor option string.
+// minTrackTintImage: NSString object, the min-side track image name, load by PYResource
+// minTrackTintColor: NSString object, the min-side track background color, a UIColor option string.
+// minimum: float object, minimum of the slider
+// maximum: float object, maximum of the slider
+// hideSlideButton: bool object, if hide the slide button
+// slideDirection: NSString object, [horizontal/verticalis]
 @interface PYSlider (AttributeLoader)
 + (void)rendView:(PYSlider *)slider withOption:(NSDictionary *)option;
 @end

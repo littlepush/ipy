@@ -83,7 +83,7 @@
         for ( int i = 0; i < 2; ++i ) {
             if ( _SIDE(_pageSize) == 0 ) continue;
             CGFloat _position = _SIDE(_predirectContentFrame.origin);
-            int _pages = (int)(_position / _SIDE(_pageSize));
+            NSInteger _pages = (int)(_position / _SIDE(_pageSize));
             if ( _maxDeceleratePageCount > 0 && _position != 0.f ) {
                 float _fcpage = -(_SIDE(_contentOffset) / _SIDE(_pageSize));
                 int _currentPage = (int)_fcpage;
@@ -100,8 +100,8 @@
                         _currentPage = (int)_fcpage - 1;
                     }
                 }
-                int _delta = _pages - _currentPage;
-                int _minDelta = MIN(ABS(_delta), _maxDeceleratePageCount);
+                NSInteger _delta = _pages - _currentPage;
+                NSUInteger _minDelta = MIN(ABS(_delta), _maxDeceleratePageCount);
                 _minDelta *= ((_delta < 0 ) ? -1 : 1);
                 _pages = _minDelta + _currentPage;
             }

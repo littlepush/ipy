@@ -31,7 +31,7 @@
 + (void)initialize
 {
     // Set the random sand
-    srandom(time(NULL));
+    srandom((unsigned)time(NULL));
 }
 
 + (UIColor *)randomColor
@@ -71,7 +71,7 @@
     
     // This is a non-RGB color
     if( CGColorGetNumberOfComponents(self.CGColor) == 2 ) {
-        float _white = 0.f;
+        CGFloat _white = 0.f;
         [self getWhite:&_white alpha:&_colorInfo.alpha];
         _colorInfo.red = _white;
         _colorInfo.green = _white;

@@ -73,14 +73,14 @@
                toArray:(NSMutableArray *)sortArray
                compare:(NSComparator)compare
 {
-    int _c = [sortArray count];
+    NSUInteger _c = [sortArray count];
     if ( _c == 0 ) {
         [sortArray addObject:iterator];
         return;
     }
     
-    int _insertIndex = _c;
-    for ( int i = 0; i < _c; ++i ) {
+    NSUInteger _insertIndex = _c;
+    for ( NSUInteger i = 0; i < _c; ++i ) {
         PYMergerIterator *_cIterator = [sortArray objectAtIndex:i];
         if ( compare(iterator.topObject, _cIterator.topObject) == NSOrderedDescending ) {
             _insertIndex = i;

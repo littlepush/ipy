@@ -105,10 +105,10 @@
 	return _text;
 }
 
-- (PYRichText *)subTextToIndex:(int)index
+- (PYRichText *)subTextToIndex:(NSUInteger)index
 {
-	__block int _charCount = 0;
-	__block int _cSize = 0;
+	__block NSUInteger _charCount = 0;
+	__block NSUInteger _cSize = 0;
 	PYRichText *_subText = [[PYRichText alloc] init];
 	[_subText copyRichSettingFromAnotherRichText:self];
 	if ( index == 0 ) {
@@ -132,10 +132,10 @@
 	return _subText;
 }
 
-- (PYRichText *)subTextFromIndex:(int)index
+- (PYRichText *)subTextFromIndex:(NSUInteger)index
 {
-	__block int _index = 0;
-	__block int _cSize = 0;
+	__block NSUInteger _index = 0;
+	__block NSUInteger _cSize = 0;
 	// 😄😃😄[3], self.text.length = 6, we need the _adjIndex to be 4
 	// index = 2
 	// 😄 1st substring, substring.length = 2, _adjIndex = 2, ==> _adjIndex += 2 - 1 ==> 3

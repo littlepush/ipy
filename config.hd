@@ -84,7 +84,7 @@ vResult=$(VersionCompare $XCodeVersion "5.0")
 if [ "$vResult" == "-1" ]; then
     Archs=("i386" "armv7" "armv7s")
 else
-    Archs=("i386" "armv7" "armv7s" "arm64")
+    Archs=("i386" "x86_64" "armv7" "armv7s" "arm64")
 fi
 countOfSupportedArchs=${#Archs[@]}
 
@@ -173,10 +173,15 @@ i386Platform=$(SearchPlatform iPhoneSimulator)
 i386CC=${i386Platform}/Developer/usr/bin/
 i386SDKName=$(SearchSDKName iphonesimulator)
 
+x86_64SDK=$(SearchSDK iPhoneSimulator)
+x86_64Platform=$(SearchPlatform iPhoneSimulator)
+x86_64CC=${x86_64Platform}/Developer/usr/bin/
+x86_64SDKName=$(SearchSDKName iphonesimulator)
+
 # Generate the settings array
-SDKs=(${i386SDK} ${ARM7SDK} ${ARM7SDK} ${ARM64SDK})
-Platforms=(${i386Platform} ${ARM7Platform} ${ARM7sPlatform} ${ARM64Platform})
-CCs=(${i386CC} ${ARM7CC} ${ARM7sCC} ${ARM64CC})
-SDKNames=(${i386SDKName} ${ARM7SDKName} ${ARM7sSDKName} ${ARM64SDKName})
-IPHONE_VER_MINs=("-miphoneos-version-min=5.0" "-miphoneos-version-min=5.0" "-miphoneos-version-min=5.0" "-miphoneos-version-min=7.0")
-XIOS_VER_MINs=("5.0" "5.0" "5.0" "7.0")
+SDKs=(${i386SDK} ${x86_64SDK} ${ARM7SDK} ${ARM7SDK} ${ARM64SDK})
+Platforms=(${i386Platform} ${x86_64Platform} ${ARM7Platform} ${ARM7sPlatform} ${ARM64Platform})
+CCs=(${i386CC} ${x86_64CC} ${ARM7CC} ${ARM7sCC} ${ARM64CC})
+SDKNames=(${i386SDKName} ${x86_64SDKName} ${ARM7SDKName} ${ARM7sSDKName} ${ARM64SDKName})
+IPHONE_VER_MINs=("-miphoneos-version-min=5.0" "-miphoneos-version-min=5.1.1" "-miphoneos-version-min=5.0" "-miphoneos-version-min=5.0" "-miphoneos-version-min=7.0")
+XIOS_VER_MINs=("5.0" "5.1.1" "5.0" "5.0" "7.0")

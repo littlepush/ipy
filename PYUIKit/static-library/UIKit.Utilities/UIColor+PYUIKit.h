@@ -32,10 +32,10 @@
 
 // Color Info of a UIColor
 typedef struct tagColorInfo {
-    float       red;
-    float       green;
-    float       blue;
-    float       alpha;
+    CGFloat     red;
+    CGFloat     green;
+    CGFloat     blue;
+    CGFloat     alpha;
 } PYColorInfo;
 
 @interface UIColor (PYUIKit)

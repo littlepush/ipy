@@ -23,11 +23,94 @@
  */
 
 #import "PYScrollView.h"
+#import "PYImageLayer.h"
 
-@interface PYSlider : PYScrollView
+#define _SLIDE_USE_IMAGE_VIEW_
+
+#ifdef _SLIDE_USE_IMAGE_VIEW_
+#import "PYImageView.h"
+#endif
+
+@protocol PYSliderDelegate;
+
+typedef NS_ENUM(NSInteger, PYSliderDirection) {
+    PYSliderDirectionHorizontal = PYResponderRestraintPanHorizontal,
+    PYSliderDirectionVerticalis = PYResponderRestraintPanVerticalis
+};
+
+@interface PYSlider : PYResponderView
 {
-    NSUInteger                      _pageCount;
+    PYImageLayer                *_backgroundLayer;
+    PYImageLayer                *_slideButtonLayer;
+#ifdef _SLIDE_USE_IMAGE_VIEW_
+    PYImageView                 *_minTrackTintLayer;
+#else
+    PYImageLayer                *_minTrackTintLayer;
+    UIImage                     *_minTrackImage;
+#endif
+
+    CGFloat                     _minimumValue;
+    CGFloat                     _maximumValue;
+    PYSliderDirection           _slideDirection;
+    BOOL                        _isUserDragging;
+    
+    // Internal properties
+    struct {
+        CGFloat                     _slide_current_value;
+        CGFloat                     _slide_offset;
+        CGFloat                     _slide_real_length;
+        CGFloat                     _slide_real_range;
+    }                           _internalProperties;
 }
+
+@property (nonatomic, assign)   IBOutlet    id<PYSliderDelegate>    delegate;
+
+// Background image
+@property (nonatomic, strong)   UIImage                             *backgroundImage;
+
+// Slide button
+@property (nonatomic, strong)   UIImage                             *slideButtonImage;
+@property (nonatomic, strong)   UIColor                             *slideButtonColor;
+
+// Min
+@property (nonatomic, strong)   UIImage                             *minTrackTintImage;
+@property (nonatomic, strong)   UIColor                             *minTrackTintColor;
+
+// Value
+@property (nonatomic, assign)	CGFloat                             minimum;
+@property (nonatomic, assign)	CGFloat                             maximum;
+@property (nonatomic, readonly)	CGFloat                             currentValue;
+
+// Option
+@property (nonatomic, assign)   BOOL                                hideSlideButton;
+@property (nonatomic, assign)   PYSliderDirection                   slideDirection;
+@property (nonatomic, readonly) BOOL                                isDragging;
+
+// The center of the button in side the slider.
+@property (nonatomic, readonly) CGPoint                             buttonPosition;
+
+/* Initial Slide View */
+- (id)initWithMinimum:(CGFloat)min maximum:(CGFloat)max;
+
+/* set current value with animation */
+- (void)setCurrentValue:(CGFloat)aValue animated:(BOOL)animated;
+
+@end
+
+// Slider Delegate
+@protocol PYSliderDelegate <NSObject>
+
+@optional
+
+// User Draging
+- (void)pySliderBeginToDrag:(PYSlider *)slider;
+- (void)pySliderEndOfDraging:(PYSlider *)slider;
+
+// When user just tap on the slide button.
+- (void)pySliderTapSlideButton:(PYSlider *)slider;
+
+// Tell the delegate the current slider has changed the value to a new one.
+- (void)pySlider:(PYSlider *)slider valueChangedTo:(CGFloat)value;
 
 @end
 

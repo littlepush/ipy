@@ -138,7 +138,7 @@ PYSingletonDefaultImplementation;
     [_coreCache setObject:image forKey:imgKey];
     [_keyCache insertObject:imgKey atIndex:0];
     
-    int _imageSize = [self _dataSizeOfImage:image];
+    NSUInteger _imageSize = [self _dataSizeOfImage:image];
     
     _currentCacheSize += _imageSize;
     [self _reorganizeCache];

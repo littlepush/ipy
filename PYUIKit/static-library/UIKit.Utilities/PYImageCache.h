@@ -38,8 +38,8 @@ typedef void (^PYImageCacheLoadedImage)(UIImage *image, NSString *name);
 
 @interface PYImageCache : NSObject
 {
-	long					_currentCacheSize;
-	long					_maxCacheSize;
+	NSUInteger				_currentCacheSize;
+	NSUInteger				_maxCacheSize;
 	
 	NSMutableDictionary		*_coreCache;
 	NSMutableArray			*_keyCache;
@@ -51,7 +51,7 @@ typedef void (^PYImageCacheLoadedImage)(UIImage *image, NSString *name);
 }
 
 // How many days the cacher cache the image, default is 10 days
-@property (nonatomic, assign)   int         imageCacheDays;
+@property (nonatomic, assign)   NSInteger       imageCacheDays;
 
 // Singleton Cache Instance
 + (PYImageCache *)sharedImageCache;

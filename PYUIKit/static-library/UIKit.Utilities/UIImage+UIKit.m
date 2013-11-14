@@ -177,7 +177,7 @@
             CFRelease(_frameProperties);
             continue;
         }
-        int _count = CFDictionaryGetCount(_gifProperties);
+        CFIndex _count = CFDictionaryGetCount(_gifProperties);
         if ( _count == 0 ) {
             CFRelease(_frameProperties);
             continue;

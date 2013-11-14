@@ -16,6 +16,7 @@
 @synthesize sysEvent;
 @synthesize pinchRate;
 @synthesize rotateDeltaArc;
+@synthesize preciseDistance;
 @synthesize movingDeltaDistance;
 @synthesize movingSpeed;
 @synthesize swipeSide;
@@ -134,6 +135,7 @@
     _eventInfo.hasMoved = NO;
     _eventInfo.rotateDeltaArc = 0.f;
     _eventInfo.pinchRate = 0.f;
+    _eventInfo.preciseDistance = CGSizeZero;
     _eventInfo.movingDeltaDistance = CGSizeZero;
     
     [super touchesBegan:touches withEvent:event];
@@ -142,14 +144,14 @@
     
     // Increase the tap count.
     _tapCount += 1;
-    int _touchCount = [_eventInfo.touches count];
+    NSUInteger _touchCount = [_eventInfo.touches count];
     // All action is possible.
     _possibleAction = _responderAction;
     
     // Check finger press
     if ( (_possibleAction & PYResponderEventPress) > 0 ) {
-        unsigned int _pressRestraintMask = 0x000000F0;
-        unsigned int _pressFingerCount = (_responderRestraint & _pressRestraintMask) >> 4;
+        uint32_t _pressRestraintMask = 0x000000F0;
+        uint32_t _pressFingerCount = (_responderRestraint & _pressRestraintMask) >> 4;
         if ( _touchCount > _pressFingerCount ) {
             _possibleAction &= ~PYResponderEventPress;
             if ( _lagEventTimer != nil ) {
@@ -210,7 +212,7 @@
     // Reset the tap count.
     _tapCount = 0;
     
-    int _touchCount = [_eventInfo.touches count];
+    NSUInteger _touchCount = [_eventInfo.touches count];
     
     // If the supported action does not contain dragging event, return.
     // And check if the next responder has received the touche begin
@@ -271,6 +273,10 @@
                 }
             }
             _lastMoveDistrance = _moveDistance;
+            _eventInfo.preciseDistance = CGSizeMake(
+                                                    _movePoint.x - _lastMovePoint.x,
+                                                    _movePoint.y - _lastMovePoint.y
+                                                    );
             _lastMovePoint = _movePoint;
             [_speedTicker tick];
             double _timePassed = _speedTicker.milleseconds;
@@ -331,7 +337,8 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
-    _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
+    // The touch should be the last set touch.
+    //_eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
     //_eventInfo.movingDeltaDistance = CGSizeZero;
     

@@ -111,14 +111,14 @@
 	[self setNeedsDisplay];
 }
 
-- (int)_checkAndCutTheRichText:(PYRichText *)richText toFitLineWidth:(CGFloat)lineWidth
+- (NSUInteger)_checkAndCutTheRichText:(PYRichText *)richText toFitLineWidth:(CGFloat)lineWidth
 {
 	BOOL _isTooShort = NO;
-	int _shouldSubStringAtIndex = [richText length] / 2;
+	NSUInteger _shouldSubStringAtIndex = [richText length] / 2;
 	if ( _shouldSubStringAtIndex == 0 ) return 0;
 	
-	int _topLimit = [richText length];
-	int _bottomLimit = 0;
+	NSUInteger _topLimit = [richText length];
+	NSUInteger _bottomLimit = 0;
 	
 	UIFont *_font = (richText.font == nil) ?
     [UIFont systemFontOfSize:RICHLB_DEFAULT_FONT_SIZE] : richText.font;
@@ -133,7 +133,7 @@
 		if ( _subSize.width < lineWidth ) _isTooShort = YES;
 		else _isTooShort = NO;
 		
-		int _nextSubIndex = ( _isTooShort ) ?
+		NSUInteger _nextSubIndex = ( _isTooShort ) ?
         ( _topLimit - _shouldSubStringAtIndex ) / 2 + _shouldSubStringAtIndex :
         _shouldSubStringAtIndex - ( _shouldSubStringAtIndex - _bottomLimit ) / 2;
 		
@@ -283,8 +283,8 @@
 			PYRichText *_subWord = [_word copy];
 			do {
 				// Get the line-break point.
-				int _lineBreakPoint = [self _checkAndCutTheRichText:_subWord
-                                                     toFitLineWidth:_currentLineLeftSize];
+				NSUInteger _lineBreakPoint = [self _checkAndCutTheRichText:_subWord
+                                                            toFitLineWidth:_currentLineLeftSize];
                 
                 // current line cannot draw any char.
 				if ( _lineBreakPoint == 0 ) {

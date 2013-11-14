@@ -25,14 +25,14 @@
 #import <UIKit/UIKit.h>
 #import <PYCore/PYCoreMacro.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, PYPopUpAnimationType) {
     PYPopUpAnimationTypeNone            = 0,        // No animation
     PYPopUpAnimationTypeJelly           = 1,        // Jelly Popup
     PYPopUpAnimationTypeSmooth          = 2,        // Smooth Popup
     PYPopUpAnimationTypeFade            = 3,        // Fade In/Out
     PYPopUpAnimationTypeSlideFromLeft   = 4,        // Slide In from left
     PYPopUpAnimationTypeSlideFromRight  = 5         // Slide In from right
-} PYPopUpAnimationType;
+};
 
 @interface UIViewController (PopUp)
 

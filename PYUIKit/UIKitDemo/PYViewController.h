@@ -8,15 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PYViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PYTableViewDatasource, PYTableViewDelegate>
+@interface PYViewController : UIViewController
 {
-    UITableView                         *_tableView;
-    
-    UIImageView                         *_imageView;
-    
-    PYTableView                         *_pyTableView;
-    
-    NSTimer                             *_slideTimer;
+    PYSlider                *_testSlider;
 }
 
 @end

@@ -27,11 +27,11 @@
 
 #define RICHLB_DEFAULT_FONT_SIZE            14
 
-typedef enum {
+typedef NS_ENUM(NSInteger, PYRichTextLinkStatue) {
 	PYRichTextLinkNormal,
 	PYRichTextLinkHover,
 	PYRichTextLinkSelected
-} PYRichTextLinkStatue;
+};
 
 @interface PYRichText : NSObject
 {
@@ -69,8 +69,8 @@ typedef enum {
 //+ (const RichText *) endOfLine;
 
 // String Operations
-- (PYRichText *)subTextToIndex:(int)index;
-- (PYRichText *)subTextFromIndex:(int)index;
+- (PYRichText *)subTextToIndex:(NSUInteger)index;
+- (PYRichText *)subTextFromIndex:(NSUInteger)index;
 //- (RichText *) subTextWithRange:(NSRange)range;
 
 - (CGSize)sizeWithFont:(UIFont *)tFont;
