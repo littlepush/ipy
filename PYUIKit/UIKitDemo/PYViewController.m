@@ -30,6 +30,47 @@
     [_testSlider setCurrentValue:99.f animated:NO];
     
     [self.view addSubview:_testSlider];
+    
+    // Test the grid view
+    _gridView = [PYGridView object];
+    [_gridView initGridViewWithScale:(PYGridScale){2, 2}];
+    [_gridView setFrame:CGRectMake((320.f - 252.f) / 2, 110.f, 252.f, 108.f)];
+    [_gridView setPadding:4.f];
+    
+    [_gridView
+     setItemBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#3787B1:#61BCFF"]
+     forState:UIControlStateNormal];
+    [_gridView
+     setItemBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#CCCCCC:#FFFFFF"]
+     forState:UIControlStateHighlighted];
+    [_gridView setItemCornerRadius:3.f];
+    [_gridView setItemBorderColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_gridView setItemBorderColor:[UIColor redColor] forState:UIControlStateHighlighted];
+    [_gridView setItemBorderWidth:1.f forState:UIControlStateNormal];
+    [_gridView setItemTextColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [_gridView setItemTextColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_gridView setItemTextFont:[UIFont boldSystemFontOfSize:12.f] forState:UIControlStateNormal];
+    for ( PYGridItem *_item in _gridView ) {
+        [_item setTitle:[NSString stringWithFormat:@"<%d,%d>",
+                         _item.coordinate.x, _item.coordinate.y]
+               forState:UIControlStateNormal];
+    }
+    PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
+    if ( _specifialItem != nil ) {
+        [_specifialItem
+         setBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#FFFFCC:#FFCCCC"]
+         forState:UIControlStateNormal];
+        [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    [_gridView mergeGridItemFrom:(PYGridCoordinate){1, 0} to:(PYGridCoordinate){1, 1}];
+    
+    [_gridView setItemShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_gridView setItemShadowOffset:CGSizeMake(1, 1) forState:UIControlStateNormal];
+    [_gridView setItemShadowRadius:3.f forState:UIControlStateNormal];
+    [_gridView setItemShadowOpacity:.7 forState:UIControlStateNormal];
+    
+    [_gridView setSupportTouchMoving:YES];
+    [self.view addSubview:_gridView];
 }
 
 - (void)didReceiveMemoryWarning

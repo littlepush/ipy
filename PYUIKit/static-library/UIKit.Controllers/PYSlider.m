@@ -211,12 +211,10 @@
 - (void)_actionPanHandler:(id)sender event:(PYViewEvent *)event
 {
     if ( _responderGesture.state == UIGestureRecognizerStateBegan ) {
-        PYLog(@"Begin of drag");
         if ( [((NSObject *)self.delegate) respondsToSelector:@selector(pySliderBeginToDrag:)] ) {
             [self.delegate pySliderBeginToDrag:self];
         }
     } else if ( _responderGesture.state == UIGestureRecognizerStateEnded ) {
-        PYLog(@"End of drag");
         if ( [((NSObject *)self.delegate) respondsToSelector:@selector(pySliderEndOfDraging:)] ) {
             [self.delegate pySliderEndOfDraging:self];
         }

@@ -117,7 +117,7 @@
 }
 - (void)setCornerRadius:(CGFloat)radius
 {
-    [self setClipsToBounds:(radius > 0.f)];
+    //[self setClipsToBounds:(radius > 0.f)];
     [self.layer setCornerRadius:radius];
     if ( _shadowLayer == nil ) return;
     [_shadowLayer setFrame:self.bounds];

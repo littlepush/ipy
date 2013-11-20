@@ -264,13 +264,17 @@
         NSString *_colorGroup = [_gradientInfo safeObjectAtIndex:1];
         NSArray *_colors = [_colorGroup componentsSeparatedByString:@":"];
         
+        NSMutableArray *_clrs = [NSMutableArray array];
+        for ( NSString *_clrString in _colors ) {
+            [_clrs addObject:[UIColor colorWithString:_clrString]];
+        }
         float _gradientSize = 0.f;
         char _direction = 0;
         sscanf(_gradientFlag.UTF8String, "@%c(%f)", &_direction, &_gradientSize);
         if ( _direction == 'v' ) {
-            _color = [UIColor colorWithGradientColors:_colors fillHeight:_gradientSize];
+            _color = [UIColor colorWithGradientColors:_clrs fillHeight:_gradientSize];
         } else {
-            _color = [UIColor colorWithGradientColors:_colors fillWidth:_gradientSize];
+            _color = [UIColor colorWithGradientColors:_clrs fillWidth:_gradientSize];
         }
     } else {
         _color = [UIColor colorWithString:colorString];

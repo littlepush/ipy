@@ -11,6 +11,8 @@
 @interface PYViewController : UIViewController
 {
     PYSlider                *_testSlider;
+    
+    PYGridView              *_gridView;
 }
 
 @end

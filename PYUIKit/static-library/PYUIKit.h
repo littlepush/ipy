@@ -67,6 +67,9 @@
 #import "PYRichLabel.h"
 // -- HUDView
 #import "PYHUDView.h"
+// -- GridView
+#import "PYGridView.h"
+#import "PYGridItem.h"
 
 // Attribute Loader
 #import "PYView+AttributeLoader.h"
