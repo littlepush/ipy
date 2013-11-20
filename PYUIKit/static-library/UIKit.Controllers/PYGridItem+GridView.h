@@ -49,6 +49,9 @@
 // Refresh all ui item state according to current state.
 - (void)_updateUIStateAccordingToCurrentState;
 
+// Internal Cell body frame (not contains the collapse view)
+@property (nonatomic, readonly) CGRect      _innerFrame;
+
 // Internal setting
 // Set the UI info for different state of the cell item.
 - (void)_setBackgroundColor:(UIColor *)color forState:(UIControlState)state;

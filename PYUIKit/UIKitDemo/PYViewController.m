@@ -58,10 +58,13 @@
     PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
     if ( _specifialItem != nil ) {
         [_specifialItem
-         setBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#FFFFCC:#FFCCCC"]
+         setBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#FFFFFF:#CCCCCC"]
          forState:UIControlStateNormal];
         [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _specifialItem.collapseRate = 3.f;
     }
+    PYGridItem *_fixedItem = [_gridView itemAtCoordinate:(PYGridCoordinate){0, 0}];
+    _fixedItem.collapseRate = 3;
     [_gridView mergeGridItemFrom:(PYGridCoordinate){1, 0} to:(PYGridCoordinate){1, 1}];
     
     [_gridView setItemShadowColor:[UIColor grayColor] forState:UIControlStateNormal];

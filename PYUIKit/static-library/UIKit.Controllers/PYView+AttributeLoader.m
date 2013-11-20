@@ -286,14 +286,18 @@
     }
 
     // Padding
-    labelLayer.paddingLeft = [option doubleObjectForKey:@"paddingLeft"
-                                       withDefaultValue:labelLayer.paddingLeft];
-    labelLayer.paddingRight = [option doubleObjectForKey:@"paddingRight"
-                                        withDefaultValue:labelLayer.paddingRight];
+    CGFloat _paddingLeft = [option doubleObjectForKey:@"paddingLeft" withDefaultValue:NAN];
+    if ( !isnan(_paddingLeft) ) {
+        labelLayer.paddingLeft = _paddingLeft;
+    }
+    CGFloat _paddingRight = [option doubleObjectForKey:@"paddingRight" withDefaultValue:NAN];
+    if ( !isnan(_paddingRight) ) {
+        labelLayer.paddingRight = _paddingRight;
+    }
     
     // Multiple line
     labelLayer.multipleLine = [option boolObjectForKey:@"multipleLine"
-                                      withDefaultValue:NO];
+                                      withDefaultValue:labelLayer.multipleLine];
 }
 
 @end
@@ -357,6 +361,377 @@
     NSString *_imageUrl = [option stringObjectForKey:@"imageUrl" withDefaultValue:@""];
     if ( [_imageUrl length] > 0 ) {
         [imageView setImageUrl:_imageUrl];
+    }
+}
+
+@end
+
+@implementation PYGridItem (AttributeLoader)
+
++ (void)rendView:(PYGridItem *)itemView withOption:(NSDictionary *)option
+{
+    static NSString *_buttonStateString[] = {
+        @"normal", @"highlighted", @"selected", @"disable"};
+    static UIControlState _buttonState[] = {
+        UIControlStateNormal, UIControlStateHighlighted,
+        UIControlStateSelected, UIControlStateDisabled
+    };
+
+    if ( itemView == nil ) return;
+    [super rendView:itemView withOption:option];
+    if ( [itemView isKindOfClass:[PYGridItem class]] == NO ) return;
+    
+    // For Grid Item Options...
+    // Collapse Rate
+    CGFloat _collapseRate = [option doubleObjectForKey:@"collapseRate" withDefaultValue:NAN];
+    if ( !isnan(_collapseRate) ) {
+        [itemView setCollapseRate:_collapseRate];
+    }
+    
+    // Collapse Direction
+    NSString *_collapseDirection = [option stringObjectForKey:@"collapseDirection" withDefaultValue:@""];
+    if ( [_collapseDirection length] > 0 ) {
+        if ( [_collapseDirection isEqualToString:@"horizontal"] ) {
+            itemView.collapseDirection = PYGridItemCollapseDirectionHorizontal;
+        } else {
+            itemView.collapseDirection = PYGridItemCollapseDirectionVerticalis;
+        }
+    }
+    
+    // Collapse Info
+    NSDictionary *_collapseViewInfo = [option objectForKey:@"collapseView"];
+    if ( _collapseViewInfo != nil ) {
+        [PYView rendView:itemView.collapseView withOption:_collapseViewInfo];
+    }
+    
+    for ( int i = 0; i < 4; ++i ) {
+        NSDictionary *_stateOption = [option objectForKey:_buttonStateString[i]];
+        if ( _stateOption == nil ) continue;
+        UIControlState _state = _buttonState[i];
+
+        // Background Color
+        NSString *_backgroundColor = [_stateOption stringObjectForKey:@"backgroundColor"
+                                                     withDefaultValue:@""];
+        if ( [_backgroundColor length] > 0 ) {
+            UIColor *_bkgColor = [UIColor colorWithOptionString:_backgroundColor];
+            [itemView setBackgroundColor:_bkgColor forState:_state];
+        }
+        
+        // Background Image
+        NSString *_backgrondImage = [_stateOption stringObjectForKey:@"backgroundImage"
+                                                    withDefaultValue:@""];
+        if ( [_backgrondImage length] > 0 ) {
+            UIImage *_bkgImage = [PYResource imageNamed:_backgrondImage];
+            [itemView setBackgroundImage:_bkgImage forState:_state];
+        }
+        
+        // Border Width
+        CGFloat _borderWidth = [_stateOption doubleObjectForKey:@"borderWidth" withDefaultValue:NAN];
+        if ( !isnan(_borderWidth) ) {
+            [itemView setBorderWidth:_borderWidth forState:_state];
+        }
+        
+        // Border Color
+        NSString *_borderColorInfo = [_stateOption stringObjectForKey:@"borderColor" withDefaultValue:@""];
+        if ( [_borderColorInfo length] > 0 ) {
+            UIColor *_borderColor = [UIColor colorWithOptionString:_borderColorInfo];
+            [itemView setBorderColor:_borderColor forState:_state];
+        }
+        
+        // Shadow
+        NSDictionary *_shadowInfo = [_stateOption objectForKey:@"shadow"];
+        if ( _shadowInfo != nil ) {
+            // Shadow Offset
+            NSString *_shadowOffsetInfo = [_shadowInfo stringObjectForKey:@"shadowOffset" withDefaultValue:@""];
+            if ( [_shadowOffsetInfo length] > 0 ) {
+                CGSize _shadowOffset = CGSizeFromString(_shadowOffsetInfo);
+                [itemView setShadowOffset:_shadowOffset forState:_state];
+            }
+            
+            // Shadow Color
+            NSString *_shadowColorInfo = [_shadowInfo stringObjectForKey:@"shadowColor" withDefaultValue:@""];
+            if ( [_shadowColorInfo length] > 0 ) {
+                UIColor *_shadowColor = [UIColor colorWithOptionString:_shadowColorInfo];
+                [itemView setShadowColor:_shadowColor forState:_state];
+            }
+            
+            // Shadow Opacity
+            CGFloat _shadowOpacity = [_shadowInfo doubleObjectForKey:@"shadowOpacity" withDefaultValue:NAN];
+            if ( !isnan(_shadowOpacity) ) {
+                [itemView setShadowOpacity:_shadowOpacity forState:_state];
+            }
+            
+            // Shadow Radius
+            CGFloat _shadowRadius = [_shadowInfo doubleObjectForKey:@"shadowRadius" withDefaultValue:NAN];
+            if ( !isnan(_shadowRadius) ) {
+                [itemView setShadowRadius:_shadowRadius forState:_state];
+            }
+        }
+        
+        // Title
+        NSString *_title = [_stateOption stringObjectForKey:@"title" withDefaultValue:@""];
+        if ( [_title length] > 0 ) {
+            [itemView setTitle:_title forState:_state];
+        }
+        
+        // Text Color
+        NSString *_textColorInfo = [_stateOption stringObjectForKey:@"textColor" withDefaultValue:@""];
+        if ( [_textColorInfo length] > 0 ) {
+            UIColor *_textColor = [UIColor colorWithOptionString:_textColorInfo];
+            [itemView setTextColor:_textColor forState:_state];
+        }
+        
+        // Text Font
+        NSDictionary *_textFontInfo = [_stateOption objectForKey:@"font"];
+        if ( _textFontInfo != nil ) {
+            UIFont *_textFont = [UIFont fontWithOption:_textFontInfo];
+            [itemView setTextFont:_textFont forState:_state];
+        }
+        
+        // Text Shadow
+        NSDictionary *_textShadowInfo = [option objectForKey:@"textShadow"];
+        if ( _textShadowInfo != nil ) {
+            // Shadow Offset
+            NSString *_textShadowOffsetInfo = [_textShadowInfo stringObjectForKey:@"shadowOffset"
+                                                                 withDefaultValue:@""];
+            if ( [_textShadowOffsetInfo length] > 0 ) {
+                CGSize _shadowOffset = CGSizeFromString(_textShadowOffsetInfo);
+                [itemView setTextShadowOffset:_shadowOffset forState:_state];
+            }
+            
+            // Shadow Color
+            NSString *_textShadowColorInfo = [_textShadowInfo stringObjectForKey:@"shadowColor"
+                                                                withDefaultValue:@""];
+            if ( [_textShadowColorInfo length] > 0 ) {
+                UIColor *_shadowColor = [UIColor colorWithOptionString:_textShadowColorInfo];
+                [itemView setTextShadowColor:_shadowColor forState:_state];
+            }
+            
+            // Shadow Radius
+            CGFloat _textShadowRadius = [_textShadowInfo doubleObjectForKey:@"shadowRadius"
+                                                           withDefaultValue:NAN];
+            if ( !isnan(_textShadowRadius) ) {
+                [itemView setTextShadowRadius:_textShadowRadius forState:_state];
+            }
+        }
+        
+        // Icon
+        NSString *_iconImageInfo = [_stateOption stringObjectForKey:@"icon" withDefaultValue:@""];
+        if ( [_iconImageInfo length] > 0 ) {
+            UIImage *_iconImage = [PYResource imageNamed:_iconImageInfo];
+            [itemView setIconImage:_iconImage forState:_state];
+        }
+        
+        // Indicate
+        NSString *_indicateInfo = [_stateOption stringObjectForKey:@"indicate" withDefaultValue:@""];
+        if ( [_indicateInfo length] > 0 ) {
+            UIImage *_indicateImage = [PYResource imageNamed:_indicateInfo];
+            [itemView setIndicateImage:_indicateImage forState:_state];
+        }
+    }
+}
+
+@end
+
+@implementation PYGridView (AttributeLoader)
+
++ (void)rendView:(PYGridView *)gridView withOption:(NSDictionary *)option
+{
+    static NSString *_buttonStateString[] = {
+        @"normal", @"highlighted", @"selected", @"disable"};
+    static UIControlState _buttonState[] = {
+        UIControlStateNormal, UIControlStateHighlighted,
+        UIControlStateSelected, UIControlStateDisabled
+    };
+    
+    if ( gridView == nil ) return;
+    [super rendView:gridView withOption:option];
+    if ( [gridView isKindOfClass:[PYGridView class]] == NO ) return;
+
+    // Grid Scale
+    NSString *_gridScale = [option stringObjectForKey:@"gridScale" withDefaultValue:@""];
+    if ( [_gridScale length] > 0 ) {
+        CGSize _scale = CGSizeFromString(_gridScale);
+        PYGridScale _gScale = (PYGridScale){(int32_t)_scale.width, (int32_t)_scale.height};
+        [gridView initGridViewWithScale:_gScale];
+    }
+    
+    // Support Touch Moving
+    BOOL _supportTouchMoving = [option boolObjectForKey:@"supportTouchMoving"
+                                       withDefaultValue:gridView.supportTouchMoving];
+    [gridView setSupportTouchMoving:_supportTouchMoving];
+    
+    // Padding
+    CGFloat _padding = [option doubleObjectForKey:@"padding" withDefaultValue:NAN];
+    if ( !isnan(_padding) ) {
+        [gridView setPadding:_padding];
+    }
+    
+    // Merge Info
+    NSArray *_mergeInfo = [option objectForKey:@"merge"];
+    if ( _mergeInfo != nil ) {
+        for ( NSDictionary *_mergeItem in _mergeInfo ) {
+            if ( [_mergeItem isKindOfClass:[NSDictionary class]] == NO ) continue;
+            NSString *_from = [_mergeItem stringObjectForKey:@"from" withDefaultValue:@""];
+            if ( [_from length] == 0 ) continue;
+            NSString *_to = [_mergeItem stringObjectForKey:@"to" withDefaultValue:@""];
+            if ( [_to length] == 0 ) continue;
+            
+            CGPoint _pFrom = CGPointFromString(_from);
+            CGPoint _pTo = CGPointFromString(_to);
+            PYGridCoordinate _gFrom = {(int32_t)_pFrom.x, (int32_t)_pFrom.y};
+            PYGridCoordinate _gTo = {(int32_t)_pTo.x, (int32_t)_pTo.y};
+            [gridView mergeGridItemFrom:_gFrom to:_gTo];
+        }
+    }
+    
+    // Item style
+    NSString *_itemStyle = [option stringObjectForKey:@"itemStyle" withDefaultValue:@""];
+    if ( [_itemStyle length] > 0 ) {
+        if ( [_itemStyle isEqualToString:@"title-only"] ) {
+            [gridView setItemStyle:PYGridItemStyleTitleOnly];
+        } else if ( [_itemStyle isEqualToString:@"icon-only"] ) {
+            [gridView setItemStyle:PYGridItemStyleIconOnly];
+        } else if ( [_itemStyle isEqualToString:@"icon-title-horizontal"] ) {
+            [gridView setItemStyle:PYGridItemStyleIconTitleHorizontal];
+        } else if ( [_itemStyle isEqualToString:@"icon-title-verticalis"] ) {
+            [gridView setItemStyle:PYGridItemStyleIconTitleVerticalis];
+        } else if ( [_itemStyle isEqualToString:@"icon-title-indicate"] ) {
+            [gridView setItemStyle:PYGridItemStyleIconTitleIndicate];
+        }
+    }
+    
+    // Item corner radius
+    CGFloat _itemCornerRadius = [option doubleObjectForKey:@"itemCornerRadius" withDefaultValue:NAN];
+    if ( !isnan(_itemCornerRadius) ) {
+        [gridView setItemCornerRadius:_itemCornerRadius];
+    }
+    
+    // Item status
+    for ( int i = 0; i < 4; ++i ) {
+        NSDictionary *_stateOption = [option objectForKey:_buttonStateString[i]];
+        if ( _stateOption == nil ) continue;
+        UIControlState _state = _buttonState[i];
+        
+        // Background Color
+        NSString *_backgroundColor = [_stateOption stringObjectForKey:@"backgroundColor"
+                                                     withDefaultValue:@""];
+        if ( [_backgroundColor length] > 0 ) {
+            UIColor *_bkgColor = [UIColor colorWithOptionString:_backgroundColor];
+            [gridView setItemBackgroundColor:_bkgColor forState:_state];
+        }
+        
+        // Background Image
+        NSString *_backgrondImage = [_stateOption stringObjectForKey:@"backgroundImage"
+                                                    withDefaultValue:@""];
+        if ( [_backgrondImage length] > 0 ) {
+            UIImage *_bkgImage = [PYResource imageNamed:_backgrondImage];
+            [gridView setItemBackgroundImage:_bkgImage forState:_state];
+        }
+        
+        // Border Width
+        CGFloat _borderWidth = [_stateOption doubleObjectForKey:@"borderWidth" withDefaultValue:NAN];
+        if ( !isnan(_borderWidth) ) {
+            [gridView setItemBorderWidth:_borderWidth forState:_state];
+        }
+        
+        // Border Color
+        NSString *_borderColorInfo = [_stateOption stringObjectForKey:@"borderColor" withDefaultValue:@""];
+        if ( [_borderColorInfo length] > 0 ) {
+            UIColor *_borderColor = [UIColor colorWithOptionString:_borderColorInfo];
+            [gridView setItemBorderColor:_borderColor forState:_state];
+        }
+        
+        // Shadow
+        NSDictionary *_shadowInfo = [_stateOption objectForKey:@"shadow"];
+        if ( _shadowInfo != nil ) {
+            // Shadow Offset
+            NSString *_shadowOffsetInfo = [_shadowInfo stringObjectForKey:@"shadowOffset" withDefaultValue:@""];
+            if ( [_shadowOffsetInfo length] > 0 ) {
+                CGSize _shadowOffset = CGSizeFromString(_shadowOffsetInfo);
+                [gridView setItemShadowOffset:_shadowOffset forState:_state];
+            }
+            
+            // Shadow Color
+            NSString *_shadowColorInfo = [_shadowInfo stringObjectForKey:@"shadowColor" withDefaultValue:@""];
+            if ( [_shadowColorInfo length] > 0 ) {
+                UIColor *_shadowColor = [UIColor colorWithOptionString:_shadowColorInfo];
+                [gridView setItemShadowColor:_shadowColor forState:_state];
+            }
+            
+            // Shadow Opacity
+            CGFloat _shadowOpacity = [_shadowInfo doubleObjectForKey:@"shadowOpacity" withDefaultValue:NAN];
+            if ( !isnan(_shadowOpacity) ) {
+                [gridView setItemShadowOpacity:_shadowOpacity forState:_state];
+            }
+            
+            // Shadow Radius
+            CGFloat _shadowRadius = [_shadowInfo doubleObjectForKey:@"shadowRadius" withDefaultValue:NAN];
+            if ( !isnan(_shadowRadius) ) {
+                [gridView setItemShadowRadius:_shadowRadius forState:_state];
+            }
+        }
+        
+        // Title
+        NSString *_title = [_stateOption stringObjectForKey:@"title" withDefaultValue:@""];
+        if ( [_title length] > 0 ) {
+            [gridView setItemTitle:_title forState:_state];
+        }
+        
+        // Text Color
+        NSString *_textColorInfo = [_stateOption stringObjectForKey:@"textColor" withDefaultValue:@""];
+        if ( [_textColorInfo length] > 0 ) {
+            UIColor *_textColor = [UIColor colorWithOptionString:_textColorInfo];
+            [gridView setItemTextColor:_textColor forState:_state];
+        }
+        
+        // Text Font
+        NSDictionary *_textFontInfo = [_stateOption objectForKey:@"font"];
+        if ( _textFontInfo != nil ) {
+            UIFont *_textFont = [UIFont fontWithOption:_textFontInfo];
+            [gridView setItemTextFont:_textFont forState:_state];
+        }
+        
+        // Text Shadow
+        NSDictionary *_textShadowInfo = [option objectForKey:@"textShadow"];
+        if ( _textShadowInfo != nil ) {
+            // Shadow Offset
+            NSString *_textShadowOffsetInfo = [_textShadowInfo stringObjectForKey:@"shadowOffset"
+                                                                 withDefaultValue:@""];
+            if ( [_textShadowOffsetInfo length] > 0 ) {
+                CGSize _shadowOffset = CGSizeFromString(_textShadowOffsetInfo);
+                [gridView setItemTextShadowOffset:_shadowOffset forState:_state];
+            }
+            
+            // Shadow Color
+            NSString *_textShadowColorInfo = [_textShadowInfo stringObjectForKey:@"shadowColor"
+                                                                withDefaultValue:@""];
+            if ( [_textShadowColorInfo length] > 0 ) {
+                UIColor *_shadowColor = [UIColor colorWithOptionString:_textShadowColorInfo];
+                [gridView setItemTextShadowColor:_shadowColor forState:_state];
+            }
+            
+            // Shadow Radius
+            CGFloat _textShadowRadius = [_textShadowInfo doubleObjectForKey:@"shadowRadius"
+                                                           withDefaultValue:NAN];
+            if ( !isnan(_textShadowRadius) ) {
+                [gridView setItemTextShadowRadius:_textShadowRadius forState:_state];
+            }
+        }
+        
+        // Icon
+        NSString *_iconImageInfo = [_stateOption stringObjectForKey:@"icon" withDefaultValue:@""];
+        if ( [_iconImageInfo length] > 0 ) {
+            UIImage *_iconImage = [PYResource imageNamed:_iconImageInfo];
+            [gridView setItemIconImage:_iconImage forState:_state];
+        }
+        
+        // Indicate
+        NSString *_indicateInfo = [_stateOption stringObjectForKey:@"indicate" withDefaultValue:@""];
+        if ( [_indicateInfo length] > 0 ) {
+            UIImage *_indicateImage = [PYResource imageNamed:_indicateInfo];
+            [gridView setItemIndicateImage:_indicateImage forState:_state];
+        }
     }
 }
 

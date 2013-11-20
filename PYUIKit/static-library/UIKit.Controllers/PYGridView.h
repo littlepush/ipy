@@ -53,6 +53,7 @@ typedef NS_OPTIONS(NSUInteger, PYGridItemStyle) {
 
 // Pre-define of the GridItem object.
 @class PYGridItem;
+@protocol PYGridViewDelegate;
 
 // The grid row definition.
 typedef PYGridItem *                        _GridNode;
@@ -81,6 +82,9 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
     PYGridItem                  *_selectedItem;
     BOOL                        _supportTouchMoving;
 }
+
+// The delegate to receive the event.
+@property (nonatomic, assign)   id< PYGridViewDelegate >    delegate;
 
 // The scale of the grid view. it can only be read.
 // use [initGridViewWithScale] to set the size.
@@ -146,6 +150,19 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
 
 // Clear all cell items.
 - (void)_clearAllCache;
+
+@end
+
+// Delegate definition.
+@protocol PYGridViewDelegate <NSObject>
+
+@optional
+
+// Selection of a cell.
+- (void)pyGridView:(PYGridView *)gridView didSelectItem:(PYGridItem *)item;
+
+// When collapse state change of any cell item, this message will be sent.
+- (void)pyGridViewDidChangedFrameForCollapseStateChanged:(PYGridView *)gridView;
 
 @end
 

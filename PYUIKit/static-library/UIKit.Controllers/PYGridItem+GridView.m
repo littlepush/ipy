@@ -27,6 +27,11 @@
 
 @implementation PYGridItem (GridView)
 
+@dynamic _innerFrame;
+- (CGRect)_innerFrame
+{
+    return _itemFrame;
+}
 - (void)_initNodeAtIndex:(PYGridCoordinate)coordinate
 {
     _coordinate = coordinate;
@@ -44,8 +49,18 @@
     if ( _isCollapsed ) {
         if ( _collapseDirection == PYGridItemCollapseDirectionHorizontal ) {
             frame.size.width += (frame.size.width * _collapseRate);
+            CGRect _collapseFrame = CGRectZero;
+            _collapseFrame.origin.x = _itemFrame.size.width;
+            _collapseFrame.size.width = (_itemFrame.size.width * _collapseRate);
+            _collapseFrame.size.height = _itemFrame.size.height;
+            [_collapseView setFrame:_collapseFrame];
         } else {
             frame.size.height += (frame.size.height * _collapseRate);
+            CGRect _collapseFrame = CGRectZero;
+            _collapseFrame.origin.y = _itemFrame.size.height;
+            _collapseFrame.size.height = (_itemFrame.size.height * _collapseRate);
+            _collapseFrame.size.width = _itemFrame.size.width;
+            [_collapseView setFrame:_collapseFrame];
         }
     }
     [super setFrame:frame];
@@ -76,12 +91,18 @@
     if ( _isVerticalis ) {
         // icon up
         CGFloat _iconX = (_bounds.size.width - _iconSize.width) / 2;
-        CGRect _iconFrame = CGRectMake(_iconX, 0, _iconSize.width, _iconSize.height);
-        [_iconLayer setFrame:_iconFrame];
-        // title down
-        CGFloat _titleHeight = _bounds.size.height - _iconSize.height;
-        CGRect _titleFrame = CGRectMake(0, _iconSize.height, _bounds.size.width, _titleHeight);
-        [_titleLayer setFrame:_titleFrame];
+        if ( (_itemStyle & PYGridItemStyleTitleOnly) > 0 ) {
+            CGRect _iconFrame = CGRectMake(_iconX, 0, _iconSize.width, _iconSize.height);
+            [_iconLayer setFrame:_iconFrame];
+            // title down
+            CGFloat _titleHeight = _bounds.size.height - _iconSize.height;
+            CGRect _titleFrame = CGRectMake(0, _iconSize.height, _bounds.size.width, _titleHeight);
+            [_titleLayer setFrame:_titleFrame];
+        } else {
+            CGFloat _iconY = (_bounds.size.height - _iconSize.height) / 2;
+            CGRect _iconFrame = CGRectMake(_iconX, _iconY, _iconSize.width, _iconSize.height);
+            [_iconLayer setFrame:_iconFrame];
+        }
         // no indicate
     } else {
         // title middle
@@ -109,7 +130,7 @@
     // update item style according to the ui info
     // Background Color
     if ( _stateInfo.backgroundColor != nil ) {
-        [self.layer setBackgroundColor:_stateInfo.backgroundColor.CGColor];
+        [_backgroundImageLayer setBackgroundColor:_stateInfo.backgroundColor.CGColor];
     }
     // Background Image
     if ( _stateInfo.backgroundImage != nil ) {

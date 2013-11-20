@@ -91,13 +91,14 @@
     [self.layer addSublayer:_titleLayer];
     [self.layer addSublayer:_indicateLayer];
     
-    [super setBackgroundColor:[UIColor clearColor]];
     _collapseView = [PYView object];
     [self addSubview:_collapseView];
     [_collapseView setAlpha:0.f];
+    [_collapseView setBackgroundColor:[UIColor clearColor]];
     
     // Not support collapse.
     _collapseRate = 0.f;
+    _collapseDirection = PYGridItemCollapseDirectionVerticalis;
     
     _stateSettingInfo = [NSMutableArray array];
     // Initialize the state info dict.
@@ -119,18 +120,22 @@
 {
     if ( _collapseRate == 0 ) return;
     _isCollapsed = YES;
-    // Tell the parent to resize.
-    [_collapseView setAlpha:1.f];
-    [_parentView _relayoutSubviewsAutoSetSelfFrame:YES];
+    [PYView animateWithDuration:.175 animations:^{
+        // Tell the parent to resize.
+        [_collapseView setAlpha:1.f];
+        [_parentView _reformCellsWithFixedCellbounds];
+    }];
 }
 
 - (void)uncollapse
 {
     if ( _collapseRate == 0 ) return;
     _isCollapsed = NO;
-    // Tell the parent to resize.
-    [_collapseView setAlpha:0.f];
-    [_parentView _relayoutSubviewsAutoSetSelfFrame:YES];
+    [PYView animateWithDuration:.175 animations:^{
+        // Tell the parent to resize.
+        [_collapseView setAlpha:0.f];
+        [_parentView _reformCellsWithFixedCellbounds];
+    }];
 }
 
 #pragma mark -
@@ -332,6 +337,13 @@
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     [_indicateLayer setImage:_stateInfo.indicateImage];
     _uiflag[_sIndex].indicateImage = YES;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    [super setCornerRadius:cornerRadius];
+    [_backgroundImageLayer setCornerRadius:cornerRadius];
+    [_collapseView setCornerRadius:cornerRadius];
 }
 
 @end

@@ -49,13 +49,14 @@
 
 @implementation PYGridView
 
+@synthesize delegate;
 @synthesize gridScale = _gridScale;
 
 @synthesize padding = _padding;
 - (void)setPadding:(CGFloat)cellPadding
 {
     _padding = cellPadding;
-    if ( self.superview != nil ) [self _relayoutSubviews];
+    if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 
 @synthesize supportTouchMoving = _supportTouchMoving;
@@ -78,6 +79,7 @@
 {
     [super viewJustBeenCreated];
     [self setAutoresizesSubviews:NO];
+    [self setClipsToBounds:YES];
     
     _gridConfig = NULL;
     _gridScale = (PYGridScale){0, 0};
@@ -126,6 +128,17 @@
         // Same as touch end
         [PYView animateWithDuration:.1 animations:^{
             [_selectedItem setState:UIControlStateNormal];
+            if ( _selectedItem.collapseRate > 0 ) {
+                if ( _selectedItem.isCollapsed ) {
+                    [_selectedItem uncollapse];
+                } else {
+                    [_selectedItem collapse];
+                }
+            } else {
+                if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
+                    [self.delegate pyGridView:self didSelectItem:_selectedItem];
+                }
+            }
         }];
         return;
     }
@@ -134,11 +147,11 @@
     if ( _responderGesture.state == UIGestureRecognizerStateChanged ) {
         if ( _selectedItem != nil ) {
             // Still in selected item
-            if ( CGRectContainsPoint(_selectedItem.frame, _touchPoint) == YES ) return;
+            if ( CGRectContainsPoint(_selectedItem._innerFrame, _touchPoint) == YES ) return;
         }
         PYGridItem *_newMoving = nil;
         for ( PYGridItem *_item in self ) {
-            if ( CGRectContainsPoint(_item.frame, _touchPoint) == NO ) continue;
+            if ( CGRectContainsPoint(_item._innerFrame, _touchPoint) == NO ) continue;
             _newMoving = _item;
         }
         // in padding gap.
@@ -154,11 +167,12 @@
 
 - (void)_actionTouchBegin:(id)sender event:(PYViewEvent *)event
 {
+    _selectedItem = nil;
     UITouch *_touch = [event.touches anyObject];
     CGPoint _touchPoint = [_touch locationInView:_containerView];
     if ( CGRectContainsPoint(_containerView.bounds, _touchPoint) == NO ) return;
     for ( PYGridItem *_item in self ) {
-        if ( CGRectContainsPoint(_item.frame, _touchPoint) == NO ) continue;
+        if ( CGRectContainsPoint(_item._innerFrame, _touchPoint) == NO ) continue;
         _selectedItem = _item;
         break;
     }
@@ -190,6 +204,17 @@
     if ( _selectedItem == nil ) return;
     [PYView animateWithDuration:.1 animations:^{
         [_selectedItem setState:UIControlStateNormal];
+        if ( _selectedItem.collapseRate > 0 ) {
+            if ( _selectedItem.isCollapsed ) {
+                [_selectedItem uncollapse];
+            } else {
+                [_selectedItem collapse];
+            }
+        } else {
+            if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
+                [self.delegate pyGridView:self didSelectItem:_selectedItem];
+            }
+        }
     }];
 }
 
@@ -216,7 +241,7 @@
         [_headContainer setFrame:_headFrame];
         [headView setFrame:_subFrame];
     }
-    if ( self.superview != nil ) [self _relayoutSubviews];
+    if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 - (void)addFootView:(UIView *)footView
 {
@@ -239,7 +264,7 @@
         [footView setFrame:_subFrame];
     }
     
-    if ( self.superview != nil ) [self _relayoutSubviews];
+    if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 
 - (void)initGridViewWithScale:(PYGridScale)scale
@@ -282,7 +307,7 @@
     _gridConfig[_minX][_minY] = _reservered_node;
     [_containerView addSubview:_reservered_node];
     
-    if ( self.superview != nil ) [self _relayoutSubviews];
+    if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 
 - (PYGridItem *)itemAtCoordinate:(PYGridCoordinate)coordinate
@@ -297,7 +322,7 @@
     if ( self.superview == nil ) return;
     //
     [_backgroundImageView setFrame:self.bounds];
-    [self _relayoutSubviews];
+    [self _reformCellsWithFixedOutbounds];
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
@@ -306,7 +331,7 @@
     if ( newSuperview == nil ) return;
     //
     [_backgroundImageView setFrame:self.bounds];
-    [self _relayoutSubviews];
+    [self _reformCellsWithFixedOutbounds];
 }
 
 - (void)dealloc

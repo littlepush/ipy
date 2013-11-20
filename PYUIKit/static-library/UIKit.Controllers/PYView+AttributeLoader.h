@@ -32,6 +32,8 @@
 #import "PYLabel.h"
 #import "PYImageLayer.h"
 #import "PYImageView.h"
+#import "PYGridItem.h"
+#import "PYGridView.h"
 
 // Attributes support by PYView
 // Basicly, PYView is a UIView, so it will rend the view use super call first.
@@ -121,6 +123,41 @@
 //  imageUrl: NSString object, if set [image], then the imageUrl will be ignore.
 @interface PYImageView (AttributeLoader)
 + (void)rendView:(PYImageView *)imageView withOption:(NSDictionary *)option;
+@end
+
+// Attribute support by PYGridItem
+// Global part of the attributes
+//  collapseRate: float object, the collapse rate of the item.
+//  collapseDirection: NSString object, [horizontal/verticalis]
+//  collapseView: NSDictionary object, the collapseView is a PYView object
+//                and can be rend according to its on style option.
+// State Parts ( specifial parts )
+//  backgroundImage: NSString object, the background image name, load by PYResource
+//  title: NSString object, the title for specifial state
+//  icon: NSString object, the icon image name, load by PYResource
+//  indicate: NSString object, the indicate image name, load by PYResource
+@interface PYGridItem (AttributeLoader)
++ (void)rendView:(PYGridItem *)itemView withOption:(NSDictionary *)option;
+@end
+
+// Attribute support by PYGridView
+// View Part
+//  gridScale: NSString object, {r, c}
+//  supportTouchMoving: bool object
+//  padding: float object, item padding size
+//  mergeInfo: NSArray object. We can specified the merge rule of the grid view by set
+//             a serious coordinate pairs in this array.
+//             Each pair in the mergeInfo is defined as follow:
+//  -- NSDictionary object, contains:
+//      from: NSString object, {x, y}
+//      to: NSString object, {x, y}
+//  itemStyle: NSString object,
+//      [title-only/icon-only/icon-title-hornizontal/icon-title-verticalis/icon-title-indicate]
+//  itemCornerRadius: float object, the global item corner radius setting.
+// Also the grid view can set item global UI state, use the same option
+// in PYGridItem.
+@interface PYGridView (AttributeLoader)
++ (void)rendView:(PYGridView *)gridView withOption:(NSDictionary *)option;
 @end
 
 // @littlepush
