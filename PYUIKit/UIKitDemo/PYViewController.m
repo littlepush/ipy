@@ -19,8 +19,9 @@
 {
     [super viewDidLoad];
     
-	// Do any additional setup after loading the view, typically from a nib.
     [PYResource changeToLoadRemoteResourceWithDomain:@"http://home.pushchen.com:12580/ipy-dev/"];
+    
+	// Do any additional setup after loading the view, typically from a nib.
     _testSlider = [PYSlider object];
     [_testSlider setBackgroundImage:[PYResource imageNamed:@"pb-bkg.png"]];
     [_testSlider setSlideButtonImage:[PYResource imageNamed:@"pb-sbtn.png"]];
@@ -28,6 +29,9 @@
     [_testSlider setMaximum:100.f];
     [_testSlider setFrame:CGRectMake(10, 40, 300, 31.f)];
     [_testSlider setCurrentValue:99.f animated:NO];
+    
+    UIColor *_testColor = [UIColor colorWithOptionString:@"@v(36)$#123456:#789ABC"];
+    PYLog(@"color: %@", [_testColor clrDescription]);
     
     [self.view addSubview:_testSlider];
     

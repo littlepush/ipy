@@ -52,6 +52,9 @@ typedef struct tagColorInfo {
 // Get the color info
 @property (nonatomic, readonly) PYColorInfo         colorInfo;
 
+// Color Description
+- (NSString *)clrDescription;
+
 // Create a gradient color pattern
 + (UIColor *)colorWithGradientPatternFrom:(NSString *)fromString
                                        to:(NSString *)toString

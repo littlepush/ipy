@@ -35,6 +35,7 @@
 #import "UIView+PYUIKit.h"
 #import "UIView+AttributeLoader.h"
 #import "PYResource.h"
+#import "UIBarButtonItem+PYUIKit.h"
 
 // Kernel
 #import "PYLayer.h"

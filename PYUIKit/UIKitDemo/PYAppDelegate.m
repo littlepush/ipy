@@ -17,7 +17,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[PYViewController alloc] initWithNibName:@"PYViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    UINavigationController *_rootNVC = [[UINavigationController alloc] initWithRootViewController:self.viewController];
+    self.window.rootViewController = _rootNVC;
     [self.window makeKeyAndVisible];
     [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     

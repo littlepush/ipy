@@ -28,7 +28,7 @@
 @protocol PYSocket;
 
 // Socket Status
-typedef enum {
+typedef NS_ENUM( NSUInteger, PYSocketStatus ) {
 	PYSocketStatusEmpyt = 0,
 	PYSocketStatusIdle,
 	PYSocketStatusConnecting,
@@ -38,22 +38,17 @@ typedef enum {
 	PYSocketStatusReading,
 	PYSocketStatusTimeout,
 	PYSocketStatusError
-} PYSocketStatus;
+};
 
 static inline
 NSString * PYSocketStatusDescription(PYSocketStatus status)
 {
-	switch (status) {
-        case PYSocketStatusEmpyt:       return @"Empty";
-        case PYSocketStatusIdle:        return @"Idle";
-        case PYSocketStatusConnecting:  return @"Connecting";
-        case PYSocketStatusBinding:     return @"Binding";
-        case PYSocketStatusClosing:     return @"Closing";
-        case PYSocketStatusWriting:     return @"Writing";
-        case PYSocketStatusReading:     return @"Reading";
-        case PYSocketStatusTimeout:     return @"Timeout";
-        case PYSocketStatusError:       return @"Error";
-	};
+    static NSString *_statusWords[] = {
+        @"Empty", @"Idle", @"Connecting", @"Binding",
+        @"Closing", @"Writing", @"Reading", @"Timeout",
+        @"Error"
+    };
+    return _statusWords[status];
 }
 
 typedef enum {

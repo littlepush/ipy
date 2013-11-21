@@ -115,6 +115,8 @@
 		E6F91501183B1C8600521E22 /* _PYGridItemUIInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F914FF183B1C8600521E22 /* _PYGridItemUIInfo.m */; };
 		E6F91504183B7D8800521E22 /* PYGridView+Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F91502183B7D8800521E22 /* PYGridView+Layout.h */; };
 		E6F91505183B7D8800521E22 /* PYGridView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F91503183B7D8800521E22 /* PYGridView+Layout.m */; };
+		E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6F9150D183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +244,8 @@
 		E6F914FF183B1C8600521E22 /* _PYGridItemUIInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _PYGridItemUIInfo.m; sourceTree = "<group>"; };
 		E6F91502183B7D8800521E22 /* PYGridView+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYGridView+Layout.h"; sourceTree = "<group>"; };
 		E6F91503183B7D8800521E22 /* PYGridView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PYGridView+Layout.m"; sourceTree = "<group>"; };
+		E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+PYUIKit.h"; sourceTree = "<group>"; };
+		E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+PYUIKit.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,6 +508,8 @@
 				E6D7828218335680007FAF3F /* UIView+AttributeLoader.m */,
 				E6D78285183369EE007FAF3F /* PYResource.h */,
 				E6D78286183369EE007FAF3F /* PYResource.m */,
+				E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */,
+				E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */,
 			);
 			path = UIKit.Utilities;
 			sourceTree = "<group>";
@@ -576,6 +582,7 @@
 				E67F68D0179EE6040086F03C /* UIColor+PYUIKit.h in Headers */,
 				E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */,
 				E67F68DC179EEB9D0086F03C /* PYInnerShadowLayer.h in Headers */,
+				E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */,
 				E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */,
 				E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */,
 				E66E46A617A57DB800D1FF55 /* PYImageView.h in Headers */,
@@ -745,6 +752,7 @@
 				E66E46DE17A7216800D1FF55 /* UIView+PYUIKit.m in Sources */,
 				E64A8FD217BCAA9400B132BA /* PYTableViewCell.m in Sources */,
 				E64A8FB717BB30C000B132BA /* PYHUDView.m in Sources */,
+				E6F9150D183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m in Sources */,
 				E6D70DEF17BE735700542844 /* PYResponderGestureRecognizer.m in Sources */,
 				E66E46E217A721FA00D1FF55 /* PYView+Animation.m in Sources */,
 				E67CE0D517A7E15B009BC886 /* PYButton.m in Sources */,

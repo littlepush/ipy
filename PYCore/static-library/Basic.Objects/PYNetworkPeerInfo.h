@@ -46,11 +46,11 @@ extern "C" {
 
     /* Translate Domain to IP Address */
     char * PYCDomainToIp( const char * _domain, char * _ip, unsigned int _length );
+    NSString * PYNSDomainToIp( NSString *_domain );
 
     /* Translate Domain to InAddr */
     unsigned int PYCDomainToInAddr( const char * _domain );
-    NSString * PYNDomainToIp( NSString *_domain );
-    unsigned int PYNDomainToInAddr( NSString *_domain );
+    unsigned int PYNSDomainToInAddr( NSString *_domain );
     
 #ifdef __cplusplus
 }

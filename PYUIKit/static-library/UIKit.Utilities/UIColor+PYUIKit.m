@@ -95,6 +95,20 @@
     return _colorInfo;
 }
 
+- (NSString *)clrDescription
+{
+    PYColorInfo _ci = self.colorInfo;
+    return [NSString stringWithFormat:@"UIColor<%p>, r: %u(%f), g: %u(%f), b: %u(%f), a: %f, #%02x%02x%02x",
+            self,
+            (unsigned)(_ci.red * 255.f), _ci.red,
+            (unsigned)(_ci.green * 255.f), _ci.green,
+            (unsigned)(_ci.blue * 255.f), _ci.blue,
+            _ci.alpha,
+            (unsigned)(_ci.red * 255.f),
+            (unsigned)(_ci.green * 255.f),
+            (unsigned)(_ci.blue * 255.f)];
+}
+
 + (UIColor *)colorWithGradientPatternFrom:(NSString *)fromString to:(NSString *)toString fillHeight:(CGFloat)height
 {
     CGFloat _width = 2.f;

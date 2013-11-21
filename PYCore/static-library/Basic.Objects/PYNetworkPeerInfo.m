@@ -58,7 +58,7 @@ extern "C" {
         return inet_addr(_ipAddress);
     }
 
-    NSString * PYNDomainToIp( NSString *_domain )
+    NSString * PYNSDomainToIp( NSString *_domain )
     {
         if ( [_domain isEqual:[NSNull null]] || [_domain length] == 0 )
             return @"";
@@ -68,7 +68,7 @@ extern "C" {
         return [NSString stringWithFormat:@"%s", _ipAddress];
     }
     
-    unsigned int PYNDomainToInAddr( NSString *_domain )
+    unsigned int PYNSDomainToInAddr( NSString *_domain )
     {
         if ( [_domain isEqual:[NSNull null]] || [_domain length] == 0 )
             return PYNINVALIDATE;
@@ -95,7 +95,7 @@ extern "C" {
 	return peerInfo;
 }
 
--(id) initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
 	self = [super init];
 	if ( self ) {
@@ -105,17 +105,17 @@ extern "C" {
 	return self;
 }
 
--(void) encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder
 {
-	[aCoder encodeObject:peerAddress	forKey:kPYSO_PI_ADDRESS];
-	[aCoder encodeInt:peerPort			forKey:kPYSO_PI_PORT];
+	[aCoder encodeObject:peerAddress forKey:kPYSO_PI_ADDRESS];
+	[aCoder encodeInteger:peerPort forKey:kPYSO_PI_PORT];
 }
 
--(NSString *)description
+- (NSString *)description
 {
 	NSString *_string = [NSString stringWithFormat:@"<%@:%p> %@:%u",
                          NSStringFromClass([self class]), self,
-                         peerAddress, peerPort];
+                         peerAddress, (unsigned)peerPort];
 	return _string;
 }
 
