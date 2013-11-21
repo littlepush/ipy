@@ -103,11 +103,11 @@
 		E6D78288183369EE007FAF3F /* PYResource.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D78286183369EE007FAF3F /* PYResource.m */; };
 		E6D7828B18336FF1007FAF3F /* PYView+AttributeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D7828918336FF1007FAF3F /* PYView+AttributeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6D7828C18336FF1007FAF3F /* PYView+AttributeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D7828A18336FF1007FAF3F /* PYView+AttributeLoader.m */; };
-		E6D782911835162E007FAF3F /* PYGridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D7828F1835162E007FAF3F /* PYGridView.h */; };
+		E6D782911835162E007FAF3F /* PYGridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D7828F1835162E007FAF3F /* PYGridView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6D782921835162E007FAF3F /* PYGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D782901835162E007FAF3F /* PYGridView.m */; };
 		E6D9166E17B346230021D73D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166C17B346230021D73D /* icon.png */; };
 		E6D9166F17B346230021D73D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166D17B346230021D73D /* icon@2x.png */; };
-		E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914F61839C66F00521E22 /* PYGridItem.h */; };
+		E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914F61839C66F00521E22 /* PYGridItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F914F91839C66F00521E22 /* PYGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F914F71839C66F00521E22 /* PYGridItem.m */; };
 		E6F914FC1839C68600521E22 /* PYGridItem+GridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */; };
 		E6F914FD1839C68600521E22 /* PYGridItem+GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F914FB1839C68600521E22 /* PYGridItem+GridView.m */; };
