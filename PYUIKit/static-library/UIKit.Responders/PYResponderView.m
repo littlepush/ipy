@@ -107,6 +107,7 @@
     NSMutableArray *_callbackList = _eventTargetsActions[PYLAST1INDEX(event)];
     if ( _callbackList == nil ) return;
     info.eventId = event;
+    info.gestureState = _responderGesture.state;
     for ( PYPair *_taPair in _callbackList ) {
         id _target = _taPair.first;
         SEL _action = NSSelectorFromString((NSString *)_taPair.secondValue);

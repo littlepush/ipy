@@ -11,6 +11,7 @@
 // The event.
 @implementation PYViewEvent
 
+@synthesize gestureState;
 @synthesize eventId;
 @synthesize touches;
 @synthesize sysEvent;

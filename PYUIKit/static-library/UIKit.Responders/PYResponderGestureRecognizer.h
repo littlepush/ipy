@@ -73,16 +73,17 @@ typedef NS_OPTIONS(int32_t, PYResponderRestraint) {
 // Event for the target.
 @interface PYViewEvent : NSObject
 
-@property (nonatomic, assign)   PYResponderEvent        eventId;
-@property (nonatomic, strong)   NSSet                   *touches;
-@property (nonatomic, strong)   UIEvent                 *sysEvent;
-@property (nonatomic, assign)   CGFloat                 pinchRate;
-@property (nonatomic, assign)   CGFloat                 rotateDeltaArc;
-@property (nonatomic, assign)   CGSize                  preciseDistance;
-@property (nonatomic, assign)   CGSize                  movingDeltaDistance;
-@property (nonatomic, assign)   CGPoint                 movingSpeed;
-@property (nonatomic, assign)   PYResponderRestraint    swipeSide;
-@property (nonatomic, assign)   BOOL                    hasMoved;
+@property (nonatomic, assign)   UIGestureRecognizerState    gestureState;
+@property (nonatomic, assign)   PYResponderEvent            eventId;
+@property (nonatomic, strong)   NSSet                       *touches;
+@property (nonatomic, strong)   UIEvent                     *sysEvent;
+@property (nonatomic, assign)   CGFloat                     pinchRate;
+@property (nonatomic, assign)   CGFloat                     rotateDeltaArc;
+@property (nonatomic, assign)   CGSize                      preciseDistance;
+@property (nonatomic, assign)   CGSize                      movingDeltaDistance;
+@property (nonatomic, assign)   CGPoint                     movingSpeed;
+@property (nonatomic, assign)   PYResponderRestraint        swipeSide;
+@property (nonatomic, assign)   BOOL                        hasMoved;
 
 @end
 
