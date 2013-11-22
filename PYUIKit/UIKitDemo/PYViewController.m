@@ -20,32 +20,46 @@
     [super viewDidLoad];
     
     [PYResource changeToLoadRemoteResourceWithDomain:@"http://home.pushchen.com:12580/ipy-dev/"];
-    
 	// Do any additional setup after loading the view, typically from a nib.
     _testSlider = [PYSlider object];
-    [_testSlider setBackgroundImage:[PYResource imageNamed:@"pb-bkg.png"]];
-    [_testSlider setSlideButtonImage:[PYResource imageNamed:@"pb-sbtn.png"]];
-    [_testSlider setMinTrackTintImage:[PYResource imageNamed:@"pb-min.png"]];
+    UIColor *_bkgColor =
+    [UIColor colorWithOptionString:
+     @"v(24)$"
+     @"#000000^0/0:"
+     @"#000000^0/.333:"
+     @"#000000/.333:"
+     @"#000000/.666:"
+     @"#000000^0/.666:"
+     @"#000000^0/1"];
+    [_testSlider setBackgroundColor:_bkgColor];
+    UIColor *_minColor =
+    [UIColor colorWithOptionString:
+     @"v(24)$#"
+     @"000000^0/0:"
+     @"#000000^0/.375:"
+     @"#B3FFFC/.375:"
+     @"#B3FFFC/.625:"
+     @"#000000^0/.625:"
+     @"#000000^0/1"];
+    [_testSlider setMinTrackTintColor:_minColor];
+    [_testSlider setSlideButtonImage:[PYResource imageNamed:@"slide-button.png"]];
     [_testSlider setMaximum:100.f];
-    [_testSlider setFrame:CGRectMake(10, 40, 300, 31.f)];
+    [_testSlider setFrame:CGRectMake(10, 100, 300, 24.f)];
     [_testSlider setCurrentValue:99.f animated:NO];
-    
-    UIColor *_testColor = [UIColor colorWithOptionString:@"@v(36)$#123456:#789ABC"];
-    PYLog(@"color: %@", [_testColor clrDescription]);
     
     [self.view addSubview:_testSlider];
     
     // Test the grid view
     _gridView = [PYGridView object];
     [_gridView initGridViewWithScale:(PYGridScale){2, 2}];
-    [_gridView setFrame:CGRectMake((320.f - 252.f) / 2, 110.f, 252.f, 108.f)];
+    [_gridView setFrame:CGRectMake((320.f - 252.f) / 2, 150.f, 252.f, 108.f)];
     [_gridView setPadding:4.f];
     
     [_gridView
-     setItemBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#3787B1:#61BCFF"]
+     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF"]
      forState:UIControlStateNormal];
     [_gridView
-     setItemBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#CCCCCC:#FFFFFF"]
+     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF"]
      forState:UIControlStateHighlighted];
     [_gridView setItemCornerRadius:3.f];
     [_gridView setItemBorderColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -62,7 +76,7 @@
     PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
     if ( _specifialItem != nil ) {
         [_specifialItem
-         setBackgroundColor:[UIColor colorWithOptionString:@"@v(48)$#FFFFFF:#CCCCCC"]
+         setBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#FFFFFF:#CCCCCC"]
          forState:UIControlStateNormal];
         [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
         _specifialItem.collapseRate = 3.f;

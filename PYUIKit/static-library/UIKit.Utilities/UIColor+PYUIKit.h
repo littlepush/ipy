@@ -46,6 +46,7 @@ typedef struct tagColorInfo {
 // Generate the color from CSS Color Style string
 // like: #FFFFFF means white
 //       #000000 means black
+// #FFFFFF^.5 means #FFFFFF with .5 alpha
 + (UIColor *)colorWithString:(NSString *)clrString;
 + (UIColor *)colorWithString:(NSString *)clrString alpha:(CGFloat)alpha;
 
@@ -63,15 +64,22 @@ typedef struct tagColorInfo {
                           fillHeight:(CGFloat)height;
 + (UIColor *)colorWithGradientColors:(NSArray *)colors
                            fillWidth:(CGFloat)width;
++ (UIColor *)colorWithGradientColors:(NSArray *)colors
+                           locations:(NSArray *)locations
+                          fillHeight:(CGFloat)height;
++ (UIColor *)colorWithGradientColors:(NSArray *)colors
+                           locations:(NSArray *)locations
+                           fillWidth:(CGFloat)width;
 
 // The color is in the following format:
 // Single color: #COLOR
 // Gradient two colors: #COLOR1:#COLOR2
-// More gradient colors: #COLOR1:#COLOR2:...
-// Gradient direction:  @v(40)$#COLOR1:#COLOR2... // from top to bottom
-//                      @h(80)$#COLOR1:#COLOR2... // from left to right
+// More gradient colors: #COLOR1(L1):#COLOR2(L2):...
+// Gradient direction:  v(40)$#COLOR1/L1:#COLOR2/L1... // from top to bottom
+//                      h(80)$#COLOR1:#COLOR2... // from left to right
 // Must specified the flag to use gradient color.
 // the number after flag is the size of the gradient range.
+// The location is optional
 + (UIColor *)colorWithOptionString:(NSString *)colorString;
 
 @end

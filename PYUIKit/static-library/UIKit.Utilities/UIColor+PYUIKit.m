@@ -51,8 +51,13 @@
 
 + (UIColor *)colorWithString:(NSString *)clrString alpha:(CGFloat)alpha
 {
+    NSArray *_components = [clrString componentsSeparatedByString:@"^"];
     NSString *_c = clrString;
-    if ( [clrString length] == 7 ) {
+    if ( [_components count] == 2 ) {
+        _c = [_components objectAtIndex:0];
+        alpha = [[_components lastObject] floatValue];
+    }
+    if ( [_c length] == 7 ) {
         _c = [clrString substringFromIndex:1];
     }
     if ( [_c length] != 6 ) {
@@ -173,7 +178,22 @@
 
 + (UIColor *)colorWithGradientColors:(NSArray *)colors fillHeight:(CGFloat)height
 {
+    return [UIColor colorWithGradientColors:colors locations:nil fillHeight:height];
+}
+
++ (UIColor *)colorWithGradientColors:(NSArray *)colors fillWidth:(CGFloat)width
+{
+    return [UIColor colorWithGradientColors:colors locations:nil fillWidth:width];
+}
+
++ (UIColor *)colorWithGradientColors:(NSArray *)colors
+                           locations:(NSArray *)locations
+                          fillHeight:(CGFloat)height
+{
     CGFloat _width = 2.f;
+    if ( [locations count] == 0 ) {
+        locations = [NSArray arrayWithObjects:PYDoubleToObject(0.f), PYDoubleToObject(1.f), nil];
+    }
     
     // Create a new bitmap image context and make it to be the current context
     UIGraphicsBeginImageContext(CGSizeMake(_width, height));
@@ -191,21 +211,24 @@
         *(_components + l * 4 + 2) = _colorInfo.blue;
         *(_components + l * 4 + 3) = _colorInfo.alpha;
     }
-    size_t _locationsCount = 2;
-    CGFloat locations[2] = {0.0, 1.0};
-
+    size_t _locationsCount = (size_t)[locations count];
+    CGFloat *_locations = (CGFloat*)malloc(sizeof(CGFloat) * _locationsCount);
+    for ( NSUInteger i = 0; i < [locations count]; ++i ) {
+        _locations[i] = [[locations objectAtIndex:i] floatValue];
+    }
+    
     CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
     CGGradientRef glossGradient =
     CGGradientCreateWithColorComponents
-    (rgbColorspace, _components, locations, _locationsCount);
+    (rgbColorspace, _components, _locations, _locationsCount);
     CGPoint topCenter = CGPointMake(0, 0);
     CGPoint bottomCenter = CGPointMake(0, height);
     CGContextDrawLinearGradient(ctx, glossGradient, topCenter, bottomCenter, 0);
     CGGradientRelease(glossGradient);
     CGColorSpaceRelease(rgbColorspace);
-
-    free(_components);
     
+    free(_components);
+    free(_locations);
     
     // pop context
     UIGraphicsPopContext();
@@ -217,13 +240,18 @@
     UIGraphicsEndImageContext();
     
     // Get the image color
-    return [UIColor colorWithPatternImage:_gradientImage];    
+    return [UIColor colorWithPatternImage:_gradientImage];
 }
 
-+ (UIColor *)colorWithGradientColors:(NSArray *)colors fillWidth:(CGFloat)width
++ (UIColor *)colorWithGradientColors:(NSArray *)colors
+                           locations:(NSArray *)locations
+                           fillWidth:(CGFloat)width
 {
     CGFloat _height = 2.f;
-    
+    if ( [locations count] == 0 ) {
+        locations = [NSArray arrayWithObjects:PYDoubleToObject(0.f), PYDoubleToObject(1.f), nil];
+    }
+
     // Create a new bitmap image context and make it to be the current context
     UIGraphicsBeginImageContext(CGSizeMake(width, _height));
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -240,13 +268,16 @@
         *(_components + l * 4 + 2) = _colorInfo.blue;
         *(_components + l * 4 + 3) = _colorInfo.alpha;
     }
-    size_t _locationsCount = 2;
-    CGFloat locations[2] = {0.0, 1.0};
+    size_t _locationsCount = (size_t)[locations count];
+    CGFloat *_locations = (CGFloat*)malloc(sizeof(CGFloat) * _locationsCount);
+    for ( NSUInteger i = 0; i < [locations count]; ++i ) {
+        _locations[i] = [[locations objectAtIndex:i] floatValue];
+    }
     
     CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
     CGGradientRef glossGradient =
     CGGradientCreateWithColorComponents
-    (rgbColorspace, _components, locations, _locationsCount);
+    (rgbColorspace, _components, _locations, _locationsCount);
     CGPoint topCenter = CGPointMake(0, 0);
     CGPoint bottomCenter = CGPointMake(width, 0);
     CGContextDrawLinearGradient(ctx, glossGradient, topCenter, bottomCenter, 0);
@@ -254,7 +285,7 @@
     CGColorSpaceRelease(rgbColorspace);
     
     free(_components);
-    
+    free(_locations);
     
     // pop context
     UIGraphicsPopContext();
@@ -266,7 +297,7 @@
     UIGraphicsEndImageContext();
     
     // Get the image color
-    return [UIColor colorWithPatternImage:_gradientImage];    
+    return [UIColor colorWithPatternImage:_gradientImage];
 }
 
 + (UIColor *)colorWithOptionString:(NSString *)colorString
@@ -279,16 +310,24 @@
         NSArray *_colors = [_colorGroup componentsSeparatedByString:@":"];
         
         NSMutableArray *_clrs = [NSMutableArray array];
+        NSMutableArray *_locs = [NSMutableArray array];
         for ( NSString *_clrString in _colors ) {
-            [_clrs addObject:[UIColor colorWithString:_clrString]];
+            NSArray *_com = [_clrString componentsSeparatedByString:@"/"];
+            if ( [_com count] == 2 ) {
+                CGFloat _loc = [[_com lastObject] floatValue];
+                if ( !isnan(_loc) ) {
+                    [_locs addObject:PYDoubleToObject(_loc)];
+                }
+            }
+            [_clrs addObject:[UIColor colorWithString:[_com objectAtIndex:0]]];
         }
         float _gradientSize = 0.f;
         char _direction = 0;
-        sscanf(_gradientFlag.UTF8String, "@%c(%f)", &_direction, &_gradientSize);
+        sscanf(_gradientFlag.UTF8String, "%c(%f)", &_direction, &_gradientSize);
         if ( _direction == 'v' ) {
-            _color = [UIColor colorWithGradientColors:_clrs fillHeight:_gradientSize];
+            _color = [UIColor colorWithGradientColors:_clrs locations:_locs fillHeight:_gradientSize];
         } else {
-            _color = [UIColor colorWithGradientColors:_clrs fillWidth:_gradientSize];
+            _color = [UIColor colorWithGradientColors:_clrs locations:_locs fillWidth:_gradientSize];
         }
     } else {
         _color = [UIColor colorWithString:colorString];

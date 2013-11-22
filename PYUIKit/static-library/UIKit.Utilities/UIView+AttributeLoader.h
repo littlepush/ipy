@@ -64,7 +64,7 @@
 
 // Attribute support by UILabel
 //  text: NSString object
-//  color: NSString object, a UIColor option string
+//  textColor: NSString object, a UIColor option string
 //  font: NSDictionary object, a font info dictionary
 //  alignment: NSString object, "left", "center", "right"
 //  breakMode: NSString object, "head", "middle", "tail", "none"
