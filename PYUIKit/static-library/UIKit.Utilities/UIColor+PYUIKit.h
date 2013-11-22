@@ -81,6 +81,7 @@ typedef struct tagColorInfo {
 // the number after flag is the size of the gradient range.
 // The location is optional
 + (UIColor *)colorWithOptionString:(NSString *)colorString;
++ (UIColor *)colorWithOptionString:(NSString *)colorString reverseOnVerticalis:(BOOL)reversed;
 
 @end
 

@@ -190,7 +190,7 @@
                            locations:(NSArray *)locations
                           fillHeight:(CGFloat)height
 {
-    CGFloat _width = 2.f;
+    CGFloat _width = 1.f;
     if ( [locations count] == 0 ) {
         locations = [NSArray arrayWithObjects:PYDoubleToObject(0.f), PYDoubleToObject(1.f), nil];
     }
@@ -247,7 +247,7 @@
                            locations:(NSArray *)locations
                            fillWidth:(CGFloat)width
 {
-    CGFloat _height = 2.f;
+    CGFloat _height = 1.f;
     if ( [locations count] == 0 ) {
         locations = [NSArray arrayWithObjects:PYDoubleToObject(0.f), PYDoubleToObject(1.f), nil];
     }
@@ -302,10 +302,18 @@
 
 + (UIColor *)colorWithOptionString:(NSString *)colorString
 {
+    return [UIColor colorWithOptionString:colorString reverseOnVerticalis:NO];
+}
++ (UIColor *)colorWithOptionString:(NSString *)colorString reverseOnVerticalis:(BOOL)reversed
+{
     NSArray *_gradientInfo = [colorString componentsSeparatedByString:@"$"];
     UIColor *_color = nil;
     if ( [_gradientInfo count] > 1 ) {
         NSString *_gradientFlag = [_gradientInfo safeObjectAtIndex:0];
+        float _gradientSize = 0.f;
+        char _direction = 0;
+        sscanf(_gradientFlag.UTF8String, "%c(%f)", &_direction, &_gradientSize);
+
         NSString *_colorGroup = [_gradientInfo safeObjectAtIndex:1];
         NSArray *_colors = [_colorGroup componentsSeparatedByString:@":"];
         
@@ -316,14 +324,20 @@
             if ( [_com count] == 2 ) {
                 CGFloat _loc = [[_com lastObject] floatValue];
                 if ( !isnan(_loc) ) {
-                    [_locs addObject:PYDoubleToObject(_loc)];
+                    if ( reversed && _direction == 'v' ) {
+                        [_locs insertObject:PYDoubleToObject(_loc) atIndex:0];
+                    } else {
+                        [_locs addObject:PYDoubleToObject(_loc)];
+                    }
                 }
             }
-            [_clrs addObject:[UIColor colorWithString:[_com objectAtIndex:0]]];
+            if ( reversed && _direction == 'v' ) {
+                [_clrs insertObject:[UIColor colorWithString:[_com objectAtIndex:0]] atIndex:0];
+            } else {
+                [_clrs addObject:[UIColor colorWithString:[_com objectAtIndex:0]]];
+            }
         }
-        float _gradientSize = 0.f;
-        char _direction = 0;
-        sscanf(_gradientFlag.UTF8String, "%c(%f)", &_direction, &_gradientSize);
+        
         if ( _direction == 'v' ) {
             _color = [UIColor colorWithGradientColors:_clrs locations:_locs fillHeight:_gradientSize];
         } else {
@@ -334,7 +348,6 @@
     }
     return _color;
 }
-
 @end
 
 // @littlepush

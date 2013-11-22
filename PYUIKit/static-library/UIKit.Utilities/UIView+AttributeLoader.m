@@ -86,7 +86,8 @@
     // Load background color
     NSString *_bkgColorInfo = [option stringObjectForKey:@"backgroundColor" withDefaultValue:@""];
     if ( [_bkgColorInfo length] != 0 ) {
-        UIColor *_bkgColor = [UIColor colorWithOptionString:_bkgColorInfo];
+        UIColor *_bkgColor = [UIColor colorWithOptionString:_bkgColorInfo reverseOnVerticalis:YES];
+        // core rotate fuction
         [layer setBackgroundColor:_bkgColor.CGColor];
     }
     

@@ -42,6 +42,8 @@ UIImage * __flipImageForTiledLayerDrawing( UIImage *_in )
 	// draw new picture
 	[_in drawInRect:CGRectMake(0, 0, _in.size.width, _in.size.height)];
 	UIImage *_ = UIGraphicsGetImageFromCurrentImageContext();
+    CGContextScaleCTM(ctx, 1.f, -1.f);
+    CGContextTranslateCTM(ctx, 1.f, -_in.size.height);
 	UIGraphicsEndImageContext();
 	return _;
 }

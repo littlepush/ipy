@@ -413,7 +413,7 @@
         NSString *_backgroundColor = [_stateOption stringObjectForKey:@"backgroundColor"
                                                      withDefaultValue:@""];
         if ( [_backgroundColor length] > 0 ) {
-            UIColor *_bkgColor = [UIColor colorWithOptionString:_backgroundColor];
+            UIColor *_bkgColor = [UIColor colorWithOptionString:_backgroundColor reverseOnVerticalis:YES];
             [itemView setBackgroundColor:_bkgColor forState:_state];
         }
         
@@ -617,7 +617,7 @@
         NSString *_backgroundColor = [_stateOption stringObjectForKey:@"backgroundColor"
                                                      withDefaultValue:@""];
         if ( [_backgroundColor length] > 0 ) {
-            UIColor *_bkgColor = [UIColor colorWithOptionString:_backgroundColor];
+            UIColor *_bkgColor = [UIColor colorWithOptionString:_backgroundColor reverseOnVerticalis:YES];
             [gridView setItemBackgroundColor:_bkgColor forState:_state];
         }
         

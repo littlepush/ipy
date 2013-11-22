@@ -56,10 +56,10 @@
     [_gridView setPadding:4.f];
     
     [_gridView
-     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF"]
+     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF" reverseOnVerticalis:YES]
      forState:UIControlStateNormal];
     [_gridView
-     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF"]
+     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF" reverseOnVerticalis:YES]
      forState:UIControlStateHighlighted];
     [_gridView setItemCornerRadius:3.f];
     [_gridView setItemBorderColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -76,7 +76,7 @@
     PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
     if ( _specifialItem != nil ) {
         [_specifialItem
-         setBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#FFFFFF:#CCCCCC"]
+         setBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#FFFFFF:#CCCCCC" reverseOnVerticalis:YES]
          forState:UIControlStateNormal];
         [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
         _specifialItem.collapseRate = 3.f;
@@ -92,6 +92,8 @@
     
     [_gridView setSupportTouchMoving:YES];
     [self.view addSubview:_gridView];
+    
+    [UIView rendView:self.view withOption:@{@"backgroundColor":@"v(568)$#000000:#CCDDEE"}];
 }
 
 - (void)didReceiveMemoryWarning
