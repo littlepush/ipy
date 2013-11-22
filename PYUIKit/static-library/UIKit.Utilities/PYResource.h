@@ -26,10 +26,12 @@
 
 @interface PYResource : NSObject
 {
+    // Remote
     BOOL                    _resourceFromLocal;
     NSString                *_remoteDomain;
+    // Local
     BOOL                    _resourceInBundle;
-    NSString                *_localResourceFolder;
+    NSString                *_localPath;
 }
 
 // Singleton instance.
@@ -43,8 +45,8 @@
 // By default, the resources are all load from local files in bundle
 + (void)changeToLoadLocalBundleResource;
 
-// Resources are all put in the document sub-folder.
-+ (void)changeToLoadLocalResourceInFolder:(NSString *)folder;
+// Resources are all put in specified path and folder.
++ (void)changeToLoadLocalResourceInSpecifiedFolder:(NSString *)folder;
 
 // Change to load remote resource under specified domain.
 // We use HTTP to request the file.

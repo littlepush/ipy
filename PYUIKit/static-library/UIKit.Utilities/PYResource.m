@@ -49,7 +49,7 @@ PYSingletonDefaultImplementation
         _resourceFromLocal = YES;
         _remoteDomain = @"";
         _resourceInBundle = YES;
-        _localResourceFolder = @"";
+        _localPath = @"";
     }
     return self;
 }
@@ -62,7 +62,7 @@ PYSingletonDefaultImplementation
         if ( _self->_resourceInBundle ) {
             return [UIImage imageNamed:imageName];
         } else {
-            NSString *_localImagePath = [_self->_localResourceFolder
+            NSString *_localImagePath = [_self->_localPath
                                          stringByAppendingPathComponent:imageName];
             return [UIImage imageWithContentsOfFile:_localImagePath];
         }
@@ -82,11 +82,14 @@ PYSingletonDefaultImplementation
     PYSingletonLock
     if ( _self->_resourceFromLocal ) {
         if ( _self->_resourceInBundle ) {
-            return [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:type]];
+            return [NSData dataWithContentsOfFile:
+                    [[NSBundle mainBundle]
+                     pathForResource:filename
+                     ofType:type]];
         } else {
             NSString *_filename = [filename stringByAppendingPathExtension:type];
-            NSString *_localFilePath = [_self->_localResourceFolder
-                                            stringByAppendingPathComponent:_filename];
+            NSString *_localFilePath = [_self->_localPath
+                                        stringByAppendingPathComponent:_filename];
             return [NSData dataWithContentsOfFile:_localFilePath];
         }
     } else {
@@ -111,7 +114,7 @@ PYSingletonDefaultImplementation
         } else {
             NSString *_filename = [filename stringByAppendingPathExtension:type];
             NSString *_dir_filename = [dir stringByAppendingPathComponent:_filename];
-            NSString *_localFilePath = [_self->_localResourceFolder
+            NSString *_localFilePath = [_self->_localPath
                                         stringByAppendingPathComponent:_dir_filename];
             return [NSData dataWithContentsOfFile:_localFilePath];
         }
@@ -134,12 +137,12 @@ PYSingletonDefaultImplementation
     PYSingletonUnLock
 }
 
-+ (void)changeToLoadLocalResourceInFolder:(NSString *)folder
++ (void)changeToLoadLocalResourceInSpecifiedFolder:(NSString *)folder
 {
     PYSingletonLock
     _self->_resourceFromLocal = YES;
     _self->_resourceInBundle = NO;
-    _self->_localResourceFolder = [folder copy];
+    _self->_localPath = [folder copy];
     PYSingletonUnLock
 }
 
@@ -150,7 +153,6 @@ PYSingletonDefaultImplementation
     _self->_resourceFromLocal = NO;
     PYSingletonUnLock
 }
-
 
 @end
 
