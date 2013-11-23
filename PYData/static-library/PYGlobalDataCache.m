@@ -50,6 +50,12 @@ static NSMutableDictionary		*_gdcDict;
 {
 	// Initialize the gdc dictionary
 	_gdcDict = [NSMutableDictionary dictionary];
+#ifdef PY_FORCE_THREASAFE
+    NSError *_mtError = [PYGlobalDataCache initializeSqliteForMultipleThreadAndForceToSet:YES];
+    if ( _mtError != nil ) {
+        ALog(@"%@", _mtError.localizedDescription);
+    }
+#endif
 }
 
 + (void)initializeSqliteForMultithreadSupport
@@ -58,6 +64,39 @@ static NSMutableDictionary		*_gdcDict;
     if ( sqlite3_config(SQLITE_CONFIG_SERIALIZED) != SQLITE_OK ) {
         [self raiseExceptionWithMessage:@"Failed to set the sqlite as thread-safe."];
     }
+}
++ (NSError *)initializeSqliteForMultipleThread
+{
+    return [PYGlobalDataCache initializeSqliteForMultipleThreadAndForceToSet:NO];
+}
++ (NSError *)initializeSqliteForMultipleThreadAndForceToSet:(BOOL)forced
+{
+    // It's the first time to set the config flag, done!
+    if ( sqlite3_config(SQLITE_CONFIG_SERIALIZED) == SQLITE_OK ) return nil;
+    if ( forced == NO )
+        return [self errorWithCode:SQLITE_ERROR
+                           message:@"Failed to set the sqlite as thread-safe."];
+    int _ret = sqlite3_shutdown();
+    if ( _ret != SQLITE_OK ) {
+        return [self errorWithCode:_ret
+                           message:
+                @"Sqlite3 has already been shuted-down, "
+                @"but failed to set thread-safe."];
+    }
+    NSError *_returnError = nil;
+    _ret = sqlite3_config(SQLITE_CONFIG_SERIALIZED);
+    if ( _ret != SQLITE_OK ) {
+        _returnError = [self errorWithCode:_ret
+                                   message:
+                        @"Failed to set thread-safe flag when shuteddown, "
+                        @"maybe others are doing something."];
+    }
+    _ret = sqlite3_initialize();
+    if ( _ret != SQLITE_OK && _returnError == nil ) {
+        _returnError = [self errorWithCode:_ret
+                                   message:@"Failed to re-initialize the sqlite3"];
+    }
+    return _returnError;
 }
 
 - (NSData *)_formatObject:(id<NSCoding>)value

@@ -86,7 +86,20 @@ enum {
 @property (nonatomic, readonly)		NSUInteger      inMemObjectCount;
 @property (nonatomic, readonly)		long			allObjectCount;
 
-+ (void)initializeSqliteForMultithreadSupport;
+// The [initialize] method will force to set the thread-safe flag
+// if set the [PY_FORCE_THREASAFE] when compilation.
+// Make the sqlite to support multiple thread.
+// Depecated in v0.9
++ (void)initializeSqliteForMultithreadSupport DEPRECATED_ATTRIBUTE;
+// Now use this method to change the config.
+// When failed to do so, return an error.
+// By default, the method will not force to set the serialized flat,
+// When [forced] is set to YES, and the sqlite library has been initialized
+// by any other code in your project, the method will firstly invoke
+// [sqlite3_shutdown] and then set the flag, then invoke [sqlite3_initliaze]
+// again before return.
++ (NSError *)initializeSqliteForMultipleThread;
++ (NSError *)initializeSqliteForMultipleThreadAndForceToSet:(BOOL)forced;
 
 + (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify options:(NSDictionary *)options;
 + (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify;
