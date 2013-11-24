@@ -77,6 +77,7 @@
 
 - (void)_relayoutSubItems
 {
+    [self _updateUIStateAccordingToCurrentState];
     BOOL _isVerticalis = ((_itemStyle & 0x80000000) != 0);
     CGSize _iconSize = CGSizeZero;
     if ( _iconLayer.isHidden == NO && _iconLayer.image != nil ) {
@@ -107,19 +108,25 @@
     } else {
         // title middle
         [_titleLayer setFrame:_bounds];
-        // icon left
-        CGFloat _iconY = (_bounds.size.height - _iconSize.height) / 2;
-        CGRect _iconFrame = CGRectMake(0, _iconY, _iconSize.width, _iconSize.height);
-        [_iconLayer setFrame:_iconFrame];
-        // indicate right
-        CGFloat _indicateX = (_bounds.size.width - _indicateSize.width);
-        CGFloat _indicateY = (_bounds.size.height - _indicateSize.height) / 2;
-        CGRect _indicateFrame = CGRectMake(_indicateX, _indicateY,
-                                           _indicateSize.width, _indicateSize.height);
-        [_indicateLayer setFrame:_indicateFrame];
+        if ( [_iconLayer isHidden] == NO ) {
+            // icon left
+            CGFloat _iconY = (_bounds.size.height - _iconSize.height) / 2;
+            _iconY = MAX(0, _iconY);
+            CGFloat _iconWidth = MIN(_bounds.size.width, _iconSize.width);
+            CGFloat _iconHeight = MIN(_bounds.size.height, _iconSize.height);
+            CGRect _iconFrame = CGRectMake(0, _iconY, _iconWidth, _iconHeight);
+            [_iconLayer setFrame:_iconFrame];
+        }
+        
+        if ( [_indicateLayer isHidden] == NO ) {
+            // indicate right
+            CGFloat _indicateX = (_bounds.size.width - _indicateSize.width);
+            CGFloat _indicateY = (_bounds.size.height - _indicateSize.height) / 2;
+            CGRect _indicateFrame = CGRectMake(_indicateX, _indicateY,
+                                               _indicateSize.width, _indicateSize.height);
+            [_indicateLayer setFrame:_indicateFrame];
+        }
     }
-    
-    [self _updateUIStateAccordingToCurrentState];
 }
 
 - (void)_updateUIStateAccordingToCurrentState

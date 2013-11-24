@@ -54,6 +54,8 @@
     [_gridView initGridViewWithScale:(PYGridScale){2, 2}];
     [_gridView setFrame:CGRectMake((320.f - 252.f) / 2, 150.f, 252.f, 108.f)];
     [_gridView setPadding:4.f];
+    [_gridView setBorderColor:[UIColor blackColor]];
+    [_gridView setBorderWidth:1.f];
     
     [_gridView
      setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF" reverseOnVerticalis:YES]

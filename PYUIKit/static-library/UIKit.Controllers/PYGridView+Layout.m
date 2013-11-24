@@ -80,9 +80,9 @@
         for ( int i = 0; i < _gridItem.coordinate.y; ++ i ) _f_column += _columnRate[i];
         for ( int i = 0; i < _gridItem.coordinate.x; ++i ) _f_row += _rowRate[i];
         _itemFrame.origin.x = (_f_column * _singleCellWidth +
-                               (_gridItem.coordinate.y - 1) * _padding);
+                               _gridItem.coordinate.y * _padding);
         _itemFrame.origin.y = (_f_row * _singleCellHeight +
-                               ((_gridItem.coordinate.x - 1) * _padding));
+                               (_gridItem.coordinate.x * _padding));
         _itemFrame.size.width = ((_gridItem.scale.column * _singleCellWidth) +
                                  ((_gridItem.scale.column - 1) * _padding));
         _itemFrame.size.height = ((_gridItem.scale.row * _singleCellHeight) +
@@ -164,9 +164,9 @@
         for ( int i = 0; i < _gridItem.coordinate.y; ++ i ) _f_column += _columnRate[i];
         for ( int i = 0; i < _gridItem.coordinate.x; ++i ) _f_row += _rowRate[i];
         _itemFrame.origin.x = (_f_column * _cellSize.width +
-                               (_gridItem.coordinate.y - 1) * _padding);
+                               _gridItem.coordinate.y * _padding);
         _itemFrame.origin.y = (_f_row * _cellSize.height +
-                               ((_gridItem.coordinate.x - 1) * _padding));
+                               (_gridItem.coordinate.x * _padding));
         _itemFrame.size.width = ((_gridItem.scale.column * _cellSize.width) +
                                  ((_gridItem.scale.column - 1) * _padding));
         _itemFrame.size.height = ((_gridItem.scale.row * _cellSize.height) +

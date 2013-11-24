@@ -328,14 +328,14 @@
 {
     int _sIndex = ((state == UIControlStateNormal) ? 0 : ((PYLAST1INDEX(state) + 1)));
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
-    [_iconLayer setImage:_stateInfo.iconImage];
+    _stateInfo.iconImage = image;
     _uiflag[_sIndex].iconImage = YES;
 }
 - (void)setIndicateImage:(UIImage *)image forState:(UIControlState)state
 {
     int _sIndex = ((state == UIControlStateNormal) ? 0 : ((PYLAST1INDEX(state) + 1)));
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
-    [_indicateLayer setImage:_stateInfo.indicateImage];
+    _stateInfo.indicateImage = image;
     _uiflag[_sIndex].indicateImage = YES;
 }
 

@@ -88,6 +88,7 @@
     _containerView = [UIView object];
     [_containerView setBackgroundColor:[UIColor clearColor]];
     [self addSubview:_containerView];
+    [_containerView setClipsToBounds:YES];
     
     // Initialize the background image view
     _backgroundImageView = [PYImageView object];
