@@ -84,6 +84,9 @@ typedef void (^PYImageCacheLoadedImage)(UIImage *image, NSString *name);
 // Load the image from bundle or network
 - (void)loadImageNamed:(NSString *)imageName get:(PYImageCacheLoadedImage)get;
 
+// remove all images in the cache folder
+- (void)eraseAllCachedImages:(PYActionDone)done failed:(PYActionFailed)failed;
+
 @end
 
 // @littlepush

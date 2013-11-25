@@ -38,7 +38,7 @@
 		E66E468A17A3848100D1FF55 /* libPYUIKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D57F3D15F5A8C400C1ED25 /* libPYUIKit.a */; };
 		E66E468C17A3851600D1FF55 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FF115B4327100DCF831 /* ImageIO.framework */; };
 		E66E468D17A3851B00D1FF55 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6263FEF15B4326B00DCF831 /* QuartzCore.framework */; };
-		E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E469A17A57D9600D1FF55 /* PYImageCache.h */; };
+		E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E469A17A57D9600D1FF55 /* PYImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E66E469D17A57D9600D1FF55 /* PYImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E469B17A57D9600D1FF55 /* PYImageCache.m */; };
 		E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E66E469F17A57DAA00D1FF55 /* PYImageLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E66E46A217A57DAA00D1FF55 /* PYImageLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E46A017A57DAA00D1FF55 /* PYImageLayer.m */; };

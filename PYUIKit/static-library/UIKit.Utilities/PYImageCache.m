@@ -324,7 +324,7 @@ PYSingletonDefaultImplementation;
         NSMutableArray *_pendingObserverList = [_pendingList objectForKey:imageName];
         if ( _pendingObserverList == nil ) {
             // Add new operation
-            __block PYImageCache *_bss = self;
+            __weak PYImageCache *_wss = self;
             _pendingObserverList = [NSMutableArray array];
             [_pendingObserverList addObject:get];
             [_pendingList setObject:_pendingObserverList forKey:imageName];
@@ -349,6 +349,7 @@ PYSingletonDefaultImplementation;
                 }
                 //@synchronized ( _bss ) {
                 dispatch_async( dispatch_get_main_queue(), ^{
+                    __strong PYImageCache *_bss = _wss;
                     UIImage *_netImage = [_bss setImage:_data forName:imageName];
                     NSMutableArray *_loadingObservers = [_bss->_pendingList objectForKey:imageName];
                     if ( _loadingObservers == nil ) return;
@@ -367,6 +368,37 @@ PYSingletonDefaultImplementation;
         return nil;
     }];
     //}
+}
+
+- (void)eraseAllCachedImages:(PYActionDone)done failed:(PYActionFailed)failed
+{
+    [_imageLoadingQueue addOperationWithBlock:^{
+        [_mutex lockAndDo:^id{
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSError *_error = nil;
+            // Remove the cache folder
+            [fm removeItemAtPath:[self _cachePath] error:&_error];
+            if ( _error != nil ) {
+                if ( failed ) failed(_error);
+                return nil;
+            }
+            
+            // Recreate the folder
+            [fm createDirectoryAtPath:[self _cachePath] withIntermediateDirectories:YES
+                           attributes:nil error:&_error];
+            if ( _error != nil ) {
+                if ( failed ) failed(_error);
+            }
+ 
+            if ( done ) {
+                BEGIN_MAINTHREAD_INVOKE
+                done();
+                END_MAINTHREAD_INVOKE
+            }
+            
+            return nil;
+        }];
+    }];
 }
 
 @end

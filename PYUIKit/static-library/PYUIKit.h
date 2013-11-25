@@ -36,6 +36,7 @@
 #import "UIView+AttributeLoader.h"
 #import "PYResource.h"
 #import "UIBarButtonItem+PYUIKit.h"
+#import "PYImageCache.h"
 
 // Kernel
 #import "PYLayer.h"
