@@ -114,6 +114,8 @@
     _itemStyle = PYGridItemStyleTitleOnly;
     [_titleLayer setTextAlignment:NSTextAlignmentCenter];
     [_titleLayer setLineBreakMode:NSLineBreakByTruncatingTail];
+    [_titleLayer setPaddingLeft:5.f];
+    [_titleLayer setPaddingRight:5.f];
 }
 
 - (void)collapse

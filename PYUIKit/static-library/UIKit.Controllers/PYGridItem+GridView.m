@@ -75,13 +75,31 @@
     _parentView = parent;
 }
 
+- (CGSize)_recalculateImageSize:(CGSize)imageSize inBounds:(CGSize)boundSize
+{
+    float (^__fit)(float, float) = ^(float max, float value) {
+        if ( max < 10.f ) return MIN(max, value);
+        return MIN(max - 10, value);
+    };
+    float _kb = boundSize.width / boundSize.height;
+    float _ib = imageSize.width / imageSize.height;
+    if ( _kb > _ib ) {
+        float _fh = __fit(boundSize.height, imageSize.height);
+        return CGSizeMake(_fh * _ib, _fh);
+    } else {
+        float _fw = __fit(boundSize.width, imageSize.width);
+        return CGSizeMake(_fw, _fw / _ib);
+    }
+}
 - (void)_relayoutSubItems
 {
+    static float __p = 5.f;
     [self _updateUIStateAccordingToCurrentState];
     BOOL _isVerticalis = ((_itemStyle & 0x80000000) != 0);
     CGSize _iconSize = CGSizeZero;
     if ( _iconLayer.isHidden == NO && _iconLayer.image != nil ) {
-        _iconSize = _iconLayer.image.size;
+        _iconSize = [self _recalculateImageSize:_iconLayer.image.size
+                                       inBounds:self.bounds.size];
     }
     CGSize _indicateSize = CGSizeZero;
     if ( _indicateLayer.isHidden == NO && _indicateLayer.image != nil ) {
@@ -93,11 +111,11 @@
         // icon up
         CGFloat _iconX = (_bounds.size.width - _iconSize.width) / 2;
         if ( (_itemStyle & PYGridItemStyleTitleOnly) > 0 ) {
-            CGRect _iconFrame = CGRectMake(_iconX, 0, _iconSize.width, _iconSize.height);
+            CGRect _iconFrame = CGRectMake(_iconX, __p, _iconSize.width, _iconSize.height);
             [_iconLayer setFrame:_iconFrame];
             // title down
-            CGFloat _titleHeight = _bounds.size.height - _iconSize.height;
-            CGRect _titleFrame = CGRectMake(0, _iconSize.height, _bounds.size.width, _titleHeight);
+            CGFloat _titleHeight = _bounds.size.height - _iconSize.height - __p;
+            CGRect _titleFrame = CGRectMake(0, _iconSize.height + __p, _bounds.size.width, _titleHeight);
             [_titleLayer setFrame:_titleFrame];
         } else {
             CGFloat _iconY = (_bounds.size.height - _iconSize.height) / 2;
@@ -111,10 +129,7 @@
         if ( [_iconLayer isHidden] == NO ) {
             // icon left
             CGFloat _iconY = (_bounds.size.height - _iconSize.height) / 2;
-            _iconY = MAX(0, _iconY);
-            CGFloat _iconWidth = MIN(_bounds.size.width, _iconSize.width);
-            CGFloat _iconHeight = MIN(_bounds.size.height, _iconSize.height);
-            CGRect _iconFrame = CGRectMake(0, _iconY, _iconWidth, _iconHeight);
+            CGRect _iconFrame = CGRectMake(__p, _iconY, _iconSize.width, _iconSize.height);
             [_iconLayer setFrame:_iconFrame];
         }
         
