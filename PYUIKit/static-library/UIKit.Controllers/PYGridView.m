@@ -29,6 +29,8 @@
 #import "PYView+Animation.h"
 #import "PYGridView+Layout.h"
 
+#define ANIMATION_TIME      .15f
+
 @implementation PYGridView (Private)
 
 - (void)_clearAllCache
@@ -79,7 +81,6 @@
 {
     [super viewJustBeenCreated];
     [self setAutoresizesSubviews:NO];
-    [self setClipsToBounds:YES];
     
     _gridConfig = NULL;
     _gridScale = (PYGridScale){0, 0};
@@ -118,17 +119,89 @@
   forResponderEvent:PYResponderEventTouchMove];
     [self addTarget:self action:@selector(_actionTouchEnd:event:)
   forResponderEvent:PYResponderEventTouchEnd];
+    [self addTarget:self action:@selector(_actionTouchCancel:event:)
+  forResponderEvent:PYResponderEventTouchCancel];
 }
 
 #pragma mark -
 #pragma mark Actions
 
+- (void)_actionTouchBegin:(id)sender event:(PYViewEvent *)event
+{
+    _selectedItem = nil;
+    UITouch *_touch = [event.touches anyObject];
+    CGPoint _touchPoint = [_touch locationInView:_containerView];
+    if ( CGRectContainsPoint(_containerView.bounds, _touchPoint) == NO ) return;
+    for ( PYGridItem *_item in self ) {
+        if ( CGRectContainsPoint(_item._innerFrame, _touchPoint) == NO ) continue;
+        _selectedItem = _item;
+        break;
+    }
+    if ( _selectedItem == nil ) return;
+    // Store the selected state.
+    _selectedItemState = _selectedItem.state;
+    [PYView animateWithDuration:ANIMATION_TIME animations:^{
+        [_selectedItem setState:UIControlStateHighlighted];
+    }];
+}
+
+- (void)_actionTouchMove:(id)sender event:(PYViewEvent *)event
+{
+    if ( _selectedItem == nil || _supportTouchMoving ) return;
+    [PYView animateWithDuration:ANIMATION_TIME animations:^{
+        [_selectedItem setState:_selectedItemState];
+    } completion:^(BOOL finished) {
+        // Cancel the selection.
+        _selectedItem = nil;
+    }];
+}
+
+- (void)_actionTouchEnd:(id)sender event:(PYViewEvent *)event
+{
+    if ( _selectedItem == nil ) return;
+    [PYView animateWithDuration:ANIMATION_TIME animations:^{
+        [_selectedItem setState:_selectedItemState];
+    }];
+}
+- (void)_actionTouchCancel:(id)sender event:(PYViewEvent *)event
+{
+    if ( _selectedItem == nil ) return;
+    [PYView animateWithDuration:ANIMATION_TIME animations:^{
+        [_selectedItem setState:_selectedItemState];
+    } completion:^(BOOL finished) {
+        _selectedItem = nil;
+    }];
+}
+
+- (void)_actionTapHander:(id)sender event:(PYViewEvent *)event
+{
+    if ( _responderGesture.state != UIGestureRecognizerStateRecognized ) return;
+    
+    if ( _selectedItem == nil ) return;
+    [PYView animateWithDuration:ANIMATION_TIME animations:^{
+        [_selectedItem setState:_selectedItemState];
+        if ( _selectedItem.collapseRate > 0 ) {
+            if ( _selectedItem.isCollapsed ) {
+                [_selectedItem uncollapse];
+            } else {
+                [_selectedItem collapse];
+            }
+        } else {
+            if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
+                [self.delegate pyGridView:self didSelectItem:_selectedItem];
+            }
+        }
+    } completion:^(BOOL finished) {
+        _selectedItem = nil;
+    }];
+}
+
 - (void)_actionPanHandler:(id)sender event:(PYViewEvent *)event
 {
     if ( _responderGesture.state == UIGestureRecognizerStateEnded ) {
         // Same as touch end
-        [PYView animateWithDuration:.1 animations:^{
-            [_selectedItem setState:UIControlStateNormal];
+        [PYView animateWithDuration:ANIMATION_TIME animations:^{
+            [_selectedItem setState:_selectedItemState];
             if ( _selectedItem.collapseRate > 0 ) {
                 if ( _selectedItem.isCollapsed ) {
                     [_selectedItem uncollapse];
@@ -157,66 +230,15 @@
         }
         // in padding gap.
         if ( _newMoving == nil ) return;
-        [PYView animateWithDuration:.1 animations:^{
-            [_selectedItem setState:UIControlStateNormal];
+        UIControlState _newState = _newMoving.state;
+        [PYView animateWithDuration:ANIMATION_TIME animations:^{
+            [_selectedItem setState:_selectedItemState];
             [_newMoving setState:UIControlStateHighlighted];
         } completion:^(BOOL finished) {
             _selectedItem = _newMoving;
+            _selectedItemState = _newState;
         }];
     }
-}
-
-- (void)_actionTouchBegin:(id)sender event:(PYViewEvent *)event
-{
-    _selectedItem = nil;
-    UITouch *_touch = [event.touches anyObject];
-    CGPoint _touchPoint = [_touch locationInView:_containerView];
-    if ( CGRectContainsPoint(_containerView.bounds, _touchPoint) == NO ) return;
-    for ( PYGridItem *_item in self ) {
-        if ( CGRectContainsPoint(_item._innerFrame, _touchPoint) == NO ) continue;
-        _selectedItem = _item;
-        break;
-    }
-    if ( _selectedItem == nil ) return;
-    [PYView animateWithDuration:.1 animations:^{
-        [_selectedItem setState:UIControlStateHighlighted];
-    }];
-}
-
-- (void)_actionTouchMove:(id)sender event:(PYViewEvent *)event
-{
-    if ( _selectedItem == nil || _supportTouchMoving ) return;
-    [PYView animateWithDuration:.1 animations:^{
-        [_selectedItem setState:UIControlStateNormal];
-    }];
-    _selectedItem = nil;
-}
-
-- (void)_actionTouchEnd:(id)sender event:(PYViewEvent *)event
-{
-    if ( _selectedItem == nil ) return;
-    [_selectedItem setState:UIControlStateNormal];
-}
-
-- (void)_actionTapHander:(id)sender event:(PYViewEvent *)event
-{
-    if ( _responderGesture.state != UIGestureRecognizerStateRecognized ) return;
-    
-    if ( _selectedItem == nil ) return;
-    [PYView animateWithDuration:.1 animations:^{
-        [_selectedItem setState:UIControlStateNormal];
-        if ( _selectedItem.collapseRate > 0 ) {
-            if ( _selectedItem.isCollapsed ) {
-                [_selectedItem uncollapse];
-            } else {
-                [_selectedItem collapse];
-            }
-        } else {
-            if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
-                [self.delegate pyGridView:self didSelectItem:_selectedItem];
-            }
-        }
-    }];
 }
 
 #pragma mark -
@@ -482,6 +504,18 @@
 {
     for ( PYGridItem *_item in self ) {
         [_item _setIndicateImage:image forState:state];
+    }
+}
+- (void)setItemInnerShadowColor:(UIColor *)color forState:(UIControlState)state
+{
+    for ( PYGridItem *_item in self ) {
+        [_item _setInnerShadowColor:color forState:state];
+    }
+}
+- (void)setItemInnerShadowRect:(PYPadding)rect forState:(UIControlState)state
+{
+    for ( PYGridItem *_item in self ) {
+        [_item _setInnerShadowRect:rect forState:state];
     }
 }
 

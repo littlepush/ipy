@@ -528,6 +528,22 @@
             UIImage *_indicateImage = [PYResource imageNamed:_indicateInfo];
             [itemView setIndicateImage:_indicateImage forState:_state];
         }
+        
+        // InnerShadow - Color
+        NSString *_innerShadowColorInfo = [_stateOption stringObjectForKey:@"innerShadowColor"
+                                                          withDefaultValue:@""];
+        if ( [_innerShadowColorInfo length] > 0 ) {
+            UIColor *_innerShadowColor = [UIColor colorWithOptionString:_innerShadowColorInfo];
+            [itemView setInnerShadowColor:_innerShadowColor forState:_state];
+        }
+        
+        // InnerShadow - Padding
+        NSString *_innerShadowPaddingInfo = [_stateOption stringObjectForKey:@"innerShadowPadding"
+                                                            withDefaultValue:@""];
+        if ( [_innerShadowPaddingInfo length] > 0 ) {
+            PYPadding _innerShadowPadding = PYPaddingFromString(_innerShadowPaddingInfo);
+            [itemView setInnerShadowRect:_innerShadowPadding forState:_state];
+        }
     }
 }
 
@@ -731,6 +747,22 @@
         if ( [_indicateInfo length] > 0 ) {
             UIImage *_indicateImage = [PYResource imageNamed:_indicateInfo];
             [gridView setItemIndicateImage:_indicateImage forState:_state];
+        }
+        
+        // InnerShadow - Color
+        NSString *_innerShadowColorInfo = [_stateOption stringObjectForKey:@"innerShadowColor"
+                                                          withDefaultValue:@""];
+        if ( [_innerShadowColorInfo length] > 0 ) {
+            UIColor *_innerShadowColor = [UIColor colorWithOptionString:_innerShadowColorInfo];
+            [gridView setItemInnerShadowColor:_innerShadowColor forState:_state];
+        }
+        
+        // InnerShadow - Padding
+        NSString *_innerShadowPaddingInfo = [_stateOption stringObjectForKey:@"innerShadowPadding"
+                                                            withDefaultValue:@""];
+        if ( [_innerShadowPaddingInfo length] > 0 ) {
+            PYPadding _innerShadowPadding = PYPaddingFromString(_innerShadowPaddingInfo);
+            [gridView setItemInnerShadowRect:_innerShadowPadding forState:_state];
         }
     }
 }

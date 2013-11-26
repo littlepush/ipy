@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "PYRectangleCalc.h"
 
 @interface _PYGridItemUIInfo : NSObject
 
@@ -49,6 +50,10 @@
 @property (nonatomic, assign)   CGSize              textShadowOffset;
 @property (nonatomic, assign)   CGFloat             textShadowRadius;
 @property (nonatomic, strong)   UIColor             *textShadowColor;
+
+// Inner Shadow
+@property (nonatomic, strong)   UIColor             *innerShadowColor;
+@property (nonatomic, assign)   PYPadding           innerShadowPadding;
 
 @end
 

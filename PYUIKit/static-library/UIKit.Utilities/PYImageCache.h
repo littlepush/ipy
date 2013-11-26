@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <PYCore/PYCore.h>
 
 #define SHARED_IMAGECACHE               ([PYImageCache sharedImageCache])
 

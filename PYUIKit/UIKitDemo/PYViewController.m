@@ -57,11 +57,17 @@
     [_gridView setBorderColor:[UIColor blackColor]];
     [_gridView setBorderWidth:1.f];
     
+//    [_gridView
+//     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF" reverseOnVerticalis:YES]
+//     forState:UIControlStateNormal];
     [_gridView
-     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF" reverseOnVerticalis:YES]
+     setItemBackgroundColor:[UIColor colorWithString:@"#FF0000"]
      forState:UIControlStateNormal];
+//    [_gridView
+//     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF" reverseOnVerticalis:YES]
+//     forState:UIControlStateHighlighted];
     [_gridView
-     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF" reverseOnVerticalis:YES]
+     setItemBackgroundColor:[UIColor colorWithString:@"#000000"]
      forState:UIControlStateHighlighted];
     [_gridView setItemCornerRadius:3.f];
     [_gridView setItemBorderColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -82,6 +88,9 @@
          forState:UIControlStateNormal];
         [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
         _specifialItem.collapseRate = 3.f;
+        [_specifialItem setInnerShadowColor:[UIColor redColor] forState:UIControlStateHighlighted];
+        [_specifialItem setInnerShadowRect:PYPaddingMake(10, 10, 15, 0) forState:UIControlStateHighlighted];
+        [_specifialItem setInnerShadowRect:PYPaddingZero forState:UIControlStateNormal];
     }
     PYGridItem *_fixedItem = [_gridView itemAtCoordinate:(PYGridCoordinate){0, 0}];
     _fixedItem.collapseRate = 3;
@@ -92,7 +101,7 @@
     [_gridView setItemShadowRadius:3.f forState:UIControlStateNormal];
     [_gridView setItemShadowOpacity:.7 forState:UIControlStateNormal];
     
-    [_gridView setSupportTouchMoving:YES];
+    //[_gridView setSupportTouchMoving:YES];
     [self.view addSubview:_gridView];
     
     [UIView rendView:self.view withOption:@{@"backgroundColor":@"v(568)$#000000:#CCDDEE"}];

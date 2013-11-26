@@ -329,7 +329,7 @@
                 CGFloat _loc = [[_com lastObject] floatValue];
                 if ( !isnan(_loc) ) {
                     if ( reversed && _direction == 'v' ) {
-                        [_locs insertObject:PYDoubleToObject(_loc) atIndex:0];
+                        [_locs insertObject:PYDoubleToObject(1 - _loc) atIndex:0];
                     } else {
                         [_locs addObject:PYDoubleToObject(_loc)];
                     }

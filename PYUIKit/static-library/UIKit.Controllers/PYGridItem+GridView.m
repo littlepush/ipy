@@ -216,6 +216,14 @@
     if ( _stateInfo.textShadowColor != nil ) {
         [_titleLayer setTextShadowColor:_stateInfo.textShadowColor];
     }
+    // InnerShadow - Color
+    if ( _stateInfo.innerShadowColor != nil ) {
+        [super setInnerShadowColor:_stateInfo.innerShadowColor];
+    }
+    // InnerShadow - Padding
+    if ( isnan(_stateInfo.innerShadowPadding.left) == NO ) {
+        [super setInnerShadowRect:_stateInfo.innerShadowPadding];
+    }
 }
 
 // Internal setting
@@ -331,6 +339,20 @@
     if ( _uiflag[_sIndex].indicateImage ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.indicateImage = image;
+}
+- (void)_setInnerShadowColor:(UIColor *)color forState:(UIControlState)state
+{
+    int _sIndex = ((state == UIControlStateNormal) ? 0 : ((PYLAST1INDEX(state) + 1)));
+    if ( _uiflag[_sIndex].innerShadowColor ) return;
+    _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
+    _stateInfo.innerShadowColor = color;
+}
+- (void)_setInnerShadowRect:(PYPadding)rect forState:(UIControlState)state
+{
+    int _sIndex = ((state == UIControlStateNormal) ? 0 : ((PYLAST1INDEX(state) + 1)));
+    if ( _uiflag[_sIndex].innerShadowPadding ) return;
+    _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
+    _stateInfo.innerShadowPadding = rect;
 }
 
 @end

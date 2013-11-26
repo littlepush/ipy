@@ -42,6 +42,8 @@
 @synthesize textShadowColor;
 @synthesize textShadowOffset;
 @synthesize textShadowRadius;
+@synthesize innerShadowColor;
+@synthesize innerShadowPadding;
 
 - (id)init
 {
@@ -53,6 +55,7 @@
         self.shadowRadius = NAN;
         self.textShadowOffset = CGSizeMake(NAN, NAN);
         self.textShadowRadius = NAN;
+        self.innerShadowPadding = PYPaddingMake(NAN, NAN, NAN, NAN);
     }
     return self;
 }

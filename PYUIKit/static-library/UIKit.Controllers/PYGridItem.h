@@ -82,6 +82,8 @@ typedef NS_ENUM(NSUInteger, PYGridItemCollapseDirection) {
         BOOL    textShadowColor:1;
         BOOL    iconImage:1;
         BOOL    indicateImage:1;
+        BOOL    innerShadowColor:1;
+        BOOL    innerShadowPadding:1;
     }                           _uiflag[4];
 }
 
@@ -132,6 +134,8 @@ typedef NS_ENUM(NSUInteger, PYGridItemCollapseDirection) {
 - (void)setTextShadowColor:(UIColor *)color forState:(UIControlState)state;
 - (void)setIconImage:(UIImage *)image forState:(UIControlState)state;
 - (void)setIndicateImage:(UIImage *)image forState:(UIControlState)state;
+- (void)setInnerShadowColor:(UIColor *)color forState:(UIControlState)state;
+- (void)setInnerShadowRect:(PYPadding)rect forState:(UIControlState)state;
 
 @end
 

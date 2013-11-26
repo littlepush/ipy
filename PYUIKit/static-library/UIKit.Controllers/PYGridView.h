@@ -80,6 +80,7 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
     
     // Gesture inner object.
     PYGridItem                  *_selectedItem;
+    UIControlState              _selectedItemState;
     BOOL                        _supportTouchMoving;
 }
 
@@ -138,6 +139,8 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
 - (void)setItemTextShadowColor:(UIColor *)color forState:(UIControlState)state;
 - (void)setItemIconImage:(UIImage *)image forState:(UIControlState)state;
 - (void)setItemIndicateImage:(UIImage *)image forState:(UIControlState)state;
+- (void)setItemInnerShadowColor:(UIColor *)color forState:(UIControlState)state;
+- (void)setItemInnerShadowRect:(PYPadding)rect forState:(UIControlState)state;
 
 // Set the item style.
 - (void)setItemStyle:(PYGridItemStyle)style;

@@ -70,6 +70,8 @@
 - (void)_setTextShadowColor:(UIColor *)color forState:(UIControlState)state;
 - (void)_setIconImage:(UIImage *)image forState:(UIControlState)state;
 - (void)_setIndicateImage:(UIImage *)image forState:(UIControlState)state;
+- (void)_setInnerShadowColor:(UIColor *)color forState:(UIControlState)state;
+- (void)_setInnerShadowRect:(PYPadding)rect forState:(UIControlState)state;
 
 @end
 

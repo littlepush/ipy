@@ -196,8 +196,13 @@
         [_shadowLayer setFrame:self.bounds];
         [self.layer addSublayer:_shadowLayer];
     }
-    [_shadowLayer setShadowPadding:innerShadowRect];
-    [_shadowLayer setNeedsDisplay];
+    if ( PYPaddingIsZero(innerShadowRect) ) {
+        [_shadowLayer setHidden:YES];
+    } else {
+        [_shadowLayer setHidden:NO];
+        [_shadowLayer setShadowPadding:innerShadowRect];
+        [_shadowLayer setNeedsDisplay];
+    }
 }
 
 @dynamic innerShadowColor;
