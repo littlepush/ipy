@@ -125,6 +125,11 @@
 + (void)rendView:(PYImageView *)imageView withOption:(NSDictionary *)option;
 @end
 
+// Attribute support by PYAnimator
+@interface PYAnimator (AttributeLoader)
++ (void)rendLayer:(PYAnimator *)layer withOption:(NSDictionary *)option;
+@end
+
 // Attribute support by PYGridItem
 // Global part of the attributes
 //  collapseRate: float object, the collapse rate of the item.

@@ -366,6 +366,44 @@
 
 @end
 
+@implementation PYAnimator (AttributeLoader)
+
++ (void)rendLayer:(PYAnimator *)layer withOption:(NSDictionary *)option
+{
+    if ( layer == nil ) return;
+    [super rendLayer:layer withOption:option];
+    if ( [layer isKindOfClass:[PYAnimator class]] == NO ) return;
+    
+    CGFloat _interval = [option doubleObjectForKey:@"interval" withDefaultValue:NAN];
+    if ( !isnan(_interval) ) {
+        [layer setInterval:_interval];
+    }
+    
+    NSString *_animationImageInfo = [option stringObjectForKey:@"animationImage" withDefaultValue:@""];
+    // No animation image...can do nothing.
+    if ( [_animationImageInfo length] == 0 ) return;
+    
+    CGFloat _piece_f = [option doubleObjectForKey:@"piece" withDefaultValue:NAN];
+    if ( isnan(_piece_f) ) return;
+    int _piece = (int)_piece_f;
+    
+    NSString *_sizeInfo = [option stringObjectForKey:@"frameSize" withDefaultValue:@""];
+    if ( [_sizeInfo length] == 0 ) return;
+    
+    UIImage *_animationImage = [PYResource imageNamed:_animationImageInfo];
+    if ( _animationImage == nil ) return;
+    [layer setAnimationImage:_animationImage
+                     ofPiece:_piece
+                   frameSize:CGSizeFromString(_sizeInfo)];
+    
+    BOOL _autoStart = [option boolObjectForKey:@"autostart" withDefaultValue:NO];
+    if ( _autoStart ) {
+        [layer startAnimation];
+    }
+}
+
+@end
+
 @implementation PYGridItem (AttributeLoader)
 
 + (void)rendView:(PYGridItem *)itemView withOption:(NSDictionary *)option
