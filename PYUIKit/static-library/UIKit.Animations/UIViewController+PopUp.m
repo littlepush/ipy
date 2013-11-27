@@ -55,6 +55,24 @@
 
 @implementation UIViewController (PopUp)
 
+@dynamic popState;
+- (UIViewControllerPopState)popState
+{
+    @synchronized( self ) {
+        NSNumber *_nsState = [self.view.layer valueForKey:@"VIEW_CONTROLLER_POP_STATE"];
+        if ( _nsState == nil ) return UIViewControllerPopStateUnknow;
+        return (UIViewControllerPopState)[_nsState integerValue];
+    }
+}
+- (void)setPopState:(UIViewControllerPopState)state
+{
+    @synchronized( self ) {
+        [self willChangeValueForKey:@"popState"];
+        [self.view.layer setValue:PYIntToObject(state) forKey:@"VIEW_CONTROLLER_POP_STATE"];
+        [self didChangeValueForKey:@"popState"];
+    }
+}
+
 @dynamic isPopViewVisiable;
 - (BOOL)isPopViewVisiable
 {
@@ -112,8 +130,9 @@
                         complete:(PYActionDone)complete
 {
     if ( controller == nil ) return;
-    if ( self.isPopViewVisiable ) return;
+    if ( self.popState == UIViewControllerPopStatePopedUp ) return;
     @synchronized( self ) {
+        self.popState = UIViewControllerPopStateWillPop;
         [self willPopViewController:controller];
         [self addChildViewController:controller];
         CGRect _frame = controller.view.bounds;
@@ -131,7 +150,9 @@
         
         // No animation effective
         if ( PYPopUpAnimationTypeNone == type ) {
+            self.popState = UIViewControllerPopStatePopedUp;
             [self didPopedViewController:controller];
+            
             if ( complete ) complete( );
             return;
         }
@@ -141,6 +162,7 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.alpha = 1.f;
             } completion:^(BOOL finished) {
+                self.popState = UIViewControllerPopStatePopedUp;
                 [self didPopedViewController:controller];
                 if ( complete ) complete();
             }];
@@ -152,6 +174,7 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
+                self.popState = UIViewControllerPopStatePopedUp;
                 [self didPopedViewController:controller];
                 if ( complete ) complete();
             }];
@@ -163,6 +186,7 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
+                self.popState = UIViewControllerPopStatePopedUp;
                 [self didPopedViewController:controller];
                 if ( complete ) complete();
             }];
@@ -175,6 +199,7 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
+                self.popState = UIViewControllerPopStatePopedUp;
                 [self didPopedViewController:controller];
                 if ( complete ) complete( );
             }];
@@ -190,6 +215,7 @@
                     [UIView animateWithDuration:.3 / 2 animations:^{
                         controller.view.transform = CGAffineTransformIdentity;
                     } completion:^(BOOL finished) {
+                        self.popState = UIViewControllerPopStatePopedUp;
                         [self didPopedViewController:controller];
                         if ( complete ) complete( );
                     }];
@@ -221,12 +247,16 @@
 {
     @synchronized( self ) {
         if ( self.parentViewController == nil ) return;
+        __weak UIViewController *_parent = self.parentViewController;
+
+        self.parentViewController.popState = UIViewControllerPopStateWillDismiss;
         [self.parentViewController willDismissPopViewController:self];
         if ( type == PYPopUpAnimationTypeNone ) {
             [self.view removeFromSuperview];
             [self.parentViewController hideMaskView:NO];
             [self removeFromParentViewController];
-            [self.parentViewController didDismissedPopViewController:self];
+            _parent.popState = UIViewControllerPopStateDismissed;
+            [_parent didDismissedPopViewController:self];
             if ( complete ) complete( );
             return;
         }
@@ -241,7 +271,8 @@
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
                 self.view.transform = CGAffineTransformIdentity;
-                [self.parentViewController didDismissedPopViewController:self];
+                _parent.popState = UIViewControllerPopStateDismissed;
+                [_parent didDismissedPopViewController:self];
                 if ( complete ) complete();
             }];
             return;
@@ -255,7 +286,8 @@
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
                 self.view.transform = CGAffineTransformIdentity;
-                [self.parentViewController didDismissedPopViewController:self];
+                _parent.popState = UIViewControllerPopStateDismissed;
+                [_parent didDismissedPopViewController:self];
                 if ( complete ) complete();
             }];
             return;
@@ -267,7 +299,8 @@
             } completion:^(BOOL finished) {
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
-                [self.parentViewController didDismissedPopViewController:self];
+                _parent.popState = UIViewControllerPopStateDismissed;
+                [_parent didDismissedPopViewController:self];
                 if ( complete ) complete( );
             }];
             return;
@@ -279,7 +312,8 @@
             } completion:^(BOOL finished) {
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
-                [self.parentViewController didDismissedPopViewController:self];
+                _parent.popState = UIViewControllerPopStateDismissed;
+                [_parent didDismissedPopViewController:self];
                 if ( complete ) complete();
             }];
             return;

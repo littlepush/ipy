@@ -34,10 +34,22 @@ typedef NS_ENUM(NSInteger, PYPopUpAnimationType) {
     PYPopUpAnimationTypeSlideFromRight  = 5         // Slide In from right
 };
 
+typedef NS_ENUM(NSInteger, UIViewControllerPopState) {
+    UIViewControllerPopStateUnknow      = 0,
+    UIViewControllerPopStateWillPop,
+    UIViewControllerPopStatePopedUp,
+    UIViewControllerPopStateWillDismiss,
+    UIViewControllerPopStateDismissed
+};
+
 @interface UIViewController (PopUp)
 
 // Check if current has a pop view and is visiable.
-@property (nonatomic, readonly) BOOL        isPopViewVisiable;
+@property (nonatomic, readonly) BOOL        isPopViewVisiable DEPRECATED_ATTRIBUTE;
+
+// Observe this property to get the notification of child viewcontroller
+// poping state.
+@property (nonatomic, readonly) UIViewControllerPopState        popState;
 
 // Pop up the view controller with specified animation type.
 // Default animation type is Jelly.
