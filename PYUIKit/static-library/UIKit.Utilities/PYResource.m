@@ -62,9 +62,14 @@ PYSingletonDefaultImplementation
         if ( _self->_resourceInBundle ) {
             return [UIImage imageNamed:imageName];
         } else {
+            CGFloat _scale = 1.f;
+            if ( [imageName rangeOfString:@"@2x"].location != NSNotFound ) {
+                _scale = 2.f;
+            }
             NSString *_localImagePath = [_self->_localPath
                                          stringByAppendingPathComponent:imageName];
-            return [UIImage imageWithContentsOfFile:_localImagePath];
+            NSData *_data = [NSData dataWithContentsOfFile:_localImagePath];
+            return [UIImage imageWithData:_data scale:_scale];
         }
     } else {
         if ( [_self->_remoteDomain length] == 0 ) return nil;
@@ -72,7 +77,11 @@ PYSingletonDefaultImplementation
         NSURL *_url = [NSURL URLWithString:_reqUrl];
         NSData *_data = [NSData dataWithContentsOfURL:_url];
         if ( _data == nil ) return nil;
-        return [UIImage imageWithData:_data];
+        CGFloat _scale = 1.f;
+        if ( [imageName rangeOfString:@"@2x"].location != NSNotFound ) {
+            _scale = 2.f;
+        }
+        return [UIImage imageWithData:_data scale:_scale];
     }
     PYSingletonUnLock
 }
