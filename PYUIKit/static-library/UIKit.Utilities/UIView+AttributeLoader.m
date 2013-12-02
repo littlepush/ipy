@@ -68,7 +68,7 @@
     // UI Attribute in deep is all CALayer's job...
     [CALayer rendLayer:view.layer withOption:option];
     
-    BOOL _clipToBounds = [option boolObjectForKey:@"clipToBounds"
+    BOOL _clipToBounds = [option boolObjectForKey:@"clipsToBounds"
                                  withDefaultValue:view.clipsToBounds];
     [view setClipsToBounds:_clipToBounds];
 }
@@ -126,6 +126,11 @@
                                             withDefaultValue:@"#333333"]].CGColor;
         layer.shadowOpacity = [_shadowInfo doubleObjectForKey:@"opacity" withDefaultValue:.7f];
         layer.shadowRadius = [_shadowInfo doubleObjectForKey:@"radius" withDefaultValue:3.f];
+    }
+    
+    NSNumber *_maskToBounds = [option objectForKey:@"masksToBounds"];
+    if ( _maskToBounds != nil ) {
+        [layer setMasksToBounds:[_maskToBounds boolValue]];
     }
 }
 

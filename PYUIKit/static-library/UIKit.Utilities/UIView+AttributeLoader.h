@@ -47,6 +47,7 @@
 //      opacity: float object
 //      radius: float object
 //      disable-path: bool object
+//  clipsToBounds: BOOL object
 @interface UIView (AttributeLoader)
 
 // Rend the view with specified option.
@@ -56,6 +57,7 @@
 
 // Rend a layer with option, the attributes supported are the
 // same as UIView.
+// masksToBounds: Bool object
 @interface CALayer (AttributeLoader)
 
 + (void)rendLayer:(CALayer *)layer withOption:(NSDictionary *)option;
