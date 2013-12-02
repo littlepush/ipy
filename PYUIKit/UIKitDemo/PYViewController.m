@@ -8,6 +8,7 @@
 
 #import "PYViewController.h"
 #import "PYPhotoListCell.h"
+#import <objc/runtime.h>
 
 @interface PYViewController ()
 

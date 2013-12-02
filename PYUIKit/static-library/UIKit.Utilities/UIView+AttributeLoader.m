@@ -67,6 +67,10 @@
 
     // UI Attribute in deep is all CALayer's job...
     [CALayer rendLayer:view.layer withOption:option];
+    
+    BOOL _clipToBounds = [option boolObjectForKey:@"clipToBounds"
+                                 withDefaultValue:view.clipsToBounds];
+    [view setClipsToBounds:_clipToBounds];
 }
 
 @end
@@ -235,6 +239,40 @@
     if ( [_imageName length] > 0 ) {
         UIImage *_image = [PYResource imageNamed:_imageName];
         [imageView setImage:_image];
+    }
+}
+
+@end
+
+@implementation UITableViewCell (AttributeLoader)
+
++ (void)rendView:(UITableViewCell *)cell withOption:(NSDictionary *)option
+{
+    if ( cell == nil ) return;
+    [super rendView:cell withOption:option];
+    
+    // Now, just override the background color
+    NSString *_bkgColorInfo = [option stringObjectForKey:@"backgroundColor" withDefaultValue:@""];
+    if ( [_bkgColorInfo length] > 0 ) {
+        UIColor *_bkgColor = [UIColor colorWithOptionString:_bkgColorInfo];
+        [cell setBackgroundColor:_bkgColor];
+    }
+    
+    NSString *_selectionStyle = [option stringObjectForKey:@"selectionStyle" withDefaultValue:@""];
+    if ( [_selectionStyle length] > 0 ) {
+        if ( [_selectionStyle isEqualToString:@"none"] ) {
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        } else if ( [_selectionStyle isEqualToString:@"blue"] ) {
+            [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+        } else if ( [_selectionStyle isEqualToString:@"gray"] ) {
+            [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+        } else if ( [_selectionStyle isEqualToString:@"default"] ) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
+            if ( SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) {
+                [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+            }
+#endif
+        }
     }
 }
 

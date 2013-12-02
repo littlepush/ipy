@@ -362,6 +362,12 @@
     if ( [_imageUrl length] > 0 ) {
         [imageView setImageUrl:_imageUrl];
     }
+    
+    // Override the option of corner radius
+    CGFloat _cornerRaidus = [option doubleObjectForKey:@"cornerRadius" withDefaultValue:NAN];
+    if ( !isnan(_cornerRaidus) ) {
+        [imageView setCornerRadius:_cornerRaidus];
+    }
 }
 
 @end

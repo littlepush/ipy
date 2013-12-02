@@ -245,6 +245,13 @@
 }
 
 @synthesize placeholdImage = _placeholdImage;
+- (void)setPlaceholdImage:(UIImage *)placehold
+{
+    _placeholdImage = placehold;
+    if ( self.image == nil ) {
+        self.image = placehold;
+    }
+}
 @synthesize loadingUrl = _loadingUrl;
 
 - (void)setImage:(UIImage *)image

@@ -97,6 +97,15 @@
 
 @end
 
+// Attribute support by UITableViewCell
+@interface UITableViewCell (AttributeLoader)
+
+// Rend the cell with specified option.
+//  selectionStyle: NSString object, [none/blue/gray/default]
++ (void)rendView:(UITableViewCell *)cell withOption:(NSDictionary *)option;
+
+@end
+
 // @littlepush
 // littlepush@gmail.com
 // PYLab
