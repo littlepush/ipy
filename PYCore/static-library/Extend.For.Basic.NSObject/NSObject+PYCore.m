@@ -153,6 +153,16 @@ do {                                                                    \
     }
     return nil;
 }
+- (void)_backgroundBlockInvocationSelector:(void(^)())block
+{
+    if ( block ) block();
+}
+- (void)performBlockInBackground:(void (^)())block
+{
+    [self
+     performSelectorInBackground:@selector(_backgroundBlockInvocationSelector:)
+     withObject:block];
+}
 
 // The object must be a certain type, or throw an exception.
 - (void)mustBeTypeOrFailed:(Class)type
