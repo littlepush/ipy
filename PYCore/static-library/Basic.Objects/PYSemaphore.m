@@ -28,7 +28,7 @@
 @interface PYSemaphore (Internal)
 
 // Internal
-- (void)_initSemaphoreWith:(int)initCount max:(NSUInteger)maxCount;
+- (void)_initSemaphoreWith:(int)initCount max:(int32_t)maxCount;
 - (void)_trySetStatue:(BOOL)statue;
 
 @end
@@ -110,7 +110,7 @@
             
             gettimeofday(&tv, NULL);
             ts.tv_nsec = tv.tv_usec * 1000 + (timedout % 1000) * 1000000;
-            int _OP = (ts.tv_nsec / 1000000000);
+            long _OP = (ts.tv_nsec / 1000000000);
             if ( _OP ) ts.tv_nsec %= 1000000000;
             ts.tv_sec = tv.tv_sec + timedout / 1000 + _OP;
             while ( _current == 0 ) {
@@ -165,7 +165,7 @@
 }
 
 // Init the semaphore.
-- (void)_initSemaphoreWith:(int)initCount max:(NSUInteger)maxCount
+- (void)_initSemaphoreWith:(int)initCount max:(int32_t)maxCount
 {
     [self destroy];
     if ( _mutex != nil ) {

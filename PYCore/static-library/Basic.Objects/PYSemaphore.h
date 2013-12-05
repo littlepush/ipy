@@ -48,7 +48,7 @@ enum { SEM_MAXCOUNT = 0x0FFFF, SEM_MAXTIMEOUT = 0xFFFFFFFF };
 @property (nonatomic, readonly) Int32                   maxCount;
 
 - (id)initWithCount:(int)initCount;
-- (id)initWithCount:(int)initCount maxCount:(int)max;
+- (id)initWithCount:(int)initCount maxCount:(int32_t)max;
 
 // Get the semaphore with specified timeout
 - (BOOL)get;

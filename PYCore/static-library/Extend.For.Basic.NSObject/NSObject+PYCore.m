@@ -106,73 +106,73 @@ do {                                                                    \
 {
     // check if is a nil invoking
     if ( self == nil || sel == nil ) return nil;
+    
+//    _Pragma("clang diagnostic push")
+//    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
+//    id _r = [self performSelector:sel];
+//    _Pragma("clang diagnostic pop")
+//    
+//    return _r;
+    
+    // Get the return type
     Method _m = class_getInstanceMethod([self class], sel);
     if ( _m == NULL ) return nil;
-    
-    _Pragma("clang diagnostic push")
-    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
-    id _r = [self performSelector:sel];
-    _Pragma("clang diagnostic pop")
-    
-    return _r;
-    
-//    // Get the return type
-//    char _rType[32] = {0};
-//    method_getReturnType(_m, _rType, 32);
-//    if ( strcmp(_rType, "v") == 0 ) {
-//        objc_msgSend(self, sel, self, self);
-//    } else {
-//        return objc_msgSend(self, sel, self, self);
-//    }
-//    return nil;
+    char _rType[32] = {0};
+    method_getReturnType(_m, _rType, 32);
+    if ( strcmp(_rType, "v") == 0 ) {
+        objc_msgSend(self, sel, self, self);
+    } else {
+        return objc_msgSend(self, sel, self, self);
+    }
+    return nil;
 }
 - (id)tryPerformSelector:(SEL)sel withObject:(id)object
 {
     // check if is a nil invoking
     if ( self == nil || sel == nil ) return nil;
+    
+//    _Pragma("clang diagnostic push")
+//    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
+//    id _r = [self performSelector:sel withObject:object];
+//    _Pragma("clang diagnostic pop")
+//
+//    return _r;
+
+    // Get the return type
     Method _m = class_getInstanceMethod([self class], sel);
     if ( _m == NULL ) return nil;
-    
-    _Pragma("clang diagnostic push")
-    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
-    id _r = [self performSelector:sel withObject:object];
-    _Pragma("clang diagnostic pop")
-
-    return _r;
-
-//    // Get the return type
-//    char _rType[32] = {0};
-//    method_getReturnType(_m, _rType, 32);
-//    if ( strcmp(_rType, "v") == 0 ) {
-//        objc_msgSend(self, sel, object, self);
-//    } else {
-//        return objc_msgSend(self, sel, object, self);
-//    }
-//    return nil;
+    char _rType[32] = {0};
+    method_getReturnType(_m, _rType, 32);
+    if ( strcmp(_rType, "v") == 0 ) {
+        objc_msgSend(self, sel, object, self);
+    } else {
+        return objc_msgSend(self, sel, object, self);
+    }
+    return nil;
 }
 - (id)tryPerformSelector:(SEL)sel withObject:(id)obj1 withObject:(id)obj2
 {
     // check if is a nil invoking
     if ( self == nil || sel == nil ) return nil;
-    Method _m = class_getInstanceMethod([self class], sel);
-    if ( _m == NULL ) return nil;
     
-    _Pragma("clang diagnostic push")
-    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
-    id _r = [self performSelector:sel withObject:obj1 withObject:obj2];
-    _Pragma("clang diagnostic pop")
+//    _Pragma("clang diagnostic push")
+//    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
+//    id _r = [self performSelector:sel withObject:obj1 withObject:obj2];
+//    _Pragma("clang diagnostic pop")
+//
+//    return _r;
 
-    return _r;
-
-//    // Get the return type
-//    char _rType[32] = {0};
-//    method_getReturnType(_m, _rType, 32);
-//    if ( strcmp(_rType, "v") == 0 ) {
-//        objc_msgSend(self, sel, obj1, obj2);
-//    } else {
-//        return objc_msgSend(self, sel, obj1, obj2);
-//    }
-//    return nil;
+    Method _m = class_getInstanceMethod([self class], sel);
+    // Get the return type
+    if ( _m == NULL ) return nil;
+    char _rType[32] = {0};
+    method_getReturnType(_m, _rType, 32);
+    if ( strcmp(_rType, "v") == 0 ) {
+        objc_msgSend(self, sel, obj1, obj2);
+    } else {
+        return objc_msgSend(self, sel, obj1, obj2);
+    }
+    return nil;
 }
 - (void)_backgroundBlockInvocationSelector:(void(^)())block
 {
