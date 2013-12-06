@@ -192,7 +192,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
 {
     [super setBackgroundColor:backgroundColor];
     for ( UIView *_ctntView in _subContentList ) {
-        [_ctntView setBackgroundColor:backgroundColor];
+        [_ctntView setBackgroundColor:[UIColor clearColor]];
     }
 }
 

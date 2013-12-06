@@ -326,7 +326,7 @@
     _fakeCoverFrame.origin.y += distance.height;
     while ( !PYIsRectInside(self.bounds, _fakeCoverFrame) ) {
         UIView *_sc = [[[self class] contentViewClass] object];
-        [_sc setBackgroundColor:self.backgroundColor];
+        [_sc setBackgroundColor:[UIColor clearColor]];
         [_sc setClipsToBounds:self.clipsToBounds];
         if ( _SIDE_ITEM(distance) > 0 ) {
             // Insert
