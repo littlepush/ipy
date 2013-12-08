@@ -354,7 +354,7 @@
             [_lagEventTimer invalidate];
         }
         _lagEventTimer = [NSTimer
-                          scheduledTimerWithTimeInterval:.175
+                          scheduledTimerWithTimeInterval:.125
                           target:self
                           selector:@selector(_tapEventHandler:)
                           userInfo:nil

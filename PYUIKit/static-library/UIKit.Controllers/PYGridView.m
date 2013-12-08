@@ -89,7 +89,7 @@
     _containerView = [UIView object];
     [_containerView setBackgroundColor:[UIColor clearColor]];
     [self addSubview:_containerView];
-    [_containerView setClipsToBounds:YES];
+    [_containerView setClipsToBounds:NO];
     
     // Initialize the background image view
     _backgroundImageView = [PYImageView object];
@@ -178,6 +178,7 @@
     if ( _responderGesture.state != UIGestureRecognizerStateRecognized ) return;
     
     if ( _selectedItem == nil ) return;
+    __block BOOL _needCallback = NO;
     [PYView animateWithDuration:ANIMATION_TIME animations:^{
         [_selectedItem setState:_selectedItemState];
         if ( _selectedItem.collapseRate > 0 ) {
@@ -187,12 +188,15 @@
                 [_selectedItem collapse];
             }
         } else {
-            if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
-                [self.delegate pyGridView:self didSelectItem:_selectedItem];
-            }
+            _needCallback = YES;
         }
     } completion:^(BOOL finished) {
-        _selectedItem = nil;
+        if ( _needCallback == NO ) return;
+        BEGIN_MAINTHREAD_INVOKE
+        if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
+            [self.delegate pyGridView:self didSelectItem:_selectedItem];
+        }
+        END_MAINTHREAD_INVOKE
     }];
 }
 
@@ -200,6 +204,7 @@
 {
     if ( _responderGesture.state == UIGestureRecognizerStateEnded ) {
         // Same as touch end
+        __block BOOL _needCallback = NO;
         [PYView animateWithDuration:ANIMATION_TIME animations:^{
             [_selectedItem setState:_selectedItemState];
             if ( _selectedItem.collapseRate > 0 ) {
@@ -209,10 +214,15 @@
                     [_selectedItem collapse];
                 }
             } else {
-                if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
-                    [self.delegate pyGridView:self didSelectItem:_selectedItem];
-                }
+                _needCallback = YES;
             }
+        } completion:^(BOOL finished) {
+            if ( _needCallback == NO ) return;
+            BEGIN_MAINTHREAD_INVOKE
+            if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
+                [self.delegate pyGridView:self didSelectItem:_selectedItem];
+            }
+            END_MAINTHREAD_INVOKE
         }];
         return;
     }

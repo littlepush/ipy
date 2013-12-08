@@ -52,9 +52,9 @@
     
     // Test the grid view
     _gridView = [PYGridView object];
-    [_gridView initGridViewWithScale:(PYGridScale){2, 2}];
-    [_gridView setFrame:CGRectMake((320.f - 252.f) / 2, 150.f, 252.f, 108.f)];
-    [_gridView setPadding:4.f];
+    [_gridView initGridViewWithScale:(PYGridScale){5, 1}];
+    [_gridView setFrame:CGRectMake((320.f - 200.f) / 2, 150.f, 200, 200)];
+    [_gridView setPadding:10.f];
     [_gridView setBorderColor:[UIColor blackColor]];
     [_gridView setBorderWidth:1.f];
     
@@ -82,28 +82,35 @@
                          _item.coordinate.x, _item.coordinate.y]
                forState:UIControlStateNormal];
     }
-    PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
-    if ( _specifialItem != nil ) {
-        [_specifialItem
-         setBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#FFFFFF:#CCCCCC" reverseOnVerticalis:YES]
-         forState:UIControlStateNormal];
-        [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _specifialItem.collapseRate = 3.f;
-        [_specifialItem setInnerShadowColor:[UIColor redColor] forState:UIControlStateHighlighted];
-        [_specifialItem setInnerShadowRect:PYPaddingMake(10, 10, 15, 0) forState:UIControlStateHighlighted];
-        [_specifialItem setInnerShadowRect:PYPaddingZero forState:UIControlStateNormal];
-    }
-    PYGridItem *_fixedItem = [_gridView itemAtCoordinate:(PYGridCoordinate){0, 0}];
-    _fixedItem.collapseRate = 3;
-    [_gridView mergeGridItemFrom:(PYGridCoordinate){1, 0} to:(PYGridCoordinate){1, 1}];
-    
+//    PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
+//    if ( _specifialItem != nil ) {
+//        [_specifialItem
+//         setBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#FFFFFF:#CCCCCC" reverseOnVerticalis:YES]
+//         forState:UIControlStateNormal];
+//        [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        _specifialItem.collapseRate = 3.f;
+//        [_specifialItem setInnerShadowColor:[UIColor redColor] forState:UIControlStateHighlighted];
+//        [_specifialItem setInnerShadowRect:PYPaddingMake(10, 10, 15, 0) forState:UIControlStateHighlighted];
+//        [_specifialItem setInnerShadowRect:PYPaddingZero forState:UIControlStateNormal];
+//    }
+//    PYGridItem *_fixedItem = [_gridView itemAtCoordinate:(PYGridCoordinate){0, 0}];
+//    _fixedItem.collapseRate = 3;
+//    [_gridView mergeGridItemFrom:(PYGridCoordinate){1, 0} to:(PYGridCoordinate){1, 1}];
+//    
     [_gridView setItemShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_gridView setItemShadowOffset:CGSizeMake(1, 1) forState:UIControlStateNormal];
     [_gridView setItemShadowRadius:3.f forState:UIControlStateNormal];
     [_gridView setItemShadowOpacity:.7 forState:UIControlStateNormal];
     
+    [_gridView setDelegate:self];
+    
+    UIViewController *_testCtrl = [UIViewController object];
+    [_testCtrl.view addSubview:_gridView];
+
+    [self presentPopViewController:_testCtrl];
+    
     //[_gridView setSupportTouchMoving:YES];
-    [self.view addSubview:_gridView];
+    //[self.view addSubview:_gridView];
     
     [UIView rendView:self.view withOption:@{@"backgroundColor":@"v(568)$#000000:#CCDDEE"}];
 }
@@ -112,6 +119,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)pyGridView:(PYGridView *)gridView didSelectItem:(PYGridItem *)item
+{
+    PYLog(@"Click");
 }
 
 @end

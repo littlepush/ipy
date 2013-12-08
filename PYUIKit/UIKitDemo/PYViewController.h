@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PYViewController : UIViewController
+@interface PYViewController : UIViewController <PYGridViewDelegate>
 {
     PYSlider                *_testSlider;
     

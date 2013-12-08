@@ -352,6 +352,7 @@
             } completion:^(BOOL finished) {
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
+                self.view.transform = CGAffineTransformIdentity;
                 _parent.popState = UIViewControllerPopStateDismissed;
                 [_parent didDismissedPopViewController:self];
                 if ( complete ) complete( );
@@ -365,6 +366,7 @@
             } completion:^(BOOL finished) {
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
+                self.view.transform = CGAffineTransformIdentity;
                 _parent.popState = UIViewControllerPopStateDismissed;
                 [_parent didDismissedPopViewController:self];
                 if ( complete ) complete();
