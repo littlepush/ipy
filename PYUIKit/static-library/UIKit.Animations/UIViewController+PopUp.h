@@ -31,7 +31,9 @@ typedef NS_ENUM(NSInteger, PYPopUpAnimationType) {
     PYPopUpAnimationTypeSmooth          = 2,        // Smooth Popup
     PYPopUpAnimationTypeFade            = 3,        // Fade In/Out
     PYPopUpAnimationTypeSlideFromLeft   = 4,        // Slide In from left
-    PYPopUpAnimationTypeSlideFromRight  = 5         // Slide In from right
+    PYPopUpAnimationTypeSlideFromRight  = 5,        // Slide In from right
+    PYPopUpAnimationTypeSlideFromBottom = 6,        // Slide in from bottom
+    PYPopUpAnimationTypeSlideFromTop    = 7         // Slide in from top
 };
 
 typedef NS_ENUM(NSInteger, UIViewControllerPopState) {

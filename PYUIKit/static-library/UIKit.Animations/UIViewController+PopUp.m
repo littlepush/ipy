@@ -193,6 +193,29 @@
             return;
         }
         
+        if ( PYPopUpAnimationTypeSlideFromBottom == type ) {
+            controller.view.transform = CGAffineTransformMakeTranslation(0, self.view.bounds.size.height);
+            [UIView animateWithDuration:.3 / 2 animations:^{
+                controller.view.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                self.popState = UIViewControllerPopStatePopedUp;
+                [self didPopedViewController:controller];
+                if ( complete ) complete();
+            }];
+            return;
+        }
+        
+        if ( PYPopUpAnimationTypeSlideFromTop == type ) {
+            controller.view.transform = CGAffineTransformMakeTranslation(0, -self.view.bounds.size.height);
+            [UIView animateWithDuration:.3 / 2 animations:^{
+                controller.view.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                self.popState = UIViewControllerPopStatePopedUp;
+                [self didPopedViewController:controller];
+                if ( complete ) complete();
+            }];
+            return;
+        }
         // Scale to a point first.
         controller.view.transform = CGAffineTransformMakeScale(.01, .01);
         if ( PYPopUpAnimationTypeSmooth == type ) {
@@ -292,7 +315,37 @@
             }];
             return;
         }
-        
+
+        if ( type == PYPopUpAnimationTypeSlideFromBottom ) {
+            [UIView animateWithDuration:.3 / 2 animations:^{
+                self.view.transform =
+                CGAffineTransformMakeTranslation(0, -self.parentViewController.view.bounds.size.height);;
+            } completion:^(BOOL finished) {
+                [self.view removeFromSuperview];
+                [self removeFromParentViewController];
+                self.view.transform = CGAffineTransformIdentity;
+                _parent.popState = UIViewControllerPopStateDismissed;
+                [_parent didDismissedPopViewController:self];
+                if ( complete ) complete();
+            }];
+            return;
+        }
+
+        if ( type == PYPopUpAnimationTypeSlideFromTop ) {
+            [UIView animateWithDuration:.3 / 2 animations:^{
+                self.view.transform =
+                CGAffineTransformMakeTranslation(0, self.parentViewController.view.bounds.size.height);;
+            } completion:^(BOOL finished) {
+                [self.view removeFromSuperview];
+                [self removeFromParentViewController];
+                self.view.transform = CGAffineTransformIdentity;
+                _parent.popState = UIViewControllerPopStateDismissed;
+                [_parent didDismissedPopViewController:self];
+                if ( complete ) complete();
+            }];
+            return;
+        }
+
         if ( type == PYPopUpAnimationTypeSmooth || type == PYPopUpAnimationTypeJelly ) {
             [UIView animateWithDuration:.3 / 1.5 animations:^{
                 self.view.transform = CGAffineTransformMakeScale(.01, .01);
