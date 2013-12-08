@@ -52,7 +52,15 @@
                 _fontName = [_fn copy];
             }
         }
-        _font = [UIFont fontWithName:_fontName size:_fontSize];
+        if ( [_fontName length] == 0 ) {
+            if ( _isBold ) {
+                _font = [UIFont boldSystemFontOfSize:_fontSize];
+            } else {
+                _font = [UIFont systemFontOfSize:_fontSize];
+            }
+        } else {
+            _font = [UIFont fontWithName:_fontName size:_fontSize];
+        }
     }
     return _font;
 }
