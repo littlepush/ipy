@@ -199,29 +199,49 @@ static UIColor      *_gPYLabelColor = nil;
     
     UIGraphicsPushContext(ctx);
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
-    NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
-    [_style setAlignment:_textAlignment];
-    if ( _multipleLine ) {
-        [_style setLineBreakMode:NSLineBreakByTruncatingTail];
+    if ( SYSTEM_VERSION_LESS_THAN(@"7.0") ) {
+        CGContextSetFillColorWithColor(ctx, _textColor.CGColor);
+        if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
+            CGContextSetStrokeColorWithColor(ctx, _textBorderColor.CGColor);
+            CGContextSetTextDrawingMode(ctx, kCGTextFillStroke);
+        } else {
+            CGContextSetTextDrawingMode(ctx, kCGTextFill);
+        }
+        // Set shadow
+        CGContextSetShadowWithColor
+        (ctx, _textShadowOffset, _textShadowRadius,
+         _textShadowColor.CGColor);
+        
+        [_text drawInRect:_textFrame
+                 withFont:_textFont
+            lineBreakMode:(NSLineBreakMode)_lineBreakMode
+                alignment:_textAlignment];
     } else {
-        [_style setLineBreakMode:_lineBreakMode];
+        NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
+        [_style setAlignment:_textAlignment];
+        [_style setAlignment:_textAlignment];
+        if ( _multipleLine ) {
+            [_style setLineBreakMode:NSLineBreakByTruncatingTail];
+        } else {
+            [_style setLineBreakMode:_lineBreakMode];
+        }
+        NSMutableDictionary *_attributes = [NSMutableDictionary dictionary];
+        [_attributes setObject:_style forKey:NSParagraphStyleAttributeName];
+        [_attributes setObject:_textColor forKey:NSForegroundColorAttributeName];
+        [_attributes setObject:_textFont forKey:NSFontAttributeName];
+        if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
+            [_attributes setObject:_textBorderColor forKey:NSStrokeColorAttributeName];
+            [_attributes setObject:PYDoubleToObject(_textBorderWidth) forKey:NSStrokeWidthAttributeName];
+        }
+        if ( _textShadowColor != nil && !CGSizeEqualToSize(_textShadowOffset, CGSizeZero)) {
+            NSShadow *_shadowObj = [NSShadow object];
+            _shadowObj.shadowOffset = _textShadowOffset;
+            _shadowObj.shadowBlurRadius = _textShadowRadius;
+            _shadowObj.shadowColor = _textShadowColor;
+            [_attributes setObject:_shadowObj forKey:NSShadowAttributeName];
+        }
+        [_text drawInRect:_textFrame withAttributes:_attributes];
     }
-    NSMutableDictionary *_attributes = [NSMutableDictionary dictionary];
-    [_attributes setObject:_style forKey:NSParagraphStyleAttributeName];
-    [_attributes setObject:_textColor forKey:NSForegroundColorAttributeName];
-    [_attributes setObject:_textFont forKey:NSFontAttributeName];
-    if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
-        [_attributes setObject:_textBorderColor forKey:NSStrokeColorAttributeName];
-        [_attributes setObject:PYDoubleToObject(_textBorderWidth) forKey:NSStrokeWidthAttributeName];
-    }
-    if ( _textShadowColor != nil && !CGSizeEqualToSize(_textShadowOffset, CGSizeZero)) {
-        NSShadow *_shadowObj = [NSShadow object];
-        _shadowObj.shadowOffset = _textShadowOffset;
-        _shadowObj.shadowBlurRadius = _textShadowRadius;
-        _shadowObj.shadowColor = _textShadowColor;
-        [_attributes setObject:_shadowObj forKey:NSShadowAttributeName];
-    }
-    [_text drawInRect:_textFrame withAttributes:_attributes];
 #else
     CGContextSetFillColorWithColor(ctx, _textColor.CGColor);
     if ( _textBorderWidth > 0.f && _textBorderColor != nil ) {
