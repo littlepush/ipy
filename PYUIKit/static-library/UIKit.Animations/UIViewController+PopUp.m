@@ -319,7 +319,7 @@
         if ( type == PYPopUpAnimationTypeSlideFromBottom ) {
             [UIView animateWithDuration:.3 / 2 animations:^{
                 self.view.transform =
-                CGAffineTransformMakeTranslation(0, -self.parentViewController.view.bounds.size.height);;
+                CGAffineTransformMakeTranslation(0, self.parentViewController.view.bounds.size.height);;
             } completion:^(BOOL finished) {
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
@@ -334,7 +334,7 @@
         if ( type == PYPopUpAnimationTypeSlideFromTop ) {
             [UIView animateWithDuration:.3 / 2 animations:^{
                 self.view.transform =
-                CGAffineTransformMakeTranslation(0, self.parentViewController.view.bounds.size.height);;
+                CGAffineTransformMakeTranslation(0, -self.parentViewController.view.bounds.size.height);;
             } completion:^(BOOL finished) {
                 [self.view removeFromSuperview];
                 [self removeFromParentViewController];
