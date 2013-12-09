@@ -54,6 +54,96 @@ PYSingletonDefaultImplementation
     return self;
 }
 
++ (NSData *)__loadDataWithContentsOfFile:(NSString *)filepath scale:(CGFloat *)scale
+{
+    if ( scale != NULL ) *scale = 1.f;
+    
+    NSData *_contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:filepath]];
+    if ( _contentData != nil ) return _contentData;
+    
+    // Failed.
+    NSString *_rootDir = [filepath stringByDeletingLastPathComponent];
+    NSArray *_pathComponents = [_rootDir pathComponents];
+    NSString *_firstPart = [_pathComponents safeObjectAtIndex:0];
+    if ( [_firstPart length] == 0 ) {
+        // Not a falidate path
+        return nil;
+    }
+    if ( [_firstPart rangeOfString:@":"].location != NSNotFound ) {
+        // has protocol header
+        // try to rebuild the path components
+        NSMutableArray *_components = [NSMutableArray arrayWithArray:_pathComponents];
+        [_components removeObjectAtIndex:0];
+        //if ( [_firstPart rangeOfString:@"file:"].location == NSNotFound ) {
+            // Do not need to add file path.
+            NSArray *_protocolParts = [_firstPart componentsSeparatedByString:@":"];
+            NSString *_protocolHeader = [_protocolParts safeObjectAtIndex:0];
+            _protocolHeader = [_protocolHeader stringByAppendingString:@"://"];
+            [_components insertObject:_protocolHeader atIndex:0];
+        //} else {
+        //    [_components insertObject:@"" atIndex:0];
+        //}
+        _rootDir = [_components componentsJoinedByString:@"/"];
+        DUMPObj(_rootDir);
+    }
+    NSString *_fileExt = [filepath pathExtension];
+    NSString *_nodeComponent = [filepath lastPathComponent];
+    NSString *_filename = [_nodeComponent stringByDeletingPathExtension];
+    
+    // Try @2x
+    if ( scale != NULL ) *scale = 2.f;
+    NSString *_2xFilename = [[_filename stringByAppendingString:@"@2x"]
+                             stringByAppendingPathExtension:_fileExt];
+    NSString *_2xPath = [_rootDir stringByAppendingPathComponent:_2xFilename];
+    _contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_2xPath]];
+    if ( _contentData != nil ) return _contentData;
+    
+    // Try -568h@2x only
+    if ( scale != NULL ) *scale = 2.f;
+    if ( PYIsIphone && [UIScreen mainScreen].bounds.size.height >= 568.f ) {
+        NSString *_568hFilename = [[_filename stringByAppendingString:@"-568h@2x"]
+                                   stringByAppendingPathExtension:_fileExt];
+        NSString *_568hPath = [_rootDir stringByAppendingPathComponent:_568hFilename];
+        _contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_568hPath]];
+        if ( _contentData != nil ) return _contentData;
+    }
+    
+    // Try ~iphone/~ipad
+    for ( int i = 0; i < 2; ++i ) {
+        if ( PYIsIphone ) {
+            if ( [UIScreen mainScreen].bounds.size.height >= 568.f && i == 0 ) {
+                if ( scale != NULL ) *scale = 2.f;
+                NSString *_iphone568Filename = [[_filename stringByAppendingString:@"-568h@2x~iphone"]
+                                                stringByAppendingPathExtension:_fileExt];
+                NSString *_iphone568Path = [_rootDir stringByAppendingPathComponent:_iphone568Filename];
+                _contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_iphone568Path]];
+                if ( _contentData != nil ) return _contentData;
+            }
+            if ( scale != NULL ) *scale = (i + 1.f);
+            NSString *_iphoneFilename = [[_filename stringByAppendingString:@"~iphone"]
+                                         stringByAppendingPathExtension:_fileExt];
+            NSString *_iphonePath = [_rootDir stringByAppendingPathComponent:_iphoneFilename];
+            _contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_iphonePath]];
+            if ( _contentData != nil ) return _contentData;
+        } else {
+            if ( scale != NULL ) *scale = (i + 1.f);
+            NSString *_ipadFilename = [[_filename stringByAppendingString:@"~ipad"]
+                                       stringByAppendingPathExtension:_fileExt];
+            NSString *_ipadPath = [_rootDir stringByAppendingPathComponent:_ipadFilename];
+            _contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_ipadPath]];
+            if ( _contentData != nil ) return _contentData;
+        }
+        // Loop to Try @2x~iphone/@2x~ipad
+        _filename = [_filename stringByAppendingString:@"@2x"];
+    }
+    return _contentData;
+}
+
+// Global loading, ignore any setting of [PYResource]
++ (NSData *)loadDataWithContentsOfFile:(NSString *)filepath
+{
+    return [PYResource __loadDataWithContentsOfFile:filepath scale:NULL];
+}
 
 + (UIImage *)imageNamed:(NSString *)imageName
 {
@@ -63,24 +153,19 @@ PYSingletonDefaultImplementation
             return [UIImage imageNamed:imageName];
         } else {
             CGFloat _scale = 1.f;
-            if ( [imageName rangeOfString:@"@2x"].location != NSNotFound ) {
-                _scale = 2.f;
-            }
             NSString *_localImagePath = [_self->_localPath
                                          stringByAppendingPathComponent:imageName];
-            NSData *_data = [NSData dataWithContentsOfFile:_localImagePath];
+            NSData *_data = [PYResource __loadDataWithContentsOfFile:_localImagePath
+                                                               scale:&_scale];
+            if ( _data == nil ) return nil;
             return [UIImage imageWithData:_data scale:_scale];
         }
     } else {
         if ( [_self->_remoteDomain length] == 0 ) return nil;
         NSString *_reqUrl = [_self->_remoteDomain stringByAppendingPathComponent:imageName];
-        NSURL *_url = [NSURL URLWithString:_reqUrl];
-        NSData *_data = [NSData dataWithContentsOfURL:_url];
-        if ( _data == nil ) return nil;
         CGFloat _scale = 1.f;
-        if ( [imageName rangeOfString:@"@2x"].location != NSNotFound ) {
-            _scale = 2.f;
-        }
+        NSData *_data = [PYResource __loadDataWithContentsOfFile:_reqUrl scale:&_scale];
+        if ( _data == nil ) return nil;
         return [UIImage imageWithData:_data scale:_scale];
     }
     PYSingletonUnLock
@@ -99,14 +184,13 @@ PYSingletonDefaultImplementation
             NSString *_filename = [filename stringByAppendingPathExtension:type];
             NSString *_localFilePath = [_self->_localPath
                                         stringByAppendingPathComponent:_filename];
-            return [NSData dataWithContentsOfFile:_localFilePath];
+            return [PYResource loadDataWithContentsOfFile:_localFilePath];
         }
     } else {
         NSString *_reqUrl = [_self->_remoteDomain
                              stringByAppendingPathComponent:
                              [filename stringByAppendingPathExtension:type]];
-        NSURL *_url = [NSURL URLWithString:_reqUrl];
-        return [NSData dataWithContentsOfURL:_url];
+        return [PYResource loadDataWithContentsOfFile:_reqUrl];
     }
     PYSingletonUnLock
 }
@@ -125,15 +209,14 @@ PYSingletonDefaultImplementation
             NSString *_dir_filename = [dir stringByAppendingPathComponent:_filename];
             NSString *_localFilePath = [_self->_localPath
                                         stringByAppendingPathComponent:_dir_filename];
-            return [NSData dataWithContentsOfFile:_localFilePath];
+            return [PYResource loadDataWithContentsOfFile:_localFilePath];
         }
     } else {
         NSString *_reqUrl = [_self->_remoteDomain
                              stringByAppendingPathExtension:
                              [dir stringByAppendingPathComponent:
                               [filename stringByAppendingPathExtension:type]]];
-        NSURL *_url = [NSURL URLWithString:_reqUrl];
-        return [NSData dataWithContentsOfURL:_url];
+        return [PYResource loadDataWithContentsOfFile:_reqUrl];
     }
     PYSingletonUnLock
 }

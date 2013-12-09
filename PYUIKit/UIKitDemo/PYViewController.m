@@ -20,6 +20,12 @@
 {
     [super viewDidLoad];
     
+    NSString *_testPath = [[[NSBundle mainBundle] bundlePath]
+                           stringByAppendingPathComponent:@"testFile.txt"];
+    NSURL *_testUrl = [NSURL fileURLWithPath:_testPath];
+    NSData *_tempData = [PYResource loadDataWithContentsOfFile:[_testUrl absoluteString]];
+    DUMPObj(_tempData);
+    
     [PYResource changeToLoadRemoteResourceWithDomain:@"http://home.pushchen.com:12580/ipy-dev/"];
 	// Do any additional setup after loading the view, typically from a nib.
     _testSlider = [PYSlider object];

@@ -107,6 +107,7 @@
 		E6D782921835162E007FAF3F /* PYGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6D782901835162E007FAF3F /* PYGridView.m */; };
 		E6D9166E17B346230021D73D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166C17B346230021D73D /* icon.png */; };
 		E6D9166F17B346230021D73D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166D17B346230021D73D /* icon@2x.png */; };
+		E6DFE62318557F4E00B6AFF2 /* testFile~iphone.txt in Resources */ = {isa = PBXBuildFile; fileRef = E6DFE62218557F4E00B6AFF2 /* testFile~iphone.txt */; };
 		E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914F61839C66F00521E22 /* PYGridItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F914F91839C66F00521E22 /* PYGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F914F71839C66F00521E22 /* PYGridItem.m */; };
 		E6F914FC1839C68600521E22 /* PYGridItem+GridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */; };
@@ -236,6 +237,7 @@
 		E6D782901835162E007FAF3F /* PYGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYGridView.m; sourceTree = "<group>"; };
 		E6D9166C17B346230021D73D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E6D9166D17B346230021D73D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		E6DFE62218557F4E00B6AFF2 /* testFile~iphone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "testFile~iphone.txt"; sourceTree = "<group>"; };
 		E6F914F61839C66F00521E22 /* PYGridItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYGridItem.h; sourceTree = "<group>"; };
 		E6F914F71839C66F00521E22 /* PYGridItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYGridItem.m; sourceTree = "<group>"; };
 		E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYGridItem+GridView.h"; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				E66E467917A3847600D1FF55 /* Default.png */,
 				E66E467B17A3847600D1FF55 /* Default@2x.png */,
 				E66E467D17A3847600D1FF55 /* Default-568h@2x.png */,
+				E6DFE62218557F4E00B6AFF2 /* testFile~iphone.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -695,6 +698,7 @@
 			files = (
 				E6D9166F17B346230021D73D /* icon@2x.png in Resources */,
 				E66E467217A3847600D1FF55 /* InfoPlist.strings in Resources */,
+				E6DFE62318557F4E00B6AFF2 /* testFile~iphone.txt in Resources */,
 				E66E467A17A3847600D1FF55 /* Default.png in Resources */,
 				E6D9166E17B346230021D73D /* icon.png in Resources */,
 				E66E467C17A3847600D1FF55 /* Default@2x.png in Resources */,

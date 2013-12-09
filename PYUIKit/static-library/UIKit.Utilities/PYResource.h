@@ -37,6 +37,9 @@
 // Singleton instance.
 + (PYResource *)sharedResource;
 
+// Global loading, ignore any setting of [PYResource]
++ (NSData *)loadDataWithContentsOfFile:(NSString *)filepath;
+
 // Load the resource, [sync].
 + (UIImage *)imageNamed:(NSString *)imageName;
 + (NSData *)contentWithFile:(NSString *)filename ofType:(NSString *)type;
