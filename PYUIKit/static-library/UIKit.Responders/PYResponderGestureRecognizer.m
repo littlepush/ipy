@@ -352,14 +352,31 @@
     if ( (_possibleAction & PYResponderEventTap) > 0 ) {
         if ( _lagEventTimer != nil ) {
             [_lagEventTimer invalidate];
+            _lagEventTimer = nil;
         }
-        _lagEventTimer = [NSTimer
-                          scheduledTimerWithTimeInterval:.125
-                          target:self
-                          selector:@selector(_tapEventHandler:)
-                          userInfo:nil
-                          repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:_lagEventTimer forMode:NSRunLoopCommonModes];
+        
+        long _deltaTapTimestamp = LONG_MAX;
+        if ( _tapTimestamp == nil ) {
+            _tapTimestamp = [PYStopWatch object];
+        } else {
+            _deltaTapTimestamp = (long)[_tapTimestamp tick];
+        }
+        [_tapTimestamp start];
+        int _tapId = PYLAST1INDEX(PYResponderEventTap);
+        unsigned int _tapRestraint = ((0x0000000F << _tapId) & _responderRestraint);
+        if ( _tapCount == _tapRestraint && _deltaTapTimestamp > 125 ) {
+            _eventInfo.eventId = PYResponderEventTap;
+            self.state = UIGestureRecognizerStateRecognized;
+            _tapCount = 0;
+        } else {
+            _lagEventTimer = [NSTimer
+                              scheduledTimerWithTimeInterval:.125
+                              target:self
+                              selector:@selector(_tapEventHandler:)
+                              userInfo:nil
+                              repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:_lagEventTimer forMode:NSRunLoopCommonModes];
+        }
         return;
     }
     

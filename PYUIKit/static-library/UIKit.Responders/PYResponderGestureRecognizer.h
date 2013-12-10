@@ -105,6 +105,7 @@ typedef NS_OPTIONS(int32_t, PYResponderRestraint) {
     CGFloat                             _rotateArc;
 
     unsigned int                        _tapCount;
+    PYStopWatch                         *_tapTimestamp;
     NSTimer                             *_lagEventTimer;
     PYStopWatch                         *_speedTicker;
     CGPoint                             _movingSpeed;
