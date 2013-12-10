@@ -113,7 +113,15 @@
     UIViewController *_testCtrl = [UIViewController object];
     [_testCtrl.view addSubview:_gridView];
 
-    [self presentPopViewController:_testCtrl];
+    // [self presentPopViewController:_testCtrl];
+    PYLabel *_testLabel = [PYLabel object];
+    [_testLabel setFrame:CGRectMake(100, 100, 100, 100)];
+    [_testLabel setBorderColor:[UIColor randomColor]];
+    [_testLabel setBorderWidth:.5f];
+    [_testLabel setMultipleLine:NO];
+    [_testLabel setBackgroundColor:[UIColor grayColor]];
+    [_testLabel setText:@"asdfasdfaasdfalksdjflasjdl;gk ajlksdjglakjsdglkjalkdjg lakjdgl ajl;dgjal;kjdgl;jal;dgj;s"];
+    [self.view addSubview:_testLabel];
     
     //[_gridView setSupportTouchMoving:YES];
     //[self.view addSubview:_gridView];

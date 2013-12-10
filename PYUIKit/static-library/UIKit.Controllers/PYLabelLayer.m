@@ -220,7 +220,7 @@ static UIColor      *_gPYLabelColor = nil;
         NSMutableParagraphStyle *_style = [[NSMutableParagraphStyle alloc] init];
         [_style setAlignment:_textAlignment];
         if ( _multipleLine ) {
-            [_style setLineBreakMode:NSLineBreakByTruncatingTail];
+            [_style setLineBreakMode:NSLineBreakByCharWrapping];
         } else {
             [_style setLineBreakMode:_lineBreakMode];
         }
