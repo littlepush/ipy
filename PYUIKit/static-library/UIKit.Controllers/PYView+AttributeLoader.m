@@ -425,6 +425,11 @@
     [super rendView:itemView withOption:option];
     if ( [itemView isKindOfClass:[PYGridItem class]] == NO ) return;
     
+    // Corner raidus
+    CGFloat _cornerRaidus = [option doubleObjectForKey:@"cornerRadius" withDefaultValue:NAN];
+    if ( !isnan(_cornerRaidus) ) {
+        [itemView setCornerRadius:_cornerRaidus];
+    }
     // For Grid Item Options...
     // Collapse Rate
     CGFloat _collapseRate = [option doubleObjectForKey:@"collapseRate" withDefaultValue:NAN];
@@ -616,6 +621,10 @@
         [gridView initGridViewWithScale:_gScale];
     }
     
+    NSString *_bkgImageInfo = [option stringObjectForKey:@"backgroundImage" withDefaultValue:@""];
+    if ( [_bkgImageInfo length] > 0 ) {
+        [gridView setBackgroundImage:[PYResource imageNamed:_bkgImageInfo]];
+    }
     // Support Touch Moving
     BOOL _supportTouchMoving = [option boolObjectForKey:@"supportTouchMoving"
                                        withDefaultValue:gridView.supportTouchMoving];

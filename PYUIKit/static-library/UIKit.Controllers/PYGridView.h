@@ -91,6 +91,9 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
 // use [initGridViewWithScale] to set the size.
 @property (nonatomic, readonly) PYGridScale         gridScale;
 
+// Background Image
+@property (nonatomic, strong)   UIImage             *backgroundImage;
+
 // Add a head view to the grid view.
 // The head view will be placed at the top of any other cells.
 // Add a nil object to remove the head view.

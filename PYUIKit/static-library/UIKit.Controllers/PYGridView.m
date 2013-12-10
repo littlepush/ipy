@@ -61,6 +61,15 @@
     if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 
+@dynamic backgroundImage;
+- (UIImage *)backgroundImage
+{
+    return _backgroundImageView.image;
+}
+- (void)setBackgroundImage:(UIImage *)image
+{
+    [_backgroundImageView setImage:image];
+}
 @synthesize supportTouchMoving = _supportTouchMoving;
 - (void)setSupportTouchMoving:(BOOL)supportTMing
 {

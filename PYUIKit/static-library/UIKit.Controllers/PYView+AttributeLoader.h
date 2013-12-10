@@ -148,6 +148,7 @@
 // Attribute support by PYGridView
 // View Part
 //  gridScale: NSString object, {r, c}
+//  backgroundImage: NSString object, image name, load by PYResource
 //  supportTouchMoving: bool object
 //  padding: float object, item padding size
 //  mergeInfo: NSArray object. We can specified the merge rule of the grid view by set
