@@ -423,7 +423,8 @@
     [super touchesCancelled:touches withEvent:event];
     _eventInfo.touches = __GET_TOUCHES([event touchesForWindow:self.view.window]);
     _eventInfo.sysEvent = event;
-    self.state = UIGestureRecognizerStateFailed;
+    _eventInfo.eventId = PYResponderEventTouchCancel;
+    self.state = UIGestureRecognizerStateCancelled;
 }
 
 #pragma mark --

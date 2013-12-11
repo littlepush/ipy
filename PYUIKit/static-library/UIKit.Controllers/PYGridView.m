@@ -391,7 +391,7 @@
     if ( state->state == 0 ) {
         state->mutationsPtr = (unsigned long *)(void *)_gridConfig;
         state->extra[0] = 0;
-        state->extra[1] = 0;
+        state->extra[1] = -1;
         
         state->state = 1;
     }
@@ -402,7 +402,7 @@
     do {
         if ( (int32_t)state->extra[0] >= _gridScale.row ) break;
         for (
-             int32_t r = (int32_t)state->extra[0], c = (int32_t)state->extra[1];
+             int32_t r = (int32_t)state->extra[0], c = (int32_t)state->extra[1] + 1;
              c < _gridScale.column && _objectCount < len;
              ++c) {
             PYGridItem __unsafe_unretained *_item = _gridConfig[r][c];
@@ -416,7 +416,7 @@
         // Reach the end of row
         if ( (int32_t)state->extra[1] >= (_gridScale.column - 1) ) {
             state->extra[0] += 1;
-            state->extra[1] = 0;
+            state->extra[1] = -1;
         }
     } while ( _objectCount < len );
     
@@ -424,6 +424,21 @@
         state->itemsPtr = NULL;
     }
     return _objectCount;
+}
+
+#pragma mark --
+#pragma mark Gesture
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 #pragma mark --
