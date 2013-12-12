@@ -271,7 +271,7 @@ extern "C" {
 #endif
 
 // Always Log
-#define ALog(...)           __formatLogLine(__FILE__, __FUNCTION__, __LINE__,               \
+#define ALog(f, ...)        __formatLogLine(__FILE__, __FUNCTION__, __LINE__,              \
                                 [NSString stringWithFormat:(f), ##__VA_ARGS__])
 
 #if defined(_LP64)
