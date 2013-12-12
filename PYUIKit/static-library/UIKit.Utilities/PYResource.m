@@ -54,10 +54,27 @@ PYSingletonDefaultImplementation
     return self;
 }
 
++ (NSString *)__formatFilePath:(NSString *)filepath
+{
+    if ( [filepath rangeOfString:@"file:"].location != 0 ) {
+        // Not a file path
+        return filepath;
+    }
+    NSMutableArray *_components = [NSMutableArray arrayWithArray:[filepath pathComponents]];
+    if ( [_components count] < 2 ) return filepath;
+    // Remove the first "file:"
+    [_components removeObjectAtIndex:0];
+    NSString *_firstPart = [_components safeObjectAtIndex:0];
+    if ( [_firstPart isEqualToString:@"localhost"] ) {
+        [_components removeObjectAtIndex:0];
+    }
+    [_components insertObject:@"file://" atIndex:0];
+    return [_components componentsJoinedByString:@"/"];
+}
 + (NSData *)__loadDataWithContentsOfFile:(NSString *)filepath scale:(CGFloat *)scale
 {
     if ( scale != NULL ) *scale = 1.f;
-    
+    filepath = [PYResource __formatFilePath:filepath];
     NSData *_contentData = [NSData dataWithContentsOfURL:[NSURL URLWithString:filepath]];
     if ( _contentData != nil ) return _contentData;
     

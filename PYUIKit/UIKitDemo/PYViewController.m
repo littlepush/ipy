@@ -26,6 +26,9 @@
     NSData *_tempData = [PYResource loadDataWithContentsOfFile:[_testUrl absoluteString]];
     DUMPObj(_tempData);
     
+    NSData *_json = [PYResource loadDataWithContentsOfFile:@"file:localhost/Users/littlepush/Library/Application%20Support/iPhone%20Simulator/6.1/Applications/699D2FFF-F5DD-4E28-986D-E9BCC5ECB1F6/QTRadio.app/QTAppSettingViewController.json"];
+    DUMPObj(_json);
+    
     [PYResource changeToLoadRemoteResourceWithDomain:@"http://home.pushchen.com:12580/ipy-dev/"];
 	// Do any additional setup after loading the view, typically from a nib.
     _testSlider = [PYSlider object];
