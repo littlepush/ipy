@@ -271,7 +271,8 @@ extern "C" {
 #endif
 
 // Always Log
-#define ALog(...)           NSLog(__VA_ARGS__)
+#define ALog(...)           __formatLogLine(__FILE__, __FUNCTION__, __LINE__,               \
+                                [NSString stringWithFormat:(f), ##__VA_ARGS__])
 
 #if defined(_LP64)
 #define PYLongToString(value)	[NSString stringWithFormat:@"%ld", value]
