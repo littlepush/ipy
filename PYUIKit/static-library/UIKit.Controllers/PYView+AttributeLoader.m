@@ -107,6 +107,9 @@
             scrollView.decelerateSpeed = PYDecelerateSpeedVeryFast;
         }
     }
+    
+    BOOL _canFallBack = [option boolObjectForKey:@"canFallback" withDefaultValue:scrollView.canFallback];
+    scrollView.canFallback = _canFallBack;
 }
 
 @end

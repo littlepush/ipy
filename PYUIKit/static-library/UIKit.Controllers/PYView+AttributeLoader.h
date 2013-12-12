@@ -52,6 +52,7 @@
 //  maxDeceleratePageCount: Integer object
 //  scrollSide: NSString object, [freedom/horizontal/verticalis]
 //  decelerateSpeed: NSString object, [none/very slow/slow/normal/fast/very fast]
+//  canFallback: bool object
 @interface PYScrollView (AttributeLoader)
 + (void)rendView:(PYScrollView *)scrollView withOption:(NSDictionary *)option;
 @end

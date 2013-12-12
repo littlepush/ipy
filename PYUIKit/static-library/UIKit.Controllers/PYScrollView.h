@@ -94,6 +94,7 @@ extern CGFloat const            PYScrollOverheadRate;
     CGSize                      _pageSize;
     BOOL                        _pagable;
     NSUInteger                  _maxDeceleratePageCount;    // Default is 1.
+    BOOL                        _canFallback;
     
     // Make current scroll view to support loop scroll,
     // I will use a double-cache machanism (according to the content size, maybe more caches)
@@ -134,6 +135,9 @@ extern CGFloat const            PYScrollOverheadRate;
 @property (nonatomic, assign)   CGSize                              pageSize;
 @property (nonatomic, assign, setter = setPagable:) BOOL            isPagable;
 @property (nonatomic, assign)   NSUInteger                          maxDeceleratePageCount;
+// if pagable, and doesn't scroll half page, if can fallback to the last page.
+// default is NO.
+@property (nonatomic, assign)   BOOL                                canFallback;
 
 // When the scroll end scroll and prepare for decelerating, this
 // property will be set to tell where the content will stop.

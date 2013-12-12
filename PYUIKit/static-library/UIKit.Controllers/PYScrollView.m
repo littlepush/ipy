@@ -77,6 +77,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _pagable = pagable;
 }
 @synthesize maxDeceleratePageCount = _maxDeceleratePageCount;
+@synthesize canFallback = _canFallback;
 
 @dynamic isScrolling;
 - (BOOL)isScrolling
@@ -154,6 +155,9 @@ CGFloat const       PYScrollOverheadRate                = .45;
     if ( _contentSize.width * _contentSize.height == 0 ) return;
     if ( _willDecelerate == YES ) return;
     [self cancelAllAnimation];
+    if ( _scrllSide != PYScrollFreedom ) {
+        _VSIDE_ITEM(contentOffset) = 0;
+    }
     CGSize _stopPoint = CGSizeMake(-contentOffset.width, -contentOffset.height);
     CGSize _currentPoint = CGSizeMake(-_contentOffset.width, -_contentOffset.height);
     CGSize _movingOffset = CGSizeMake(_stopPoint.width - _currentPoint.width,
@@ -292,6 +296,7 @@ CGFloat const       PYScrollOverheadRate                = .45;
     _bounceStatus[0] = _bounceStatus[1] = YES;
     _subContentList = [NSMutableArray array];
     _maxDeceleratePageCount = 1;
+    _canFallback = NO;
     
     _contentView = (UIView *)[[[self class] contentViewClass] object];
     PYASSERT([_contentView isKindOfClass:[UIView class]],

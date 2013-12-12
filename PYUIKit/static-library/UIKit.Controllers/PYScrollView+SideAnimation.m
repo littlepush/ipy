@@ -84,6 +84,17 @@
             if ( _SIDE(_pageSize) == 0 ) continue;
             CGFloat _position = _SIDE(_predirectContentFrame.origin);
             NSInteger _pages = (int)(_position / _SIDE(_pageSize));
+            if ( _canFallback == NO ) {
+                int _cutSize = ((int)ABS(_position)) % ((int)_SIDE(_pageSize));
+                BOOL _hasExHalf = (_SIDE(_pageSize) - _cutSize) > _cutSize;
+                if ( _SIDE(initSpeed) > 0 ) {
+                    // Scroll toward Up/Left
+                    if ( !_hasExHalf ) _pages += 1;
+                } else {
+                    // Scroll toward Up/Left
+                    if ( !_hasExHalf ) _pages -= 1;
+                }
+            }
             if ( _maxDeceleratePageCount > 0 && _position != 0.f ) {
                 float _fcpage = -(_SIDE(_contentOffset) / _SIDE(_pageSize));
                 int _currentPage = (int)_fcpage;
@@ -104,6 +115,8 @@
                 NSUInteger _minDelta = MIN(ABS(_delta), _maxDeceleratePageCount);
                 _minDelta *= ((_delta < 0 ) ? -1 : 1);
                 _pages = _minDelta + _currentPage;
+                // For limit decelerate, the animation duration is very small.
+                *dduration = 0.5;
             }
             CGFloat _stopPosition = _pages * _SIDE(_pageSize);
             _SIDE(_willStopOffset) += (_stopPosition - _position);
@@ -321,6 +334,7 @@
     // we will move.
     
     if ( _loopSupported != YES ) return;
+    
     CGRect _fakeCoverFrame = _coverFrame;
     _fakeCoverFrame.origin.x += distance.width;
     _fakeCoverFrame.origin.y += distance.height;
