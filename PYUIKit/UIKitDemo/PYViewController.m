@@ -20,15 +20,6 @@
 {
     [super viewDidLoad];
     
-    NSString *_testPath = [[[NSBundle mainBundle] bundlePath]
-                           stringByAppendingPathComponent:@"testFile.txt"];
-    NSURL *_testUrl = [NSURL fileURLWithPath:_testPath];
-    NSData *_tempData = [PYResource loadDataWithContentsOfFile:[_testUrl absoluteString]];
-    DUMPObj(_tempData);
-    
-    NSData *_json = [PYResource loadDataWithContentsOfFile:@"file:localhost/Users/littlepush/Library/Application%20Support/iPhone%20Simulator/6.1/Applications/699D2FFF-F5DD-4E28-986D-E9BCC5ECB1F6/QTRadio.app/QTAppSettingViewController.json"];
-    DUMPObj(_json);
-    
     [PYResource changeToLoadRemoteResourceWithDomain:@"http://home.pushchen.com:12580/ipy-dev/"];
 	// Do any additional setup after loading the view, typically from a nib.
     _testSlider = [PYSlider object];
@@ -116,15 +107,7 @@
     UIViewController *_testCtrl = [UIViewController object];
     [_testCtrl.view addSubview:_gridView];
 
-    // [self presentPopViewController:_testCtrl];
-    PYLabel *_testLabel = [PYLabel object];
-    [_testLabel setFrame:CGRectMake(100, 100, 100, 100)];
-    [_testLabel setBorderColor:[UIColor randomColor]];
-    [_testLabel setBorderWidth:.5f];
-    [_testLabel setMultipleLine:NO];
-    [_testLabel setBackgroundColor:[UIColor grayColor]];
-    [_testLabel setText:@"asdfasdfaasdfalksdjflasjdl;gk ajlksdjglakjsdglkjalkdjg lakjdgl ajl;dgjal;kjdgl;jal;dgj;s"];
-    [self.view addSubview:_testLabel];
+    [self presentPopViewController:_testCtrl];
     
     //[_gridView setSupportTouchMoving:YES];
     //[self.view addSubview:_gridView];

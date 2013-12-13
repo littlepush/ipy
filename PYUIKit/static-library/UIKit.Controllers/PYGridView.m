@@ -148,38 +148,51 @@
     }
     if ( _selectedItem == nil ) return;
     // Store the selected state.
+    if ( _selectedItem.state == UIControlStateDisabled ) {
+        _selectedItem = nil;
+        return;
+    }
     _selectedItemState = _selectedItem.state;
-    [PYView animateWithDuration:ANIMATION_TIME animations:^{
-        [_selectedItem setState:UIControlStateHighlighted];
-    }];
+    [_selectedItem setState:UIControlStateHighlighted];
 }
 
 - (void)_actionTouchMove:(id)sender event:(PYViewEvent *)event
 {
-    if ( _selectedItem == nil || _supportTouchMoving ) return;
-    [PYView animateWithDuration:ANIMATION_TIME animations:^{
-        [_selectedItem setState:_selectedItemState];
-    } completion:^(BOOL finished) {
-        // Cancel the selection.
-        _selectedItem = nil;
-    }];
+    if ( _selectedItem == nil ) return;
+    UITouch *_touch = [event.touches anyObject];
+    CGPoint _touchPoint = [_touch locationInView:_containerView];
+    if ( CGRectContainsPoint(_selectedItem.frame, _touchPoint) ) return;
+    [_selectedItem setState:_selectedItemState];
+    // Cancel the selection.
+    _selectedItem = nil;
 }
 
 - (void)_actionTouchEnd:(id)sender event:(PYViewEvent *)event
 {
     if ( _selectedItem == nil ) return;
-    [PYView animateWithDuration:ANIMATION_TIME animations:^{
-        [_selectedItem setState:_selectedItemState];
-    }];
+    [_selectedItem setState:_selectedItemState];
+    if ( _responderGesture.state != UIGestureRecognizerStateRecognized ) {
+        if ( _selectedItem.collapseRate > 0 ) {
+            [PYView animateWithDuration:ANIMATION_TIME animations:^{
+                if ( _selectedItem.isCollapsed ) {
+                    [_selectedItem uncollapse];
+                } else {
+                    [_selectedItem collapse];
+                }
+            }];
+        } else {
+            if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
+                [self.delegate pyGridView:self didSelectItem:_selectedItem];
+            }
+        }
+    }
+    _selectedItem = nil;
 }
 - (void)_actionTouchCancel:(id)sender event:(PYViewEvent *)event
 {
     if ( _selectedItem == nil ) return;
-    [PYView animateWithDuration:ANIMATION_TIME animations:^{
-        [_selectedItem setState:_selectedItemState];
-    } completion:^(BOOL finished) {
-        _selectedItem = nil;
-    }];
+    [_selectedItem setState:_selectedItemState];
+    _selectedItem = nil;
 }
 
 - (void)_actionTapHander:(id)sender event:(PYViewEvent *)event
@@ -187,52 +200,41 @@
     if ( _responderGesture.state != UIGestureRecognizerStateRecognized ) return;
     
     if ( _selectedItem == nil ) return;
-    __block BOOL _needCallback = NO;
-    [PYView animateWithDuration:ANIMATION_TIME animations:^{
-        [_selectedItem setState:_selectedItemState];
-        if ( _selectedItem.collapseRate > 0 ) {
+    [_selectedItem setState:_selectedItemState];
+    if ( _selectedItem.collapseRate > 0 ) {
+        [PYView animateWithDuration:ANIMATION_TIME animations:^{
             if ( _selectedItem.isCollapsed ) {
                 [_selectedItem uncollapse];
             } else {
                 [_selectedItem collapse];
             }
-        } else {
-            _needCallback = YES;
-        }
-    } completion:^(BOOL finished) {
-        if ( _needCallback == NO ) return;
-        BEGIN_MAINTHREAD_INVOKE
+        }];
+    } else {
         if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
             [self.delegate pyGridView:self didSelectItem:_selectedItem];
         }
-        END_MAINTHREAD_INVOKE
-    }];
+    }
+    _selectedItem = nil;
 }
 
 - (void)_actionPanHandler:(id)sender event:(PYViewEvent *)event
 {
     if ( _responderGesture.state == UIGestureRecognizerStateEnded ) {
         // Same as touch end
-        __block BOOL _needCallback = NO;
-        [PYView animateWithDuration:ANIMATION_TIME animations:^{
-            [_selectedItem setState:_selectedItemState];
-            if ( _selectedItem.collapseRate > 0 ) {
+        [_selectedItem setState:_selectedItemState];
+        if ( _selectedItem.collapseRate > 0 ) {
+            [PYView animateWithDuration:ANIMATION_TIME animations:^{
                 if ( _selectedItem.isCollapsed ) {
                     [_selectedItem uncollapse];
                 } else {
                     [_selectedItem collapse];
                 }
-            } else {
-                _needCallback = YES;
-            }
-        } completion:^(BOOL finished) {
-            if ( _needCallback == NO ) return;
-            BEGIN_MAINTHREAD_INVOKE
+            }];
+        } else {
             if ( [self.delegate respondsToSelector:@selector(pyGridView:didSelectItem:)] ) {
                 [self.delegate pyGridView:self didSelectItem:_selectedItem];
             }
-            END_MAINTHREAD_INVOKE
-        }];
+        }
         return;
     }
     UITouch *_touch = [event.touches anyObject];
@@ -249,6 +251,8 @@
         }
         // in padding gap.
         if ( _newMoving == nil ) return;
+        
+        if ( _newMoving.state == UIControlStateDisabled ) return;
         UIControlState _newState = _newMoving.state;
         [PYView animateWithDuration:ANIMATION_TIME animations:^{
             [_selectedItem setState:_selectedItemState];
