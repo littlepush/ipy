@@ -135,7 +135,7 @@
         
         if ( [_indicateLayer isHidden] == NO ) {
             // indicate right
-            CGFloat _indicateX = (_bounds.size.width - _indicateSize.width);
+            CGFloat _indicateX = (_bounds.size.width - _indicateSize.width - __p);
             CGFloat _indicateY = (_bounds.size.height - _indicateSize.height) / 2;
             CGRect _indicateFrame = CGRectMake(_indicateX, _indicateY,
                                                _indicateSize.width, _indicateSize.height);

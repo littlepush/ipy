@@ -35,9 +35,13 @@
 @synthesize customController, animationType;
 - (void)_actionMaskViewTapHandler:(id)sender
 {
-    if ( self.customController == nil ) return;
-    [self.customController dismissPopedViewControllerAnimation:self.animationType
-                                                      complete:nil];
+    @synchronized( self ) {
+        if ( self.customController == nil ) return;
+        if ( self.customController.parentViewController == nil ) return;
+        if ( self.customController.parentViewController.popState != UIViewControllerPopStatePopedUp ) return;
+        [self.customController dismissPopedViewControllerAnimation:self.animationType
+                                                          complete:nil];
+    }
 }
 - (id)initWithFrame:(CGRect)frame
 {
@@ -271,6 +275,8 @@
 {
     @synchronized( self ) {
         if ( self.parentViewController == nil ) return;
+        // If the previous state is not popedup, donot dismiss current view.
+        if ( self.parentViewController.popState != UIViewControllerPopStatePopedUp ) return;
         __weak UIViewController *_parent = self.parentViewController;
 
         self.parentViewController.popState = UIViewControllerPopStateWillDismiss;
