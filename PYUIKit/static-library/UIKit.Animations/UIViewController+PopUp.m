@@ -130,7 +130,8 @@
                         complete:(PYActionDone)complete
 {
     if ( controller == nil ) return;
-    if ( self.popState == UIViewControllerPopStatePopedUp ) return;
+    if ( self.popState != UIViewControllerPopStateUnknow &&
+        self.popState != UIViewControllerPopStateDismissed ) return;
     @synchronized( self ) {
         self.popState = UIViewControllerPopStateWillPop;
         [self willPopViewController:controller];
