@@ -105,6 +105,7 @@
 @synthesize minimum = _minimumValue;
 - (void)setMinimum:(CGFloat)minimum
 {
+    if ( isnan(minimum) ) return;
     _minimumValue = minimum;
     @synchronized( self ) {
         [self _recalculateSlideInfo];
@@ -114,6 +115,7 @@
 @synthesize maximum = _maximumValue;
 - (void)setMaximum:(CGFloat)maximum
 {
+    if ( maximum == 0 || isnan(maximum) ) return;
     _maximumValue = maximum;
     @synchronized( self ) {
         [self _recalculateSlideInfo];
@@ -324,6 +326,7 @@
 - (void)setCurrentValue:(CGFloat)value animated:(BOOL)animated
 {
     if ( _maximumValue <= _minimumValue ) return;
+    if ( isnan(_maximumValue) || isnan(_minimumValue) ) return;
     @synchronized ( self ) {
         if ( animated ) {
             [UIView beginAnimations:@"" context:NULL];
