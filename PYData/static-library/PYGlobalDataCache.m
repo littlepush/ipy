@@ -271,6 +271,21 @@ static NSMutableDictionary		*_gdcDict;
     return _isContained;
 }
 
+- (BOOL)isObjectForKey:(NSString *)key expiredFrom:(id<PYDate>)date
+{
+    if ( [self containsKey:key] == NO ) return YES;
+    [_lock lock];
+    PYKeyedDbRow *_obj = [_coreInMemCache objectForKey:key];
+    if ( _obj == nil ) {
+        _obj = [_innerDb valueForKey:key];
+    }
+    if ( _obj == nil ) return YES;  // Which will not happen
+    id<PYDate> _objDate = _obj.expire;
+    BOOL _result = (_objDate.timestamp < date.timestamp );
+    [_lock unlock];
+    return _result;
+}
+
 - (void)clearAllCacheData:(PYActionDone)done
 {
     BEGIN_ASYNC_INVOKE
