@@ -21,6 +21,12 @@ for arg in $@; do
 	"ACTION")
 		ExecutePart=$value
 		;;
+	"CONFIG")
+		Configuration=$value
+		;;
+	"VERSION")
+		FVersion=$value
+		;;
 	*)
 		echo "Unknow command $key."
 		usage
@@ -35,6 +41,14 @@ fi
 
 if [ "${ExecutePart}" == "" ]; then
 	ExecutePart="ALL"
+fi
+
+if [ "${Configuration}" == "" ]; then
+	Configuration="Release"
+fi
+
+if [ "${FVersion}" == "" ]; then
+	FVersion=$(CompileVersion)
 fi
 
 if [ "${ExecutePart}" != "ALL" ]; then
@@ -58,7 +72,7 @@ for ((i=0;i<$countOfSupportedArchs;++i)); do
 	rm -rf ${PCH_DIR}
 	arch=${Archs[$i]}
 	xcodebuild 	-target ${ProjectName}									\
-				-configuration=Release									\
+				-configuration ${Configuration}							\
 				-sdk ${SDKNames[$i]}									\
 				TARGET_NAME=${ProjectName}-${arch}						\
 				CONFIGURATION_BUILD_DIR=./build/${ProjectName}-lib 		\
@@ -105,7 +119,7 @@ mv ./build/${ProjectName}-lib/lib${ProjectName}.a ./${ProjectName}.framework/${P
 mv -f ./build/${ProjectName}-lib/include ./${ProjectName}.framework/Headers
 
 if [ "${ExecutePart}" == "ALL" ]; then
-	InstallFrameworkToDefault ${ProjectName}
+	InstallFrameworkToDefault ${ProjectName} "${Configuration}.${FVersion}"
 fi
 
 rm -rf ./build

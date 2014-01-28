@@ -30,6 +30,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self tryPerformSelector:@selector(_noArgument) withObject:self];
+    NSLog(@"%@", [[@"DC4833E2-7E21-46EF-B929-FA2CE293BCB5" md5sum] uppercaseString]);
 }
 
 - (void)didReceiveMemoryWarning

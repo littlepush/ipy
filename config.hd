@@ -19,6 +19,11 @@ function InitConfig() {
     for p in ${XCodeSDKsPath[@]}; do echo $p | grep -o -E "[0-9]\.[0-9]"; done | sort | tail -n 1
 }
 
+function CompileVersion() {
+    value=$(date | md5)
+    echo ${value:0:7}
+}
+
 XCodeSDKs=($(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v MacOSX | awk '{print $2}' | tr '\n' ' '))
 XCodePlatforms=($( xcodebuild -version -sdk | grep -E "^PlatformPath" | grep -v MacOSX | awk '{print $2}' | uniq | tr '\n' ' '))
 ROOT_PATH=$(pwd)
@@ -131,26 +136,31 @@ function capitalize() {
 # Install Frameworks to Xcode Path
 function InstallFrameworkToXcode() {
     ProjectName=$1
+    FrameworkVersion=$2
+    if [ ! -d /usr/local/Frameworks/${ProjectName}.${FrameworkVersion}.framework ]; then
+        return 1
+    fi
     for sdkPath in ${XCodeSDKs[@]}; do
         sdkFrameworkPath=${sdkPath}/System/Library/Frameworks/${ProjectName}.framework
         sudo rm -rf ${sdkFrameworkPath}
         sudo mkdir -p ${sdkFrameworkPath}
-        sudo ln -s /usr/local/Frameworks/${ProjectName}.framework/${ProjectName} ${sdkFrameworkPath}/${ProjectName}
-        sudo ln -s /usr/local/Frameworks/${ProjectName}.framework/Headers ${sdkFrameworkPath}/Headers
+        sudo ln -s /usr/local/Frameworks/${ProjectName}.${FrameworkVersion}.framework/${ProjectName} ${sdkFrameworkPath}/${ProjectName}
+        sudo ln -s /usr/local/Frameworks/${ProjectName}.${FrameworkVersion}.framework/Headers ${sdkFrameworkPath}/Headers
     done
 }
 
 # Install Frameworks
 function InstallFrameworkToDefault() {
     ProjectName=$1
+    FrameworkVersion=$2
     mkdir -p /usr/local/Frameworks
-    rm -rf /usr/local/Frameworks/${ProjectName}.framework
-    mv -f ./${ProjectName}.framework /usr/local/Frameworks/${ProjectName}.framework
+    rm -rf /usr/local/Frameworks/${ProjectName}.${FrameworkVersion}.framework
+    mv -f ./${ProjectName}.framework /usr/local/Frameworks/${ProjectName}.${FrameworkVersion}.framework
 
-    echo "The framework has been installed in to /usr/local/Frameworks/${ProjectName}.framework"
+    echo "The framework has been installed in to /usr/local/Frameworks/${ProjectName}.${FrameworkVersion}.framework"
     echo "The following step is going to install the framework to the Xcode SDK's framework path."
     echo "Need sudo password to continue..."
-    InstallFrameworkToXcode $ProjectName
+    InstallFrameworkToXcode $ProjectName $FrameworkVersion
 }
 
 ARM7SDK=$(SearchSDK iPhoneOS)

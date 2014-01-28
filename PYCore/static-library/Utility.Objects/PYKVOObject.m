@@ -40,7 +40,7 @@
             _kvoDictionary = [NSMutableDictionary dictionary];
         }
         // Set data.
-        NSString *_class = [object description];
+        NSString *_class = [NSString stringWithFormat:@"%p", object];
         NSString *_kvoKey = [NSString stringWithFormat:@"%@+%@", _class, key];
         
         [_kvoDictionary setObject:@{kPYKVOPropertyName:name,kPYKVOPropertyObject:object}
@@ -56,7 +56,7 @@
         if ( object == nil ) return;
         if ( [key isEqual:[NSNull null]] || key == nil || [key length] == 0 ) return;
         if ( _kvoDictionary != nil ) {
-            NSString *_class = [object description];
+            NSString *_class = [NSString stringWithFormat:@"%p", object];
             NSString *_kvoKey = [NSString stringWithFormat:@"%@+%@", _class, key];
 
             [_kvoDictionary removeObjectForKey:_kvoKey];
@@ -76,7 +76,7 @@
     }
     
     // Search the kvo dictionary.
-    NSString *_class = [object description];
+    NSString *_class = [NSString stringWithFormat:@"%p", object];
     NSString *_kvoKey = [NSString stringWithFormat:@"%@+%@", _class, keyPath];
     if ( [_kvoDictionary objectForKey:_kvoKey] == nil ) {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

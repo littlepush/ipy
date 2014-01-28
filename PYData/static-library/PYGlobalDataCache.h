@@ -118,6 +118,7 @@ enum {
 
 // Check if contains the specified key, but not decode the value.
 - (BOOL)containsKey:(NSString *)key;
+- (BOOL)isObjectForKey:(NSString *)key expiredFrom:(id<PYDate>)date;
 
 // Clear all cache data.
 - (void)clearAllCacheData:(PYActionDone)done;
