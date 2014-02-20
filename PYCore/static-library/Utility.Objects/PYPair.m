@@ -29,6 +29,7 @@
 // Item.
 @synthesize first, second;
 @synthesize firstValue, secondValue;
+@synthesize firstObj, secondObj;
 
 @end
 
