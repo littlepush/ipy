@@ -104,10 +104,12 @@
     
     [_gridView setDelegate:self];
     
-    UIViewController *_testCtrl = [UIViewController object];
-    [_testCtrl.view addSubview:_gridView];
-
-    [self presentPopViewController:_testCtrl];
+    [self.view addSubview:_gridView];
+//    
+//    UIViewController *_testCtrl = [UIViewController object];
+//    [_testCtrl.view addSubview:_gridView];
+//
+//    [self presentPopViewController:_testCtrl];
     
     //[_gridView setSupportTouchMoving:YES];
     //[self.view addSubview:_gridView];

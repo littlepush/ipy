@@ -93,6 +93,7 @@
     _responderGesture = [[PYResponderGestureRecognizer alloc]
                          initWithTarget:self action:@selector(_responderGestureHandler:)];
     [_responderGesture setCancelsTouchesInView:NO];
+    [_responderGesture setDelaysTouchesEnded:NO];
     _responderGesture.delegate = self;
     [self addGestureRecognizer:_responderGesture];
 }
@@ -177,14 +178,14 @@
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if ( _responderGesture.state == UIGestureRecognizerStateFailed ||
-        _responderGesture.state == UIGestureRecognizerStateCancelled ) {
-        PYViewEvent *_event = _responderGesture.eventInfo;
-        _event.touches = __GET_TOUCHES(touches);
-        _event.sysEvent = event;
-        [self invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
-        [self.nextResponder touchesCancelled:touches withEvent:event];
-    }
+//    if ( _responderGesture.state == UIGestureRecognizerStateFailed ||
+//        _responderGesture.state == UIGestureRecognizerStateCancelled ) {
+//    }
+    PYViewEvent *_event = _responderGesture.eventInfo;
+    _event.touches = __GET_TOUCHES(touches);
+    _event.sysEvent = event;
+    [self invokeTargetForEvent:PYResponderEventTouchCancel info:_event];
+    [self.nextResponder touchesCancelled:touches withEvent:event];
 }
 
 - (void)_responderGestureHandler:(id)sender

@@ -233,7 +233,7 @@
 
     // Nothing to do for this action.
     if ( (_possibleAction & PYResponderEventNeedPredirect) == 0 ) {
-        self.state = UIGestureRecognizerStateFailed;
+        self.state = UIGestureRecognizerStateCancelled;
         return;
     }
     
