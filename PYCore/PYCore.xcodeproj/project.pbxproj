@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		E600DCB918007AA6000EAFB8 /* PYCoreMacro.h in Headers */ = {isa = PBXBuildFile; fileRef = E64EB6A41764F3BC009294FE /* PYCoreMacro.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E632EB5E18B5D7CC003BF129 /* PYService.h in Headers */ = {isa = PBXBuildFile; fileRef = E632EB5D18B5D7CC003BF129 /* PYService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E632EB6118B5D943003BF129 /* PYActionDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = E632EB5F18B5D943003BF129 /* PYActionDispatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E632EB6218B5D943003BF129 /* PYActionDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E632EB6018B5D943003BF129 /* PYActionDispatcher.m */; };
 		E6389E0D1796FA940096B452 /* PYSocketJobDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = E6389E0B1796FA930096B452 /* PYSocketJobDispatcher.h */; };
 		E6389E111796FAA50096B452 /* PYSocketJobList.h in Headers */ = {isa = PBXBuildFile; fileRef = E6389E0F1796FAA40096B452 /* PYSocketJobList.h */; };
 		E644D42517679BB000DFEA20 /* PYSocketJob.h in Headers */ = {isa = PBXBuildFile; fileRef = E644D42317679BB000DFEA20 /* PYSocketJob.h */; };
@@ -72,6 +75,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E632EB5D18B5D7CC003BF129 /* PYService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYService.h; sourceTree = "<group>"; };
+		E632EB5F18B5D943003BF129 /* PYActionDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYActionDispatcher.h; sourceTree = "<group>"; };
+		E632EB6018B5D943003BF129 /* PYActionDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYActionDispatcher.m; sourceTree = "<group>"; };
 		E6389E0B1796FA930096B452 /* PYSocketJobDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJobDispatcher.h; sourceTree = "<group>"; };
 		E6389E0C1796FA940096B452 /* PYSocketJobDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYSocketJobDispatcher.m; sourceTree = "<group>"; };
 		E6389E0F1796FAA40096B452 /* PYSocketJobList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYSocketJobList.h; sourceTree = "<group>"; };
@@ -159,6 +165,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E632EB5C18B5D701003BF129 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E632EB5D18B5D7CC003BF129 /* PYService.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		E64EB6921764EF58009294FE /* Basic Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +215,8 @@
 				E64EB6B7176583F6009294FE /* PYMerger.m */,
 				E66E463517A2468E00D1FF55 /* PYPair.h */,
 				E66E463617A2468E00D1FF55 /* PYPair.m */,
+				E632EB5F18B5D943003BF129 /* PYActionDispatcher.h */,
+				E632EB6018B5D943003BF129 /* PYActionDispatcher.m */,
 			);
 			name = "Utility Objects";
 			path = Utility.Objects;
@@ -292,6 +308,7 @@
 		E6AE344D15B1897300AFBA96 /* static-library */ = {
 			isa = PBXGroup;
 			children = (
+				E632EB5C18B5D701003BF129 /* Protocols */,
 				E64EB6A51764F5EF009294FE /* Data Validation */,
 				E64EB6971764F1C8009294FE /* Utility Objects */,
 				E64EB6921764EF58009294FE /* Basic Objects */,
@@ -329,6 +346,8 @@
 				E600DCB918007AA6000EAFB8 /* PYCoreMacro.h in Headers */,
 				E64F409C17088CEF0037BB6B /* NSObject+PYCore.h in Headers */,
 				E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */,
+				E632EB5E18B5D7CC003BF129 /* PYService.h in Headers */,
+				E632EB6118B5D943003BF129 /* PYActionDispatcher.h in Headers */,
 				E64EB6901764EE93009294FE /* NSString+PYCore.h in Headers */,
 				E64EB6951764EF82009294FE /* PYEncoder.h in Headers */,
 				E6F91508183D1C7300521E22 /* PYSocket+Protocol.h in Headers */,
@@ -461,6 +480,7 @@
 				E64EB6B11764F71B009294FE /* NSString+Validation.m in Sources */,
 				E64EB6B9176583F7009294FE /* PYMerger.m in Sources */,
 				E64A8FAE17BB2B6600B132BA /* PYKVOObject.m in Sources */,
+				E632EB6218B5D943003BF129 /* PYActionDispatcher.m in Sources */,
 				E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */,
 				E66E463817A2468E00D1FF55 /* PYPair.m in Sources */,
 				E6F91507183D1C5D00521E22 /* PYNetworkPeerInfo.m in Sources */,

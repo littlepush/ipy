@@ -64,6 +64,8 @@ typedef enum {
     PYiPhone4                   = 0x00010004,
     PYiPhone4S                  = 0x00010005,
     PYiPhone5                   = 0x00010006,
+    PYiPhone5c                  = 0x00010007,
+    PYiPhone5s                  = 0x00010008,
     PYiPod1                     = 0x00020001,
     PYiPod2                     = 0x00020002,
     PYiPod3                     = 0x00020003,
@@ -80,7 +82,11 @@ typedef enum {
     PYiPad4CDMA                 = 0x00034001,
     PYiPad4GSM                  = 0x00034002,
     PYiPadMini1Wifi             = 0x00041000,
-    PYiPadMini1GSM              = 0x00041001
+    PYiPadMini1GSM              = 0x00041001,
+    PYiPadMiniRetinaWifi        = 0x00042000,
+    PYiPadMiniRetinaGSM         = 0x00042001,
+    PYiPadAirWifi               = 0x00051000,
+    PYiPadAirGSM                = 0x00051001
 } PYDeviceModel;
 
 typedef enum {

@@ -104,6 +104,8 @@ enum {
 + (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify options:(NSDictionary *)options;
 + (PYGlobalDataCache *)gdcWithIdentify:(NSString *)identify;
 + (void)releaseGdcWithIdentify:(NSString *)identify;
+// In Version 0.9.1, new api, remove the gdc cached sqlite file.
++ (void)removeGdcFileWithIdentify:(NSString *)identify options:(NSDictionary *)options;
 
 // Begin the batch operations
 - (void)batchOperation:(PYActionDone)operations;

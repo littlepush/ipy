@@ -1,10 +1,3 @@
-ipy
-===
-
-iOS Library support 5.1+, include data process, in-mem cache, file cache, database, network, and UI animations
-
-Install
-===
 ## iOS framework install script, version 0.9.2
 #### Usage:
 `install [options]`<br />

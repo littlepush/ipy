@@ -341,6 +341,25 @@ static NSMutableDictionary		*_gdcDict;
     }
 }
 
++ (void)removeGdcFileWithIdentify:(NSString *)identify options:(NSDictionary *)options
+{
+    // First, release the gdc in-mem cache
+    [PYGlobalDataCache releaseGdcWithIdentify:identify];
+    
+    NSString *_path = [options stringObjectForKey:kGDCInitDBPath withDefaultValue:PYLIBRARYPATH];
+    NSString *_folder = [options stringObjectForKey:kGDCInitLibraryFolder withDefaultValue:@"PYData"];
+    NSFileManager *_fm = [NSFileManager defaultManager];
+    NSString *_dbPath = [_path stringByAppendingPathComponent:_folder];
+    if ( [_fm fileExistsAtPath:_dbPath] ) {
+        NSError *_error = nil;
+        [_fm removeItemAtPath:_dbPath error:&_error];
+        
+        if ( _error != nil ) {
+            PYLog(@"Failed to remove the gdc cached sqlite file: %@", _error.localizedDescription);
+        }
+    }
+}
+
 - (id)init
 {
 	PYTHROW(@"Pure init is not supported for GDC");
@@ -407,12 +426,12 @@ static NSMutableDictionary		*_gdcDict;
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"\nGDC<%@> (\n"
-            @"All Object Count: %ld\n"
-            @"Hit: %02f%%\n"
-            @"Last Searched Key: %@\n"
-            @"Last Hit Key: %@\n"
-            @"Cache Limit Size: %u Bytes\n"
-            @"Cache Size In Use: %u Bytes\n"
+            @"    All Object Count: %ld\n"
+            @"    Hit: %02f%%\n"
+            @"    Last Searched Key: %@\n"
+            @"    Last Hit Key: %@\n"
+            @"    Cache Limit Size: %u Bytes\n"
+            @"    Cache Size In Use: %u Bytes\n"
             @")",
             _identify, _allObjectCount, _hitMemPercentage * 100,
             _lastSearchedKey, _lastHitInMemKey,
