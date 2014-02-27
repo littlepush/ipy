@@ -8,6 +8,7 @@ OPTIONS:
  --config/configuration=<debug/release>
                         The compile configuration of the framework
  --switch               Switch to specified configuration and version
+ --delete				Delete a specified version
  --item=<itemname>      Do action on a specified item
  --list                 Display a list of all installed version
  --help                 Display this list
