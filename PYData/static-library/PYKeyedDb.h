@@ -49,6 +49,8 @@
     PYSqlStatement      *_selectStat;
     PYSqlStatement      *_checkStat;
     
+    PYSqlStatement      *_selectKeys;
+    
     NSString            *_cacheTbName;
 }
 
@@ -71,6 +73,8 @@
 
 // Get the value
 - (PYKeyedDbRow *)valueForKey:(NSString *)key;
+
+@property (nonatomic, readonly) NSArray     *allKeys;
 
 // data all count
 - (int)count;

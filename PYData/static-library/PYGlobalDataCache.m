@@ -136,6 +136,14 @@ static NSMutableDictionary		*_gdcDict;
 - (NSUInteger)inMemObjectCount { return [_coreInMemCache count]; }
 @synthesize allObjectCount = _allObjectCount;
 
+@dynamic allKeys;
+- (NSArray *)allKeys
+{
+    [_lock lock];
+    NSArray *_result = _innerDb.allKeys;
+    [_lock unlock];
+    return _result;
+}
 #pragma mark --
 #pragma mark -- Core Messages
 - (void)batchOperation:(PYActionDone)operations

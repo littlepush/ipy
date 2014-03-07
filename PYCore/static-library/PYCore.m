@@ -164,10 +164,9 @@ NSString *__guid( ) {
 NSString *__timestampId( ) {
     struct timeval _timenow;
     gettimeofday( &_timenow, NULL );
-    int64_t _milesecond = _timenow.tv_sec;
-    _milesecond *= 1000;
-    _milesecond += (_timenow.tv_usec / 1000);
-    NSString *_timestamp = [NSString stringWithFormat:@"%lld", _milesecond];
+    uint64_t _usec = _timenow.tv_sec * 1000000;
+    _usec += _timenow.tv_usec;
+    NSString *_timestamp = [NSString stringWithFormat:@"%llu", _usec];
     return _timestamp;
 }
 
