@@ -278,6 +278,10 @@ function cleanXcodeModuleCache() {
     for f in $mcf; do 
         sudo rm -rfv $f
     done
+    mcf=$(sudo find /var/folders -name org.llvm.clang)
+    for f in $mcf; do
+        sudo rm -rfv $f
+    done
 }
 
 function __action_compile() {
