@@ -28,6 +28,16 @@
 
 @implementation PYImageView
 
+@synthesize blurRadius = _blurRadius;
+- (void)setBlurRadius:(CGFloat)blurRadius
+{
+    [self willChangeValueForKey:@"blurRadius"];
+    _blurRadius = blurRadius;
+    UIImage *_blurImage = PYUIBlurImage(_originImage, _blurRadius);
+    [super setImage:_blurImage];
+    [self didChangeValueForKey:@"blurRadius"];
+}
+
 - (void)viewJustBeenCreated
 {
     // Default message
@@ -256,11 +266,12 @@
 
 - (void)setImage:(UIImage *)image
 {
+    _originImage = image;
     if ( image == nil ) {
-        [super setImage:_placeholdImage];
-    } else {
-        [super setImage:image];
+        _originImage = _placeholdImage;
     }
+    UIImage *_blurImage = PYUIBlurImage(_originImage, _blurRadius);
+    [super setImage:_blurImage];
 }
 
 - (void)setImageUrl:(NSString *)imageUrl

@@ -46,7 +46,8 @@
     [_testSlider setSlideButtonImage:[PYResource imageNamed:@"slide-button.png"]];
     [_testSlider setMaximum:100.f];
     [_testSlider setFrame:CGRectMake(10, 100, 300, 24.f)];
-    [_testSlider setCurrentValue:99.f animated:NO];
+    [_testSlider setCurrentValue:0.f animated:NO];
+    [_testSlider setDelegate:self];
     
     [self.view addSubview:_testSlider];
     
@@ -115,6 +116,14 @@
     //[self.view addSubview:_gridView];
     
     [UIView rendView:self.view withOption:@{@"backgroundColor":@"v(568)$#000000:#CCDDEE"}];
+    
+    _testImageView = [PYImageView object];
+    [_testImageView setFrame:CGRectMake(0, 300, 320, 240)];
+    [_testImageView setBlurRadius:0];
+    [_testImageView setImageUrl:@"http://www.iclarified.com/images/news/31019/125917/125917.png"];
+    _testImageView.borderColor = [UIColor randomColor];
+    _testImageView.borderWidth = 1.f;
+    [self.view addSubview:_testImageView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,6 +135,11 @@
 - (void)pyGridView:(PYGridView *)gridView didSelectItem:(PYGridItem *)item
 {
     PYLog(@"Click");
+}
+
+- (void)pySlider:(PYSlider *)slider valueChangedTo:(CGFloat)value
+{
+    [_testImageView setBlurRadius:value];
 }
 
 @end
