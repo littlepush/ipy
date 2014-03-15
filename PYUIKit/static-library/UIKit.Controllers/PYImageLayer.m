@@ -77,14 +77,30 @@ UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius)
 {
     if ( isnan(radius) || radius == 0.f ) return inputImage;
     if ( inputImage == nil ) return nil;
-    CIFilter* _ciBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
+    // Get the ci image
     CIImage *_ci = nil;
     if ( inputImage.CIImage != nil ) _ci = inputImage.CIImage;
     else _ci = [CIImage imageWithCGImage:inputImage.CGImage];
+    
+    // Create the filter
+    CIFilter* _ciBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [_ciBlur setDefaults];
     [_ciBlur setValue:@(radius) forKey:@"inputRadius"];
     [_ciBlur setValue:_ci forKey:@"inputImage"];
     CIImage* _ciOutput = [_ciBlur outputImage];
-    return [UIImage imageWithCIImage:_ciOutput];
+    
+    CIContext *_ciContext = [CIContext contextWithOptions:nil];
+    CGRect _outputRect = [_ciOutput extent];
+    
+    _outputRect.origin.x += (_outputRect.size.width  - inputImage.size.width ) / 2;
+    _outputRect.origin.y += (_outputRect.size.height - inputImage.size.height) / 2;
+    _outputRect.size = inputImage.size;
+    
+    CGImageRef _cgImage = [_ciContext createCGImage:_ciOutput fromRect:_outputRect];
+    UIImage *_resultImage = [UIImage imageWithCGImage:_cgImage];
+    CGImageRelease(_cgImage);
+    
+    return _resultImage;
 }
 
 // Implementation of the Image layer
