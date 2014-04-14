@@ -39,6 +39,33 @@ static PYStopWatch *_gWatch = nil;
     }
 }
 
+- (id)init
+{
+    self = [super init];
+    if ( self ) {
+        _handle = OS_SPINLOCK_INIT;
+    }
+    return self;
+}
+
+- (void)__lock__
+{
+    unsigned int _Count;
+RE_TRY_LOCK:
+    _Count = 0;
+    while( _Count <= 2000 && !OSSpinLockTry(&_handle) )
+        ++_Count;
+    if ( _Count > 2000 ) {
+        usleep(1);
+        goto RE_TRY_LOCK;
+    }
+}
+
+- (void)__unlock__
+{
+    OSSpinLockUnlock(&_handle);
+}
+
 @dynamic seconds;
 - (double)seconds
 {
@@ -53,16 +80,31 @@ static PYStopWatch *_gWatch = nil;
 
 - (void)start
 {
+    [self __lock__];
     gettimeofday(&_startTime, NULL);
     _timePassed = 0.f;
     _timePaused = 0.f;
+    _paused = NO;
+    [self __unlock__];
 }
 - (void)pause
 {
+    [self __lock__];
+    if ( _paused == YES ) {
+        [self __unlock__];
+        return;
+    }
+    _paused = YES;
     gettimeofday(&_pausedTime, NULL);
+    [self __unlock__];
 }
 - (void)resume
 {
+    [self __lock__];
+    if ( _paused == NO ) {
+        [self __unlock__];
+        return;
+    }
     struct timeval _pausedEndTime;
     gettimeofday(&_pausedEndTime, NULL);
     
@@ -70,16 +112,23 @@ static PYStopWatch *_gWatch = nil;
                           (double)(_pausedEndTime.tv_usec - _pausedTime.tv_usec));
     _thisPaused /= 1000000.f;
     _timePaused += _thisPaused;
+    _paused = NO;
+    [self __unlock__];
 }
 
 - (double)tick
 {
+    [self __lock__];
+    if ( _paused == YES ) {
+        [self __unlock__];
+        return [self milleseconds];
+    }
 	gettimeofday(&_endTime, NULL);
 	
 	_timePassed = ((double)(1000000.f * (_endTime.tv_sec - _startTime.tv_sec)) +
                    (double)(_endTime.tv_usec - _startTime.tv_usec));
 	_timePassed /= 1000000.f;
-    
+    [self __unlock__];
 	return [self milleseconds];
 }
 

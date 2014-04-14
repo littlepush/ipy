@@ -164,7 +164,7 @@ NSString *__guid( ) {
 NSString *__timestampId( ) {
     struct timeval _timenow;
     gettimeofday( &_timenow, NULL );
-    uint64_t _usec = _timenow.tv_sec * 1000000;
+    uint64_t _usec = (uint64_t)_timenow.tv_sec * (uint64_t)1000000;
     _usec += _timenow.tv_usec;
     NSString *_timestamp = [NSString stringWithFormat:@"%llu", _usec];
     return _timestamp;
@@ -371,7 +371,7 @@ PYDeviceModel __getDeviceModel()
                                              encoding:NSUTF8StringEncoding];
     PYDeviceModel _model = PYiDeviceUnknow;
     
-    if([modelName isEqualToString:@"i386"]) {
+    if([modelName isEqualToString:@"i386"] || [modelName isEqualToString:@"x86_64"]) {
         _model = PYiPhoneSimulator;
     }
     else if([modelName isEqualToString:@"iPhone1,1"]) {
