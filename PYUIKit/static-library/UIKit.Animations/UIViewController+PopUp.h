@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, PYPopUpAnimationType) {
 typedef NS_ENUM(NSInteger, UIViewControllerPopState) {
     UIViewControllerPopStateUnknow      = 0,
     UIViewControllerPopStateWillPop,
-    UIViewControllerPopStatePopedUp,
+    UIViewControllerPopStatePoppedUp,
     UIViewControllerPopStateWillDismiss,
     UIViewControllerPopStateDismissed
 };
@@ -52,6 +52,9 @@ typedef NS_ENUM(NSInteger, UIViewControllerPopState) {
 // Observe this property to get the notification of child viewcontroller
 // poping state.
 @property (nonatomic, readonly) UIViewControllerPopState        popState;
+
+// Popped Child View Controller
+@property (nonatomic, readonly) UIViewController                *poppedViewController;
 
 // Pop up the view controller with specified animation type.
 // Default animation type is Jelly.
@@ -67,15 +70,17 @@ typedef NS_ENUM(NSInteger, UIViewControllerPopState) {
                         complete:(PYActionDone)complete;
 
 // Dismiss the view controller, and set if need animation.
-- (void)dismissPopedViewController:(BOOL)animated;
-- (void)dismissPopedViewController:(BOOL)animated
-                          complete:(PYActionDone)complete;
-- (void)dismissPopedViewControllerAnimation:(PYPopUpAnimationType)type
-                                   complete:(PYActionDone)complete;
+- (void)dismissPoppedViewController:(BOOL)animated;
+- (void)dismissPoppedViewController:(BOOL)animated
+                           complete:(PYActionDone)complete;
+- (void)dismissPoppedViewControllerAnimation:(PYPopUpAnimationType)type
+                                    complete:(PYActionDone)complete;
+// For the container, dismiss the popped
+- (void)dismissChildPoppedView;
 
 // Message Callback
 - (void)willPopViewController:(UIViewController *)controller;
-- (void)didPopedViewController:(UIViewController *)controller;
+- (void)didPoppedViewController:(UIViewController *)controller;
 - (void)willDismissPopViewController:(UIViewController *)controller;
 - (void)didDismissedPopViewController:(UIViewController *)controller;
 

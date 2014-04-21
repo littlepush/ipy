@@ -71,8 +71,8 @@
                                    withDefaultValue:scrollView.isPagable];
     
     // maxDeceleratePageCount
-    scrollView.maxDeceleratePageCount = [option intObjectForKey:@"maxDeceleratePageCount"
-                                               withDefaultValue:scrollView.maxDeceleratePageCount];
+    scrollView.maxDeceleratePageCount = (NSUInteger)[option intObjectForKey:@"maxDeceleratePageCount"
+                                                           withDefaultValue:(int)scrollView.maxDeceleratePageCount];
     
     // scrollSide
     //PYScrollDirection
