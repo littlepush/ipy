@@ -26,6 +26,16 @@
 #import "UIImage+UIKit.h"
 #import "PYScrollView+SideAnimation.h"
 
+CGRect _paddingRect(CGRect source, PYPadding padding) {
+    source.origin.x += padding.left;
+    source.origin.y += padding.top;
+    source.size.width -= (padding.left + padding.right);
+    source.size.height -= (padding.top + padding.bottom);
+    if ( source.size.width <= 0.f ) source.size.width = 1.f;
+    if ( source.size.height <= 0.f ) source.size.height = 1.f;
+    return source;
+}
+
 @implementation PYSlider
 
 // Properties
@@ -390,20 +400,27 @@
 - (void)_updateItemFrame
 {
     CGRect _theFrame = self.bounds;
-    [_backgroundLayer setFrame:_theFrame];
+    CGRect _bkgFrame = _paddingRect(_theFrame, _backgroundPadding);
+    [_backgroundLayer setFrame:_bkgFrame];
     CGFloat _sideSize = ((_slideDirection == PYSliderDirectionHorizontal) ?
                          _theFrame.size.height : _theFrame.size.width);
     if ( _slideButtonLayer.hidden == NO ) {
         _slideButtonLayer.transform = CATransform3DIdentity;
-        _slideButtonLayer.frame = CGRectMake(0, 0, _sideSize, _sideSize);
+        CGRect _originRect = CGRectMake(0, 0, _sideSize, _sideSize);
+        if ( _slideDirection == PYSliderDirectionHorizontal ) {
+            _originRect.origin.x = (_backgroundPadding.left - _slideButtonPadding.left);
+        } else {
+            _originRect.origin.y = (_backgroundPadding.top - _slideButtonPadding.top);
+        }
+        _slideButtonLayer.frame = _paddingRect(_originRect, _slideButtonPadding);
     }
     
     if ( _slideDirection == PYSliderDirectionHorizontal ) {
-        _theFrame.size.width = _internalProperties._slide_offset;
+        _bkgFrame.size.width = _internalProperties._slide_offset;
     } else {
-        _theFrame.size.height = _internalProperties._slide_offset;
+        _bkgFrame.size.height = _internalProperties._slide_offset;
     }
-    [_minTrackTintLayer setFrame:_theFrame];
+    [_minTrackTintLayer setFrame:_bkgFrame];
     [self _recalculateSlideInfo];
     [self setCurrentValue:_internalProperties._slide_current_value animated:NO];
 }

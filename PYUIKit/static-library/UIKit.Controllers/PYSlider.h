@@ -54,6 +54,9 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
     PYSliderDirection           _slideDirection;
     BOOL                        _isUserDragging;
     
+    PYPadding                   _backgroundPadding;
+    PYPadding                   _slideButtonPadding;
+    
     // Internal properties
     struct {
         CGFloat                     _slide_current_value;
@@ -71,6 +74,10 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
 // Slide button
 @property (nonatomic, strong)   UIImage                             *slideButtonImage;
 @property (nonatomic, strong)   UIColor                             *slideButtonColor;
+
+// Padding
+@property (nonatomic, assign)   PYPadding                           backgroundPadding;
+@property (nonatomic, assign)   PYPadding                           slideButtonPadding;
 
 // Min
 @property (nonatomic, strong)   UIImage                             *minTrackTintImage;
