@@ -183,6 +183,18 @@
             slider.slideDirection = PYSliderDirectionVerticalis;
         }
     }
+    
+    NSString *_backgroundPaddingInfo = [option stringObjectForKey:@"backgroundPadding" withDefaultValue:@""];
+    if ( [_backgroundPaddingInfo length] > 0 ) {
+        PYPadding _bkgPadding = PYPaddingFromString(_backgroundPaddingInfo);
+        [slider setBackgroundPadding:_bkgPadding];
+    }
+    
+    NSString *_sbPaddingInfo = [option stringObjectForKey:@"slideButtonPadding" withDefaultValue:@""];
+    if ( [_sbPaddingInfo length] > 0 ) {
+        PYPadding _sbPadding = PYPaddingFromString(_sbPaddingInfo);
+        [slider setSlideButtonPadding:_sbPadding];
+    }
 }
 
 @end

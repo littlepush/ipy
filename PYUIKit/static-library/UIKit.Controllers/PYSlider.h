@@ -59,10 +59,13 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
     
     // Internal properties
     struct {
-        CGFloat                     _slide_current_value;
-        CGFloat                     _slide_offset;
-        CGFloat                     _slide_real_length;
-        CGFloat                     _slide_real_range;
+        CGRect                      _background_frame;      // paddingRect(_backgroundLayer.frame)
+        CGRect                      _slide_frame;           // paddingRect(_slideButtonLayer.frame)
+        CGFloat                     _slide_position;        // _slide_frame.center - BP<L/T>
+        CGFloat                     _slide_real_length;     // _background_frame.width
+        CGFloat                     _slide_current_value;   // (_position/_real_length) * (real_range) + _min
+        CGFloat                     _slide_real_range;      // _max - _min
+        CGFloat                     _slide_offset __deprecated;
     }                           _internalProperties;
 }
 

@@ -74,6 +74,8 @@
 // maximum: float object, maximum of the slider
 // hideSlideButton: bool object, if hide the slide button
 // slideDirection: NSString object, [horizontal/verticalis]
+// backgroundPadding: NSString object, the slide's background padding info, PYPaddingFromString
+// slideButtonPadding: NSString object, the slide's slide-button padding info, PYPaddingFormString
 @interface PYSlider (AttributeLoader)
 + (void)rendView:(PYSlider *)slider withOption:(NSDictionary *)option;
 @end
