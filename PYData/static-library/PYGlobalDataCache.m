@@ -372,7 +372,8 @@ static NSMutableDictionary		*_gdcDict;
     NSString *_path = [options stringObjectForKey:kGDCInitDBPath withDefaultValue:PYLIBRARYPATH];
     NSString *_folder = [options stringObjectForKey:kGDCInitLibraryFolder withDefaultValue:@"PYData"];
     NSFileManager *_fm = [NSFileManager defaultManager];
-    NSString *_dbPath = [_path stringByAppendingPathComponent:_folder];
+    NSString *_dbPath = [[_path stringByAppendingPathComponent:_folder]
+                         stringByAppendingPathComponent:identify];
     if ( [_fm fileExistsAtPath:_dbPath] ) {
         NSError *_error = nil;
         [_fm removeItemAtPath:_dbPath error:&_error];
