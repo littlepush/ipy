@@ -94,6 +94,13 @@ RE_TRY_LOCK:
         [self __unlock__];
         return;
     }
+    // Update passed time
+	gettimeofday(&_endTime, NULL);
+	
+	_timePassed = ((double)(1000000.f * (_endTime.tv_sec - _startTime.tv_sec)) +
+                   (double)(_endTime.tv_usec - _startTime.tv_usec));
+	_timePassed /= 1000000.f;
+    
     _paused = YES;
     gettimeofday(&_pausedTime, NULL);
     [self __unlock__];
