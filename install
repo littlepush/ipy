@@ -219,7 +219,7 @@ function __get_dirs() {
 }
 
 # Initialize the variables
-__supported_actions=(compile switch list install)
+__supported_actions=(compile switch list install delete)
 __items=($(__get_dirs))
 __configuration=release
 __action=(compile install)
@@ -256,6 +256,9 @@ for arg in $@; do
     "--item")
         __items=($value)
         ;;
+    "--delete")
+        __action=(delete)
+        ;;
     "--help")
         __usage
         exit 0
@@ -268,16 +271,15 @@ for arg in $@; do
     esac
 done
 
-if [ "${__configuration}" == "release" ]; then
-    __configuration=Release
-fi
-if [ "${__configuration}" == "debug" ]; then
-    __configuration=Debug
-fi
+__configuration=$(capitalize ${__configuration})
 
 function cleanXcodeModuleCache() {
     mcf=$(sudo find /var/folders -name com.apple.DeveloperTools)
     for f in $mcf; do 
+        sudo rm -rfv $f
+    done
+    mcf=$(sudo find /var/folders -name org.llvm.clang)
+    for f in $mcf; do
         sudo rm -rfv $f
     done
 }
@@ -422,6 +424,22 @@ function __action_switch() {
 
     InstallFrameworkToXcode ${_a_item} "${_a_config}.${_a_version}"
     __action_list ${_a_item} ${_a_version} ${_a_config}
+}
+
+function __action_delete() {
+    _a_item=$1
+    _a_version=$2
+    _a_config=$3
+
+    _current_specified_item=${_a_item}.${_a_config}.${_a_version}.framework
+    _sdk_path=${XCodeSDKs[0]}/System/Library/Frameworks/${_a_item}.framework
+    _using_item=$(ls -lha ${_sdk_path} | grep -v "Header" | awk -F"->" '{print $2}' | awk -F"/" '{print $5}')
+    if [ "${_using_item}" == "${_current_specified_item}" ]; then
+        echo "${_font_red}The item ${_current_specified_item} is been used ${_font_normal}"
+        exit 2
+    fi
+
+    sudo rm -rf /usr/local/Frameworks/${_current_specified_item}
 }
 
 for _framework_item in ${__items[@]}; do 

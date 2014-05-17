@@ -26,6 +26,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import <PYCore/PYMutex.h>
 
+// Create a blur image with specified radius
+#ifdef __cplusplus
+extern "C" {
+#endif
+    UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius);
+#ifdef __cplusplus
+}
+#endif
+
 @interface PYImageLayer : PYStaticLayer
 {
     // Inner Image Data
@@ -35,6 +44,9 @@
     CGFloat                         _frameRate;
     NSString                        *_loadingUrl;
     PYMutex                         *_mutex;
+    
+    // Blur
+    CGFloat                         _blurRadius;
 }
 
 // create the layer with the placehold image.
@@ -52,6 +64,9 @@
 
 // The content mode.
 @property (nonatomic, assign)   UIViewContentMode   contentMode;
+
+// Set the image's blur radius
+@property (nonatomic, assign)   CGFloat             blurRadius;
 
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;

@@ -71,8 +71,8 @@
                                    withDefaultValue:scrollView.isPagable];
     
     // maxDeceleratePageCount
-    scrollView.maxDeceleratePageCount = [option intObjectForKey:@"maxDeceleratePageCount"
-                                               withDefaultValue:scrollView.maxDeceleratePageCount];
+    scrollView.maxDeceleratePageCount = (NSUInteger)[option intObjectForKey:@"maxDeceleratePageCount"
+                                                           withDefaultValue:(int)scrollView.maxDeceleratePageCount];
     
     // scrollSide
     //PYScrollDirection
@@ -182,6 +182,18 @@
         } else if ( [_slideDirection isEqualToString:@"verticalis"] ) {
             slider.slideDirection = PYSliderDirectionVerticalis;
         }
+    }
+    
+    NSString *_backgroundPaddingInfo = [option stringObjectForKey:@"backgroundPadding" withDefaultValue:@""];
+    if ( [_backgroundPaddingInfo length] > 0 ) {
+        PYPadding _bkgPadding = PYPaddingFromString(_backgroundPaddingInfo);
+        [slider setBackgroundPadding:_bkgPadding];
+    }
+    
+    NSString *_sbPaddingInfo = [option stringObjectForKey:@"slideButtonPadding" withDefaultValue:@""];
+    if ( [_sbPaddingInfo length] > 0 ) {
+        PYPadding _sbPadding = PYPaddingFromString(_sbPaddingInfo);
+        [slider setSlideButtonPadding:_sbPadding];
     }
 }
 

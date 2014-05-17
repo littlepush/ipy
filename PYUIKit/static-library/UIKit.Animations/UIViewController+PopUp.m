@@ -25,6 +25,7 @@
 #import "UIViewController+PopUp.h"
 
 #define UIVIEW_POP_MASK_VIEW_TAG            10240
+#define UIVIEW_POP_CHILD_VIEW_TAG           20480
 
 @interface __PYMaskView : UIView
 @property (nonatomic, assign)   UIViewController            *customController;
@@ -38,9 +39,9 @@
     @synchronized( self ) {
         if ( self.customController == nil ) return;
         if ( self.customController.parentViewController == nil ) return;
-        if ( self.customController.parentViewController.popState != UIViewControllerPopStatePopedUp ) return;
-        [self.customController dismissPopedViewControllerAnimation:self.animationType
-                                                          complete:nil];
+        if ( self.customController.parentViewController.popState != UIViewControllerPopStatePoppedUp ) return;
+        [self.customController dismissPoppedViewControllerAnimation:self.animationType
+                                                           complete:nil];
     }
 }
 - (id)initWithFrame:(CGRect)frame
@@ -77,6 +78,17 @@
     }
 }
 
+@dynamic poppedViewController;
+- (UIViewController *)poppedViewController
+{
+    @synchronized( self ) {
+        for ( UIViewController *_vc in self.childViewControllers ) {
+            if ( _vc.view.tag == UIVIEW_POP_CHILD_VIEW_TAG ) return _vc;
+        }
+        return nil;
+    }
+}
+
 @dynamic isPopViewVisiable;
 - (BOOL)isPopViewVisiable
 {
@@ -89,7 +101,7 @@
 {
     
 }
-- (void)didPopedViewController:(UIViewController *)controller
+- (void)didPoppedViewController:(UIViewController *)controller
 {
     
 }
@@ -137,6 +149,7 @@
     if ( self.popState != UIViewControllerPopStateUnknow &&
         self.popState != UIViewControllerPopStateDismissed ) return;
     @synchronized( self ) {
+        controller.view.tag = UIVIEW_POP_CHILD_VIEW_TAG;
         self.popState = UIViewControllerPopStateWillPop;
         [self willPopViewController:controller];
         [self addChildViewController:controller];
@@ -155,8 +168,8 @@
         
         // No animation effective
         if ( PYPopUpAnimationTypeNone == type ) {
-            self.popState = UIViewControllerPopStatePopedUp;
-            [self didPopedViewController:controller];
+            self.popState = UIViewControllerPopStatePoppedUp;
+            [self didPoppedViewController:controller];
             
             if ( complete ) complete( );
             return;
@@ -167,8 +180,8 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.alpha = 1.f;
             } completion:^(BOOL finished) {
-                self.popState = UIViewControllerPopStatePopedUp;
-                [self didPopedViewController:controller];
+                self.popState = UIViewControllerPopStatePoppedUp;
+                [self didPoppedViewController:controller];
                 if ( complete ) complete();
             }];
             return;
@@ -179,8 +192,8 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                self.popState = UIViewControllerPopStatePopedUp;
-                [self didPopedViewController:controller];
+                self.popState = UIViewControllerPopStatePoppedUp;
+                [self didPoppedViewController:controller];
                 if ( complete ) complete();
             }];
             return;
@@ -191,8 +204,8 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                self.popState = UIViewControllerPopStatePopedUp;
-                [self didPopedViewController:controller];
+                self.popState = UIViewControllerPopStatePoppedUp;
+                [self didPoppedViewController:controller];
                 if ( complete ) complete();
             }];
             return;
@@ -203,8 +216,8 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                self.popState = UIViewControllerPopStatePopedUp;
-                [self didPopedViewController:controller];
+                self.popState = UIViewControllerPopStatePoppedUp;
+                [self didPoppedViewController:controller];
                 if ( complete ) complete();
             }];
             return;
@@ -215,8 +228,8 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                self.popState = UIViewControllerPopStatePopedUp;
-                [self didPopedViewController:controller];
+                self.popState = UIViewControllerPopStatePoppedUp;
+                [self didPoppedViewController:controller];
                 if ( complete ) complete();
             }];
             return;
@@ -227,8 +240,8 @@
             [UIView animateWithDuration:.3 / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                self.popState = UIViewControllerPopStatePopedUp;
-                [self didPopedViewController:controller];
+                self.popState = UIViewControllerPopStatePoppedUp;
+                [self didPoppedViewController:controller];
                 if ( complete ) complete( );
             }];
             return;
@@ -243,8 +256,8 @@
                     [UIView animateWithDuration:.3 / 2 animations:^{
                         controller.view.transform = CGAffineTransformIdentity;
                     } completion:^(BOOL finished) {
-                        self.popState = UIViewControllerPopStatePopedUp;
-                        [self didPopedViewController:controller];
+                        self.popState = UIViewControllerPopStatePoppedUp;
+                        [self didPoppedViewController:controller];
                         if ( complete ) complete( );
                     }];
                 }];
@@ -255,28 +268,33 @@
 }
 
 // Dismiss the view controller, and set if need animation.
-- (void)dismissPopedViewController:(BOOL)animated
+- (void)dismissPoppedViewController:(BOOL)animated
 {
-    [self dismissPopedViewController:animated complete:nil];
+    [self dismissPoppedViewController:animated complete:nil];
 }
-- (void)dismissPopedViewController:(BOOL)animated
-                          complete:(PYActionDone)complete
+- (void)dismissPoppedViewController:(BOOL)animated
+                           complete:(PYActionDone)complete
 {
     if ( animated ) {
-        [self dismissPopedViewControllerAnimation:PYPopUpAnimationTypeSmooth
-                                         complete:complete];
+        [self dismissPoppedViewControllerAnimation:PYPopUpAnimationTypeSmooth
+                                          complete:complete];
     } else {
-        [self dismissPopedViewControllerAnimation:PYPopUpAnimationTypeNone
-                                         complete:complete];
+        [self dismissPoppedViewControllerAnimation:PYPopUpAnimationTypeNone
+                                          complete:complete];
     }
 }
-- (void)dismissPopedViewControllerAnimation:(PYPopUpAnimationType)type
+- (void)dismissChildPoppedView
+{
+    UIViewController *_vc = self.poppedViewController;
+    [_vc dismissPoppedViewController:YES];
+}
+- (void)dismissPoppedViewControllerAnimation:(PYPopUpAnimationType)type
                                    complete:(PYActionDone)complete
 {
     @synchronized( self ) {
         if ( self.parentViewController == nil ) return;
-        // If the previous state is not popedup, donot dismiss current view.
-        if ( self.parentViewController.popState != UIViewControllerPopStatePopedUp ) return;
+        // If the previous state is not popped up, donot dismiss current view.
+        if ( self.parentViewController.popState != UIViewControllerPopStatePoppedUp ) return;
         __weak UIViewController *_parent = self.parentViewController;
 
         self.parentViewController.popState = UIViewControllerPopStateWillDismiss;

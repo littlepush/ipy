@@ -68,10 +68,10 @@
 
 - (void)objectFromJsonDict:(NSDictionary *)jsonDict
 {
-    self.objectId   = PYIntToString([jsonDict tryIntObjectForKey:@"id"]);
+    self.objectId   = PYIntToString([jsonDict tryIntObjectForKey:@"id" withDefaultValue:0]);
     self.updateTime = [PYDate dateWithDate:[jsonDict utcDateObjectForKey:@"updatetime"]];
-    self.name       = [jsonDict stringObjectForKey:@"name"];
-    self.type       = [jsonDict stringObjectForKey:@"type"];
+    self.name       = [jsonDict stringObjectForKey:@"name" withDefaultValue:@""];
+    self.type       = [jsonDict stringObjectForKey:@"type" withDefaultValue:@""];
 }
 
 - (NSDictionary *)objectToJsonDict

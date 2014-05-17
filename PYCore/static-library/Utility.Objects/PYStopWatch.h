@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #include <sys/time.h>
 #include <sys/timeb.h>
+#include <libkern/OSAtomic.h>
 
 @interface PYStopWatch : NSObject
 {
@@ -32,6 +33,9 @@
     struct timeval _pausedTime;
 	double _timePassed;
     double _timePaused;
+    
+    OSSpinLock _handle;
+    BOOL _paused;
 }
 
 // Get the global watch instance

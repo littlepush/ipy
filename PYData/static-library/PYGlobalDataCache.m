@@ -136,6 +136,14 @@ static NSMutableDictionary		*_gdcDict;
 - (NSUInteger)inMemObjectCount { return [_coreInMemCache count]; }
 @synthesize allObjectCount = _allObjectCount;
 
+@dynamic allKeys;
+- (NSArray *)allKeys
+{
+    [_lock lock];
+    NSArray *_result = _innerDb.allKeys;
+    [_lock unlock];
+    return _result;
+}
 #pragma mark --
 #pragma mark -- Core Messages
 - (void)batchOperation:(PYActionDone)operations
@@ -286,6 +294,21 @@ static NSMutableDictionary		*_gdcDict;
     return _result;
 }
 
+- (BOOL)isObjectForKey:(NSString *)key notSameInDate:(id<PYDate>)date
+{
+    if ( [self containsKey:key] == NO ) return YES;
+    [_lock lock];
+    PYKeyedDbRow *_obj = [_coreInMemCache objectForKey:key];
+    if ( _obj == nil ) {
+        _obj = [_innerDb valueForKey:key];
+    }
+    if ( _obj == nil ) return YES;
+    id<PYDate> _objDate = _obj.expire;
+    BOOL _result = (_objDate.timestamp != date.timestamp);
+    [_lock unlock];
+    return _result;
+}
+
 - (void)clearAllCacheData:(PYActionDone)done
 {
     BEGIN_ASYNC_INVOKE
@@ -349,7 +372,8 @@ static NSMutableDictionary		*_gdcDict;
     NSString *_path = [options stringObjectForKey:kGDCInitDBPath withDefaultValue:PYLIBRARYPATH];
     NSString *_folder = [options stringObjectForKey:kGDCInitLibraryFolder withDefaultValue:@"PYData"];
     NSFileManager *_fm = [NSFileManager defaultManager];
-    NSString *_dbPath = [_path stringByAppendingPathComponent:_folder];
+    NSString *_dbPath = [[_path stringByAppendingPathComponent:_folder]
+                         stringByAppendingPathComponent:identify];
     if ( [_fm fileExistsAtPath:_dbPath] ) {
         NSError *_error = nil;
         [_fm removeItemAtPath:_dbPath error:&_error];

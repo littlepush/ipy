@@ -26,6 +26,16 @@
 #import "UIImage+UIKit.h"
 #import "PYScrollView+SideAnimation.h"
 
+CGRect _paddingRect(CGRect source, PYPadding padding) {
+    source.origin.x += padding.left;
+    source.origin.y += padding.top;
+    source.size.width -= (padding.left + padding.right);
+    source.size.height -= (padding.top + padding.bottom);
+    if ( source.size.width <= 0.f ) source.size.width = 1.f;
+    if ( source.size.height <= 0.f ) source.size.height = 1.f;
+    return source;
+}
+
 @implementation PYSlider
 
 // Properties
@@ -40,6 +50,14 @@
 - (void)setBackgroundImage:(UIImage *)backgroundImage
 {
     [_backgroundLayer setImage:backgroundImage];
+}
+- (UIColor *)backgroundColor
+{
+    return [UIColor colorWithCGColor:_backgroundLayer.backgroundColor];
+}
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    [_backgroundLayer setBackgroundColor:backgroundColor.CGColor];
 }
 //*slideButtonImage;
 @dynamic slideButtonImage;
@@ -152,6 +170,22 @@
         [self _recalculateSlideInfo];
     }
 }
+@synthesize backgroundPadding = _backgroundPadding;
+- (void)setBackgroundPadding:(PYPadding)backgroundPadding
+{
+    _backgroundPadding = backgroundPadding;
+    @synchronized( self ) {
+        [self _recalculateSlideInfo];
+    }
+}
+@synthesize slideButtonPadding = _slideButtonPadding;
+- (void)setSlideButtonPadding:(PYPadding)slideButtonPadding
+{
+    _slideButtonPadding = slideButtonPadding;
+    @synchronized( self ) {
+        [self _recalculateSlideInfo];
+    }
+}
 //isDragging;
 @synthesize isDragging = _isUserDragging;
 //buttonCenter;
@@ -168,25 +202,38 @@
 - (void)_recalculateSlideInfo
 {
     _internalProperties._slide_real_range = (_maximumValue - _minimumValue);
+    _internalProperties._background_frame = _paddingRect(self.bounds, _backgroundPadding);
     if ( _slideDirection == PYSliderDirectionHorizontal ) {
-        if ( _slideButtonLayer.isHidden ) {
-            _internalProperties._slide_offset = 0;
-            _internalProperties._slide_real_length = self.bounds.size.width;
-        } else {
-            _internalProperties._slide_offset = (_slideButtonLayer.bounds.size.width / 2);
-            _internalProperties._slide_real_length = (self.bounds.size.width -
-                                                      _slideButtonLayer.bounds.size.width);
-        }
+        _internalProperties._slide_real_length = _internalProperties._background_frame.size.width;
     } else {
-        if ( _slideButtonLayer.isHidden ) {
-            _internalProperties._slide_offset = 0;
-            _internalProperties._slide_real_length = self.bounds.size.height;
-        } else {
-            _internalProperties._slide_offset = (_slideButtonLayer.bounds.size.height / 2);
-            _internalProperties._slide_real_length = (self.bounds.size.height -
-                                                      _slideButtonLayer.bounds.size.height);
-        }
+        _internalProperties._slide_real_length = _internalProperties._background_frame.size.height;
     }
+    if ( _slideButtonLayer.isHidden ) return;
+    
+    // _current_value = (_position/_real_length) * (real_range) + _min
+    // _position = (_current_value - _min) / _real_range * _real_length
+    _internalProperties._slide_position = ((_internalProperties._slide_current_value - _minimumValue)
+                                           / _internalProperties._slide_real_range
+                                           * _internalProperties._slide_real_length);
+    // _position = _slide_frame.center - BP<L/T>
+    // _slide_frame.center = _position + BP<L/T>
+    // _slide_frame = paddingRect(_slide_side_size_frame, SP)
+    // _slide_frame = ??
+    CGFloat _hcenter = 0, _vcenter = 0, _sideSize = 0;
+    if ( _slideDirection == PYSliderDirectionHorizontal ) {
+        _hcenter = 0 + _backgroundPadding.left;
+        _vcenter = _internalProperties._background_frame.size.height / 2 + _backgroundPadding.top;
+        _sideSize = self.bounds.size.height;
+    } else {
+        _hcenter = _internalProperties._background_frame.size.width / 2 + _backgroundPadding.left;
+        _vcenter = _internalProperties._background_frame.size.height + _backgroundPadding.top;
+        _sideSize = self.bounds.size.width;
+    }
+    CGFloat _frame_width = _sideSize - _slideButtonPadding.left - _slideButtonPadding.right;
+    CGFloat _frame_height = _sideSize - _slideButtonPadding.top - _slideButtonPadding.bottom;
+    CGFloat _x = _hcenter - _frame_width / 2;
+    CGFloat _y = _vcenter - _frame_height / 2;
+    _internalProperties._slide_frame = CGRectMake(_x, _y, _frame_width, _frame_height);
 }
 
 - (void)_actionTouchBegin:(id)sender event:(PYViewEvent *)event
@@ -250,12 +297,12 @@
     }
     // Set value
     if ( _slideDirection == PYSliderDirectionHorizontal ) {
-        CGFloat _percentage = ((_tapPoint.x - _internalProperties._slide_offset) /
+        CGFloat _percentage = ((_tapPoint.x - _backgroundPadding.left) /
                                _internalProperties._slide_real_length);
         CGFloat _value = (_percentage * _internalProperties._slide_real_range + _minimumValue);
         [self _setCurrentValue:_value];
     } else {
-        CGFloat _percentage = ((_tapPoint.y + _internalProperties._slide_offset) /
+        CGFloat _percentage = ((_tapPoint.y + _backgroundPadding.top) /
                                _internalProperties._slide_real_length);
         _percentage = 1 - _percentage;
         CGFloat _value = (_percentage * _internalProperties._slide_real_range + _minimumValue);
@@ -288,6 +335,8 @@
     [_backgroundLayer setBackgroundColor:[UIColor clearColor].CGColor];
     [self.layer addSublayer:_backgroundLayer];
     
+    [super setBackgroundColor:[UIColor clearColor]];
+    
 #ifdef _SLIDE_USE_IMAGE_VIEW_
     _minTrackTintLayer = [PYImageView object];
     [_minTrackTintLayer setBackgroundColor:[UIColor clearColor]];
@@ -311,6 +360,8 @@
     _maximumValue = 1.f;
     
     _slideDirection = PYSliderDirectionHorizontal;
+    
+    [self setClipsToBounds:NO];
 }
 
 - (id)initWithMinimum:(CGFloat)min maximum:(CGFloat)max
@@ -366,13 +417,12 @@
     }
     
     // Set min tint layer
-    CGRect _minTintFrame = self.bounds;
-    CGFloat _tintTransformPos = _transformPos + _internalProperties._slide_offset;
+    CGRect _minTintFrame = _internalProperties._background_frame;
     if ( _slideDirection == PYSliderDirectionHorizontal ) {
-        _minTintFrame.size.width = _tintTransformPos;
+        _minTintFrame.size.width = _transformPos;
     } else {
-        _minTintFrame.origin.y = (_minTintFrame.size.height - _tintTransformPos);
-        _minTintFrame.size.height = _tintTransformPos;
+        _minTintFrame.origin.y = (_minTintFrame.size.height - _transformPos);
+        _minTintFrame.size.height = _transformPos;
     }
     [_minTrackTintLayer setFrame:_minTintFrame];
 #ifndef _SLIDE_USE_IMAGE_VIEW_
@@ -389,22 +439,9 @@
 
 - (void)_updateItemFrame
 {
-    CGRect _theFrame = self.bounds;
-    [_backgroundLayer setFrame:_theFrame];
-    CGFloat _sideSize = ((_slideDirection == PYSliderDirectionHorizontal) ?
-                         _theFrame.size.height : _theFrame.size.width);
-    if ( _slideButtonLayer.hidden == NO ) {
-        _slideButtonLayer.transform = CATransform3DIdentity;
-        _slideButtonLayer.frame = CGRectMake(0, 0, _sideSize, _sideSize);
-    }
-    
-    if ( _slideDirection == PYSliderDirectionHorizontal ) {
-        _theFrame.size.width = _internalProperties._slide_offset;
-    } else {
-        _theFrame.size.height = _internalProperties._slide_offset;
-    }
-    [_minTrackTintLayer setFrame:_theFrame];
     [self _recalculateSlideInfo];
+    [_backgroundLayer setFrame:_internalProperties._background_frame];
+    [_slideButtonLayer setFrame:_internalProperties._slide_frame];
     [self setCurrentValue:_internalProperties._slide_current_value animated:NO];
 }
 

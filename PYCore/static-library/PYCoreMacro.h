@@ -287,10 +287,12 @@ extern "C" {
 #define PYLongToString(value)	[NSString stringWithFormat:@"%ld", value]
 #define PYIntToString(value)	[NSString stringWithFormat:@"%d", (int)value]
 #endif
-#define PYLongToObject(value)	[NSNumber numberWithLong:value]
-#define PYIntToObject(value)	[NSNumber numberWithInt:value]
-#define PYDoubleToObject(value)	[NSNumber numberWithDouble:value]
-#define PYBoolToObject(value)	[NSNumber numberWithBool:value]
+
+// Will be deprecated in later version.
+#define PYLongToObject(value)	@(value)
+#define PYIntToObject(value)	@(value)
+#define PYDoubleToObject(value)	@(value)
+#define PYBoolToObject(value)	@(value)
 
 #define PYABSF( f )         \
     ({ float _f = (f); int _n = (*((int *)(&(_f)))) & 0x7FFFFFFF; (float)(*((float *)(&_n))); })

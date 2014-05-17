@@ -29,9 +29,13 @@
 {
     PYInnerShadowLayer              *_shadowLayer;
     BOOL                            _hasInvokeInit;
+    UIImage                         *_originImage;
     UIImage                         *_placeholdImage;
     NSString                        *_loadingUrl;
     PYMutex                         *_mutex;
+    
+    // Blur
+    CGFloat                         _blurRadius;
 }
 
 //@property (nonatomic, readonly) PYImageLayer        *layer;
@@ -45,6 +49,9 @@
 
 // Loading URL
 @property (nonatomic, readonly) NSString            *loadingUrl;
+
+// Set the image's blur radius
+@property (nonatomic, assign)   CGFloat             blurRadius;
 
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;

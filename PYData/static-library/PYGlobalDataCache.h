@@ -86,6 +86,11 @@ enum {
 @property (nonatomic, readonly)		NSUInteger      inMemObjectCount;
 @property (nonatomic, readonly)		long			allObjectCount;
 
+// Get all keys in current cache. I do not suggest to use this property very often.
+// When the cache grows up to a large size, fetch all keys will cause a lot of
+// time and use more memory than usual.
+@property (nonatomic, readonly)     NSArray         *allKeys;
+
 // The [initialize] method will force to set the thread-safe flag
 // if set the [PY_FORCE_THREASAFE] when compilation.
 // Make the sqlite to support multiple thread.
@@ -121,6 +126,7 @@ enum {
 // Check if contains the specified key, but not decode the value.
 - (BOOL)containsKey:(NSString *)key;
 - (BOOL)isObjectForKey:(NSString *)key expiredFrom:(id<PYDate>)date;
+- (BOOL)isObjectForKey:(NSString *)key notSameInDate:(id<PYDate>)date;
 
 // Clear all cache data.
 - (void)clearAllCacheData:(PYActionDone)done;

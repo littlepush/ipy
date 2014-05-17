@@ -73,6 +73,36 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
     }
 }
 
+UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius)
+{
+    if ( isnan(radius) || radius == 0.f ) return inputImage;
+    if ( inputImage == nil ) return nil;
+    // Get the ci image
+    CIImage *_ci = nil;
+    if ( inputImage.CIImage != nil ) _ci = inputImage.CIImage;
+    else _ci = [CIImage imageWithCGImage:inputImage.CGImage];
+    
+    // Create the filter
+    CIFilter* _ciBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [_ciBlur setDefaults];
+    [_ciBlur setValue:@(radius) forKey:@"inputRadius"];
+    [_ciBlur setValue:_ci forKey:@"inputImage"];
+    CIImage* _ciOutput = [_ciBlur outputImage];
+    
+    CIContext *_ciContext = [CIContext contextWithOptions:nil];
+    CGRect _outputRect = [_ciOutput extent];
+    
+    _outputRect.origin.x += (_outputRect.size.width  - inputImage.size.width ) / 2;
+    _outputRect.origin.y += (_outputRect.size.height - inputImage.size.height) / 2;
+    _outputRect.size = inputImage.size;
+    
+    CGImageRef _cgImage = [_ciContext createCGImage:_ciOutput fromRect:_outputRect];
+    UIImage *_resultImage = [UIImage imageWithCGImage:_cgImage];
+    CGImageRelease(_cgImage);
+    
+    return _resultImage;
+}
+
 // Implementation of the Image layer
 @implementation PYImageLayer
 
@@ -80,6 +110,15 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
 @synthesize placeholdImage = _placeholdImage;
 @synthesize loadingUrl = _loadingUrl;
 @synthesize contentMode;
+
+@synthesize blurRadius = _blurRadius;
+- (void)setBlurRadius:(CGFloat)blurRadius
+{
+    [self willChangeValueForKey:@"blurRadius"];
+    _blurRadius = blurRadius;
+    [self _setImageToContext];
+    [self didChangeValueForKey:@"blurRadius"];
+}
 
 - (void)_setImageToContext
 {
@@ -96,6 +135,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
             _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
         }
     }
+    _aspectImage = PYUIBlurImage(_aspectImage, _blurRadius);
     [self setNeedsDisplay];
 }
 
@@ -134,20 +174,7 @@ CGRect __rectOfAspectFitImage( UIImage *image, CGRect displayRect ) {
         _image = anImage;
         _loadingUrl = [@"" copy];
         // Set new value
-        UIImage *_imageToDraw = (_image != nil) ? _image : _placeholdImage;
-        if ( _imageToDraw == nil ) {
-            _aspectImage = nil;
-        } else {
-            if ( self.contentMode == UIViewContentModeScaleAspectFit ) {
-                // Nothing to do...
-                //_aspectImage = [_imageToDraw scalCanvasFitRect:self.bounds];
-                _aspectImage = _imageToDraw;
-            } else {
-                CGRect aspectFillRect = __rectOfAspectFillImage(_imageToDraw, self.bounds);
-                _aspectImage = [_imageToDraw cropInRect:aspectFillRect];
-            }
-        }
-        [self setNeedsDisplay];
+        [self _setImageToContext];
         return nil;
     }];
 }
