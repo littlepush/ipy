@@ -37,7 +37,6 @@
 #import "PYResource.h"
 #import "UIBarButtonItem+PYUIKit.h"
 #import "PYImageCache.h"
-#import "PYAppDelegate.h"
 #import "PYNavigationController.h"
 #import "PYNavViewController.h"
 
