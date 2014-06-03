@@ -58,6 +58,7 @@ typedef NS_ENUM(NSInteger, UIViewControllerPopState) {
 
 // Pop up the view controller with specified animation type.
 // Default animation type is Jelly.
+// Default duration is .3
 - (void)presentPopViewController:(UIViewController *)controller;
 - (void)presentPopViewController:(UIViewController *)controller
                         complete:(PYActionDone)complete;
@@ -65,6 +66,11 @@ typedef NS_ENUM(NSInteger, UIViewControllerPopState) {
                        animation:(PYPopUpAnimationType)type
                         complete:(PYActionDone)complete;
 - (void)presentPopViewController:(UIViewController *)controller
+                       animation:(PYPopUpAnimationType)type
+                          center:(CGPoint)center
+                        complete:(PYActionDone)complete;
+- (void)presentPopViewController:(UIViewController *)controller
+                        duration:(CGFloat)duration
                        animation:(PYPopUpAnimationType)type
                           center:(CGPoint)center
                         complete:(PYActionDone)complete;
