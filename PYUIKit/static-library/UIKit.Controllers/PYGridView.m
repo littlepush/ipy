@@ -86,6 +86,15 @@
     }
 }
 
+@synthesize seperatorStyle = _seperatorStyle;
+- (void)setSeperatorStyle:(PYGridSeperatorStyle)seperatorStyle
+{
+    [self willChangeValueForKey:@"seperatorStyle"];
+    _seperatorStyle = seperatorStyle;
+    [self setNeedsDisplay];
+    [self didChangeValueForKey:@"seperatorStyle"];
+}
+
 - (void)viewJustBeenCreated
 {
     [super viewJustBeenCreated];
@@ -569,6 +578,15 @@ shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRec
     for ( PYGridItem *_item in self ) {
         [_item setCornerRadius:cornerRaidus];
     }
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    // Update the seperator
+    // No seperator
+    if ( _seperatorStyle == PYGridSeperatorStyleNone ) return;
+    
+    
 }
 
 @end

@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E645A630193C841B008368B8 /* PYApperance.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62A193C841B008368B8 /* PYApperance.h */; };
+		E645A630193C841B008368B8 /* PYApperance.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62A193C841B008368B8 /* PYApperance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A631193C841B008368B8 /* PYApperance.m in Sources */ = {isa = PBXBuildFile; fileRef = E645A62B193C841B008368B8 /* PYApperance.m */; };
-		E645A632193C841B008368B8 /* PYNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62C193C841B008368B8 /* PYNavigationController.h */; };
+		E645A632193C841B008368B8 /* PYNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62C193C841B008368B8 /* PYNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A633193C841B008368B8 /* PYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E645A62D193C841B008368B8 /* PYNavigationController.m */; };
-		E645A634193C841B008368B8 /* PYNavViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62E193C841B008368B8 /* PYNavViewController.h */; };
+		E645A634193C841B008368B8 /* PYNavViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62E193C841B008368B8 /* PYNavViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A635193C841B008368B8 /* PYNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E645A62F193C841B008368B8 /* PYNavViewController.m */; };
 		E64A8FB417BB30C000B132BA /* PYHUDView+Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = E64A8FB017BB30C000B132BA /* PYHUDView+Singleton.h */; };
 		E64A8FB517BB30C000B132BA /* PYHUDView+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = E64A8FB117BB30C000B132BA /* PYHUDView+Singleton.m */; };

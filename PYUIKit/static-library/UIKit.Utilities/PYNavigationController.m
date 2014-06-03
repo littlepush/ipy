@@ -6,6 +6,22 @@
 //  Copyright (c) 2013 Push Lab. All rights reserved.
 //
 
+/*
+ LISENCE FOR IPY
+ COPYRIGHT (c) 2013, Push Chen.
+ ALL RIGHTS RESERVED.
+ 
+ REDISTRIBUTION AND USE IN SOURCE AND BINARY
+ FORMS, WITH OR WITHOUT MODIFICATION, ARE
+ PERMITTED PROVIDED THAT THE FOLLOWING CONDITIONS
+ ARE MET:
+ 
+ YOU USE IT, AND YOU JUST USE IT!.
+ WHY NOT USE THIS LIBRARY IN YOUR CODE TO MAKE
+ THE DEVELOPMENT HAPPIER!
+ ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
+ */
+
 #import "PYNavigationController.h"
 
 @interface PYNavigationController ()
@@ -153,11 +169,89 @@
 }
 
 #pragma mark --
+#pragma mark top bar
+@synthesize topBarHidden = _isTopBarHidden;
+@synthesize topBar = _topBarView;
+@synthesize topBarHeight = _topBarHeight;
+- (void)__notifyChildrenForContentSizeChangedCausedByBars
+{
+    // Tell all child viewcontrollers
+    for ( UIViewController *_vc in self.viewControllers ) {
+        CGRect _vcFrame = _vc.view.frame;
+        _vcFrame.size.height = (_containerView.bounds.size.height -
+                                _vc.view.frame.origin.y);
+        [_vc.view setFrame:_vcFrame];
+        [_vc contentSizeDidChanged];
+    }
+}
+
+- (void)setTopBarHeight:(CGFloat)height
+{
+    CGFloat _oldHeight = _topBarHeight;
+    _topBarHeight = height;
+    // Not show, return.
+    if ( _isTopBarHidden ) return;
+    
+    // Change the container frame.
+    CGRect _containerFrame = _containerView.frame;
+    _containerFrame.size.height += (_oldHeight - height);
+    _containerFrame.origin.y = _topBarHeight;
+    [_containerView setFrame:_containerFrame];
+    
+    // Change the bottom view frame.
+    CGRect _topFrame = _topBarView.frame;
+    _topFrame.size.height = height;
+    [_topBarView setFrame:_topFrame];
+    [self __notifyChildrenForContentSizeChangedCausedByBars];
+}
+
+- (void)__changeTopBarHidden:(BOOL)hidden
+{
+    // Change container frame.
+    CGRect _containerFrame = _containerView.frame;
+    if ( hidden == NO ) {
+        _containerFrame.size.height -= _topBarHeight;
+        _containerFrame.origin.y += _topBarHeight;
+        
+        // Check if bottom bar height has been changed since last show
+        if ( _topBarView.frame.size.height != _topBarHeight ) {
+            // chagne the frame
+            CGRect _topFrame = self.view.bounds;
+            _topFrame.origin.y = 0;
+            _topFrame.size.height = _topBarHeight;
+            [_topBarView setFrame:_topFrame];
+        }
+    } else {
+        _containerFrame.size.height += _topBarHeight;
+        _containerFrame.origin.y -= _topBarHeight;
+    }
+    [_containerView setFrame:_containerFrame];
+    [_topBarView setAlpha:(hidden ? 0.f : 1.f)];
+}
+
+- (void)setTopBarHidden:(BOOL)hidden animated:(BOOL)animated
+{
+    if ( _isTopBarHidden == hidden ) return;
+    _isTopBarHidden = hidden;
+    
+    if ( animated ) {
+        [UIView animateWithDuration:.175 animations:^{
+            [self __changeTopBarHidden:hidden];
+        } completion:^(BOOL finished) {
+            [self __notifyChildrenForContentSizeChangedCausedByBars];
+        }];
+    } else {
+        [self __changeTopBarHidden:hidden];
+        [self __notifyChildrenForContentSizeChangedCausedByBars];
+    }
+}
+
+#pragma mark --
 #pragma mark Bottom Bar
 @synthesize bottomBarHidden = _isBottomBarHidden;
 @synthesize bottomBar = _bottomBarView;
 @synthesize bottomBarHeight = _bottomBarHeight;
-- (void)__notifyChildrenForContentSizeChangedCausedByBottomBar
+- (void)__notifyChildrenForContentSizeChangedCausedByBottomBar __deprecated
 {
     // Tell all child viewcontrollers
     for ( UIViewController *_vc in self.viewControllers ) {
@@ -185,7 +279,7 @@
     _bottomFrame.size.height = height;
     _bottomFrame.origin.y -= (_oldHeight - height);
     [_bottomBarView setFrame:_bottomFrame];
-    [self __notifyChildrenForContentSizeChangedCausedByBottomBar];
+    [self __notifyChildrenForContentSizeChangedCausedByBars];
 }
 
 - (void)__changeBottomBarHidden:(BOOL)hidden
@@ -219,11 +313,11 @@
         [UIView animateWithDuration:.175 animations:^{
             [self __changeBottomBarHidden:hidden];
         } completion:^(BOOL finished) {
-            [self __notifyChildrenForContentSizeChangedCausedByBottomBar];
+            [self __notifyChildrenForContentSizeChangedCausedByBars];
         }];
     } else {
         [self __changeBottomBarHidden:hidden];
-        [self __notifyChildrenForContentSizeChangedCausedByBottomBar];
+        [self __notifyChildrenForContentSizeChangedCausedByBars];
     }
 }
 
@@ -236,14 +330,21 @@
     self.view = [UIView object];
     [self.view setFrame:_containerView.frame];
     
+    _topBarHeight = 44.f;
+    _topBarView = [PYView object];
+    [_topBarView setAlpha:0.f];
+    [_topBarView
+     setFrame:CGRectMake(0, 0, _containerView.frame.size.width, _topBarHeight)];
+    
     _bottomBarHeight = 44.f;
     _bottomBarView = [PYView object];
     [_bottomBarView setAlpha:0.f];
     [_bottomBarView
-     setFrame:CGRectMake(0, _containerView.frame.size.height - _bottomBarHeight,
+     setFrame:CGRectMake(0, _containerView.frame.size.height - _bottomBarHeight - _topBarHeight,
                          _containerView.frame.size.width, _bottomBarHeight)];
     // [_bottomBarView setTransform:CGAffineTransformMakeTranslation(0, _bottomBarHeight)];
     [self.view addSubview:_containerView];
+    [self.view addSubview:_topBarView];
     [self.view addSubview:_bottomBarView];
     _isBottomBarHidden = YES;
 }
@@ -318,3 +419,7 @@
 }
 
 @end
+
+// @littlepush
+// littlepush@gmail.com
+// PYLab

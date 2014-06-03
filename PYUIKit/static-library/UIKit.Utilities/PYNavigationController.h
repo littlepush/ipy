@@ -6,6 +6,22 @@
 //  Copyright (c) 2013 Push Lab. All rights reserved.
 //
 
+/*
+ LISENCE FOR IPY
+ COPYRIGHT (c) 2013, Push Chen.
+ ALL RIGHTS RESERVED.
+ 
+ REDISTRIBUTION AND USE IN SOURCE AND BINARY
+ FORMS, WITH OR WITHOUT MODIFICATION, ARE
+ PERMITTED PROVIDED THAT THE FOLLOWING CONDITIONS
+ ARE MET:
+ 
+ YOU USE IT, AND YOU JUST USE IT!.
+ WHY NOT USE THIS LIBRARY IN YOUR CODE TO MAKE
+ THE DEVELOPMENT HAPPIER!
+ ENJOY YOUR LIFE AND BE FAR AWAY FROM BUGS.
+ */
+
 #import <UIKit/UIKit.h>
 #import "PYView.h"
 
@@ -73,6 +89,13 @@ typedef NS_OPTIONS(NSUInteger, UINavigationControllerType) {
 // Pop Navigation Controller Properties
 @property (nonatomic, readonly) BOOL                        isPopedUp;
 
+// TopBar.
+@property (nonatomic, readonly) PYView                      *topBar;
+@property (nonatomic, assign)   BOOL                        topBarHidden;
+@property (nonatomic, assign)   CGFloat                     topBarHeight;
+// Change the top bar hidden with animation.
+- (void)setTopBarHidden:(BOOL)hidden animated:(BOOL)animated;
+
 // BottomBar.
 @property (nonatomic, readonly) PYView                      *bottomBar;
 @property (nonatomic, assign)   BOOL                        bottomBarHidden;
@@ -104,3 +127,7 @@ typedef NS_OPTIONS(NSUInteger, UINavigationControllerType) {
 - (void)contentSizeDidChanged;
 
 @end
+
+// @littlepush
+// littlepush@gmail.com
+// PYLab
