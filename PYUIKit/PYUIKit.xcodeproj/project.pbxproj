@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E625C72C193EBE1100F77D43 /* PYTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C728193EBE1100F77D43 /* PYTableCell.h */; };
+		E625C72D193EBE1100F77D43 /* UITableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C729193EBE1100F77D43 /* UITableManager.h */; };
+		E625C72E193EBE1100F77D43 /* UITableManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E625C72A193EBE1100F77D43 /* UITableManager.m */; };
+		E625C72F193EBE1100F77D43 /* PYTableManagerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */; };
 		E645A630193C841B008368B8 /* PYApperance.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62A193C841B008368B8 /* PYApperance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A631193C841B008368B8 /* PYApperance.m in Sources */ = {isa = PBXBuildFile; fileRef = E645A62B193C841B008368B8 /* PYApperance.m */; };
 		E645A632193C841B008368B8 /* PYNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62C193C841B008368B8 /* PYNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -137,6 +141,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E625C728193EBE1100F77D43 /* PYTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTableCell.h; sourceTree = "<group>"; };
+		E625C729193EBE1100F77D43 /* UITableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableManager.h; sourceTree = "<group>"; };
+		E625C72A193EBE1100F77D43 /* UITableManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableManager.m; sourceTree = "<group>"; };
+		E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTableManagerProtocol.h; sourceTree = "<group>"; };
 		E6263F8315B42B1400DCF831 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E6263F8515B42B1400DCF831 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6263F8715B42B1400DCF831 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -508,6 +516,10 @@
 		E67F68CD179EE58C0086F03C /* UIKit.Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E625C728193EBE1100F77D43 /* PYTableCell.h */,
+				E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */,
+				E625C729193EBE1100F77D43 /* UITableManager.h */,
+				E625C72A193EBE1100F77D43 /* UITableManager.m */,
 				E645A62A193C841B008368B8 /* PYApperance.h */,
 				E645A62B193C841B008368B8 /* PYApperance.m */,
 				E645A62C193C841B008368B8 /* PYNavigationController.h */,
@@ -607,11 +619,13 @@
 				E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */,
 				E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */,
 				E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */,
+				E625C72D193EBE1100F77D43 /* UITableManager.h in Headers */,
 				E66E46A617A57DB800D1FF55 /* PYImageView.h in Headers */,
 				E66E46AB17A57E2000D1FF55 /* UIImage+UIKit.h in Headers */,
 				E645A630193C841B008368B8 /* PYApperance.h in Headers */,
 				E66E46C817A6641500D1FF55 /* PYLabelLayer.h in Headers */,
 				E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */,
+				E625C72C193EBE1100F77D43 /* PYTableCell.h in Headers */,
 				E66E46CC17A71C7A00D1FF55 /* PYLabel.h in Headers */,
 				E64A8FC017BB7EA900B132BA /* PYBillBoard.h in Headers */,
 				E66E46D117A71F5D00D1FF55 /* PYRichText.h in Headers */,
@@ -628,6 +642,7 @@
 				E67CE0E417A7E1C7009BC886 /* PYScrollView.h in Headers */,
 				E69D0B851803C163007DCBF5 /* PYUIKitMacro.h in Headers */,
 				E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */,
+				E625C72F193EBE1100F77D43 /* PYTableManagerProtocol.h in Headers */,
 				E6F91500183B1C8600521E22 /* _PYGridItemUIInfo.h in Headers */,
 				E6D78287183369EE007FAF3F /* PYResource.h in Headers */,
 				E6D7828318335680007FAF3F /* UIView+AttributeLoader.h in Headers */,
@@ -775,6 +790,7 @@
 				E66E46D617A71F7B00D1FF55 /* PYRichText+Label.m in Sources */,
 				E6F91501183B1C8600521E22 /* _PYGridItemUIInfo.m in Sources */,
 				E6C58D6617CB5486003D32EA /* UIViewController+PopUp.m in Sources */,
+				E625C72E193EBE1100F77D43 /* UITableManager.m in Sources */,
 				E64A8FCA17BC834600B132BA /* PYTableContentView.m in Sources */,
 				E66E46DA17A71F8A00D1FF55 /* PYRichLabel.m in Sources */,
 				E66E46DE17A7216800D1FF55 /* UIView+PYUIKit.m in Sources */,
