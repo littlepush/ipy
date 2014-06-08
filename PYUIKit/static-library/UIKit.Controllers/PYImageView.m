@@ -276,6 +276,11 @@
 
 - (void)setImageUrl:(NSString *)imageUrl
 {
+    [self setImageUrl:imageUrl done:nil failed:nil];
+}
+
+- (void)setImageUrl:(NSString *)imageUrl done:(PYActionDone)done failed:(PYActionFailed)failed
+{
     if ( [imageUrl length] == 0 ) {
         // Clean self's status
         self.image = _placeholdImage;
@@ -284,8 +289,9 @@
     
     [_mutex lockAndDo:^id{
         // Check if is loading the image.
-        if ( [_loadingUrl length] > 0 && [_loadingUrl isEqualToString:imageUrl] )
+        if ( [_loadingUrl length] > 0 && [_loadingUrl isEqualToString:imageUrl] ) {
             return nil;
+        }
         
         [super setImage:nil];
         
@@ -294,6 +300,7 @@
         UIImage *_image = [SHARED_IMAGECACHE imageByName:_loadingUrl];
         if ( _image != nil ) {
             [self setImage:_image];
+            if ( done ) done();
             return nil;
         }
         
@@ -302,8 +309,14 @@
          loadImageNamed:_loadingUrl
          get:^(UIImage *loadedImage, NSString *imageName){
              // Did loaded the image...
-             if ( ![imageName isEqualToString:_wss.loadingUrl] ) return;
+             if ( ![imageName isEqualToString:_wss.loadingUrl] ) {
+                 if ( failed )
+                     failed( [self errorWithCode:10002 message:@"image loading has been cancelled"]);
+             };
              [_wss setImage:loadedImage];
+             if ( done ) done();
+         } failed:^(NSError *error) {
+             if ( failed ) failed( error );
          }];
         return nil;
     }];

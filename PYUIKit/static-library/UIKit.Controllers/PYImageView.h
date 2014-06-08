@@ -55,6 +55,7 @@
 
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;
+- (void)setImageUrl:(NSString *)imageUrl done:(PYActionDone)done failed:(PYActionFailed)failed;
 
 // Refresh the content after reset the frame.
 - (void)refreshContent;

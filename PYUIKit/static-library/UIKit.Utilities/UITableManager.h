@@ -25,45 +25,45 @@
 #import <Foundation/Foundation.h>
 #import "PYTableManagerProtocol.h"
 
-//typedef void (^PYTableCellClick)(NSString *identify, UITableViewCell *cell);
-typedef UIView * (^PYTableManagerSection)(NSNumber *);
-extern const NSUInteger UITableManagerEventGetSectionHeader;            // User Defined + 1
-typedef NSNumber *(^PYTableManagerHeightOfSection)(NSNumber *);
-extern const NSUInteger UITableManagerEventGetHeightOfSectionHeader;    // User Defined + 2
-typedef NSNumber *(^PYTableManagerUpdatingHandler)( void );
-extern const NSUInteger UITableManagerEventOnRefreshList;               // User Defined + 3
-extern const NSUInteger UITableManagerEventOnLoadMoreList;              // User Defined + 4
-extern const NSUInteger UITableManagerEventCancelUpdating;              // User Defined + 5
-extern const NSUInteger UITableManagerEventWillAllowRefreshList;        // User Defined + 6
-extern const NSUInteger UITableManagerEventWillAllowLoadMoreList;       // User Defined + 7
-extern const NSUInteger UITableManagerEventWillGiveUpRefreshList;       // User Defined + 8
-extern const NSUInteger UITableManagerEventWillGiveUpLoadMoreList;      // User Defined + 9
-extern const NSUInteger UITableManagerEventBeginToRefreshList;          // User Defined + 10
-extern const NSUInteger UITableManagerEventBeginToLoadMoreList;         // User Defined + 11
-extern const NSUInteger UITableManagerEventEndUpdateContent;            // User Defined + 12
+typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
+    UITableManagerEventGetSectionHeader         = PYTableManagerEventUserDefined + 1,
+    UITableManagerEventGetHeightOfSectionHeader = PYTableManagerEventUserDefined + 2,
+    UITableManagerEventOnRefreshList            = PYTableManagerEventUserDefined + 3,
+    UITableManagerEventOnLoadMoreList           = PYTableManagerEventUserDefined + 4,
+    UITableManagerEventCancelUpdating           = PYTableManagerEventUserDefined + 5,
+    UITableManagerEventWillAllowRefreshList     = PYTableManagerEventUserDefined + 6,
+    UITableManagerEventWillAllowLoadMoreList    = PYTableManagerEventUserDefined + 7,
+    UITableManagerEventWillGiveUpRefreshList    = PYTableManagerEventUserDefined + 8,
+    UITableManagerEventWillGiveUpLoadMoreList   = PYTableManagerEventUserDefined + 9,
+    UITableManagerEventBeginToRefreshList       = PYTableManagerEventUserDefined + 10,
+    UITableManagerEventBeginToLoadMoreList      = PYTableManagerEventUserDefined + 11,
+    UITableManagerEventEndUpdateContent         = PYTableManagerEventUserDefined + 12,
+    UITableManagerEventSectionIndexTitle        = PYTableManagerEventUserDefined + 13
+};
 
 @interface UITableManager : PYActionDispatcher
     <PYTableManagerProtocol, UITableViewDataSource, UITableViewDelegate>
 {
     UITableView             *_bindTableView;
     NSArray                 *_contentDataSource;
-    Class                   *_cellClassCList;
-    NSInteger               _cellClassCount;
-    BOOL                    _isEditing;
-    NSUInteger              _sectionCount;
-    BOOL                    _isMultiSection;
-    
-    BOOL                    _isUpdating;
-    BOOL                    _canUpdateContent;
-    
     UIView                  *_pullDownContainerView;
     UIView                  *_pullUpContainerView;
+    
+    struct {
+        //NSInteger               _cellClassCount;
+        NSUInteger              _sectionCount;
+        BOOL                    _isMultiSection:1;      // show (or not) the section header
+        BOOL                    _isEditing:1;           // is current table view in editing mode
+        BOOL                    _isShowSectionIndexTitle:1; // if show section index title
+        BOOL                    _isUpdating:1;          // is updating content data source
+        BOOL                    _canUpdateContent:1;    // can update the data source
+    }                       _flags;
 }
 
-// Set the customized cell class, default is PYTableViewCell
-@property (nonatomic, assign)   Class           cellClass;
-@property (nonatomic, readonly) NSArray         *cellClassList;
+// The cell class
+- (Class)classOfCellAtIndex:(NSIndexPath *)index;
 
+// Enable editing for every cell.
 @property (nonatomic, assign)   BOOL            enableEditing;
 
 // Is current table view updating is content data source.
@@ -79,6 +79,7 @@ extern const NSUInteger UITableManagerEventEndUpdateContent;            // User 
 
 // Get the section count
 @property (nonatomic, readonly) NSUInteger      sectionCount;
+@property (nonatomic, assign)   BOOL            isShowSectionHeader;
 
 // If current data source is multiple section
 @property (nonatomic, readonly) BOOL            isMultiSection;
@@ -88,11 +89,6 @@ extern const NSUInteger UITableManagerEventEndUpdateContent;            // User 
 
 // Multiple Section Table Manager.
 // The Data Source must be a double-level array.
-- (void)bindTableView:(id)tableView withDataSource:(NSArray *)dataSource
-         sectionCount:(NSUInteger)count DEPRECATED_ATTRIBUTE;
-- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
-                         sectionCount:(NSUInteger)count DEPRECATED_ATTRIBUTE;
-
 - (void)bindTableView:(id)tableView withDataSource:(NSArray *)dataSource
          sectionCount:(NSUInteger)count isMultiSection:(BOOL)isMultiSection;
 - (void)reloadTableDataWithDataSource:(NSArray *)dataSource

@@ -192,13 +192,18 @@ UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius)
 
 - (void)setImageUrl:(NSString *)imageUrl
 {
+    [self setImageUrl:imageUrl done:nil failed:nil];
+}
+
+- (void)setImageUrl:(NSString *)imageUrl done:(PYActionDone)done failed:(PYActionFailed)failed
+{
     //@synchronized(self) {
     if ( [imageUrl length] == 0 ) {
         // Clean self's status
         self.image = nil;
         return;
     }
-        
+    
     [_mutex lockAndDo:^id{
         // Check if is loading the image.
         if ( [_loadingUrl length] > 0 && [_loadingUrl isEqualToString:imageUrl] )
@@ -211,6 +216,7 @@ UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius)
         _image = [SHARED_IMAGECACHE imageByName:_loadingUrl];
         if ( _image != nil ) {
             [self _setImageToContext];
+            if ( done ) done();
             return nil;
         }
         
@@ -219,8 +225,14 @@ UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius)
          loadImageNamed:_loadingUrl
          get:^(UIImage *loadedImage, NSString *imageName){
              // Did loaded the image...
-             if ( ![imageName isEqualToString:_bss.loadingUrl] ) return;
+             if ( ![imageName isEqualToString:_bss.loadingUrl] ) {
+                 if ( failed )
+                     failed( [self errorWithCode:10002 message:@"image loading has been cancelled"]);
+             };
              [_bss _internalSetImage:loadedImage];
+             if ( done ) done();
+         } failed:^(NSError *error) {
+             if ( failed ) failed( error );
          }];
         return nil;
     }];

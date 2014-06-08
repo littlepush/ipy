@@ -26,19 +26,6 @@
 #import "PYTableCell.h"
 #import "PYLayer.h"
 
-const NSUInteger UITableManagerEventGetSectionHeader = PYTableManagerEventUserDefined + 1;
-const NSUInteger UITableManagerEventGetHeightOfSectionHeader = PYTableManagerEventUserDefined + 2;
-const NSUInteger UITableManagerEventOnRefreshList = PYTableManagerEventUserDefined + 3;
-const NSUInteger UITableManagerEventOnLoadMoreList = PYTableManagerEventUserDefined + 4;
-const NSUInteger UITableManagerEventCancelUpdating = PYTableManagerEventUserDefined + 5;
-const NSUInteger UITableManagerEventWillAllowRefreshList = PYTableManagerEventUserDefined + 6;
-const NSUInteger UITableManagerEventWillAllowLoadMoreList = PYTableManagerEventUserDefined + 7;
-const NSUInteger UITableManagerEventWillGiveUpRefreshList = PYTableManagerEventUserDefined + 8;
-const NSUInteger UITableManagerEventWillGiveUpLoadMoreList = PYTableManagerEventUserDefined + 9;
-const NSUInteger UITableManagerEventBeginToRefreshList = PYTableManagerEventUserDefined + 10;
-const NSUInteger UITableManagerEventBeginToLoadMoreList = PYTableManagerEventUserDefined + 11;
-const NSUInteger UITableManagerEventEndUpdateContent = PYTableManagerEventUserDefined + 12;
-
 @interface UITableManager (KVOExtend)
 PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
 @end

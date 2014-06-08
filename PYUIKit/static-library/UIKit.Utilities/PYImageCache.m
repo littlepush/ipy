@@ -313,7 +313,15 @@ PYSingletonDefaultImplementation;
 // Load the image from bundle or network
 - (void)loadImageNamed:(NSString *)imageName get:(PYImageCacheLoadedImage)get
 {
-    if ( get == nil ) return;
+    [self loadImageNamed:imageName get:get failed:nil];
+}
+
+- (void)loadImageNamed:(NSString *)imageName get:(PYImageCacheLoadedImage)get failed:(PYActionFailed)failed
+{
+    if ( get == nil ) {
+        if ( failed ) failed( [self errorWithCode:10001 message:@"no get block, will not to load the image"]);
+        return;
+    };
     //@synchronized( self ) {
     UIImage *_image = [self imageByName:imageName];
     if ( _image != nil ) {
@@ -341,10 +349,20 @@ PYSingletonDefaultImplementation;
                                  error:&_error];
                 if ( _error != nil ) {
                     NSLog(@"failed to load the image: %@", _error.localizedDescription);
+                    if ( failed ) {
+                        dispatch_async( dispatch_get_main_queue(), ^{
+                            failed( _error );
+                        });
+                    }
                     return;
                 }
                 if ( _data == nil || [_data length] == 0 ) {
                     NSLog(@"the image is invalidate.");
+                    if ( failed ) {
+                        dispatch_async( dispatch_get_main_queue(), ^{
+                            failed( _error );
+                        });
+                    }
                     return;
                 }
                 //@synchronized ( _bss ) {
