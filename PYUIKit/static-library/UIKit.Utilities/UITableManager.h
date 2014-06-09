@@ -52,7 +52,8 @@ typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
     struct {
         //NSInteger               _cellClassCount;
         NSUInteger              _sectionCount;
-        BOOL                    _isMultiSection:1;      // show (or not) the section header
+        BOOL                    _isMultiSection:1;      // if current datasource contains multiple sections
+        BOOL                    _isShowSectionHeader;   // if show section header.
         BOOL                    _isEditing:1;           // is current table view in editing mode
         BOOL                    _isShowSectionIndexTitle:1; // if show section index title
         BOOL                    _isUpdating:1;          // is updating content data source
