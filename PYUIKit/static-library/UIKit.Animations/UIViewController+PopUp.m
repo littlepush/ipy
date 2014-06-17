@@ -145,6 +145,18 @@
                           center:(CGPoint)center
                         complete:(PYActionDone)complete
 {
+    [self presentPopViewController:controller
+                          duration:.3
+                         animation:type
+                            center:center
+                          complete:complete];
+}
+- (void)presentPopViewController:(UIViewController *)controller
+                        duration:(CGFloat)duration
+                       animation:(PYPopUpAnimationType)type
+                          center:(CGPoint)center
+                        complete:(PYActionDone)complete
+{
     if ( controller == nil ) return;
     if ( self.popState != UIViewControllerPopStateUnknow &&
         self.popState != UIViewControllerPopStateDismissed ) return;
@@ -162,7 +174,7 @@
         }
         [controller.view setFrame:_frame];
         [controller.view setCenter:center];
-        [self displayMaskViewWithAlpha:.3 animation:type
+        [self displayMaskViewWithAlpha:duration animation:type
                    customizeController:controller];
         [self.view addSubview:controller.view];
         
@@ -177,7 +189,7 @@
         
         if ( PYPopUpAnimationTypeFade == type ) {
             controller.view.alpha = 0.f;
-            [UIView animateWithDuration:.3 / 2 animations:^{
+            [UIView animateWithDuration:duration / 2 animations:^{
                 controller.view.alpha = 1.f;
             } completion:^(BOOL finished) {
                 self.popState = UIViewControllerPopStatePoppedUp;
@@ -189,7 +201,7 @@
         
         if ( PYPopUpAnimationTypeSlideFromLeft == type ) {
             controller.view.transform = CGAffineTransformMakeTranslation(-self.view.bounds.size.width, 0);
-            [UIView animateWithDuration:.3 / 2 animations:^{
+            [UIView animateWithDuration:duration / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 self.popState = UIViewControllerPopStatePoppedUp;
@@ -201,7 +213,7 @@
         
         if ( PYPopUpAnimationTypeSlideFromRight == type ) {
             controller.view.transform = CGAffineTransformMakeTranslation(self.view.bounds.size.width, 0);
-            [UIView animateWithDuration:.3 / 2 animations:^{
+            [UIView animateWithDuration:duration / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 self.popState = UIViewControllerPopStatePoppedUp;
@@ -213,7 +225,7 @@
         
         if ( PYPopUpAnimationTypeSlideFromBottom == type ) {
             controller.view.transform = CGAffineTransformMakeTranslation(0, self.view.bounds.size.height);
-            [UIView animateWithDuration:.3 / 2 animations:^{
+            [UIView animateWithDuration:duration / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 self.popState = UIViewControllerPopStatePoppedUp;
@@ -225,7 +237,7 @@
         
         if ( PYPopUpAnimationTypeSlideFromTop == type ) {
             controller.view.transform = CGAffineTransformMakeTranslation(0, -self.view.bounds.size.height);
-            [UIView animateWithDuration:.3 / 2 animations:^{
+            [UIView animateWithDuration:duration / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 self.popState = UIViewControllerPopStatePoppedUp;
@@ -237,7 +249,7 @@
         // Scale to a point first.
         controller.view.transform = CGAffineTransformMakeScale(.01, .01);
         if ( PYPopUpAnimationTypeSmooth == type ) {
-            [UIView animateWithDuration:.3 / 2 animations:^{
+            [UIView animateWithDuration:duration / 2 animations:^{
                 controller.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 self.popState = UIViewControllerPopStatePoppedUp;
@@ -247,13 +259,13 @@
             return;
         }
         if ( PYPopUpAnimationTypeJelly == type ) {
-            [UIView animateWithDuration:.3 / 1.5 animations:^{
+            [UIView animateWithDuration:duration / 1.5 animations:^{
                 controller.view.transform = CGAffineTransformMakeScale(1.1, 1.1);
             } completion:^(BOOL finished) {
-                [UIView animateWithDuration:.3 / 2 animations:^{
+                [UIView animateWithDuration:duration / 2 animations:^{
                     controller.view.transform = CGAffineTransformMakeScale(.9, .9);
                 } completion:^(BOOL finished) {
-                    [UIView animateWithDuration:.3 / 2 animations:^{
+                    [UIView animateWithDuration:duration / 2 animations:^{
                         controller.view.transform = CGAffineTransformIdentity;
                     } completion:^(BOOL finished) {
                         self.popState = UIViewControllerPopStatePoppedUp;

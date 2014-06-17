@@ -86,6 +86,15 @@
     }
 }
 
+@synthesize seperatorStyle = _seperatorStyle;
+- (void)setSeperatorStyle:(PYGridSeperatorStyle)seperatorStyle
+{
+    [self willChangeValueForKey:@"seperatorStyle"];
+    _seperatorStyle = seperatorStyle;
+    [self setNeedsDisplay];
+    [self didChangeValueForKey:@"seperatorStyle"];
+}
+
 - (void)viewJustBeenCreated
 {
     [super viewJustBeenCreated];
@@ -568,6 +577,50 @@ shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRec
 {
     for ( PYGridItem *_item in self ) {
         [_item setCornerRadius:cornerRaidus];
+    }
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    // Update the seperator
+    // No seperator
+    if ( _seperatorStyle == PYGridSeperatorStyleNone ) return;
+    
+    CGContextRef _ctx = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(_ctx, .5f);
+    CGContextSetStrokeColorWithColor(_ctx, [UIColor lightGrayColor].CGColor);
+    
+    for ( PYGridItem * _item in self ) {
+        if ( (_seperatorStyle & 0x0100) && (_item.coordinate.x + _item.scale.row < _gridScale.row)) {
+            // Need hor
+            CGFloat _x = _item.frame.origin.x + _padding / 2;
+            CGFloat _y = _item.frame.origin.y + _item.frame.size.height + _padding * 1.5;
+            CGFloat _w = _item.frame.size.width + _padding;
+            // For Lite
+            if ( _seperatorStyle & 0x0002 ) {
+                _x += (_w / 5);
+                _w = (_w / 5 * 3);
+            }
+            
+            CGContextMoveToPoint(_ctx, _x, _y);
+            CGContextAddLineToPoint(_ctx, _x + _w, _y);
+            CGContextStrokePath(_ctx);
+        }
+        if ( (_seperatorStyle & 0x200) && (_item.coordinate.y + _item.scale.column < _gridScale.column)) {
+            // Need ver
+            CGFloat _x = _item.frame.origin.x + _item.frame.size.width + _padding * 1.5;
+            CGFloat _y = _item.frame.origin.y + _padding / 2;
+            CGFloat _h = _item.frame.size.height + _padding;
+            // For Lite
+            if ( _seperatorStyle & 0x0002 ) {
+                _y += (_h / 5);
+                _h = (_h / 5 * 3);
+            }
+            
+            CGContextMoveToPoint(_ctx, _x, _y);
+            CGContextAddLineToPoint(_ctx, _x, _y + _h);
+            CGContextStrokePath(_ctx);
+        }
     }
 }
 

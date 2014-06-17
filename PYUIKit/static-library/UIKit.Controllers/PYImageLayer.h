@@ -70,6 +70,7 @@ extern "C" {
 
 // Start to load the image from the URL
 - (void)setImageUrl:(NSString *)imageUrl;
+- (void)setImageUrl:(NSString *)imageUrl done:(PYActionDone)done failed:(PYActionFailed)failed;
 
 // force to update content image, without re-draw, just set the content.
 - (void)forceUpdateContentWithImage:(UIImage *)image;

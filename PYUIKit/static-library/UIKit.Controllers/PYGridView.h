@@ -51,6 +51,17 @@ typedef NS_OPTIONS(NSUInteger, PYGridItemStyle) {
     PYGridItemStyleIconTitleIndicate    = PYGridItemStyleIconTitleHorizontal | (1 << 2)
 };
 
+typedef NS_ENUM(NSUInteger, PYGridSeperatorStyle) {
+    PYGridSeperatorStyleNone    = 0,
+    PYGridSeperatorStyleHorFull = 0x0101,
+    PYGridSeperatorStyleVerFull = 0x0201,
+    PYGridSeperatorStyleFull    = PYGridSeperatorStyleHorFull | PYGridSeperatorStyleVerFull,
+    PYGridSeperatorStyleHorLite = 0x0102,
+    PYGridSeperatorStyleVerLite = 0x0202,
+    PYGridSeperatorStyleLite    = PYGridSeperatorStyleHorLite | PYGridSeperatorStyleVerLite,
+    PYGridSeperatorStyleDefault = PYGridSeperatorStyleVerLite
+};
+
 // Pre-define of the GridItem object.
 @class PYGridItem;
 @protocol PYGridViewDelegate;
@@ -82,6 +93,8 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
     PYGridItem                  *_selectedItem;
     UIControlState              _selectedItemState;
     BOOL                        _supportTouchMoving;
+    
+    PYGridSeperatorStyle        _seperatorStyle;
 }
 
 // The delegate to receive the event.
@@ -124,6 +137,9 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
 // Set to YES will not stop recogernize the tap action when
 // receive touch move event.
 @property (nonatomic, assign)   BOOL                supportTouchMoving;
+
+// Seperator
+@property (nonatomic, assign)   PYGridSeperatorStyle    seperatorStyle;
 
 // Set the global UI info for different state of the cell item.
 - (void)setItemBackgroundColor:(UIColor *)color forState:(UIControlState)state;
