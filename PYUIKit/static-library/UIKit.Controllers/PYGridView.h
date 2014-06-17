@@ -53,9 +53,13 @@ typedef NS_OPTIONS(NSUInteger, PYGridItemStyle) {
 
 typedef NS_ENUM(NSUInteger, PYGridSeperatorStyle) {
     PYGridSeperatorStyleNone    = 0,
-    PYGridSeperatorStyleFull    = 1,
-    PYGridSeperatorStyleLite    = 2,
-    PYGridSeperatorStyleDefault = PYGridSeperatorStyleLite
+    PYGridSeperatorStyleHorFull = 0x0101,
+    PYGridSeperatorStyleVerFull = 0x0201,
+    PYGridSeperatorStyleFull    = PYGridSeperatorStyleHorFull | PYGridSeperatorStyleVerFull,
+    PYGridSeperatorStyleHorLite = 0x0102,
+    PYGridSeperatorStyleVerLite = 0x0202,
+    PYGridSeperatorStyleLite    = PYGridSeperatorStyleHorLite | PYGridSeperatorStyleVerLite,
+    PYGridSeperatorStyleDefault = PYGridSeperatorStyleVerLite
 };
 
 // Pre-define of the GridItem object.

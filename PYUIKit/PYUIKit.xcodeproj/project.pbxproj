@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E625C72C193EBE1100F77D43 /* PYTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C728193EBE1100F77D43 /* PYTableCell.h */; };
-		E625C72D193EBE1100F77D43 /* UITableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C729193EBE1100F77D43 /* UITableManager.h */; };
-		E625C72F193EBE1100F77D43 /* PYTableManagerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */; };
 		E645A630193C841B008368B8 /* PYApperance.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62A193C841B008368B8 /* PYApperance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A631193C841B008368B8 /* PYApperance.m in Sources */ = {isa = PBXBuildFile; fileRef = E645A62B193C841B008368B8 /* PYApperance.m */; };
 		E645A632193C841B008368B8 /* PYNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62C193C841B008368B8 /* PYNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -618,7 +616,6 @@
 				E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */,
 				E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */,
 				E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */,
-				E625C72D193EBE1100F77D43 /* UITableManager.h in Headers */,
 				E66E46A617A57DB800D1FF55 /* PYImageView.h in Headers */,
 				E66E46AB17A57E2000D1FF55 /* UIImage+UIKit.h in Headers */,
 				E645A630193C841B008368B8 /* PYApperance.h in Headers */,
@@ -641,7 +638,6 @@
 				E67CE0E417A7E1C7009BC886 /* PYScrollView.h in Headers */,
 				E69D0B851803C163007DCBF5 /* PYUIKitMacro.h in Headers */,
 				E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */,
-				E625C72F193EBE1100F77D43 /* PYTableManagerProtocol.h in Headers */,
 				E6F91500183B1C8600521E22 /* _PYGridItemUIInfo.h in Headers */,
 				E6D78287183369EE007FAF3F /* PYResource.h in Headers */,
 				E6D7828318335680007FAF3F /* UIView+AttributeLoader.h in Headers */,

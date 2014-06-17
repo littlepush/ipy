@@ -26,6 +26,7 @@
 #import "PYUIKitMacro.h"
 #import <ImageIO/ImageIO.h>
 #import <CoreImage/CoreImage.h>
+#import "UIColor+PYUIKit.h"
 
 #if __has_feature(objc_arc)
 #define CastToCFType(d)         ((__bridge CFTypeRef)(d))
@@ -197,6 +198,153 @@
     
     CFRelease(_imgSource);
     return [UIImage animatedImageWithImages:_frames duration:(_totalDuration / 100)];
+}
+
++ (UIImage *)imageWithGradientColors:(NSArray *)colors
+                           locations:(NSArray *)locations
+                          fillHeight:(CGFloat)height
+{
+    CGFloat _width = 1.f;
+    if ( [locations count] == 0 ) {
+        locations = [NSArray arrayWithObjects:PYDoubleToObject(0.f), PYDoubleToObject(1.f), nil];
+    }
+    
+    // Create a new bitmap image context and make it to be the current context
+    UIGraphicsBeginImageContext(CGSizeMake(_width, height));
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(ctx);
+    
+    // Get from string
+    CGFloat *_components = (CGFloat *)(malloc(sizeof(CGFloat) * 4 * [colors count]));
+    
+    for ( int l = 0; l < [colors count]; ++l ){
+        UIColor *_color = [colors objectAtIndex:l];
+        PYColorInfo _colorInfo = _color.colorInfo;
+        *(_components + l * 4 + 0) = _colorInfo.red;
+        *(_components + l * 4 + 1) = _colorInfo.green;
+        *(_components + l * 4 + 2) = _colorInfo.blue;
+        *(_components + l * 4 + 3) = _colorInfo.alpha;
+    }
+    size_t _locationsCount = (size_t)[locations count];
+    CGFloat *_locations = (CGFloat*)malloc(sizeof(CGFloat) * _locationsCount);
+    for ( NSUInteger i = 0; i < [locations count]; ++i ) {
+        _locations[i] = [[locations objectAtIndex:i] floatValue];
+    }
+    
+    CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef glossGradient =
+    CGGradientCreateWithColorComponents
+    (rgbColorspace, _components, _locations, _locationsCount);
+    CGPoint topCenter = CGPointMake(0, 0);
+    CGPoint bottomCenter = CGPointMake(0, height);
+    CGContextDrawLinearGradient(ctx, glossGradient, topCenter, bottomCenter, 0);
+    CGGradientRelease(glossGradient);
+    CGColorSpaceRelease(rgbColorspace);
+    
+    free(_components);
+    free(_locations);
+    
+    // pop context
+    UIGraphicsPopContext();
+    
+    // Get the image
+    UIImage *_gradientImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // clean up drawing environment
+    UIGraphicsEndImageContext();
+    
+    return _gradientImage;
+}
+
++ (UIImage *)imageWithGradientColors:(NSArray *)colors
+                           locations:(NSArray *)locations
+                           fillWidth:(CGFloat)width
+{
+    CGFloat _height = 1.f;
+    if ( [locations count] == 0 ) {
+        locations = [NSArray arrayWithObjects:PYDoubleToObject(0.f), PYDoubleToObject(1.f), nil];
+    }
+    
+    // Create a new bitmap image context and make it to be the current context
+    UIGraphicsBeginImageContext(CGSizeMake(width, _height));
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(ctx);
+    
+    // Get from string
+    CGFloat *_components = (CGFloat *)(malloc(sizeof(CGFloat) * 4 * [colors count]));
+    
+    for ( int l = 0; l < [colors count]; ++l ){
+        UIColor *_color = [colors objectAtIndex:l];
+        PYColorInfo _colorInfo = _color.colorInfo;
+        *(_components + l * 4 + 0) = _colorInfo.red;
+        *(_components + l * 4 + 1) = _colorInfo.green;
+        *(_components + l * 4 + 2) = _colorInfo.blue;
+        *(_components + l * 4 + 3) = _colorInfo.alpha;
+    }
+    size_t _locationsCount = (size_t)[locations count];
+    CGFloat *_locations = (CGFloat*)malloc(sizeof(CGFloat) * _locationsCount);
+    for ( NSUInteger i = 0; i < [locations count]; ++i ) {
+        _locations[i] = [[locations objectAtIndex:i] floatValue];
+    }
+    
+    CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef glossGradient =
+    CGGradientCreateWithColorComponents
+    (rgbColorspace, _components, _locations, _locationsCount);
+    CGPoint topCenter = CGPointMake(0, 0);
+    CGPoint bottomCenter = CGPointMake(width, 0);
+    CGContextDrawLinearGradient(ctx, glossGradient, topCenter, bottomCenter, 0);
+    CGGradientRelease(glossGradient);
+    CGColorSpaceRelease(rgbColorspace);
+    
+    free(_components);
+    free(_locations);
+    
+    // pop context
+    UIGraphicsPopContext();
+    
+    // Get the image
+    UIImage *_gradientImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // clean up drawing environment
+    UIGraphicsEndImageContext();
+    
+    return _gradientImage;
+}
+
++ (UIImage *)imageWithOptionString:(NSString *)optionString
+{
+    NSArray *_gradientInfo = [optionString componentsSeparatedByString:@"$"];
+    UIImage *_image = nil;
+    if ( [_gradientInfo count] > 1 ) {
+        NSString *_gradientFlag = [_gradientInfo safeObjectAtIndex:0];
+        float _gradientSize = 0.f;
+        char _direction = 0;
+        sscanf(_gradientFlag.UTF8String, "%c(%f)", &_direction, &_gradientSize);
+        
+        NSString *_colorGroup = [_gradientInfo safeObjectAtIndex:1];
+        NSArray *_colors = [_colorGroup componentsSeparatedByString:@":"];
+        
+        NSMutableArray *_clrs = [NSMutableArray array];
+        NSMutableArray *_locs = [NSMutableArray array];
+        for ( NSString *_clrString in _colors ) {
+            NSArray *_com = [_clrString componentsSeparatedByString:@"/"];
+            if ( [_com count] == 2 ) {
+                CGFloat _loc = [[_com lastObject] floatValue];
+                if ( !isnan(_loc) ) {
+                    [_locs addObject:PYDoubleToObject(_loc)];
+                }
+            }
+            [_clrs addObject:[UIColor colorWithString:[_com objectAtIndex:0]]];
+        }
+        
+        if ( _direction == 'v' ) {
+            _image = [UIImage imageWithGradientColors:_clrs locations:_locs fillHeight:_gradientSize];
+        } else {
+            _image = [UIImage imageWithGradientColors:_clrs locations:_locs fillWidth:_gradientSize];
+        }
+    }
+    return _image;
 }
 
 @end

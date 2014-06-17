@@ -93,6 +93,7 @@
     // Free the temp data.
     free( _rowRate );
     free( _columnRate );
+    [self setNeedsDisplay];
 }
 
 - (void)_reformCellsWithFixedCellbounds
@@ -177,6 +178,8 @@
     // Free the temp data.
     free( _rowRate );
     free( _columnRate );
+    
+    [self setNeedsDisplay];
     
     if ( [self.delegate respondsToSelector:@selector(pyGridViewDidChangedFrameForCollapseStateChanged:)] ) {
         [self.delegate pyGridViewDidChangedFrameForCollapseStateChanged:self];
