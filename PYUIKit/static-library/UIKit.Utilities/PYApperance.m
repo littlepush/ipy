@@ -289,6 +289,10 @@ PYKVO_CHANGED_RESPONSE(_rootContainer, popState)
 - (UIViewController *)childViewControllerForStatusBarStyle
 {
     UIViewController *_vc = [[PYApperance sharedApperance] visiableController];
+    if ( [_vc isKindOfClass:[UITabBarController class]] ) {
+        UITabBarController *_tbC = (UITabBarController *)_vc;
+        _vc = _tbC.selectedViewController;
+    }
     if ( _vc == self ) return nil;
     return _vc;
 }
