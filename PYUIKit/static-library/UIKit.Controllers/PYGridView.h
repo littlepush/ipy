@@ -99,7 +99,7 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
 }
 
 // The delegate to receive the event.
-@property (nonatomic, assign)   id< PYGridViewDelegate >    delegate;
+@property (nonatomic, assign)   IBOutlet id< PYGridViewDelegate >    delegate;
 
 // The scale of the grid view. it can only be read.
 // use [initGridViewWithScale] to set the size.
