@@ -342,6 +342,10 @@
             [_containerView addSubview:_new_node];
         }
     }
+    
+    // Fix a bug when use storyboard to create a grid view,
+    // init in code will not display anything.
+    if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 - (void)mergeGridItemFrom:(PYGridCoordinate)from to:(PYGridCoordinate)to
 {
