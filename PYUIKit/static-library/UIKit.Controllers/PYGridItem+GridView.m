@@ -234,6 +234,7 @@
     if ( _uiflag[_sIndex].backgroundColor ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.backgroundColor = color;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setBackgroundImage:(UIImage *)image forState:(UIControlState)state
 {
@@ -241,6 +242,7 @@
     if ( _uiflag[_sIndex].backgroundImage ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.backgroundImage = image;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setBorderWidth:(CGFloat)width forState:(UIControlState)state
 {
@@ -248,6 +250,7 @@
     if ( _uiflag[_sIndex].borderWidth ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.borderWidth = width;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setBorderColor:(UIColor *)color forState:(UIControlState)state
 {
@@ -255,6 +258,7 @@
     if ( _uiflag[_sIndex].borderColor ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.borderColor = color;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setShadowOffset:(CGSize)offset forState:(UIControlState)state
 {
@@ -262,6 +266,7 @@
     if ( _uiflag[_sIndex].shadowOffset ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.shadowOffset = offset;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setShadowColor:(UIColor *)color forState:(UIControlState)state
 {
@@ -269,6 +274,7 @@
     if ( _uiflag[_sIndex].shadowColor ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.shadowColor = color;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setShadowOpacity:(CGFloat)opacity forState:(UIControlState)state
 {
@@ -276,6 +282,7 @@
     if ( _uiflag[_sIndex].shadowOpacity ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.shadowOpacity = opacity;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setShadowRadius:(CGFloat)radius forState:(UIControlState)state
 {
@@ -283,6 +290,7 @@
     if ( _uiflag[_sIndex].shadowRadius ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.shadowRadius = radius;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setTitle:(NSString *)title forState:(UIControlState)state
 {
@@ -290,6 +298,7 @@
     if ( _uiflag[_sIndex].title ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.titleText = title;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setTextColor:(UIColor *)color forState:(UIControlState)state
 {
@@ -297,6 +306,7 @@
     if ( _uiflag[_sIndex].textColor ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.textColor = color;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setTextFont:(UIFont *)font forState:(UIControlState)state
 {
@@ -304,6 +314,7 @@
     if ( _uiflag[_sIndex].textFont ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.textFont = font;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setTextShadowOffset:(CGSize)offset forState:(UIControlState)state
 {
@@ -311,6 +322,7 @@
     if ( _uiflag[_sIndex].textShadowOffset ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.textShadowOffset = offset;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setTextShadowRadius:(CGFloat)radius forState:(UIControlState)state
 {
@@ -318,6 +330,7 @@
     if ( _uiflag[_sIndex].textShadowRadius ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.textShadowRadius = radius;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setTextShadowColor:(UIColor *)color forState:(UIControlState)state
 {
@@ -325,6 +338,7 @@
     if ( _uiflag[_sIndex].textShadowColor ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.textShadowColor = color;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setIconImage:(UIImage *)image forState:(UIControlState)state
 {
@@ -332,6 +346,7 @@
     if ( _uiflag[_sIndex].iconImage ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.iconImage = image;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setIndicateImage:(UIImage *)image forState:(UIControlState)state
 {
@@ -339,6 +354,7 @@
     if ( _uiflag[_sIndex].indicateImage ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.indicateImage = image;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setInnerShadowColor:(UIColor *)color forState:(UIControlState)state
 {
@@ -346,6 +362,7 @@
     if ( _uiflag[_sIndex].innerShadowColor ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.innerShadowColor = color;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 - (void)_setInnerShadowRect:(PYPadding)rect forState:(UIControlState)state
 {
@@ -353,6 +370,7 @@
     if ( _uiflag[_sIndex].innerShadowPadding ) return;
     _PYGridItemUIInfo *_stateInfo = [_stateSettingInfo objectAtIndex:_sIndex];
     _stateInfo.innerShadowPadding = rect;
+    if ( _state == state ) [self _updateUIStateAccordingToCurrentState];
 }
 
 @end
