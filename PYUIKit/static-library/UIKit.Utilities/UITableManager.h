@@ -38,7 +38,9 @@ typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
     UITableManagerEventBeginToRefreshList       = PYTableManagerEventUserDefined + 10,
     UITableManagerEventBeginToLoadMoreList      = PYTableManagerEventUserDefined + 11,
     UITableManagerEventEndUpdateContent         = PYTableManagerEventUserDefined + 12,
-    UITableManagerEventSectionIndexTitle        = PYTableManagerEventUserDefined + 13
+    UITableManagerEventSectionIndexTitle        = PYTableManagerEventUserDefined + 13,
+    UITableManagerEventCanDeleteCell            = PYTableManagerEventUserDefined + 14,
+    UITableManagerEventGetCellClass             = PYTableManagerEventUserDefined + 15
 };
 
 @interface UITableManager : PYActionDispatcher
@@ -52,28 +54,30 @@ typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
     struct {
         //NSInteger               _cellClassCount;
         NSUInteger              _sectionCount;
-        BOOL                    _isMultiSection:1;      // if current datasource contains multiple sections
-        BOOL                    _isShowSectionHeader;   // if show section header.
+        BOOL                    _isShowSectionHeader:1; // if show section header.
         BOOL                    _isEditing:1;           // is current table view in editing mode
         BOOL                    _isShowSectionIndexTitle:1; // if show section index title
         BOOL                    _isUpdating:1;          // is updating content data source
         BOOL                    _canUpdateContent:1;    // can update the data source
     }                       _flags;
+    
+    // Cell class specified
+    Class                   _defaultCellClass;
+    NSMutableDictionary     *_cellClassForSection;
 }
 
 // The cell class
 - (Class)classOfCellAtIndex:(NSIndexPath *)index;
+
+// Set the cell class
+@property (nonatomic, assign)   Class           defaultCellClass;
+- (void)setCellClass:(Class)cellClass forSection:(NSUInteger)section;
 
 // Enable editing for every cell.
 @property (nonatomic, assign)   BOOL            enableEditing;
 
 // Is current table view updating is content data source.
 @property (nonatomic, readonly) BOOL            isUpdating;
-
-// Set different class for each section.
-// if the class list count is lest than the section count,
-// follower section will all use the last class to generate the cell.
-- (void)setCellClassList:(NSArray *)cellClassList;
 
 // The datasource.
 @property (nonatomic, readonly) NSArray         *contentDataSource;
@@ -90,11 +94,18 @@ typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
 
 // Multiple Section Table Manager.
 // The Data Source must be a double-level array.
-- (void)bindTableView:(id)tableView withDataSource:(NSArray *)dataSource
-         sectionCount:(NSUInteger)count isMultiSection:(BOOL)isMultiSection;
+- (void)bindTableView:(id)tableView
+       withDataSource:(NSArray *)dataSource
+         sectionCount:(NSUInteger)count;
+- (void)bindTableView:(id)tableView
+       withDataSource:(NSArray *)dataSource
+         sectionCount:(NSUInteger)count
+    showSectionHeader:(BOOL)showHeader;
+- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
+                         sectionCount:(NSUInteger)count;
 - (void)reloadTableDataWithDataSource:(NSArray *)dataSource
                          sectionCount:(NSUInteger)count
-                       isMultiSection:(BOOL)isMultiSection;
+                    showSectionHeader:(BOOL)showHeader;
 
 // Finish Updating Content
 - (void)finishUpdateContent;

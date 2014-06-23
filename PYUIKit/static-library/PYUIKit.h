@@ -40,6 +40,9 @@
 #import "PYApperance.h"
 #import "PYNavigationController.h"
 #import "PYNavViewController.h"
+#import "PYTableCell.h"
+#import "PYTableManagerProtocol.h"
+#import "UITableManager.h"
 
 // Kernel
 #import "PYLayer.h"
