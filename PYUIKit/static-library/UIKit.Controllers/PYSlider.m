@@ -79,6 +79,7 @@ CGRect _paddingRect(CGRect source, PYPadding padding) {
 {
     [_slideButtonLayer setBackgroundColor:slideButtonColor.CGColor];
 }
+@synthesize slideButtonLayer = _slideButtonLayer;
 //*minTrackTintImage;
 @dynamic minTrackTintImage;
 - (UIImage *)minTrackTintImage

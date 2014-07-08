@@ -77,6 +77,7 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
 // Slide button
 @property (nonatomic, strong)   UIImage                             *slideButtonImage;
 @property (nonatomic, strong)   UIColor                             *slideButtonColor;
+@property (nonatomic, readonly) PYImageLayer                        *slideButtonLayer;
 
 // Padding
 @property (nonatomic, assign)   PYPadding                           backgroundPadding;
