@@ -171,6 +171,10 @@
 #pragma mark --
 #pragma mark top bar
 @synthesize topBarHidden = _isTopBarHidden;
+- (void)setTopBarHidden:(BOOL)topBarHidden
+{
+    [self setTopBarHidden:topBarHidden animated:YES];
+}
 @synthesize topBar = _topBarView;
 @synthesize topBarHeight = _topBarHeight;
 - (void)__notifyChildrenForContentSizeChangedCausedByBars
@@ -249,6 +253,10 @@
 #pragma mark --
 #pragma mark Bottom Bar
 @synthesize bottomBarHidden = _isBottomBarHidden;
+- (void)setBottomBarHidden:(BOOL)bottomBarHidden
+{
+    [self setBottomBarHidden:bottomBarHidden animated:YES];
+}
 @synthesize bottomBar = _bottomBarView;
 @synthesize bottomBarHeight = _bottomBarHeight;
 - (void)__notifyChildrenForContentSizeChangedCausedByBottomBar __deprecated
