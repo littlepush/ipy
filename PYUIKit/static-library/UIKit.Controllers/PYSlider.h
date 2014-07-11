@@ -119,7 +119,8 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
 
 // When user just tap on the slide button.
 - (void)pySliderTapSlideButton:(PYSlider *)slider;
-
+// Tell the delegate to change the value to tapped point.
+- (void)pySlider:(PYSlider *)slider tapToChangeValueTo:(CGFloat)value;
 // Tell the delegate the current slider has changed the value to a new one.
 - (void)pySlider:(PYSlider *)slider valueChangedTo:(CGFloat)value;
 

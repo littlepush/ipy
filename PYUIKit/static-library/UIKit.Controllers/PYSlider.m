@@ -309,6 +309,9 @@ CGRect _paddingRect(CGRect source, PYPadding padding) {
         CGFloat _value = (_percentage * _internalProperties._slide_real_range + _minimumValue);
         [self _setCurrentValue:_value];
     }
+    if ( [((NSObject *)self.delegate) respondsToSelector:@selector(pySlider:tapToChangeValueTo:)] ) {
+        [self.delegate pySlider:self tapToChangeValueTo:_internalProperties._slide_current_value];
+    }
 }
 
 - (void)viewJustBeenCreated
