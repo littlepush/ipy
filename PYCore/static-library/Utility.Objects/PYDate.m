@@ -144,7 +144,7 @@
 // Date from string, default format "YYYY-MM-DD HH:mm"
 + (id)dateWithString:(NSString *)dateString
 {
-    return [PYDate dateWithString:dateString format:@"yyyy-MM-dd hh:mm:ss"];
+    return [PYDate dateWithString:dateString format:@"yyyy-MM-dd HH:mm:ss"];
 }
 + (id)dateWithDayString:(NSString *)dayString
 {

@@ -55,7 +55,7 @@ typedef enum {
 + (id)dateWithTimestamp:(NSUInteger)timestamp;
 // From an NSDate
 + (id)dateWithDate:(NSDate *)date;
-// Date from string, default format "yyyy-MM-dd hh:mm:ss"
+// Date from string, default format "yyyy-MM-dd HH:mm:ss"
 + (id)dateWithString:(NSString *)dateString;
 // Date format: "yyyy-MM-dd"
 + (id)dateWithDayString:(NSString *)dayString;
