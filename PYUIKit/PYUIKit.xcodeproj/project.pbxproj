@@ -118,6 +118,8 @@
 		E6F1EA8C19588672002C68BD /* UITableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C729193EBE1100F77D43 /* UITableManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F1EA8D1958867B002C68BD /* UITableManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E625C72A193EBE1100F77D43 /* UITableManager.m */; };
 		E6F1EA8E19588681002C68BD /* PYTableManagerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6F669D1197373F400DD9E4C /* PYCycleProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F669CF197373F400DD9E4C /* PYCycleProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6F669D2197373F400DD9E4C /* PYCycleProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F669D0197373F400DD9E4C /* PYCycleProgress.m */; };
 		E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914F61839C66F00521E22 /* PYGridItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F914F91839C66F00521E22 /* PYGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F914F71839C66F00521E22 /* PYGridItem.m */; };
 		E6F914FC1839C68600521E22 /* PYGridItem+GridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */; };
@@ -258,6 +260,8 @@
 		E6D9166C17B346230021D73D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E6D9166D17B346230021D73D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		E6DFE62218557F4E00B6AFF2 /* testFile~iphone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "testFile~iphone.txt"; sourceTree = "<group>"; };
+		E6F669CF197373F400DD9E4C /* PYCycleProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCycleProgress.h; sourceTree = "<group>"; };
+		E6F669D0197373F400DD9E4C /* PYCycleProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCycleProgress.m; sourceTree = "<group>"; };
 		E6F914F61839C66F00521E22 /* PYGridItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYGridItem.h; sourceTree = "<group>"; };
 		E6F914F71839C66F00521E22 /* PYGridItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYGridItem.m; sourceTree = "<group>"; };
 		E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYGridItem+GridView.h"; sourceTree = "<group>"; };
@@ -403,6 +407,7 @@
 		E66E469917A57D1A00D1FF55 /* UIKit.Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E6F669D3197373F900DD9E4C /* Progress */,
 				E6D7828E18351605007FAF3F /* GridView */,
 				E64A8FC617BC7DA200B132BA /* HitCover */,
 				E64A8FAF17BB30C000B132BA /* HUDView */,
@@ -600,6 +605,15 @@
 			name = GridView;
 			sourceTree = "<group>";
 		};
+		E6F669D3197373F900DD9E4C /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				E6F669CF197373F400DD9E4C /* PYCycleProgress.h */,
+				E6F669D0197373F400DD9E4C /* PYCycleProgress.m */,
+			);
+			name = Progress;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -649,6 +663,7 @@
 				E69D0B861803D661007DCBF5 /* PYRectangleCalc.h in Headers */,
 				E6D70DEE17BE735700542844 /* PYResponderGestureRecognizer.h in Headers */,
 				E6F914FC1839C68600521E22 /* PYGridItem+GridView.h in Headers */,
+				E6F669D1197373F400DD9E4C /* PYCycleProgress.h in Headers */,
 				E6D7828B18336FF1007FAF3F /* PYView+AttributeLoader.h in Headers */,
 				E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */,
 				E64A8FC917BC834600B132BA /* PYTableContentView.h in Headers */,
@@ -771,6 +786,7 @@
 				E645A633193C841B008368B8 /* PYNavigationController.m in Sources */,
 				E6BC1BEA17A023C300D480E2 /* PYResponderView.m in Sources */,
 				E6D78288183369EE007FAF3F /* PYResource.m in Sources */,
+				E6F669D2197373F400DD9E4C /* PYCycleProgress.m in Sources */,
 				E6D7828418335680007FAF3F /* UIView+AttributeLoader.m in Sources */,
 				E66E469D17A57D9600D1FF55 /* PYImageCache.m in Sources */,
 				E6F1EA8D1958867B002C68BD /* UITableManager.m in Sources */,

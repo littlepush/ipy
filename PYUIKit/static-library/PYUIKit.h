@@ -78,6 +78,8 @@
 // -- GridView
 #import "PYGridView.h"
 #import "PYGridItem.h"
+// -- Progress
+#import "PYCycleProgress.h"
 
 // Attribute Loader
 #import "PYView+AttributeLoader.h"
