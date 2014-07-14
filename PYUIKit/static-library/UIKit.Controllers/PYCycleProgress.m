@@ -53,6 +53,12 @@
     [self setNeedsDisplay];
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setNeedsDisplay];
+}
+
 - (void)drawInContext:(CGContextRef)ctx
 {
     if ( _progressBarWidth == 0.f ) return;
