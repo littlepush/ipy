@@ -9,6 +9,7 @@
 #import "PYViewController.h"
 #import "PYPhotoListCell.h"
 #import <objc/runtime.h>
+#import "PYUIKit.h"
 
 @interface PYViewController ()
 
@@ -124,6 +125,13 @@
     _testImageView.borderColor = [UIColor randomColor];
     _testImageView.borderWidth = 1.f;
 //    [self.view addSubview:_testImageView];
+    
+    UIImageView *_testCheckImageView = [UIImageView object];
+    [_testCheckImageView.layer setBorderColor:[UIColor randomColor].CGColor];
+    [_testCheckImageView.layer setBorderWidth:1.f];
+    [_testCheckImageView setFrame:CGRectMake(10, 70, 30, 30)];
+    [_testCheckImageView setImage:[UIImage checkIconWithSize:CGSizeMake(30, 30) backgroundColor:[UIColor redColor] iconColor:[UIColor whiteColor] lineWidth:3.f]];
+    [self.view addSubview:_testCheckImageView];
 }
 
 - (void)didReceiveMemoryWarning

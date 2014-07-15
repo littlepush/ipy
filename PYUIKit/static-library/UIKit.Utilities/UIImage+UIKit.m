@@ -347,6 +347,73 @@
     return _image;
 }
 
+// Draw a check icon(√) within specified size, default background color is clear, icon color is black
++ (UIImage *)checkIconWithSize:(CGSize)imgSize
+{
+    return [UIImage checkIconWithSize:imgSize
+                      backgroundColor:[UIColor clearColor]
+                            iconColor:[UIColor blackColor]
+                            lineWidth:1.f];
+}
++ (UIImage *)checkIconWithSize:(CGSize)imgSize
+               backgroundColor:(UIColor *)bkgClr
+                     iconColor:(UIColor *)icnClr
+                     lineWidth:(CGFloat)lineWidth
+{
+    if ( lineWidth == 0 ) lineWidth = 1.f;
+    if ( bkgClr == nil ) bkgClr = [UIColor clearColor];
+    if ( icnClr == nil ) icnClr = [UIColor blackColor];
+    
+    if ( PYIsRetina ) {
+        UIGraphicsBeginImageContextWithOptions(imgSize, NO, [UIScreen mainScreen].scale);
+    } else {
+        UIGraphicsBeginImageContext(imgSize);
+    }
+    
+    // Create image context
+    CGContextRef _imgCtx = UIGraphicsGetCurrentContext();
+    
+    CGRect _drawRect = CGRectMake(0, 0, imgSize.width, imgSize.height);
+    
+    // Fill the background
+    CGContextSetFillColorWithColor(_imgCtx, bkgClr.CGColor);
+    CGContextFillRect(_imgCtx, _drawRect);
+    
+    CGRect _chkImgRect = CGRectZero;
+    CGFloat _l = 0.f;
+    if ( imgSize.width > imgSize.height ) {
+        _chkImgRect.origin.x = (imgSize.width - imgSize.height) / 2;
+        _chkImgRect.size.width = imgSize.height;
+        _chkImgRect.size.height = imgSize.height;
+        _l = imgSize.height;
+    } else {
+        _chkImgRect.origin.y = (imgSize.height - imgSize.width) / 2;
+        _chkImgRect.size.width = imgSize.width;
+        _chkImgRect.size.height = imgSize.width;
+        _l = imgSize.width;
+    }
+    
+    // Draw the check image
+    CGContextSetLineWidth(_imgCtx, lineWidth);
+    CGContextSetLineCap(_imgCtx, kCGLineCapRound);
+    CGContextSetStrokeColorWithColor(_imgCtx, icnClr.CGColor);
+    
+    CGMutablePathRef _chkPath = CGPathCreateMutable();
+    CGPathMoveToPoint(_chkPath, NULL, _chkImgRect.origin.x + _l / 8.f, _chkImgRect.origin.y + _l / 2);
+    CGPathAddLineToPoint(_chkPath, NULL, _chkImgRect.origin.x + 3.f * _l / 8.f, _chkImgRect.origin.y + 3.f * _l / 4.f);
+    CGPathAddLineToPoint(_chkPath, NULL, _chkImgRect.origin.x + 7.f * _l / 8.f, _chkImgRect.origin.y + _l / 4.f);
+    
+    CGContextAddPath(_imgCtx, _chkPath);
+    CGContextStrokePath(_imgCtx);
+    
+    // Get the check image
+    UIImage *_checkImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+
+    return _checkImage;
+}
+
 @end
 
 // @littlepush
