@@ -69,6 +69,7 @@
 //    [_gridView
 //     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF" reverseOnVerticalis:YES]
 //     forState:UIControlStateHighlighted];
+    [_gridView setItemStyle:PYGridItemStyleIconTitleHorizontal];
     [_gridView
      setItemBackgroundColor:[UIColor colorWithString:@"#FFFFFF"]
      forState:UIControlStateHighlighted];
@@ -83,6 +84,7 @@
         [_item setTitle:[NSString stringWithFormat:@"<%d,%d>",
                          _item.coordinate.x, _item.coordinate.y]
                forState:UIControlStateNormal];
+        [_item setIconImage:[UIImage checkIconWithSize:CGSizeMake(17, 17)] forState:UIControlStateNormal];
     }
     PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
     if ( _specifialItem != nil ) {

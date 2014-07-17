@@ -244,6 +244,12 @@ UIImage *PYUIBlurImage(UIImage *inputImage, CGFloat radius)
     [self setNeedsDisplay];
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setNeedsDisplay];
+}
+
 - (void)willMoveToSuperLayer:(CALayer *)layer
 {
     if ( layer == nil ) return;
