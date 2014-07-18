@@ -353,12 +353,14 @@
     return [UIImage checkIconWithSize:imgSize
                       backgroundColor:[UIColor clearColor]
                             iconColor:[UIColor blackColor]
-                            lineWidth:1.f];
+                            lineWidth:1.f
+                              padding:1.f];
 }
 + (UIImage *)checkIconWithSize:(CGSize)imgSize
                backgroundColor:(UIColor *)bkgClr
                      iconColor:(UIColor *)icnClr
                      lineWidth:(CGFloat)lineWidth
+                       padding:(CGFloat)padding
 {
     if ( lineWidth == 0 ) lineWidth = 1.f;
     if ( bkgClr == nil ) bkgClr = [UIColor clearColor];
@@ -382,15 +384,15 @@
     CGRect _chkImgRect = CGRectZero;
     CGFloat _l = 0.f;
     if ( imgSize.width > imgSize.height ) {
-        _chkImgRect.origin.x = (imgSize.width - imgSize.height) / 2;
-        _chkImgRect.size.width = imgSize.height;
-        _chkImgRect.size.height = imgSize.height;
-        _l = imgSize.height;
+        _chkImgRect.origin.x = (imgSize.width - imgSize.height) / 2 + padding;
+        _chkImgRect.size.width = imgSize.height - 2 * padding;
+        _chkImgRect.size.height = imgSize.height - 2 * padding;
+        _l = imgSize.height - 2 * padding;
     } else {
-        _chkImgRect.origin.y = (imgSize.height - imgSize.width) / 2;
-        _chkImgRect.size.width = imgSize.width;
-        _chkImgRect.size.height = imgSize.width;
-        _l = imgSize.width;
+        _chkImgRect.origin.y = (imgSize.height - imgSize.width) / 2 + padding;
+        _chkImgRect.size.width = imgSize.width - 2 * padding;
+        _chkImgRect.size.height = imgSize.width - 2 * padding;
+        _l = imgSize.width - 2 * padding;
     }
     
     // Draw the check image

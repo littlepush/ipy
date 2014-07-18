@@ -63,7 +63,8 @@
 + (UIImage *)checkIconWithSize:(CGSize)imgSize
                backgroundColor:(UIColor *)bkgClr
                      iconColor:(UIColor *)icnClr
-                     lineWidth:(CGFloat)lineWidth;
+                     lineWidth:(CGFloat)lineWidth
+                       padding:(CGFloat)padding;
 
 @end
 
