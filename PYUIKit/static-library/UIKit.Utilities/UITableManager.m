@@ -170,6 +170,16 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
     [self _resizePullContainer];
 }
 
+PYKVO_CHANGED_RESPONSE(_bindTableView, tableHeaderView)
+{
+    [self _resizePullContainer];
+}
+
+PYKVO_CHANGED_RESPONSE(_bindTableView, tableFooterView)
+{
+    [self _resizePullContainer];
+}
+
 - (void)bindTableView:(id)tableView
 {
     [self bindTableView:tableView
@@ -248,6 +258,8 @@ withMultipleSectionDataSource:(NSArray *)datasource
             [_pullUpContainerView removeFromSuperview];
             // Remove the kvo of old bind table view.
             PYRemoveObserve(_bindTableView, @"frame");
+            PYRemoveObserve(_bindTableView, @"tableHeaderView");
+            PYRemoveObserve(_bindTableView, @"tableFooterView");
         }
         _bindTableView = tableView;
         if ( _bindTableView == nil ) return;
@@ -258,6 +270,8 @@ withMultipleSectionDataSource:(NSArray *)datasource
         
         // Add KVO for bindtable view's frame
         PYObserve(_bindTableView, @"frame");
+        PYObserve(_bindTableView, @"tableHeaderView");
+        PYObserve(_bindTableView, @"tableFooterView");
 
         if ( dataSource == nil ) {
             // We load en empty data source.
