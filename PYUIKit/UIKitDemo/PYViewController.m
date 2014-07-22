@@ -21,135 +21,37 @@
 {
     [super viewDidLoad];
     
-    [PYResource changeToLoadRemoteResourceWithDomain:@"http://home.pushchen.com:12580/ipy-dev/"];
-	// Do any additional setup after loading the view, typically from a nib.
-    _testSlider = [PYSlider object];
-    UIColor *_bkgColor =
-    [UIColor colorWithOptionString:
-     @"v(24)$"
-     @"#000000^0/0:"
-     @"#000000^0/.333:"
-     @"#000000/.333:"
-     @"#000000/.666:"
-     @"#000000^0/.666:"
-     @"#000000^0/1"];
-    [_testSlider setBackgroundColor:_bkgColor];
-    UIColor *_minColor =
-    [UIColor colorWithOptionString:
-     @"v(24)$#"
-     @"000000^0/0:"
-     @"#000000^0/.375:"
-     @"#B3FFFC/.375:"
-     @"#B3FFFC/.625:"
-     @"#000000^0/.625:"
-     @"#000000^0/1"];
-    [_testSlider setMinTrackTintColor:_minColor];
-    [_testSlider setSlideButtonImage:[PYResource imageNamed:@"slide-button.png"]];
-    [_testSlider setMaximum:100.f];
-    [_testSlider setFrame:CGRectMake(10, 100, 300, 24.f)];
-    [_testSlider setCurrentValue:0.f animated:NO];
-    [_testSlider setDelegate:self];
+    _testList = [UITableView object];
+    [_testList setFrame:self.view.bounds];
     
-    [self.view addSubview:_testSlider];
+    [self.view addSubview:_testList];
     
-    // Test the grid view
-    _gridView = [PYGridView object];
-    [_gridView initGridViewWithScale:(PYGridScale){5, 2}];
-    [_gridView setFrame:CGRectMake((320.f - 200.f) / 2, 150.f, 200, 200)];
-    [_gridView setPadding:10.f];
-    [_gridView setBorderColor:[UIColor blackColor]];
-    [_gridView setBorderWidth:1.f];
+    _manager = [UITableManager object];
+    [_manager bindTableView:_testList];
     
-//    [_gridView
-//     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#3787B1:#61BCFF" reverseOnVerticalis:YES]
-//     forState:UIControlStateNormal];
-    [_gridView
-     setItemBackgroundColor:[UIColor colorWithString:@"#FF0000"]
-     forState:UIControlStateNormal];
-//    [_gridView
-//     setItemBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#CCCCCC:#FFFFFF" reverseOnVerticalis:YES]
-//     forState:UIControlStateHighlighted];
-    [_gridView setItemStyle:PYGridItemStyleIconTitleHorizontal];
-    [_gridView
-     setItemBackgroundColor:[UIColor colorWithString:@"#FFFFFF"]
-     forState:UIControlStateHighlighted];
-    [_gridView setItemCornerRadius:3.f];
-    [_gridView setItemBorderColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_gridView setItemBorderColor:[UIColor redColor] forState:UIControlStateHighlighted];
-    [_gridView setItemBorderWidth:1.f forState:UIControlStateNormal];
-    [_gridView setItemTextColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-    [_gridView setItemTextColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_gridView setItemTextFont:[UIFont boldSystemFontOfSize:12.f] forState:UIControlStateNormal];
-    for ( PYGridItem *_item in _gridView ) {
-        [_item setTitle:[NSString stringWithFormat:@"<%d,%d>",
-                         _item.coordinate.x, _item.coordinate.y]
-               forState:UIControlStateNormal];
-        [_item setIconImage:[UIImage checkIconWithSize:CGSizeMake(17, 17)] forState:UIControlStateNormal];
-    }
-    PYGridItem *_specifialItem = [_gridView itemAtCoordinate:(PYGridCoordinate){1, 0}];
-    if ( _specifialItem != nil ) {
-        [_specifialItem
-         setBackgroundColor:[UIColor colorWithOptionString:@"v(48)$#FFFFFF:#CCCCCC" reverseOnVerticalis:YES]
-         forState:UIControlStateNormal];
-        [_specifialItem setTextColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _specifialItem.collapseRate = 3.f;
-        [_specifialItem setInnerShadowColor:[UIColor redColor] forState:UIControlStateHighlighted];
-        [_specifialItem setInnerShadowRect:PYPaddingMake(10, 10, 15, 0) forState:UIControlStateHighlighted];
-        [_specifialItem setInnerShadowRect:PYPaddingZero forState:UIControlStateNormal];
-    }
-    PYGridItem *_fixedItem = [_gridView itemAtCoordinate:(PYGridCoordinate){0, 0}];
-    _fixedItem.collapseRate = 3;
-    //[_gridView mergeGridItemFrom:(PYGridCoordinate){1, 0} to:(PYGridCoordinate){1, 1}];
-    
-    [_gridView setItemShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_gridView setItemShadowOffset:CGSizeMake(1, 1) forState:UIControlStateNormal];
-    [_gridView setItemShadowRadius:3.f forState:UIControlStateNormal];
-    [_gridView setItemShadowOpacity:.7 forState:UIControlStateNormal];
-    [_gridView setSeperatorStyle:PYGridSeperatorStyleLite];
-    [_gridView setDelegate:self];
-    
-    [self.view addSubview:_gridView];
-//    
-//    UIViewController *_testCtrl = [UIViewController object];
-//    [_testCtrl.view addSubview:_gridView];
-//
-//    [self presentPopViewController:_testCtrl];
-    
-    //[_gridView setSupportTouchMoving:YES];
-    //[self.view addSubview:_gridView];
-    
-    [UIView rendView:self.view withOption:@{@"backgroundColor":@"v(568)$#000000:#CCDDEE"}];
-    
-    _testImageView = [PYImageView object];
-    [_testImageView setFrame:CGRectMake(0, 300, 320, 240)];
-    [_testImageView setBlurRadius:0];
-    [_testImageView setImageUrl:@"http://www.iclarified.com/images/news/31019/125917/125917.png"];
-    _testImageView.borderColor = [UIColor randomColor];
-    _testImageView.borderWidth = 1.f;
-//    [self.view addSubview:_testImageView];
-    
-    UIImageView *_testCheckImageView = [UIImageView object];
-    [_testCheckImageView.layer setBorderColor:[UIColor randomColor].CGColor];
-    [_testCheckImageView.layer setBorderWidth:1.f];
-    [_testCheckImageView setFrame:CGRectMake(10, 70, 30, 30)];
-    [_testCheckImageView setImage:[UIImage checkIconWithSize:CGSizeMake(30, 30) backgroundColor:[UIColor redColor] iconColor:[UIColor whiteColor] lineWidth:3.f]];
-    [self.view addSubview:_testCheckImageView];
+    _manager.identify = @"TestManager";
+    _manager.defaultTarget = self;
+    [_manager reloadTableDataWithDataSource:@[@"1", @"2", @"3"]];
+}
+
+- (void)PYEventHandler(TestManager, PYTableManagerEventCreateNewCell)
+{
+    UITableViewCell *_cell = (UITableViewCell *)sender;
+    [_cell setBackgroundColor:[UIColor randomColor]];
+}
+
+- (void)PYEventHandler(TestManager, PYTableManagerEventSelectCell)
+{
+    //UITableViewCell *_cell = (UITableViewCell *)sender;
+    NSIndexPath *_indexPath = (NSIndexPath *)exInfo;
+    [_testList deselectRowAtIndexPath:_indexPath animated:YES];
+    [PYHUDView displayMessage:PYIntToString(_indexPath.row) duration:1.5f];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)pyGridView:(PYGridView *)gridView didSelectItem:(PYGridItem *)item
-{
-    PYLog(@"Click");
-}
-
-- (void)pySlider:(PYSlider *)slider valueChangedTo:(CGFloat)value
-{
-    [_testImageView setBlurRadius:value];
 }
 
 @end

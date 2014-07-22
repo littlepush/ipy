@@ -189,6 +189,16 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
       showSectionHeader:(count > 1)];
 }
 
+- (void)tableView:(UITableView *)tableView
+didEndDisplayingCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( (indexPath.section != tableView.numberOfSections - 1 ) ) return;
+    NSArray *_dataItems = [self dataItemsForSection:indexPath.section];
+    if ( indexPath.row != _dataItems.count - 1 ) return;    // Not last one
+    [self _resizePullContainer];
+}
+
 - (void)bindTableView:(id)tableView
        withDataSource:(NSArray *)dataSource
          sectionCount:(NSUInteger)count
@@ -264,6 +274,13 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
         
         [self reloadTableData];
     }
+}
+
+- (NSArray *)dataItemsForSection:(NSUInteger)section
+{
+    if ( section >= _flags._sectionCount ) return nil;
+    if ( _flags._sectionCount == 1 ) return _contentDataSource;
+    return [_contentDataSource safeObjectAtIndex:section];
 }
 
 - (id)dataItemAtIndex:(NSUInteger)index
