@@ -152,8 +152,14 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
 - (void)_resizePullContainer
 {
     CGRect _btFrame = _bindTableView.frame;
+    CGFloat _headViewHeight = (_bindTableView.tableHeaderView ?
+                               _bindTableView.tableHeaderView.frame.size.height : 0);
+    CGFloat _footViewHeight = (_bindTableView.tableFooterView ?
+                               _bindTableView.tableFooterView.frame.size.height : 0);
     CGRect _pullDownFrame = CGRectMake(0, -44, _btFrame.size.width, 44);
-    CGRect _pullUpFrame = CGRectMake(0, _bindTableView.contentSize.height, _btFrame.size.width, 44);
+    CGRect _pullUpFrame = CGRectMake(0,
+                                     (_bindTableView.contentSize.height + _headViewHeight + _footViewHeight),
+                                     _btFrame.size.width, 44);
     [_pullDownContainerView setFrame:_pullDownFrame];
     [_pullUpContainerView setFrame:_pullUpFrame];
 }
