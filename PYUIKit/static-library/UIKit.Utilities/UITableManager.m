@@ -200,8 +200,37 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void)bindTableView:(id)tableView
+withMultipleSectionDataSource:(NSArray *)datasource
+{
+    [self bindTableView:tableView withMultipleSectionDataSource:datasource showSectionHeader:YES];
+}
+- (void)bindTableView:(id)tableView
+withMultipleSectionDataSource:(NSArray *)datasource
+    showSectionHeader:(BOOL)showHeader
+{
+    [self bindTableView:tableView
+         withDataSource:datasource
+           sectionCount:[datasource count]
+      isMultipleSection:YES
+      showSectionHeader:showHeader];
+}
+
+- (void)bindTableView:(id)tableView
        withDataSource:(NSArray *)dataSource
          sectionCount:(NSUInteger)count
+    showSectionHeader:(BOOL)showHeader
+{
+    [self bindTableView:tableView
+         withDataSource:dataSource
+           sectionCount:count
+      isMultipleSection:(count > 1)
+      showSectionHeader:showHeader];
+}
+
+- (void)bindTableView:(id)tableView
+       withDataSource:(NSArray *)dataSource
+         sectionCount:(NSUInteger)count
+    isMultipleSection:(BOOL)isMultipleSection
     showSectionHeader:(BOOL)showHeader
 {
     @synchronized( self ) {
@@ -237,6 +266,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         
         _flags._sectionCount = count;
         _flags._isShowSectionHeader = showHeader;
+        _flags._isMultipleSection = isMultipleSection;
         
         // Reload data.
         [self reloadTableData];
@@ -256,8 +286,31 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                            sectionCount:count
                       showSectionHeader:(count > 1)];
 }
+- (void)reloadTableDataWithMultipleSectionDataSource:(NSArray *)dataSource
+{
+    [self reloadTableDataWithMultipleSectionDataSource:dataSource showSectionHeader:YES];
+}
+- (void)reloadTableDataWithMultipleSectionDataSource:(NSArray *)dataSource
+                                   showSectionHeader:(BOOL)showHeader
+{
+    [self reloadTableDataWithDataSource:dataSource
+                           sectionCount:[dataSource count]
+                      isMultipleSection:YES
+                      showSectionHeader:showHeader];
+}
 - (void)reloadTableDataWithDataSource:(NSArray *)dataSource
                          sectionCount:(NSUInteger)count
+                    showSectionHeader:(BOOL)showHeader
+{
+    [self reloadTableDataWithDataSource:dataSource
+                           sectionCount:count
+                      isMultipleSection:(count > 1)
+                      showSectionHeader:showHeader];
+}
+
+- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
+                         sectionCount:(NSUInteger)count
+                    isMultipleSection:(BOOL)isMultipleSection
                     showSectionHeader:(BOOL)showHeader
 {
     @synchronized( self ) {
@@ -271,6 +324,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         
         _flags._sectionCount = count;
         _flags._isShowSectionHeader = showHeader;
+        _flags._isMultipleSection = isMultipleSection;
         
         [self reloadTableData];
     }
@@ -295,7 +349,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (id)dataItemAtIndex:(NSUInteger)index section:(NSUInteger)section
 {
-    if ( _flags._sectionCount == 1 ) return [_contentDataSource safeObjectAtIndex:index];
+    if ( _flags._isMultipleSection == NO ) return [_contentDataSource safeObjectAtIndex:index];
     NSArray *_sectionData = [_contentDataSource safeObjectAtIndex:section];
     if ( _sectionData == nil ) return nil;
     if ( [_sectionData isKindOfClass:[NSArray class]] == NO ) return nil;
@@ -314,7 +368,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ( [_contentDataSource count] == 0 ) return 0;
     // More than one section.
-    if ( _flags._sectionCount > 1 ) {
+    if ( _flags._isMultipleSection ) {
         NSArray *_sectionData = [_contentDataSource safeObjectAtIndex:section];
         if ( _sectionData == nil ) return 0;
         [_sectionData mustBeTypeOrFailed:[NSArray class]];
@@ -341,7 +395,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    if ( _flags._sectionCount <= 1 ) return nil;
+    if ( _flags._sectionCount <= 0 ) return nil;
     return [self invokeTargetWithEvent:UITableManagerEventSectionIndexTitle];
 }
 

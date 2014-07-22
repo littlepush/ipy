@@ -59,6 +59,7 @@ typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
         BOOL                    _isShowSectionIndexTitle:1; // if show section index title
         BOOL                    _isUpdating:1;          // is updating content data source
         BOOL                    _canUpdateContent:1;    // can update the data source
+        BOOL                    _isMultipleSection:1;   // the datasource is a 2D array
     }                       _flags;
     
     // Cell class specified
@@ -101,11 +102,19 @@ typedef NS_OPTIONS(NSUInteger, UITableManagerEvent) {
        withDataSource:(NSArray *)dataSource
          sectionCount:(NSUInteger)count
     showSectionHeader:(BOOL)showHeader;
+- (void)bindTableView:(id)tableView
+withMultipleSectionDataSource:(NSArray *)datasource;
+- (void)bindTableView:(id)tableView
+withMultipleSectionDataSource:(NSArray *)datasource
+    showSectionHeader:(BOOL)showHeader;
 - (void)reloadTableDataWithDataSource:(NSArray *)dataSource
                          sectionCount:(NSUInteger)count;
 - (void)reloadTableDataWithDataSource:(NSArray *)dataSource
                          sectionCount:(NSUInteger)count
                     showSectionHeader:(BOOL)showHeader;
+- (void)reloadTableDataWithMultipleSectionDataSource:(NSArray *)dataSource;
+- (void)reloadTableDataWithMultipleSectionDataSource:(NSArray *)dataSource
+                                   showSectionHeader:(BOOL)showHeader;
 
 // Finish Updating Content
 - (void)finishUpdateContent;

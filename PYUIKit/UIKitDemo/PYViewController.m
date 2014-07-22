@@ -31,7 +31,8 @@
     
     _manager.identify = @"TestManager";
     _manager.defaultTarget = self;
-    [_manager reloadTableDataWithDataSource:@[@"1", @"2", @"3"]];
+    [_manager reloadTableDataWithMultipleSectionDataSource:@[@[@"1", @"2", @"3"]]];
+    //[_manager reloadTableDataWithDataSource:@[@"1", @"2", @"3"]];
 }
 
 - (void)PYEventHandler(TestManager, PYTableManagerEventCreateNewCell)
