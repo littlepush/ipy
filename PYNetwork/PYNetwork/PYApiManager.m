@@ -90,10 +90,11 @@ PYSingletonDefaultImplementation
         @"No such API Response Object",
         @"Failed to create response object",
         @"Reach max retry times",
-        @"Invalidate HTTP status code, except 200-399"
+        @"Invalidate HTTP status code, except 200-399",
+        @"Failed to parse the response body"
     };
     if ( code == PYApiSuccess ) return _errorMsg[0];
-    if ( code >= PYApiErrorInvalidateRequestClass && code <= PYApiErrorInvalidateHttpStatus ) {
+    if ( code >= PYApiErrorInvalidateRequestClass && code <= PYApiErrorFailedToParseResponse ) {
         return _errorMsg[code - 100];
     }
     return @"Unknow code";
@@ -191,10 +192,15 @@ PYSingletonDefaultImplementation
             }
 
             // Parse the data
-            if ( [_resp parseBodyWithData:_data] ) {
-                if ( success ) success ( _resp );
-            } else {
-                if ( failed ) failed( _resp.error );
+            @try {
+                if ( [_resp parseBodyWithData:_data] ) {
+                    if ( success ) success ( _resp );
+                } else {
+                    if ( failed ) failed( _resp.error );
+                }
+            } @catch ( NSException *ex ) {
+                ALog(@"%@\n%@", ex.reason, ex.callStackSymbols);
+                if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorFailedToParseResponse] );
             }
             break;
         } while ( true );
@@ -205,41 +211,10 @@ PYSingletonDefaultImplementation
 
 @end
 
-// The following test api object will be convert to Macro
-@implementation TestApiRequest
-
-- (void)initializeDomainSwitcher
-{
-    _domainSwitcher = PYDefaultDomainSwitcher;
+PY_JSON_API_COMMON_IMPL( TestApi, @"/api/login/username/<username>/password/<password>") {
+    return YES;
 }
-- (void)initializeUrlSchema
-{
-    _urlString = @"/api/login/username/<username>/password/<password>";
-}
-- (NSString *)formatUrl:(NSString *)url withParameters:(NSDictionary *)parameters
-{
-    return [super formatUrl:url withParameters:parameters];
-}
-
-@end
-
-@implementation TestApiResponse
-
-// Do something
-
-@end
-
-@implementation PYApiManager (TestApi)
-
-+ (void)invokeTestApiWithParameters:(NSDictionary *)params
-                             onInit:(PYApiActionInit)init
-                          onSuccess:(PYApiActionSuccess)success
-                           onFailed:(PYApiActionFailed)failed
-{
-    [PYApiManager invokeApi:@"TestApi" withParameters:params onInit:init onSuccess:success onFailed:false];
-}
-
-@end
+PY_END_API
 
 // @littlepush
 // littlepush@gmail.com
