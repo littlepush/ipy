@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-/*
+/*!
  The DNS server may down, or cache poisoning caused by some country,
  to make sure the user can always reach the server, we set the directly
  IP address of our server as a backup to the main domain.
@@ -41,25 +41,39 @@
     NSUInteger                  _selectedIndex;
 }
 
-// Set Default Domains and Protocol
-// Only the lastest invocation will take affect.
+/*! 
+ Set Default Domains and Protocol
+ Only the lastest invocation will take affect.
+ */
 + (void)setDefaultHttpDomains:(NSArray *)domains;
 + (void)setDefaultDomains:(NSArray *)domains protocol:(NSString *)protocol;
 
-// Create a domain switcher with default setting.
+/*!
+ Create a domain switcher with default setting.
+ */
 + (instancetype)defaultDomainSwitcher;
-// Initialize the domain switcher with HTTP protocol and specified domains
+/*! 
+ Initialize the domain switcher with HTTP protocol and specified domains
+ */
 + (instancetype)initWithHttpDomains:(NSArray *)domains;
-// Initialize the domain switcher with specified protocol and domains.
+/*! 
+ Initialize the domain switcher with specified protocol and domains. 
+ */
 + (instancetype)initWithDomains:(NSArray *)domains protocol:(NSString *)protocol;
 
-// Switch to the next domain, if reach end of the list, return NO.
+/*! 
+ Switch to the next domain, if reach end of the list, return NO.
+ */
 - (BOOL)next;
 
-// Get current selected domain, along with the protocol
+/*! 
+ Get current selected domain, along with the protocol
+ */
 @property (nonatomic, readonly) NSString        *selectedDomain;
 
-// Get all domain list.
+/*! 
+ Get all domain list.
+ */
 @property (nonatomic, readonly) NSArray         *domainList;
 
 // Domain Switch Status, if has unused domain

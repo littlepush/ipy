@@ -143,6 +143,17 @@
 
 @end
 
+@implementation PYApiPostRequest
+
+- (NSMutableURLRequest *)generateRequest
+{
+    NSMutableURLRequest *_req = [super generateRequest];
+    if ( _req == nil ) return nil;
+    [_req setHTTPMethod:@"POST"];
+    return _req;
+}
+
+@end
 // @littlepush
 // littlepush@gmail.com
 // PYLab
