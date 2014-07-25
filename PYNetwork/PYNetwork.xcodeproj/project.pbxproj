@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E6FDC112197F97A0005B4C72 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6FDC111197F97A0005B4C72 /* Foundation.framework */; };
 		E6FDC117197F97A0005B4C72 /* PYNetwork.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E6FDC116197F97A0005B4C72 /* PYNetwork.h */; };
-		E6FDC119197F97A0005B4C72 /* PYNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FDC118197F97A0005B4C72 /* PYNetwork.m */; };
 		E6FDC120197F97A0005B4C72 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6FDC11F197F97A0005B4C72 /* XCTest.framework */; };
 		E6FDC121197F97A0005B4C72 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6FDC111197F97A0005B4C72 /* Foundation.framework */; };
 		E6FDC123197F97A0005B4C72 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6FDC122197F97A0005B4C72 /* UIKit.framework */; };
@@ -20,6 +19,10 @@
 		E6FDC13C197FAA64005B4C72 /* PYApiRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FDC13B197FAA64005B4C72 /* PYApiRequest.m */; };
 		E6FDC13F1980E6B0005B4C72 /* PYApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FDC13E1980E6B0005B4C72 /* PYApiResponse.m */; };
 		E6FDC1421980E6B9005B4C72 /* PYApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FDC1411980E6B9005B4C72 /* PYApiManager.m */; };
+		E6FDC1431980E8C7005B4C72 /* PYDomainSwitcher.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E6FDC137197F97C2005B4C72 /* PYDomainSwitcher.h */; };
+		E6FDC1441980E8CA005B4C72 /* PYApiRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E6FDC13A197FAA64005B4C72 /* PYApiRequest.h */; };
+		E6FDC1451980E8CD005B4C72 /* PYApiResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E6FDC13D1980E6B0005B4C72 /* PYApiResponse.h */; };
+		E6FDC1461980E8D1005B4C72 /* PYApiManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E6FDC1401980E6B9005B4C72 /* PYApiManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +39,13 @@
 		E6FDC10C197F97A0005B4C72 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = usr/local/include;
 			dstSubfolderSpec = 16;
 			files = (
+				E6FDC1461980E8D1005B4C72 /* PYApiManager.h in CopyFiles */,
+				E6FDC1451980E8CD005B4C72 /* PYApiResponse.h in CopyFiles */,
+				E6FDC1441980E8CA005B4C72 /* PYApiRequest.h in CopyFiles */,
+				E6FDC1431980E8C7005B4C72 /* PYDomainSwitcher.h in CopyFiles */,
 				E6FDC117197F97A0005B4C72 /* PYNetwork.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,7 +57,6 @@
 		E6FDC111197F97A0005B4C72 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6FDC115197F97A0005B4C72 /* PYNetwork-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYNetwork-Prefix.pch"; sourceTree = "<group>"; };
 		E6FDC116197F97A0005B4C72 /* PYNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYNetwork.h; sourceTree = "<group>"; };
-		E6FDC118197F97A0005B4C72 /* PYNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PYNetwork.m; sourceTree = "<group>"; };
 		E6FDC11E197F97A0005B4C72 /* PYNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PYNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FDC11F197F97A0005B4C72 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E6FDC122197F97A0005B4C72 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -123,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				E6FDC116197F97A0005B4C72 /* PYNetwork.h */,
-				E6FDC118197F97A0005B4C72 /* PYNetwork.m */,
 				E6FDC137197F97C2005B4C72 /* PYDomainSwitcher.h */,
 				E6FDC138197F97C2005B4C72 /* PYDomainSwitcher.m */,
 				E6FDC13A197FAA64005B4C72 /* PYApiRequest.h */,
@@ -246,7 +251,6 @@
 			files = (
 				E6FDC13F1980E6B0005B4C72 /* PYApiResponse.m in Sources */,
 				E6FDC13C197FAA64005B4C72 /* PYApiRequest.m in Sources */,
-				E6FDC119197F97A0005B4C72 /* PYNetwork.m in Sources */,
 				E6FDC139197F97C2005B4C72 /* PYDomainSwitcher.m in Sources */,
 				E6FDC1421980E6B9005B4C72 /* PYApiManager.m in Sources */,
 			);
@@ -429,6 +433,7 @@
 				E6FDC133197F97A0005B4C72 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E6FDC134197F97A0005B4C72 /* Build configuration list for PBXNativeTarget "PYNetworkTests" */ = {
 			isa = XCConfigurationList;
@@ -437,6 +442,7 @@
 				E6FDC136197F97A0005B4C72 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

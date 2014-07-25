@@ -77,8 +77,9 @@
     if ( _isNeedDomainSwitcher ) {
         if ( _domainSwitcher.isAvailable == NO ) return nil;
     }
-    _retriedTimes += 1;
+    if ( _retriedTimes >= _maximalRetryTimes ) return nil;
     _requestUrl = [self _generateRequestUrl];
+    _retriedTimes += 1;
     if ( _isNeedDomainSwitcher ) {
         [_domainSwitcher next];
     }
@@ -141,3 +142,7 @@
 }
 
 @end
+
+// @littlepush
+// littlepush@gmail.com
+// PYLab

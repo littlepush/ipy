@@ -29,6 +29,6 @@
 #import "PYApiResponse.h"
 #import "PYApiManager.h"
 
-@interface PYNetwork : NSObject
-
-@end
+// @littlepush
+// littlepush@gmail.com
+// PYLab
