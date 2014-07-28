@@ -144,7 +144,9 @@ PYSingletonDefaultImplementation
         do {
             NSMutableURLRequest *_urlReq = [_req generateRequest];
             if ( _urlReq == nil ) {
+                BEGIN_MAINTHREAD_INVOKE
                 if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorReachMaxRetryTimes] );
+                END_MAINTHREAD_INVOKE
                 break;
             }
             if ( _req.containsModifiedSinceFlag ) {
@@ -164,7 +166,9 @@ PYSingletonDefaultImplementation
             if ( _error ) { continue; }
             
             if ( _response.statusCode >= 400 ) {
+                BEGIN_MAINTHREAD_INVOKE
                 if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorInvalidateHttpStatus] );
+                END_MAINTHREAD_INVOKE
                 break;
             }
             
@@ -194,13 +198,19 @@ PYSingletonDefaultImplementation
             // Parse the data
             @try {
                 if ( [_resp parseBodyWithData:_data] ) {
+                    BEGIN_MAINTHREAD_INVOKE
                     if ( success ) success ( _resp );
+                    END_MAINTHREAD_INVOKE
                 } else {
+                    BEGIN_MAINTHREAD_INVOKE
                     if ( failed ) failed( _resp.error );
+                    END_MAINTHREAD_INVOKE
                 }
             } @catch ( NSException *ex ) {
                 ALog(@"%@\n%@", ex.reason, ex.callStackSymbols);
+                BEGIN_MAINTHREAD_INVOKE
                 if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorFailedToParseResponse] );
+                END_MAINTHREAD_INVOKE
             }
             break;
         } while ( true );
@@ -209,6 +219,12 @@ PYSingletonDefaultImplementation
     [[PYApiManager shared].apiOpQueue addOperation:_workingOperation];
 }
 
+@end
+
+@implementation PYApiManager (Internal)
+
+@dynamic apiOpQueue;
+- (NSOperationQueue *)apiOpQueue { return _apiOpQueue; }
 @end
 
 PY_JSON_API_COMMON_IMPL( TestApi, @"/api/login/username/<username>/password/<password>") {

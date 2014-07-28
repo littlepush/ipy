@@ -54,9 +54,9 @@ typedef NS_ENUM(NSInteger, PYApiErrorCode){
 
 @end
 
-typedef void (^PYApiActionInit)(PYApiRequest *);
-typedef void (^PYApiActionSuccess)(id);
-typedef void (^PYApiActionFailed)(NSError *);
+typedef void (^PYApiActionInit)(PYApiRequest *request);
+typedef void (^PYApiActionSuccess)(id response);
+typedef void (^PYApiActionFailed)(NSError *error);
 
 @interface PYApiManager (Private)
 
@@ -99,7 +99,7 @@ NSString *const API##api_name = @#api_name;             \
 withParameters:params                                   \
         onInit:init                                     \
      onSuccess:success                                  \
-      onFailed:false];                                  \
+      onFailed:failed];                                 \
 }                                                       \
 @end
 #define PY_BEGIN_OVERWRITE_REQUEST(api_name)            \

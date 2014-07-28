@@ -60,7 +60,7 @@
     if ( _isNeedDomainSwitcher == NO ) {
         _url = [_urlString copy];
     } else {
-        _url = [_domainSwitcher.selectedDomain stringByAppendingPathComponent:_urlString];
+        _url = [_domainSwitcher.selectedDomain stringByAppendingString:_urlString];
     }
     return _url;
 }
@@ -127,8 +127,8 @@
     if ( self ) {
         self.containsModifiedSinceFlag = YES;
         [self initializeDomainSwitcher];
-        _isNeedDomainSwitcher = ([_urlString rangeOfString:@"://"].location == NSNotFound);
         [self initializeUrlSchema];
+        _isNeedDomainSwitcher = ([_urlString rangeOfString:@"://"].location == NSNotFound);
         _retriedTimes = 0;
         if ( _domainSwitcher == nil || [_domainSwitcher.domainList count] == 0 ) {
             _minimalRetryTimes = 1;
