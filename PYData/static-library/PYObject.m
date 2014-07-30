@@ -78,9 +78,9 @@
 {
     // Return an empty dictionary.
     return @{
-             @"id"              :self.objectId,
-             @"name"            :self.name,
-             @"type"            :self.type,
+             @"id"              :([self.objectId length] ? self.objectId : @""),
+             @"name"            :([self.name length] ? self.name : @""),
+             @"type"            :([self.type length] ? self.type : @""),
              @"updatetime"      :PYIntToString((int)[self.updateTime timestamp])
              };
 }
