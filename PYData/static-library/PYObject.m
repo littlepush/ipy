@@ -40,6 +40,17 @@
     return [self class];
 }
 
+- (id)init
+{
+    self = [super init];
+    if ( self ) {
+        self.objectId = @"";
+        self.updateTime = [PYDate date];
+        self.name = @"";
+        self.type = NSStringFromClass([self class]);
+    }
+    return self;
+}
 #pragma mark --
 #pragma mark Object
 
@@ -71,7 +82,7 @@
     self.objectId   = PYIntToString([jsonDict tryIntObjectForKey:@"id" withDefaultValue:0]);
     self.updateTime = [PYDate dateWithDate:[jsonDict utcDateObjectForKey:@"updatetime"]];
     self.name       = [jsonDict stringObjectForKey:@"name" withDefaultValue:@""];
-    self.type       = [jsonDict stringObjectForKey:@"type" withDefaultValue:@""];
+    self.type       = NSStringFromClass([self class]);
 }
 
 - (NSDictionary *)objectToJsonDict
