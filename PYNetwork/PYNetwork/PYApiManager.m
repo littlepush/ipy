@@ -144,6 +144,7 @@ PYSingletonDefaultImplementation
         do {
             NSMutableURLRequest *_urlReq = [_req generateRequest];
             if ( _urlReq == nil ) {
+                // Reach Max Retry Times.
                 BEGIN_MAINTHREAD_INVOKE
                 if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorReachMaxRetryTimes] );
                 END_MAINTHREAD_INVOKE
@@ -166,6 +167,7 @@ PYSingletonDefaultImplementation
             if ( _error ) { continue; }
             
             if ( _response.statusCode >= 400 ) {
+                // Server error
                 BEGIN_MAINTHREAD_INVOKE
                 if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorInvalidateHttpStatus] );
                 END_MAINTHREAD_INVOKE
@@ -202,15 +204,12 @@ PYSingletonDefaultImplementation
                     if ( success ) success ( _resp );
                     END_MAINTHREAD_INVOKE
                 } else {
-                    BEGIN_MAINTHREAD_INVOKE
-                    if ( failed ) failed( _resp.error );
-                    END_MAINTHREAD_INVOKE
+                    // May be dns error, 114 return.
+                    continue;
                 }
             } @catch ( NSException *ex ) {
                 ALog(@"%@\n%@", ex.reason, ex.callStackSymbols);
-                BEGIN_MAINTHREAD_INVOKE
-                if ( failed ) failed( [PYApiManager apiErrorWithCode:PYApiErrorFailedToParseResponse] );
-                END_MAINTHREAD_INVOKE
+                continue;
             }
             break;
         } while ( true );
