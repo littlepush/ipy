@@ -53,6 +53,8 @@
 		E66E465717A251D900D1FF55 /* PYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66E465617A251D900D1FF55 /* PYViewController.m */; };
 		E66E465A17A251D900D1FF55 /* PYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E66E465817A251D900D1FF55 /* PYViewController.xib */; };
 		E66E466017A2526500D1FF55 /* libPYCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D57EDE15F5A6DB00C1ED25 /* libPYCore.a */; };
+		E66F1DB0198A3D10004F08A2 /* PYKernel.h in Headers */ = {isa = PBXBuildFile; fileRef = E66F1DAE198A3D10004F08A2 /* PYKernel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E66F1DB1198A3D10004F08A2 /* PYKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F1DAF198A3D10004F08A2 /* PYKernel.m */; };
 		E6CBB7DC184C8EBF00E03D1F /* PYSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = E644D42C1767A59000DFEA20 /* PYSemaphore.m */; };
 		E6D57EDF15F5A6DB00C1ED25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AE342F15B1896100AFBA96 /* Foundation.framework */; };
 		E6F91507183D1C5D00521E22 /* PYNetworkPeerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E64EB6BB176634A5009294FE /* PYNetworkPeerInfo.m */; };
@@ -120,6 +122,8 @@
 		E66E465517A251D900D1FF55 /* PYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PYViewController.h; sourceTree = "<group>"; };
 		E66E465617A251D900D1FF55 /* PYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PYViewController.m; sourceTree = "<group>"; };
 		E66E465917A251D900D1FF55 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PYViewController.xib; sourceTree = "<group>"; };
+		E66F1DAE198A3D10004F08A2 /* PYKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYKernel.h; sourceTree = "<group>"; };
+		E66F1DAF198A3D10004F08A2 /* PYKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYKernel.m; sourceTree = "<group>"; };
 		E6AE342F15B1896100AFBA96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6D57EDE15F5A6DB00C1ED25 /* libPYCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPYCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D57EE215F5A6DB00C1ED25 /* PYCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PYCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -189,6 +193,8 @@
 				E66E463617A2468E00D1FF55 /* PYPair.m */,
 				E632EB5F18B5D943003BF129 /* PYActionDispatcher.h */,
 				E632EB6018B5D943003BF129 /* PYActionDispatcher.m */,
+				E66F1DAE198A3D10004F08A2 /* PYKernel.h */,
+				E66F1DAF198A3D10004F08A2 /* PYKernel.m */,
 			);
 			name = "Utility Objects";
 			path = Utility.Objects;
@@ -317,6 +323,7 @@
 			files = (
 				E600DCB918007AA6000EAFB8 /* PYCoreMacro.h in Headers */,
 				E64F409C17088CEF0037BB6B /* NSObject+PYCore.h in Headers */,
+				E66F1DB0198A3D10004F08A2 /* PYKernel.h in Headers */,
 				E64EB68C1764EE1F009294FE /* NSArray+PYCore.h in Headers */,
 				E632EB5E18B5D7CC003BF129 /* PYService.h in Headers */,
 				E632EB6118B5D943003BF129 /* PYActionDispatcher.h in Headers */,
@@ -448,6 +455,7 @@
 				E64A8FAE17BB2B6600B132BA /* PYKVOObject.m in Sources */,
 				E632EB6218B5D943003BF129 /* PYActionDispatcher.m in Sources */,
 				E644D4321767A6CC00DFEA20 /* PYMutex.m in Sources */,
+				E66F1DB1198A3D10004F08A2 /* PYKernel.m in Sources */,
 				E66E463817A2468E00D1FF55 /* PYPair.m in Sources */,
 				E6F91507183D1C5D00521E22 /* PYNetworkPeerInfo.m in Sources */,
 			);
