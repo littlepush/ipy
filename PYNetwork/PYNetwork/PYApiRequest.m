@@ -112,7 +112,7 @@
         _url = [_url
                 stringByReplacingOccurrencesOfString:
                 [NSString stringWithFormat:@"<%@>", _key]
-                withString:_value];
+                withString:[_value urlEncodeString]];
     }
     return _url;
 }
