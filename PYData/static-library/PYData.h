@@ -29,6 +29,7 @@
 #import "PYGlobalDataCache.h"
 #import "PYKeyedDb.h"
 #import "PYObject.h"
+#import "PYKernel+PYData.h"
 
 // @littlepush
 // littlepush@gmail.com

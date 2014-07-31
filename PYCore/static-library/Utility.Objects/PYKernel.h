@@ -13,7 +13,7 @@
     NSString                                *_deviceId;
     NSString                                *_version;
     NSString                                *_deviceToken;
-    NSString                                *_carrier;
+    //NSString                                *_carrier;
     NSString                                *_productName;
     NSString                                *_oldVersionInCache;
     BOOL                                    _isJailBroken;
@@ -32,7 +32,7 @@
 // Device Token
 @property (nonatomic, readonly) NSString                *deviceToken;
 // Carrier
-@property (nonatomic, readonly) NSString                *carrier;
+//@property (nonatomic, readonly) NSString                *carrier;
 // Product name
 @property (nonatomic, readonly) NSString                *productName;
 

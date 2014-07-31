@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <PYCore/PYCore.h>
 
 @interface PYKernel (PYData)
 

@@ -11,8 +11,8 @@
 #include <sys/sysctl.h>
 #include <net/if.h>
 #include <net/if_dl.h>
-#import <CoreTelephony/CTCarrier.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+//#import <CoreTelephony/CTCarrier.h>
+//#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "PYCoreMacro.h"
 #import <UIKit/UIKit.h>
 
@@ -34,7 +34,7 @@ PYSingletonDefaultImplementation
 @synthesize version = _version;
 @synthesize lastVersion = _oldVersionInCache;
 @synthesize deviceId = _deviceId;
-@synthesize carrier = _carrier;
+//@synthesize carrier = _carrier;
 @synthesize isJailBroken = _isJailBroken;
 @dynamic phoneType;
 - (NSString *)phoneType
@@ -127,9 +127,9 @@ PYSingletonDefaultImplementation
         if ( _deviceToken == nil || [_deviceToken length] == 0 ) {
             _deviceToken = [@"" copy];
         }
-        CTTelephonyNetworkInfo *_ctInfo = [[CTTelephonyNetworkInfo alloc] init];
-        CTCarrier *_carrierObj = _ctInfo.subscriberCellularProvider;
-        _carrier = _carrierObj.carrierName;
+//        CTTelephonyNetworkInfo *_ctInfo = [[CTTelephonyNetworkInfo alloc] init];
+//        CTCarrier *_carrierObj = _ctInfo.subscriberCellularProvider;
+//        _carrier = _carrierObj.carrierName;
         
         _isJailBroken = NO;
         if ( [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"] ) {

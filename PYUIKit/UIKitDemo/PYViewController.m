@@ -37,14 +37,14 @@
 
 - (void)PYEventHandler(TestManager, PYTableManagerEventCreateNewCell)
 {
-    UITableViewCell *_cell = (UITableViewCell *)sender;
+    UITableViewCell *_cell = (UITableViewCell *)obj1;
     [_cell setBackgroundColor:[UIColor randomColor]];
 }
 
 - (void)PYEventHandler(TestManager, PYTableManagerEventSelectCell)
 {
     //UITableViewCell *_cell = (UITableViewCell *)sender;
-    NSIndexPath *_indexPath = (NSIndexPath *)exInfo;
+    NSIndexPath *_indexPath = (NSIndexPath *)obj2;
     [_testList deselectRowAtIndexPath:_indexPath animated:YES];
     [PYHUDView displayMessage:PYIntToString(_indexPath.row) duration:1.5f];
 }
