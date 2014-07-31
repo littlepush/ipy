@@ -527,12 +527,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     if ( _flags._isEditing ) {
         return UITableViewCellEditingStyleDelete;
     }
+    NSNumber *_canDeleteFlag = [self
+                                invokeTargetWithEvent:UITableManagerEventCanDeleteCell
+                                exInfo:indexPath];
+    if ( _canDeleteFlag != nil ) {
+        if ( [_canDeleteFlag boolValue] ) return UITableViewCellEditingStyleDelete;
+    }
     return UITableViewCellEditingStyleNone;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *_canDeleteFlag = [self invokeTargetWithEvent:UITableManagerEventCanDeleteCell exInfo:indexPath];
+    NSNumber *_canDeleteFlag = [self invokeTargetWithEvent:UITableManagerEventCanDeleteCell
+                                                    exInfo:indexPath];
     if ( _canDeleteFlag != nil ) {
         return [_canDeleteFlag boolValue];
     }
