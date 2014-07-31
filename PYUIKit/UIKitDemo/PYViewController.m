@@ -49,6 +49,11 @@
     [PYHUDView displayMessage:PYIntToString(_indexPath.row) duration:1.5f];
 }
 
+- (NSNumber *)PYEventHandler(TestManager, UITableManagerEventCanDeleteCell)
+{
+    return @(YES);
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

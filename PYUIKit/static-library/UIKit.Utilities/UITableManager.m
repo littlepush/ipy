@@ -505,7 +505,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     id _cell = [tableView cellForRowAtIndexPath:indexPath];
     [self invokeTargetWithEvent:PYTableManagerEventDeleteCell exInfo:_cell exInfo:indexPath];
     NSMutableArray *_copiedDS = [NSMutableArray arrayWithArray:_contentDataSource];
-    if ( _flags._sectionCount > 1 ) {
+    if ( _flags._isMultipleSection ) {
         NSMutableArray *_sectionSource =
         [NSMutableArray arrayWithArray:
          [_copiedDS safeObjectAtIndex:indexPath.section]];
