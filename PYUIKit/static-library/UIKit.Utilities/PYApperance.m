@@ -142,22 +142,17 @@ PYSingletonDefaultImplementation;
             [_rootContainer.view addSubview:_nc.view];
         }
         for ( UIViewController *_uc in mainViews ) {
-            if ( [_uc isKindOfClass:[UITabBarController class]] == NO ) {
-                Class _navClass = [rootContainer navigationControllerClassForMainViewController:_uc];
-                PYNavigationController *_nc = [[_navClass alloc] initWithRootViewController:_uc];
-                PYASSERT([_nc isKindOfClass:[PYNavigationController class]],
-                         @"The navigation class for main view is not a PYNavigationController.");
-                [_mainViewControllers addObject:_nc];
-                [_nc setViewControllerType:UINavigationControllerTypeMainView];
-                [_nc setMaxToLeftMovingSpace:_rightMenuDisplayWidth];
-                [_nc setMaxToRightMovingSpace:_leftMenuDisplayWidth];
-            
-                [_rootContainer addChildViewController:_nc];
-                [_rootContainer.view addSubview:_nc.view];
-            } else {
-                [_rootContainer addChildViewController:_uc];
-                [_rootContainer.view addSubview:_uc.view];
-            }
+            Class _navClass = [rootContainer navigationControllerClassForMainViewController:_uc];
+            PYNavigationController *_nc = [[_navClass alloc] initWithRootViewController:_uc];
+            PYASSERT([_nc isKindOfClass:[PYNavigationController class]],
+                     @"The navigation class for main view is not a PYNavigationController.");
+            [_mainViewControllers addObject:_nc];
+            [_nc setViewControllerType:UINavigationControllerTypeMainView];
+            [_nc setMaxToLeftMovingSpace:_rightMenuDisplayWidth];
+            [_nc setMaxToRightMovingSpace:_leftMenuDisplayWidth];
+        
+            [_rootContainer addChildViewController:_nc];
+            [_rootContainer.view addSubview:_nc.view];
         }
         
         PYNavigationController *_lastMainView = [_mainViewControllers lastObject];

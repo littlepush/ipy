@@ -204,8 +204,9 @@ PYSingletonDefaultImplementation
                     if ( success ) success ( _resp );
                     END_MAINTHREAD_INVOKE
                 } else {
-                    // May be dns error, 114 return.
-                    continue;
+                    BEGIN_MAINTHREAD_INVOKE
+                    if ( failed ) failed ( _resp.error );
+                    END_MAINTHREAD_INVOKE
                 }
             } @catch ( NSException *ex ) {
                 ALog(@"%@\n%@", ex.reason, ex.callStackSymbols);
