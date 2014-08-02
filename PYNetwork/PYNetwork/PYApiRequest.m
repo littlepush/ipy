@@ -109,6 +109,7 @@
     NSString *_url = [url copy];
     for ( NSString *_key in parameters ) {
         NSString *_value = parameters[_key];
+        if ( [_value isKindOfClass:[NSString class]] == NO ) continue;
         _url = [_url
                 stringByReplacingOccurrencesOfString:
                 [NSString stringWithFormat:@"<%@>", _key]

@@ -442,11 +442,23 @@ withMultipleSectionDataSource:(NSArray *)datasource
     // Create the cell.
     Class _cell_class = [self classOfCellAtIndex:indexPath];
     NSString *_cellIdentify = NSStringFromClass(_cell_class);
+    BOOL _isOnCreateNewCell = NO;
     UITableViewCell *_cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentify];
     if ( _cell == nil ) {
+        _isOnCreateNewCell = YES;
         _cell = [[_cell_class alloc]
                  initWithStyle:UITableViewCellStyleDefault
                  reuseIdentifier:_cellIdentify];
+        [_cell.layer setValue:@(1) forKeyPath:@"com.ipy.cell"];
+    } else {
+        NSNumber *_status = [_cell.layer valueForKey:@"com.ipy.cell"];
+        if ( _status == nil ) {
+            // The cell is created from Storyboard.
+            [_cell.layer setValue:@(1) forKeyPath:@"com.ipy.cell"];
+            _isOnCreateNewCell = YES;
+        }
+    }
+    if ( _isOnCreateNewCell ) {
         if ( [_cell respondsToSelector:@selector(setDeleteEventCallback:)] ) {
             __weak UITableManager *_wss = self;
             [(id<PYTableCell>)_cell setDeleteEventCallback:^(id cell, NSIndexPath *indexPath) {
