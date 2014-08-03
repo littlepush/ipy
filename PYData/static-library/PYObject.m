@@ -80,7 +80,13 @@
 - (void)objectFromJsonDict:(NSDictionary *)jsonDict
 {
     self.objectId   = PYIntToString([jsonDict tryIntObjectForKey:@"id" withDefaultValue:0]);
-    self.updateTime = [PYDate dateWithDate:[jsonDict utcDateObjectForKey:@"updatetime"]];
+    if ( [jsonDict objectForKey:@"updatetime"] ) {
+        self.updateTime = [PYDate dateWithDate:[jsonDict utcDateObjectForKey:@"updatetime"]];
+    } else if ( [jsonDict objectForKey:@"updatedAt"] ) {
+        self.updateTime = [PYDate dateWithDate:[jsonDict jsDateObjectForKey:@"updatedAt"]];
+    } else {
+        self.updateTime = [PYDate dateWithDate:[jsonDict snsDateObjectForKey:@"updatetime"]];
+    }
     self.name       = [jsonDict stringObjectForKey:@"name" withDefaultValue:@""];
     self.type       = NSStringFromClass([self class]);
 }

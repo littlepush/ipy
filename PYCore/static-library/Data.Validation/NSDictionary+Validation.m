@@ -219,6 +219,18 @@
 	NSDate *_date = [NSDate dateWithTimeIntervalSince1970:_timeInterval];
 	return _date;
 }
+/* Get an date object of Nodejs style(basicly, when use sails, format should be yyyy-MM-ddTHH:mm:ss.SSSZ */
+- (NSDate *)jsDateObjectForKey:(NSString *)key
+{
+    NSString *_dateString = [self stringObjectForKey:key withDefaultValue:@""];
+    if ( [_dateString length] == 0 ) return [NSDate dateWithTimeIntervalSince1970:0];
+    _dateString = [_dateString stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+    _dateString = [_dateString stringByReplacingOccurrencesOfString:@"Z" withString:@""];
+    NSDateFormatter *_formater = [NSDateFormatter object];
+    [_formater setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
+    NSDate *_date = [_formater dateFromString:_dateString];
+    return _date;
+}
 
 @end
 
