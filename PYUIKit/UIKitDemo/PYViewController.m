@@ -11,6 +11,39 @@
 #import <objc/runtime.h>
 #import "PYUIKit.h"
 
+@interface PYTestCell : UITableViewCell< PYTableCell >
+
+@end
+
+@implementation PYTestCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        [self.textLabel setFont:[UIFont systemFontOfSize:18.f]];
+    }
+    return self;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+}
+
++ (NSNumber *)heightOfCellWithSpecifiedContentItem:(id)contentItem
+{
+    return @44;
+}
+
+- (void)rendCellWithSpecifiedContentItem:(id)contentItem
+{
+    [self.textLabel setText:contentItem];
+}
+
+@end
+
 @interface PYViewController ()
 
 @end
@@ -30,8 +63,11 @@
     [_manager bindTableView:_testList];
     
     _manager.identify = @"TestManager";
+    [_manager bindTableView:_testList withDataSource:@[@"1", @"2", @"3"]];
     _manager.defaultTarget = self;
-    [_manager reloadTableDataWithMultipleSectionDataSource:@[@[@"1", @"2", @"3"]]];
+    [_manager setDefaultCellClass:[PYTestCell class]];
+    
+    //[_manager reloadTableDataWithMultipleSectionDataSource:@[@[@"1", @"2", @"3"]]];
     //[_manager reloadTableDataWithDataSource:@[@"1", @"2", @"3"]];
 }
 

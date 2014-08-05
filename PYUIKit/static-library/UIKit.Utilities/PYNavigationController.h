@@ -32,7 +32,7 @@ typedef NS_OPTIONS(NSUInteger, UINavigationControllerType) {
     UINavigationControllerTypePopView       = 1 << 2
 };
 
-@interface PYNavigationController : UINavigationController
+@interface PYNavigationController : UINavigationController <UIGestureRecognizerDelegate>
 {
     // Current view controller type.
     UINavigationControllerType              _viewControllerType;

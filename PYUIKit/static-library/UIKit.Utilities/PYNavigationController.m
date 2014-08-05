@@ -23,6 +23,7 @@
  */
 
 #import "PYNavigationController.h"
+#import "PYApperance.h"
 
 @interface PYNavigationController ()
 
@@ -40,6 +41,7 @@
             _panGesture = [[UIPanGestureRecognizer alloc]
                            initWithTarget:self
                            action:@selector(_gesturePanHandler:)];
+            _panGesture.delegate = self;
         }
         [self.view addGestureRecognizer:_panGesture];
     } else {
@@ -66,6 +68,16 @@
 - (BOOL)stuckWhenMainViewMoveToRight
 {
     return _maxToRightMovingSpace == 0;
+}
+
+// Gesture
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ( gestureRecognizer != _panGesture ) return NO;
+    if ( [self.childViewControllers count] > 1 ) return NO;
+    if ( [[PYApperance sharedApperance].leftMenus count] == 0 &&
+        [[PYApperance sharedApperance].rightMenus count] == 0 ) return NO;
+    return YES;
 }
 
 // Pop statue.

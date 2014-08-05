@@ -124,6 +124,8 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
 {
     if ( _bindTableView != nil ) {
         PYRemoveObserve(_bindTableView, @"frame");
+        PYRemoveObserve(_bindTableView, @"tableHeaderView");
+        PYRemoveObserve(_bindTableView, @"tableFooterView");
     }
     if ( [PYLayer isDebugEnabled] ) {
         __formatLogLine(__FILE__, __FUNCTION__, __LINE__,

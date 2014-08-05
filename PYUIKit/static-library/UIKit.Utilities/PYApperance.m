@@ -61,6 +61,10 @@ PYKVO_CHANGED_RESPONSE(_rootContainer, popState);
 PYSingletonAllocWithZone(_gPYApperance);
 PYSingletonDefaultImplementation;
 
+@synthesize leftMenus = _leftViewControllers;
+@synthesize rightMenus = _rightViewControllers;
+@synthesize mainViews = _mainViewControllers;
+
 - (id)init
 {
     self = [super init];
