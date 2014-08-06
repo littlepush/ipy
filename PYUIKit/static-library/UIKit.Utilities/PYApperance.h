@@ -52,6 +52,8 @@
 @property (nonatomic, readonly) NSArray     *rightMenus;
 @property (nonatomic, readonly) NSArray     *mainViews;
 
+- (void)switchMainViewAtIndex:(NSUInteger)index;
+
 // The root container.
 @property (nonatomic, readonly) UIViewController __unsafe_unretained    *rootContainer;
 

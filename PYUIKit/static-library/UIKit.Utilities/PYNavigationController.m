@@ -25,6 +25,24 @@
 #import "PYNavigationController.h"
 #import "PYApperance.h"
 
+@interface PYApperance (__navigation_controller)
+
+- (void)_keyViewController:(PYNavigationController *)nav changedTransform:(CGAffineTransform)transform;
+
+@end
+
+@implementation PYApperance (__navigation_controller)
+
+- (void)_keyViewController:(PYNavigationController *)nav changedTransform:(CGAffineTransform)transform
+{
+    for ( UINavigationController *_nav in _mainViewControllers ) {
+        if ( _nav == nav ) continue;
+        _nav.view.transform = transform;
+    }
+}
+
+@end
+
 @interface PYNavigationController ()
 
 @end
@@ -109,8 +127,9 @@
     if ( _currentTransform < -_maxToLeftMovingSpace ) {
         _currentTransform = -_maxToLeftMovingSpace;
     }
-    self.view.transform = CGAffineTransformMakeTranslation(_currentTransform, 0);
-    // Tell the container...
+    CGAffineTransform _t = CGAffineTransformMakeTranslation(_currentTransform, 0);
+    self.view.transform = _t;
+    [[PYApperance sharedApperance] _keyViewController:self changedTransform:_t];
     
     if ( animated ) {
         [UIView commitAnimations];
@@ -129,8 +148,9 @@
     if ( _currentTransform > _maxToRightMovingSpace ) {
         _currentTransform = _maxToRightMovingSpace;
     }
-    self.view.transform = CGAffineTransformMakeTranslation(_currentTransform, 0);
-    // Tell the container...
+    CGAffineTransform _t = CGAffineTransformMakeTranslation(_currentTransform, 0);
+    self.view.transform = _t;
+    [[PYApperance sharedApperance] _keyViewController:self changedTransform:_t];
 
     if ( animated ) {
         [UIView commitAnimations];
@@ -142,7 +162,9 @@
     if ( self.view.transform.tx == 0.f ) return;
     [UIView animateWithDuration:.175 animations:^{
         self.view.transform = CGAffineTransformIdentity;
-        // Tell the container...
+        [[PYApperance sharedApperance]
+         _keyViewController:self
+         changedTransform:CGAffineTransformIdentity];
     }];
 }
 

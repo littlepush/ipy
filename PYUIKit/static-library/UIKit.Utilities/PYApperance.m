@@ -79,6 +79,24 @@ PYSingletonDefaultImplementation;
     return self;
 }
 
+- (void)dealloc
+{
+    if ( !_rootContainer ) {
+        PYRemoveObserve(_rootContainer, kUIViewControllerPopState);
+    }
+}
+
+- (void)switchMainViewAtIndex:(NSUInteger)index
+{
+    PYNavigationController *_nav = [_mainViewControllers safeObjectAtIndex:index];
+    if ( _nav == nil ) return;
+    
+    // Already the top one
+    if ( [_rootContainer.view.subviews lastObject] == _nav.view ) return;
+    [_rootContainer.view bringSubviewToFront:_nav.view];
+    [_nav resetViewPosition];
+}
+
 @synthesize leftMenuDisplayWidth = _leftMenuDisplayWidth;
 - (void)setLeftMenuDisplayWidth:(CGFloat)width
 {
