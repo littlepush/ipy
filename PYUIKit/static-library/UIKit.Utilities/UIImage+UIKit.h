@@ -66,6 +66,14 @@
                      lineWidth:(CGFloat)lineWidth
                        padding:(CGFloat)padding;
 
+// Draw a menu icon(三) within specified size
++ (UIImage *)menuIconWithSize:(CGSize)imgSize;
++ (UIImage *)menuIconWithSize:(CGSize)imgSize
+              backgroundColor:(UIColor *)bkgClr
+                    iconColor:(UIColor *)icnClr
+                    lineWidth:(CGFloat)lineWidth
+                      padding:(CGFloat)padding;
+
 @end
 
 // @littlepush

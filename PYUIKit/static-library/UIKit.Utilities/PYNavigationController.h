@@ -37,6 +37,7 @@ typedef NS_OPTIONS(NSUInteger, UINavigationControllerType) {
     // Current view controller type.
     UINavigationControllerType              _viewControllerType;
     
+    UIView                                  *_maskView;
     // The max spacing means max distance current view controller can move to one side.
     // for example, if current view is a left menu, then the [_maxToLeftMovingSpace]
     // should be 0, which means the controller cannot be moved towards left.
@@ -104,8 +105,8 @@ typedef NS_OPTIONS(NSUInteger, UINavigationControllerType) {
 - (void)setBottomBarHidden:(BOOL)hidden animated:(BOOL)animated;
 
 // Get the notification when main view is moving.
-- (void)mainViewIsMovingToRightWithPercentage:(CGFloat)percentage;
-- (void)mainViewIsMovingToLeftWithPercentage:(CGFloat)percentage;
+- (void)mainViewIsMovingToRightWithPercentage:(CGFloat)percentage __deprecated;
+- (void)mainViewIsMovingToLeftWithPercentage:(CGFloat)percentage __deprecated;
 
 // Manually move current view
 - (void)moveToLeftWithDistance:(CGFloat)distance animated:(BOOL)animated;
