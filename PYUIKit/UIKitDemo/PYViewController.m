@@ -10,6 +10,7 @@
 #import "PYPhotoListCell.h"
 #import <objc/runtime.h>
 #import "PYUIKit.h"
+#import "PYCoverFlowViewController.h"
 
 @interface PYTestCell : UITableViewCell< PYTableCell >
 

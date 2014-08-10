@@ -7,6 +7,24 @@
 //
 
 /*
+ LGPL V3 Lisence
+ This file is part of cleandns.
+ 
+ PYData is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ PYData is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with cleandns.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
  LISENCE FOR IPY
  COPYRIGHT (c) 2013, Push Chen.
  ALL RIGHTS RESERVED.
@@ -100,6 +118,37 @@
              @"type"            :([self.type length] ? self.type : @""),
              @"updatetime"      :PYIntToString((int)[self.updateTime timestamp])
              };
+}
+
+@end
+
+@implementation PYGlobalDataCache (PYObject)
+
+- (void)setPYObject:(PYObject *)value forKey:(NSString *)key
+{
+    [self setObject:[value objectToJsonDict] forKey:key];
+}
+
+- (void)setPYObject:(PYObject *)value forKey:(NSString *)key expire:(id<PYDate>)expire
+{
+    [self setObject:[value objectToJsonDict] forKey:key expire:expire];
+}
+
+- (PYObject *)PYObjectForKey:(NSString *)key
+{
+    NSDictionary *_result = (NSDictionary *)[self objectForKey:key];
+    if ( [_result isKindOfClass:[NSDictionary class]] == NO ) return nil;
+    NSString *_type = [_result stringObjectForKey:@"type" withDefaultValue:@""];
+    if ( [_type length] == 0 ) return nil;  // not support type
+    Class _cls = NSClassFromString(_type);
+    if ( _cls == NULL ) return nil;     // cannot find the object's type
+    PYObject *_object = [_cls new];
+    @try {
+        [_object objectFromJsonDict:_result];
+        return _object;
+    } @catch( NSException *ex ) {
+        return nil;
+    }
 }
 
 @end

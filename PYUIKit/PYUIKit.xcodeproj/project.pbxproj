@@ -130,6 +130,7 @@
 		E6F91505183B7D8800521E22 /* PYGridView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F91503183B7D8800521E22 /* PYGridView+Layout.m */; };
 		E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F9150D183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */; };
+		E6FEB02F1994885A00440874 /* PYCoverFlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FEB02E1994885A00440874 /* PYCoverFlowViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +273,8 @@
 		E6F91503183B7D8800521E22 /* PYGridView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PYGridView+Layout.m"; sourceTree = "<group>"; };
 		E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+PYUIKit.h"; sourceTree = "<group>"; };
 		E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+PYUIKit.m"; sourceTree = "<group>"; };
+		E6FEB02D1994885A00440874 /* PYCoverFlowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCoverFlowViewController.h; sourceTree = "<group>"; };
+		E6FEB02E1994885A00440874 /* PYCoverFlowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCoverFlowViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +386,8 @@
 				E66E46C417A63A6C00D1FF55 /* PYPhotoListCell.m */,
 				E66E468217A3847600D1FF55 /* PYViewController.xib */,
 				E66E466E17A3847600D1FF55 /* Supporting Files */,
+				E6FEB02D1994885A00440874 /* PYCoverFlowViewController.h */,
+				E6FEB02E1994885A00440874 /* PYCoverFlowViewController.m */,
 			);
 			path = UIKitDemo;
 			sourceTree = "<group>";
@@ -769,6 +774,7 @@
 				E66E467817A3847600D1FF55 /* PYAppDelegate.m in Sources */,
 				E66E468117A3847600D1FF55 /* PYViewController.m in Sources */,
 				E66E46C517A63A6C00D1FF55 /* PYPhotoListCell.m in Sources */,
+				E6FEB02F1994885A00440874 /* PYCoverFlowViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
