@@ -15,6 +15,7 @@
     NSString                                *_deviceToken;
     //NSString                                *_carrier;
     NSString                                *_productName;
+    NSString                                *_bundleId;
     NSString                                *_oldVersionInCache;
     BOOL                                    _isJailBroken;
 
@@ -35,6 +36,9 @@
 //@property (nonatomic, readonly) NSString                *carrier;
 // Product name
 @property (nonatomic, readonly) NSString                *productName;
+
+// Bundle Id
+@property (nonatomic, readonly) NSString                *bundleId;
 
 // Internal Version of this application.
 @property (nonatomic, readonly) NSString                *internalVersion;

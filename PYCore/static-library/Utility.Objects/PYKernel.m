@@ -42,6 +42,7 @@ PYSingletonDefaultImplementation
     // The phone type of this app should be iphone.
     return PYDEVICEMODELNAME;
 }
+@synthesize bundleId = _bundleId;
 @synthesize deviceToken = _deviceToken;
 @synthesize productName = _productName;
 @synthesize isFirstTimeInstall = _isFirstTimeInstall;
@@ -139,9 +140,9 @@ PYSingletonDefaultImplementation
             _isJailBroken = YES;
         }
         
-        NSString *_bundleIdentify = [[[NSBundle mainBundle] infoDictionary]
-                                     objectForKey:(NSString *)kCFBundleIdentifierKey];
-        NSArray *_bundleIdItems = [_bundleIdentify componentsSeparatedByString:@"."];
+        _bundleId = [[[NSBundle mainBundle] infoDictionary]
+                     objectForKey:(NSString *)kCFBundleIdentifierKey];
+        NSArray *_bundleIdItems = [_bundleId componentsSeparatedByString:@"."];
         if ( [_bundleIdItems count] == 0 ) {
             _productName = @"Unknow";
         } else {
