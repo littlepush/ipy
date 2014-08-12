@@ -31,6 +31,8 @@
     UIColor                 *_progressBarColor;
     CGFloat                 _maxValue;
     CGFloat                 _currentValue;
+    
+    CGFloat                 _borderWidth;
 }
 
 // The thickness of the cycle border

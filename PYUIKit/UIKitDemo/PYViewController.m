@@ -58,7 +58,7 @@
     _testList = [UITableView object];
     [_testList setFrame:self.view.bounds];
     
-    [self.view addSubview:_testList];
+    //[self.view addSubview:_testList];
     
     _manager = [UITableManager object];
     [_manager bindTableView:_testList];
@@ -70,6 +70,69 @@
     
     //[_manager reloadTableDataWithMultipleSectionDataSource:@[@[@"1", @"2", @"3"]]];
     //[_manager reloadTableDataWithDataSource:@[@"1", @"2", @"3"]];
+    
+    _cycle = [PYCycleProgress layer];
+    [_cycle setMaxValue:100];
+    
+    [_cycle setProgressBarWidth:10.f];
+    [_cycle setProgressBarColor:[UIColor randomColor]];
+    [_cycle setBorderWidth:1.f];
+    [_cycle setBorderColor:[UIColor blackColor].CGColor];
+    
+    [_cycle setFrame:CGRectMake(100, 100, 100, 100)];
+    //[self.view.layer addSublayer:_cycle];
+    
+    [self.view setBackgroundColor:[UIColor randomColor]];
+    _sLayer = [CAShapeLayer layer];
+    /*
+    [_sLayer setFrame:CGRectMake(100, 100, 50, 50)];
+    [_sLayer setFillColor:[UIColor clearColor].CGColor];
+    [_sLayer setPath:[UIBezierPath
+                      bezierPathWithArcCenter:CGPointMake(25.f, 25.f)
+                      radius:25
+                      startAngle:0
+                      endAngle:2 * M_PI
+                      clockwise:YES].CGPath];
+    
+    [_sLayer setStrokeColor:[UIColor randomColor].CGColor];
+    [_sLayer setLineWidth:10.f];
+    [_sLayer setBackgroundColor:[UIColor clearColor].CGColor];
+    [self.view.layer addSublayer:_sLayer];
+     */
+    
+    // Two layers is better
+    [_sLayer setFrame:CGRectMake(0, 100, 320, 100)];
+    [_sLayer setBorderWidth:1.f];
+    [_sLayer setBorderColor:[UIColor blackColor].CGColor];
+    [_sLayer setFillColor:[UIColor colorWithOptionString:@"v(100)$#FFFFFF^0.3:#FFFFFF^0.0" reverseOnVerticalis:YES].CGColor];
+    [_sLayer setStrokeColor:[UIColor whiteColor].CGColor];
+    UIBezierPath *_bp = [UIBezierPath bezierPath];
+    [_bp moveToPoint:CGPointMake(0, 49.f)];
+    [_bp addLineToPoint:CGPointMake(40, 55.f)];
+    [_bp addLineToPoint:CGPointMake(80, 23.f)];
+    [_bp addLineToPoint:CGPointMake(120, 76.5f)];
+    [_bp addLineToPoint:CGPointMake(160, 66.f)];
+    [_bp addLineToPoint:CGPointMake(200, 84.f)];
+    [_bp addLineToPoint:CGPointMake(280, 33.f)];
+    [_bp addLineToPoint:CGPointMake(320, 69.4f)];
+    [_bp addLineToPoint:CGPointMake(320, 100)];
+    [_bp addLineToPoint:CGPointMake(0, 100)];
+    [_bp closePath];
+    [_sLayer setPath:_bp.CGPath];
+    [_sLayer setLineWidth:3.f];
+    [_sLayer setBackgroundColor:[UIColor clearColor].CGColor];
+    [self.view.layer addSublayer:_sLayer];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    CABasicAnimation *_valueAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    _valueAnimation.fromValue = @(0.f);
+    _valueAnimation.toValue = @(1.f);
+    _valueAnimation.duration = 3.f;
+    [_sLayer addAnimation:_valueAnimation forKey:@"valueChangeAnimation"];
 }
 
 - (void)PYEventHandler(TestManager, PYTableManagerEventCreateNewCell)

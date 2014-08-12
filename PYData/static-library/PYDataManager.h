@@ -12,6 +12,8 @@
 extern NSString *const kCurrentLoggedInUserId;
 extern NSString *const kDefaultUserId;
 
+extern NSString *const PYDataManagerUserLoginStatusChangedNotification;
+
 /*! Basic Data Manager */
 @interface PYDataManager : NSObject
 {

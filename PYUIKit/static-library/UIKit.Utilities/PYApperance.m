@@ -94,6 +94,7 @@ PYSingletonDefaultImplementation;
     // Already the top one
     if ( [_rootContainer.view.subviews lastObject] == _nav.view ) return;
     [_rootContainer.view bringSubviewToFront:_nav.view];
+    [_nav viewWillAppear:NO];
     [_nav resetViewPosition];
 }
 

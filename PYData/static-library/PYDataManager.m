@@ -12,6 +12,8 @@ static PYDataManager *_gDataManager = nil;
 NSString *const kCurrentLoggedInUserId = @"kCurrentLoggedInUserId";
 NSString *const kDefaultUserId = @"py20120403";
 
+NSString *const PYDataManagerUserLoginStatusChangedNotification = @"PYDataManagerUserLoginStatusChangedNotification";
+
 @implementation PYDataManager
 
 + (instancetype)shared
@@ -58,6 +60,8 @@ PYSingletonDefaultImplementation
                                    [PYKernel currentKernel].bundleId,
                                    userId]];
     [_dataCache setObject:userId forKey:kCurrentLoggedInUserId];
+    
+    [NF_CENTER postNotificationName:PYDataManagerUserLoginStatusChangedNotification object:nil];
     PYSingletonUnLock
 }
 

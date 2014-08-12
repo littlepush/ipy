@@ -42,20 +42,30 @@
 @synthesize maxValue = _maxValue;
 - (void)setMaxValue:(CGFloat)maxValue
 {
+    [self willChangeValueForKey:@"maxValue"];
     _maxValue = maxValue;
     [self setNeedsDisplay];
+    [self didChangeValueForKey:@"maxValue"];
 }
 
 @synthesize currentValue = _currentValue;
 - (void)setCurrentValue:(CGFloat)currentValue
 {
+    [self willChangeValueForKey:@"currentValue"];
     _currentValue = currentValue;
     [self setNeedsDisplay];
+    [self didChangeValueForKey:@"currentValue"];
 }
 
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
+    [self setNeedsDisplay];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth
+{
+    _borderWidth = borderWidth;
     [self setNeedsDisplay];
 }
 
@@ -81,12 +91,18 @@
     [_path moveToPoint:CGPointMake(_center.x, 0)];
     [_path addArcWithCenter:_center radius:_center.x startAngle:-M_PI_2 endAngle:_angle clockwise:YES];
     [_path addLineToPoint:_tempPoint];
-    [_path addLineToPoint:CGPointMake(_center.x, _progressBarWidth)];
+    //[_path addLineToPoint:CGPointMake(_center.x, _progressBarWidth)];
     [_path addArcWithCenter:_center radius:(_center.x - _progressBarWidth * 2)
                  startAngle:_angle endAngle:-M_PI_2 clockwise:NO];
+    [_path closePath];
     
     CGContextSetLineWidth(ctx, 0.5);
     UIGraphicsPushContext(ctx);
+    UIColor *_borderColor = [UIColor colorWithCGColor:self.borderColor];
+    [_borderColor setStroke];
+    [_path setLineWidth:_borderWidth];
+    [_path stroke];
+    
     [_progressBarColor setFill];
     [_path fill];
     UIGraphicsPopContext();

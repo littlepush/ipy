@@ -12,6 +12,9 @@
 {
     UITableView                 *_testList;
     UITableManager              *_manager;
+    
+    PYCycleProgress             *_cycle;
+    CAShapeLayer *_sLayer;
 }
 
 @end
