@@ -62,6 +62,7 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
     [UITableManager registerEvent(UITableManagerEventSectionIndexTitle)];
     [UITableManager registerEvent(UITableManagerEventCanDeleteCell)];
     [UITableManager registerEvent(UITableManagerEventGetCellClass)];
+    [UITableManager registerEvent(UITableManagerEventGetSectionTitle)];
 }
 
 - (Class)classOfCellAtIndex:(NSIndexPath *)index
@@ -404,6 +405,13 @@ withMultipleSectionDataSource:(NSArray *)datasource
     if ( _flags._isShowSectionHeader == NO ) return nil;
     return [self invokeTargetWithEvent:UITableManagerEventGetSectionHeader
                                 exInfo:PYIntToObject(section)];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if ( _flags._isShowSectionHeader == NO ) return nil;
+    return [self invokeTargetWithEvent:UITableManagerEventGetSectionTitle
+                                exInfo:@(section)];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
