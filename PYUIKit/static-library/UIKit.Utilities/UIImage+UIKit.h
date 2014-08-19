@@ -74,6 +74,8 @@
                     lineWidth:(CGFloat)lineWidth
                       padding:(CGFloat)padding;
 
+- (UIImage *)imageWithCornerRadius:(CGFloat)cornerRadius;
+
 @end
 
 // @littlepush

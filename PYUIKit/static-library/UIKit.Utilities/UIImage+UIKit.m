@@ -498,6 +498,23 @@
     return _menuImage;
 }
 
+- (UIImage *)imageWithCornerRadius:(CGFloat)cornerRadius
+{
+    if ( PYIsRetina ) {
+        UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
+    } else {
+        UIGraphicsBeginImageContext(self.size);
+    }
+    
+    const CGRect _imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
+    [[UIBezierPath bezierPathWithRoundedRect:_imageRect cornerRadius:cornerRadius] addClip];
+    [self drawInRect:_imageRect];
+    
+    UIImage *_cornerImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return _cornerImage;
+}
+
 @end
 
 // @littlepush
