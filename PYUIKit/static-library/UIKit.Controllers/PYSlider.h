@@ -77,6 +77,7 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
 // Slide button
 @property (nonatomic, strong)   UIImage                             *slideButtonImage;
 @property (nonatomic, strong)   UIColor                             *slideButtonColor;
+@property (nonatomic, readonly) PYImageLayer                        *slideButtonLayer;
 
 // Padding
 @property (nonatomic, assign)   PYPadding                           backgroundPadding;
@@ -118,7 +119,8 @@ typedef NS_ENUM(NSInteger, PYSliderDirection) {
 
 // When user just tap on the slide button.
 - (void)pySliderTapSlideButton:(PYSlider *)slider;
-
+// Tell the delegate to change the value to tapped point.
+- (void)pySlider:(PYSlider *)slider tapToChangeValueTo:(CGFloat)value;
 // Tell the delegate the current slider has changed the value to a new one.
 - (void)pySlider:(PYSlider *)slider valueChangedTo:(CGFloat)value;
 

@@ -146,7 +146,7 @@
                         complete:(PYActionDone)complete
 {
     [self presentPopViewController:controller
-                          duration:.3
+                          duration:.5
                          animation:type
                             center:center
                           complete:complete];

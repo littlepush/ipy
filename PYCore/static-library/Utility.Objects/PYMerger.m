@@ -51,7 +51,7 @@
 {
     PYMergerIterator *_iterator = __AUTO_RELEASE([[PYMergerIterator alloc] init]);
     _iterator.list = array;
-    _iterator.listCount = [array count];
+    _iterator.listCount = (int)[array count];
     _iterator.topIndex = 0;
     return _iterator;
 }
@@ -60,7 +60,7 @@
 {
     PYMergerIterator *_iterator = __AUTO_RELEASE([[PYMergerIterator alloc] init]);
     _iterator.list = array;
-    _iterator.listCount = [array count];
+    _iterator.listCount = (int)[array count];
     _iterator.topIndex = _iterator.listCount;
     return _iterator;
 }

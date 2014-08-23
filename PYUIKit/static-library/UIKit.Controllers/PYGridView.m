@@ -87,6 +87,14 @@
 }
 
 @synthesize seperatorStyle = _seperatorStyle;
+@synthesize seperatorColor = _seperatorColor;
+- (void)setSeperatorColor:(UIColor *)seperatorColor
+{
+    [self willChangeValueForKey:@"seperatorColor"];
+    _seperatorColor = seperatorColor;
+    [self setNeedsDisplay];
+    [self didChangeValueForKey:@"seperatorColor"];
+}
 - (void)setSeperatorStyle:(PYGridSeperatorStyle)seperatorStyle
 {
     [self willChangeValueForKey:@"seperatorStyle"];
@@ -126,6 +134,8 @@
     [self addSubview:_footContainer];
     [_footContainer setFrame:CGRectZero];
     
+    _seperatorColor = [UIColor darkGrayColor];
+
     // Add event
     [self addTarget:self action:@selector(_actionTapHander:event:)
   forResponderEvent:PYResponderEventTap];
@@ -342,6 +352,10 @@
             [_containerView addSubview:_new_node];
         }
     }
+    
+    // Fix a bug when use storyboard to create a grid view,
+    // init in code will not display anything.
+    if ( self.superview != nil ) [self _reformCellsWithFixedOutbounds];
 }
 - (void)mergeGridItemFrom:(PYGridCoordinate)from to:(PYGridCoordinate)to
 {
@@ -588,7 +602,7 @@ shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRec
     
     CGContextRef _ctx = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(_ctx, .5f);
-    CGContextSetStrokeColorWithColor(_ctx, [UIColor lightGrayColor].CGColor);
+    CGContextSetStrokeColorWithColor(_ctx, _seperatorColor.CGColor);
     
     for ( PYGridItem * _item in self ) {
         if ( (_seperatorStyle & 0x0100) && (_item.coordinate.x + _item.scale.row < _gridScale.row)) {

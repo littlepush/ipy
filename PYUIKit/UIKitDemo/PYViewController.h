@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PYViewController : UIViewController <PYGridViewDelegate, PYSliderDelegate>
+@interface PYViewController : UIViewController
 {
-    PYSlider                *_testSlider;
+    UITableView                 *_testList;
+    UITableManager              *_manager;
     
-    PYGridView              *_gridView;
-    
-    PYImageView             *_testImageView;
+    PYCycleProgress             *_cycle;
+    CAShapeLayer *_sLayer;
 }
 
 @end

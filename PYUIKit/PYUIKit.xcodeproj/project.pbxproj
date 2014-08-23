@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E625C72C193EBE1100F77D43 /* PYTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C728193EBE1100F77D43 /* PYTableCell.h */; };
+		E622DCB119A3D8EA00D79B9F /* PYTableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E622DCAF19A3D8EA00D79B9F /* PYTableManager.h */; };
+		E622DCB219A3D8EA00D79B9F /* PYTableManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E622DCB019A3D8EA00D79B9F /* PYTableManager.m */; };
+		E625C72C193EBE1100F77D43 /* PYTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C728193EBE1100F77D43 /* PYTableCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A630193C841B008368B8 /* PYApperance.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62A193C841B008368B8 /* PYApperance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E645A631193C841B008368B8 /* PYApperance.m in Sources */ = {isa = PBXBuildFile; fileRef = E645A62B193C841B008368B8 /* PYApperance.m */; };
 		E645A632193C841B008368B8 /* PYNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = E645A62C193C841B008368B8 /* PYNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,6 +117,11 @@
 		E6D9166E17B346230021D73D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166C17B346230021D73D /* icon.png */; };
 		E6D9166F17B346230021D73D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D9166D17B346230021D73D /* icon@2x.png */; };
 		E6DFE62318557F4E00B6AFF2 /* testFile~iphone.txt in Resources */ = {isa = PBXBuildFile; fileRef = E6DFE62218557F4E00B6AFF2 /* testFile~iphone.txt */; };
+		E6F1EA8C19588672002C68BD /* UITableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C729193EBE1100F77D43 /* UITableManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6F1EA8D1958867B002C68BD /* UITableManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E625C72A193EBE1100F77D43 /* UITableManager.m */; };
+		E6F1EA8E19588681002C68BD /* PYTableManagerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6F669D1197373F400DD9E4C /* PYCycleProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F669CF197373F400DD9E4C /* PYCycleProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6F669D2197373F400DD9E4C /* PYCycleProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F669D0197373F400DD9E4C /* PYCycleProgress.m */; };
 		E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914F61839C66F00521E22 /* PYGridItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F914F91839C66F00521E22 /* PYGridItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F914F71839C66F00521E22 /* PYGridItem.m */; };
 		E6F914FC1839C68600521E22 /* PYGridItem+GridView.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */; };
@@ -125,6 +132,7 @@
 		E6F91505183B7D8800521E22 /* PYGridView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F91503183B7D8800521E22 /* PYGridView+Layout.m */; };
 		E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F9150D183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */; };
+		E6FEB02F1994885A00440874 /* PYCoverFlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FEB02E1994885A00440874 /* PYCoverFlowViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +146,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E622DCAF19A3D8EA00D79B9F /* PYTableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTableManager.h; sourceTree = "<group>"; };
+		E622DCB019A3D8EA00D79B9F /* PYTableManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYTableManager.m; sourceTree = "<group>"; };
 		E625C728193EBE1100F77D43 /* PYTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYTableCell.h; sourceTree = "<group>"; };
 		E625C729193EBE1100F77D43 /* UITableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableManager.h; sourceTree = "<group>"; };
 		E625C72A193EBE1100F77D43 /* UITableManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableManager.m; sourceTree = "<group>"; };
@@ -255,6 +265,8 @@
 		E6D9166C17B346230021D73D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E6D9166D17B346230021D73D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		E6DFE62218557F4E00B6AFF2 /* testFile~iphone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "testFile~iphone.txt"; sourceTree = "<group>"; };
+		E6F669CF197373F400DD9E4C /* PYCycleProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCycleProgress.h; sourceTree = "<group>"; };
+		E6F669D0197373F400DD9E4C /* PYCycleProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCycleProgress.m; sourceTree = "<group>"; };
 		E6F914F61839C66F00521E22 /* PYGridItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYGridItem.h; sourceTree = "<group>"; };
 		E6F914F71839C66F00521E22 /* PYGridItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYGridItem.m; sourceTree = "<group>"; };
 		E6F914FA1839C68600521E22 /* PYGridItem+GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PYGridItem+GridView.h"; sourceTree = "<group>"; };
@@ -265,6 +277,8 @@
 		E6F91503183B7D8800521E22 /* PYGridView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PYGridView+Layout.m"; sourceTree = "<group>"; };
 		E6F9150A183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+PYUIKit.h"; sourceTree = "<group>"; };
 		E6F9150B183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+PYUIKit.m"; sourceTree = "<group>"; };
+		E6FEB02D1994885A00440874 /* PYCoverFlowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCoverFlowViewController.h; sourceTree = "<group>"; };
+		E6FEB02E1994885A00440874 /* PYCoverFlowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCoverFlowViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +390,8 @@
 				E66E46C417A63A6C00D1FF55 /* PYPhotoListCell.m */,
 				E66E468217A3847600D1FF55 /* PYViewController.xib */,
 				E66E466E17A3847600D1FF55 /* Supporting Files */,
+				E6FEB02D1994885A00440874 /* PYCoverFlowViewController.h */,
+				E6FEB02E1994885A00440874 /* PYCoverFlowViewController.m */,
 			);
 			path = UIKitDemo;
 			sourceTree = "<group>";
@@ -400,6 +416,7 @@
 		E66E469917A57D1A00D1FF55 /* UIKit.Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E6F669D3197373F900DD9E4C /* Progress */,
 				E6D7828E18351605007FAF3F /* GridView */,
 				E64A8FC617BC7DA200B132BA /* HitCover */,
 				E64A8FAF17BB30C000B132BA /* HUDView */,
@@ -517,6 +534,8 @@
 				E625C72B193EBE1100F77D43 /* PYTableManagerProtocol.h */,
 				E625C729193EBE1100F77D43 /* UITableManager.h */,
 				E625C72A193EBE1100F77D43 /* UITableManager.m */,
+				E622DCAF19A3D8EA00D79B9F /* PYTableManager.h */,
+				E622DCB019A3D8EA00D79B9F /* PYTableManager.m */,
 				E645A62A193C841B008368B8 /* PYApperance.h */,
 				E645A62B193C841B008368B8 /* PYApperance.m */,
 				E645A62C193C841B008368B8 /* PYNavigationController.h */,
@@ -597,6 +616,15 @@
 			name = GridView;
 			sourceTree = "<group>";
 		};
+		E6F669D3197373F900DD9E4C /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				E6F669CF197373F400DD9E4C /* PYCycleProgress.h */,
+				E6F669D0197373F400DD9E4C /* PYCycleProgress.m */,
+			);
+			name = Progress;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -613,6 +641,7 @@
 				E67F68D7179EE9340086F03C /* PYUIKit.h in Headers */,
 				E67F68DC179EEB9D0086F03C /* PYInnerShadowLayer.h in Headers */,
 				E645A634193C841B008368B8 /* PYNavViewController.h in Headers */,
+				E6F1EA8C19588672002C68BD /* UITableManager.h in Headers */,
 				E6F9150C183DAF1F00521E22 /* UIBarButtonItem+PYUIKit.h in Headers */,
 				E6BC1BE917A023C300D480E2 /* PYResponderView.h in Headers */,
 				E66E46A117A57DAA00D1FF55 /* PYImageLayer.h in Headers */,
@@ -621,6 +650,7 @@
 				E645A630193C841B008368B8 /* PYApperance.h in Headers */,
 				E66E46C817A6641500D1FF55 /* PYLabelLayer.h in Headers */,
 				E6F914F81839C66F00521E22 /* PYGridItem.h in Headers */,
+				E622DCB119A3D8EA00D79B9F /* PYTableManager.h in Headers */,
 				E625C72C193EBE1100F77D43 /* PYTableCell.h in Headers */,
 				E66E46CC17A71C7A00D1FF55 /* PYLabel.h in Headers */,
 				E64A8FC017BB7EA900B132BA /* PYBillBoard.h in Headers */,
@@ -638,12 +668,14 @@
 				E67CE0E417A7E1C7009BC886 /* PYScrollView.h in Headers */,
 				E69D0B851803C163007DCBF5 /* PYUIKitMacro.h in Headers */,
 				E67CE0E817A7E23A009BC886 /* PYTableView.h in Headers */,
+				E6F1EA8E19588681002C68BD /* PYTableManagerProtocol.h in Headers */,
 				E6F91500183B1C8600521E22 /* _PYGridItemUIInfo.h in Headers */,
 				E6D78287183369EE007FAF3F /* PYResource.h in Headers */,
 				E6D7828318335680007FAF3F /* UIView+AttributeLoader.h in Headers */,
 				E69D0B861803D661007DCBF5 /* PYRectangleCalc.h in Headers */,
 				E6D70DEE17BE735700542844 /* PYResponderGestureRecognizer.h in Headers */,
 				E6F914FC1839C68600521E22 /* PYGridItem+GridView.h in Headers */,
+				E6F669D1197373F400DD9E4C /* PYCycleProgress.h in Headers */,
 				E6D7828B18336FF1007FAF3F /* PYView+AttributeLoader.h in Headers */,
 				E66E469C17A57D9600D1FF55 /* PYImageCache.h in Headers */,
 				E64A8FC917BC834600B132BA /* PYTableContentView.h in Headers */,
@@ -749,6 +781,7 @@
 				E66E467817A3847600D1FF55 /* PYAppDelegate.m in Sources */,
 				E66E468117A3847600D1FF55 /* PYViewController.m in Sources */,
 				E66E46C517A63A6C00D1FF55 /* PYPhotoListCell.m in Sources */,
+				E6FEB02F1994885A00440874 /* PYCoverFlowViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -766,8 +799,11 @@
 				E645A633193C841B008368B8 /* PYNavigationController.m in Sources */,
 				E6BC1BEA17A023C300D480E2 /* PYResponderView.m in Sources */,
 				E6D78288183369EE007FAF3F /* PYResource.m in Sources */,
+				E6F669D2197373F400DD9E4C /* PYCycleProgress.m in Sources */,
 				E6D7828418335680007FAF3F /* UIView+AttributeLoader.m in Sources */,
+				E622DCB219A3D8EA00D79B9F /* PYTableManager.m in Sources */,
 				E66E469D17A57D9600D1FF55 /* PYImageCache.m in Sources */,
+				E6F1EA8D1958867B002C68BD /* UITableManager.m in Sources */,
 				E66E46A217A57DAA00D1FF55 /* PYImageLayer.m in Sources */,
 				E645A635193C841B008368B8 /* PYNavViewController.m in Sources */,
 				E66E46A717A57DB800D1FF55 /* PYImageView.m in Sources */,

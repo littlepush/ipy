@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, PYSwitcherShowSide) {
     BOOL                                _isEnabled;
 }
 
-@property (nonatomic, assign)   id<PYSwitcherDelegate>  delegate;
+@property (nonatomic, assign)   IBOutlet id<PYSwitcherDelegate>  delegate;
 
 // Properties
 @property (nonatomic, strong)   UIImage                 *backgroundImage;

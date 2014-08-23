@@ -48,8 +48,8 @@
     NSInteger                           _cellCount;
 }
 
-@property (nonatomic, assign)   id<PYTableViewDatasource>   dataSource;
-@property (nonatomic, assign)   id<PYTableViewDelegate>     delegate;
+@property (nonatomic, assign)   IBOutlet id<PYTableViewDatasource>   dataSource;
+@property (nonatomic, assign)   IBOutlet id<PYTableViewDelegate>     delegate;
 
 @property (nonatomic, readonly) NSInteger                   cellCount;
 // Default row height.

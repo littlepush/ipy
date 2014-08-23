@@ -144,7 +144,7 @@
 // Date from string, default format "YYYY-MM-DD HH:mm"
 + (id)dateWithString:(NSString *)dateString
 {
-    return [PYDate dateWithString:dateString format:@"yyyy-MM-dd hh:mm:ss"];
+    return [PYDate dateWithString:dateString format:@"yyyy-MM-dd HH:mm:ss"];
 }
 + (id)dateWithDayString:(NSString *)dayString
 {
@@ -216,14 +216,14 @@
 {
     self = [super init];
     if ( self ) {
-        _timestamp = [aDecoder decodeInt32ForKey:@"QTDateTimeStamp"];
+        _timestamp = [aDecoder decodeInt32ForKey:@"PYDateTimeStamp"];
         [self _initFromDate:[NSDate dateWithTimeIntervalSince1970:_timestamp]];
     }
     return self;
 }
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeInteger:(NSInteger)_timestamp forKey:@"QTDateTimeStamp"];
+    [aCoder encodeInteger:(NSInteger)_timestamp forKey:@"PYDateTimeStamp"];
 }
 
 - (id)copy

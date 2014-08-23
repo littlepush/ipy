@@ -79,6 +79,7 @@ CGRect _paddingRect(CGRect source, PYPadding padding) {
 {
     [_slideButtonLayer setBackgroundColor:slideButtonColor.CGColor];
 }
+@synthesize slideButtonLayer = _slideButtonLayer;
 //*minTrackTintImage;
 @dynamic minTrackTintImage;
 - (UIImage *)minTrackTintImage
@@ -307,6 +308,9 @@ CGRect _paddingRect(CGRect source, PYPadding padding) {
         _percentage = 1 - _percentage;
         CGFloat _value = (_percentage * _internalProperties._slide_real_range + _minimumValue);
         [self _setCurrentValue:_value];
+    }
+    if ( [((NSObject *)self.delegate) respondsToSelector:@selector(pySlider:tapToChangeValueTo:)] ) {
+        [self.delegate pySlider:self tapToChangeValueTo:_internalProperties._slide_current_value];
     }
 }
 

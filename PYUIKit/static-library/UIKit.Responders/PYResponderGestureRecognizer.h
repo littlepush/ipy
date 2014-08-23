@@ -121,7 +121,7 @@ typedef NS_OPTIONS(int32_t, PYResponderRestraint) {
 }
 
 // The delegate override the super defination.
-@property (nonatomic, assign)   id<PYResponderGestureRecognizerDelegate>    delegate;
+@property (nonatomic, assign)   IBOutlet id<PYResponderGestureRecognizerDelegate>    delegate;
 
 @property (nonatomic, readonly) CGPoint             firstTouchPoint;
 @property (nonatomic, readonly) CGPoint             lastMovePoint;

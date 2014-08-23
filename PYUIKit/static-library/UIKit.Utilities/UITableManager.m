@@ -59,66 +59,60 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
     [UITableManager registerEvent(UITableManagerEventWillGiveUpLoadMoreList)];
     [UITableManager registerEvent(UITableManagerEventBeginToRefreshList)];
     [UITableManager registerEvent(UITableManagerEventEndUpdateContent)];
+    [UITableManager registerEvent(UITableManagerEventSectionIndexTitle)];
+    [UITableManager registerEvent(UITableManagerEventCanDeleteCell)];
+    [UITableManager registerEvent(UITableManagerEventGetCellClass)];
+    [UITableManager registerEvent(UITableManagerEventGetSectionTitle)];
 }
 
+- (Class)classOfCellAtIndex:(NSIndexPath *)index
+{
+    Class _cell_class = [self invokeTargetWithEvent:UITableManagerEventGetCellClass exInfo:index];
+    if ( _cell_class != NULL ) return _cell_class;
+    _cell_class = (Class)[_cellClassForSection objectForKey:@(index.section)];
+    if ( _cell_class != NULL ) return _cell_class;
+    return _defaultCellClass;
+}
+@synthesize defaultCellClass = _defaultCellClass;
+- (void)setCellClass:(Class)cellClass forSection:(NSUInteger)section
+{
+    if ( _cellClassForSection == nil ) {
+        _cellClassForSection = [NSMutableDictionary dictionary];
+    }
+    [_cellClassForSection setObject:cellClass forKey:@(section)];
+}
+
+@dynamic enableEditing;
+- (BOOL)enableEditing { return _flags._isEditing; }
+- (void)setEnableEditing:(BOOL)enableEditing {
+    _flags._isEditing = enableEditing;
+    [_bindTableView setEditing:enableEditing];
+}
+
+@dynamic isUpdating;
+- (BOOL)isUpdating { return _flags._isUpdating; }
+
 @synthesize contentDataSource = _contentDataSource;
-@synthesize sectionCount = _sectionCount;
-@synthesize enableEditing = _isEditing;
-@synthesize isMultiSection = _isMultiSection;
-@synthesize isUpdating = _isUpdating;
+
+@dynamic sectionCount;
+- (NSUInteger)sectionCount { return _flags._sectionCount; }
+@dynamic isShowSectionHeader;
+- (BOOL)isShowSectionHeader { return _flags._isShowSectionHeader; }
+- (void)setIsShowSectionHeader:(BOOL)isShowSectionHeader { _flags._isShowSectionHeader = isShowSectionHeader; }
+
+@dynamic isMultiSection;
+- (BOOL)isMultiSection { return _flags._sectionCount > 1; }
 
 @synthesize pullDownContainerView = _pullDownContainerView;
 @synthesize pullUpContainerView = _pullUpContainerView;
-
-- (void)setEnableEditing:(BOOL)enable
-{
-    _isEditing = enable;
-    [_bindTableView setEditing:_isEditing];
-}
-
-// Default Cell Class
-@dynamic cellClass;
-- (Class)cellClass
-{
-    if ( _cellClassCount == 0 ) return [UITableView class];
-    return _cellClassCList[_cellClassCount - 1];
-}
-- (void)setCellClass:(Class)cellClass
-{
-    [self setCellClassList:@[NSStringFromClass(cellClass)]];
-}
-
-- (Class)cellClassAtIndex:(NSInteger)index
-{
-    if (index >= _cellClassCount ) {
-        return _cellClassCList[_cellClassCount - 1];
-    }
-    return _cellClassCList[index];
-}
-
-- (void)setCellClassList:(NSArray *)cellClassList
-{
-    if ( _cellClassCount > 0 && _cellClassCList != NULL ) {
-        free(_cellClassCList);
-    }
-    
-    _cellClassCount = [cellClassList count];
-    _cellClassCList = (Class *)malloc(sizeof(Class) * _cellClassCount);
-    NSInteger i = 0;
-    for ( NSString *_className in cellClassList ) {
-        _cellClassCList[i] = NSClassFromString(_className);
-        ++i;
-    }
-}
 
 - (id)init
 {
     self = [super init];
     if ( self ) {
-        _sectionCount = 1;
-        _cellClassCount = 0;
-        _cellClassCList = NULL;
-        [self setCellClassList:@[NSStringFromClass([UITableViewCell class])]];
+        memset(&_flags, 0, sizeof(_flags));
+        _defaultCellClass = [UITableViewCell class];
+        
         _pullDownContainerView = [UIView object];
         _pullUpContainerView = [UIView object];
         [_pullDownContainerView setBackgroundColor:[UIColor clearColor]];
@@ -129,11 +123,10 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
 
 - (void)dealloc
 {
-    if ( _cellClassCount > 0 && _cellClassCList != NULL ) {
-        free(_cellClassCList);
-    }
     if ( _bindTableView != nil ) {
         PYRemoveObserve(_bindTableView, @"frame");
+        PYRemoveObserve(_bindTableView, @"tableHeaderView");
+        PYRemoveObserve(_bindTableView, @"tableFooterView");
     }
     if ( [PYLayer isDebugEnabled] ) {
         __formatLogLine(__FILE__, __FUNCTION__, __LINE__,
@@ -159,82 +152,17 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame);
     }
 }
 
-// Bind the table view, reload data with specified datasource.
-- (void)bindTableView:(UITableView *)tableView withDataSource:(NSArray *)dataSource
-{
-    [self bindTableView:tableView withDataSource:dataSource sectionCount:1 isMultiSection:NO];
-}
-
-- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
-{
-    [self reloadTableDataWithDataSource:dataSource sectionCount:1 isMultiSection:NO];
-}
-
-- (void)bindTableView:(id)tableView withDataSource:(NSArray *)dataSource
-         sectionCount:(NSUInteger)count DEPRECATED_ATTRIBUTE
-{
-    @synchronized( self ) {
-        if ( _bindTableView != nil ) {
-            // Remove from old view
-            [_pullDownContainerView removeFromSuperview];
-            [_pullUpContainerView removeFromSuperview];
-            _bindTableView.delegate = nil;
-            _bindTableView.dataSource = nil;
-            // Remove the kvo of old bind table view.
-            PYRemoveObserve(_bindTableView, @"frame");
-        }
-        _bindTableView = tableView;
-        if ( _bindTableView == nil ) return;
-        [_bindTableView addSubview:_pullDownContainerView];
-        [_bindTableView addSubview:_pullUpContainerView];
-        
-        // Add KVO for bindtable view's frame
-        PYObserve(_bindTableView, @"frame");
-        
-        if ( dataSource == nil ) {
-            // We load an empty data source.
-            _contentDataSource = [NSArray array];
-        } else {
-            // Copy the data source.
-            _contentDataSource = [NSArray arrayWithArray:dataSource];
-        }
-        _bindTableView = tableView;
-        _bindTableView.delegate = self;
-        _bindTableView.dataSource = self;
-        
-        if ( dataSource == nil ) {
-            _contentDataSource = [NSArray array];
-        } else {
-            _contentDataSource = [NSArray arrayWithArray:dataSource];
-        }
-        _sectionCount = count;
-        if ( _sectionCount == 1 ) {
-            for ( NSObject *obj in dataSource ) {
-                if ( [obj isKindOfClass:[NSArray class]] ) {
-                    _isMultiSection = YES;
-                } else {
-                    // If has only one not array data, multisection is no and return.
-                    _isMultiSection = NO;
-                    break;
-                }
-            }
-        }
-        
-        [_bindTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        [_bindTableView setShowsVerticalScrollIndicator:NO];
-        [_bindTableView setShowsHorizontalScrollIndicator:NO];
-        
-        // Reload data.
-        [self reloadTableData];
-    }
-}
-
 - (void)_resizePullContainer
 {
-    PYLog(@"Resizing the pull container");
     CGRect _btFrame = _bindTableView.frame;
+    CGFloat _headViewHeight = (_bindTableView.tableHeaderView ?
+                               _bindTableView.tableHeaderView.frame.size.height : 0);
+    CGFloat _footViewHeight = (_bindTableView.tableFooterView ?
+                               _bindTableView.tableFooterView.frame.size.height : 0);
     CGRect _pullDownFrame = CGRectMake(0, -44, _btFrame.size.width, 44);
-    CGRect _pullUpFrame = CGRectMake(0, _bindTableView.contentSize.height, _btFrame.size.width, 44);
+    CGRect _pullUpFrame = CGRectMake(0,
+                                     (_bindTableView.contentSize.height + _headViewHeight + _footViewHeight),
+                                     _btFrame.size.width, 44);
     [_pullDownContainerView setFrame:_pullDownFrame];
     [_pullUpContainerView setFrame:_pullUpFrame];
 }
@@ -245,35 +173,84 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
     [self _resizePullContainer];
 }
 
-- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
-                         sectionCount:(NSUInteger)count DEPRECATED_ATTRIBUTE
+PYKVO_CHANGED_RESPONSE(_bindTableView, tableHeaderView)
 {
-    @synchronized( self ) {
-        if ( dataSource == nil ) {
-            // We load en empty data source.
-            _contentDataSource = [NSArray array];
-        } else {
-            // Copy the data source.
-            _contentDataSource = [NSArray arrayWithArray:dataSource];
-        }
-        _sectionCount = count;
-        if ( _sectionCount == 1 ) {
-            for ( NSObject *obj in dataSource ) {
-                if ( [obj isKindOfClass:[NSArray class]] ) {
-                    _isMultiSection = YES;
-                } else {
-                    // If has only one not array data, multisection is no and return.
-                    _isMultiSection = NO;
-                    break;
-                }
-            }
-        }
-        [self reloadTableData];
-    }
+    [self _resizePullContainer];
+}
+
+PYKVO_CHANGED_RESPONSE(_bindTableView, tableFooterView)
+{
+    [self _resizePullContainer];
+}
+
+- (void)bindTableView:(id)tableView
+{
+    [self bindTableView:tableView
+         withDataSource:nil
+           sectionCount:1
+      showSectionHeader:NO];
 }
 
 - (void)bindTableView:(id)tableView withDataSource:(NSArray *)dataSource
-         sectionCount:(NSUInteger)count isMultiSection:(BOOL)isMultiSection
+{
+    [self bindTableView:tableView
+         withDataSource:dataSource
+           sectionCount:1
+      showSectionHeader:NO];
+}
+- (void)bindTableView:(id)tableView
+       withDataSource:(NSArray *)dataSource
+         sectionCount:(NSUInteger)count
+{
+    [self bindTableView:tableView
+         withDataSource:dataSource
+           sectionCount:count
+      showSectionHeader:(count > 1)];
+}
+
+- (void)tableView:(UITableView *)tableView
+didEndDisplayingCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( (indexPath.section != tableView.numberOfSections - 1 ) ) return;
+    NSArray *_dataItems = [self dataItemsForSection:indexPath.section];
+    if ( indexPath.row != _dataItems.count - 1 ) return;    // Not last one
+    [self _resizePullContainer];
+}
+
+- (void)bindTableView:(id)tableView
+withMultipleSectionDataSource:(NSArray *)datasource
+{
+    [self bindTableView:tableView withMultipleSectionDataSource:datasource showSectionHeader:YES];
+}
+- (void)bindTableView:(id)tableView
+withMultipleSectionDataSource:(NSArray *)datasource
+    showSectionHeader:(BOOL)showHeader
+{
+    [self bindTableView:tableView
+         withDataSource:datasource
+           sectionCount:[datasource count]
+      isMultipleSection:YES
+      showSectionHeader:showHeader];
+}
+
+- (void)bindTableView:(id)tableView
+       withDataSource:(NSArray *)dataSource
+         sectionCount:(NSUInteger)count
+    showSectionHeader:(BOOL)showHeader
+{
+    [self bindTableView:tableView
+         withDataSource:dataSource
+           sectionCount:count
+      isMultipleSection:(count > 1)
+      showSectionHeader:showHeader];
+}
+
+- (void)bindTableView:(id)tableView
+       withDataSource:(NSArray *)dataSource
+         sectionCount:(NSUInteger)count
+    isMultipleSection:(BOOL)isMultipleSection
+    showSectionHeader:(BOOL)showHeader
 {
     @synchronized( self ) {
         if ( _bindTableView != nil ) {
@@ -284,6 +261,8 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
             [_pullUpContainerView removeFromSuperview];
             // Remove the kvo of old bind table view.
             PYRemoveObserve(_bindTableView, @"frame");
+            PYRemoveObserve(_bindTableView, @"tableHeaderView");
+            PYRemoveObserve(_bindTableView, @"tableFooterView");
         }
         _bindTableView = tableView;
         if ( _bindTableView == nil ) return;
@@ -294,6 +273,8 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
         
         // Add KVO for bindtable view's frame
         PYObserve(_bindTableView, @"frame");
+        PYObserve(_bindTableView, @"tableHeaderView");
+        PYObserve(_bindTableView, @"tableFooterView");
 
         if ( dataSource == nil ) {
             // We load en empty data source.
@@ -306,25 +287,54 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
         _bindTableView.delegate = self;
         _bindTableView.dataSource = self;
         
-        if ( dataSource == nil ) {
-            _contentDataSource = [NSArray array];
-        } else {
-            _contentDataSource = [NSArray arrayWithArray:dataSource];
-        }
-        _sectionCount = count;
-        _isMultiSection = isMultiSection;
-        
-        [_bindTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        [_bindTableView setShowsVerticalScrollIndicator:NO];
-        [_bindTableView setShowsHorizontalScrollIndicator:NO];
+        _flags._sectionCount = count;
+        _flags._isShowSectionHeader = showHeader;
+        _flags._isMultipleSection = isMultipleSection;
         
         // Reload data.
         [self reloadTableData];
     }
 }
+
+- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
+{
+    [self reloadTableDataWithDataSource:dataSource
+                           sectionCount:_flags._sectionCount
+                      showSectionHeader:_flags._isShowSectionHeader];
+}
 - (void)reloadTableDataWithDataSource:(NSArray *)dataSource
                          sectionCount:(NSUInteger)count
-                       isMultiSection:(BOOL)isMultiSection
+{
+    [self reloadTableDataWithDataSource:dataSource
+                           sectionCount:count
+                      showSectionHeader:(count > 1)];
+}
+- (void)reloadTableDataWithMultipleSectionDataSource:(NSArray *)dataSource
+{
+    [self reloadTableDataWithMultipleSectionDataSource:dataSource showSectionHeader:YES];
+}
+- (void)reloadTableDataWithMultipleSectionDataSource:(NSArray *)dataSource
+                                   showSectionHeader:(BOOL)showHeader
+{
+    [self reloadTableDataWithDataSource:dataSource
+                           sectionCount:[dataSource count]
+                      isMultipleSection:YES
+                      showSectionHeader:showHeader];
+}
+- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
+                         sectionCount:(NSUInteger)count
+                    showSectionHeader:(BOOL)showHeader
+{
+    [self reloadTableDataWithDataSource:dataSource
+                           sectionCount:count
+                      isMultipleSection:(count > 1)
+                      showSectionHeader:showHeader];
+}
+
+- (void)reloadTableDataWithDataSource:(NSArray *)dataSource
+                         sectionCount:(NSUInteger)count
+                    isMultipleSection:(BOOL)isMultipleSection
+                    showSectionHeader:(BOOL)showHeader
 {
     @synchronized( self ) {
         if ( dataSource == nil ) {
@@ -334,26 +344,39 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
             // Copy the data source.
             _contentDataSource = [NSArray arrayWithArray:dataSource];
         }
-        _sectionCount = count;
-        _isMultiSection = isMultiSection;
+        
+        _flags._sectionCount = count;
+        _flags._isShowSectionHeader = showHeader;
+        _flags._isMultipleSection = isMultipleSection;
+        
         [self reloadTableData];
     }
 }
 
-- (id)dataItemAtIndex:(NSUInteger)index
+- (NSArray *)dataItemsForSection:(NSUInteger)section
 {
-    if ( _contentDataSource == nil ) return nil;
-    if ( _isMultiSection ) return nil;
-    return [_contentDataSource safeObjectAtIndex:index];
+    if ( section >= _flags._sectionCount ) return nil;
+    if ( _flags._sectionCount == 1 ) return _contentDataSource;
+    return [_contentDataSource safeObjectAtIndex:section];
 }
 
-- (id)_itemAtIndexPath:(NSIndexPath *)indexPath
+- (id)dataItemAtIndex:(NSUInteger)index
 {
-    if ( !_isMultiSection ) return [_contentDataSource safeObjectAtIndex:indexPath.row];
-    NSArray *_sectionData = [_contentDataSource safeObjectAtIndex:indexPath.section];
+    return [self dataItemAtIndex:index section:0];
+}
+
+- (id)dataItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self dataItemAtIndex:indexPath.row section:indexPath.section];
+}
+
+- (id)dataItemAtIndex:(NSUInteger)index section:(NSUInteger)section
+{
+    if ( _flags._isMultipleSection == NO ) return [_contentDataSource safeObjectAtIndex:index];
+    NSArray *_sectionData = [_contentDataSource safeObjectAtIndex:section];
     if ( _sectionData == nil ) return nil;
     if ( [_sectionData isKindOfClass:[NSArray class]] == NO ) return nil;
-    return [_sectionData safeObjectAtIndex:indexPath.row];
+    return [_sectionData safeObjectAtIndex:index];
 }
 
 #pragma mark --
@@ -361,14 +384,14 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _sectionCount;
+    return _flags._sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ( [_contentDataSource count] == 0 ) return 0;
     // More than one section.
-    if ( _isMultiSection ) {
+    if ( _flags._isMultipleSection ) {
         NSArray *_sectionData = [_contentDataSource safeObjectAtIndex:section];
         if ( _sectionData == nil ) return 0;
         [_sectionData mustBeTypeOrFailed:[NSArray class]];
@@ -379,47 +402,73 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if ( !_isMultiSection ) return nil;
+    if ( _flags._isShowSectionHeader == NO ) return nil;
     return [self invokeTargetWithEvent:UITableManagerEventGetSectionHeader
                                 exInfo:PYIntToObject(section)];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if ( _flags._isShowSectionHeader == NO ) return nil;
+    return [self invokeTargetWithEvent:UITableManagerEventGetSectionTitle
+                                exInfo:@(section)];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if ( !_isMultiSection ) return 0;
+    if ( _flags._isShowSectionHeader == NO ) return 0;
     NSNumber *_result = [self invokeTargetWithEvent:UITableManagerEventGetHeightOfSectionHeader
                                              exInfo:PYIntToObject(section)];
     if ( _result == nil ) return 32.f;
     return [_result floatValue];
 }
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    if ( _flags._sectionCount <= 0 ) return nil;
+    return [self invokeTargetWithEvent:UITableManagerEventSectionIndexTitle];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id _item = [self _itemAtIndexPath:indexPath];
+    id _item = [self dataItemAtIndexPath:indexPath];
     if ( _item == nil ) return 0;
     NSNumber *_result = [self
                          invokeTargetWithEvent:PYTableManagerEventTryToGetHeight
                          exInfo:indexPath];
     if ( _result == nil ) {
         //_result =
-        Class _cc = [self cellClassAtIndex:indexPath.section];
+        Class _cc = [self classOfCellAtIndex:indexPath];
         if ( [_cc respondsToSelector:@selector(heightOfCellWithSpecifiedContentItem:)] ) {
             _result = [_cc heightOfCellWithSpecifiedContentItem:_item];
         }
     }
-    if ( _result == nil ) return 0.f;
+    if ( _result == nil ) return 44.f;
     return [_result floatValue];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Create the cell.
-    NSString *_cellIdentify = NSStringFromClass([self cellClassAtIndex:indexPath.section]);
+    Class _cell_class = [self classOfCellAtIndex:indexPath];
+    NSString *_cellIdentify = NSStringFromClass(_cell_class);
+    BOOL _isOnCreateNewCell = NO;
     UITableViewCell *_cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentify];
     if ( _cell == nil ) {
-        _cell = [[[self cellClassAtIndex:indexPath.section] alloc]
+        _isOnCreateNewCell = YES;
+        _cell = [[_cell_class alloc]
                  initWithStyle:UITableViewCellStyleDefault
                  reuseIdentifier:_cellIdentify];
+        [_cell.layer setValue:@(1) forKeyPath:@"com.ipy.cell"];
+    } else {
+        NSNumber *_status = [_cell.layer valueForKey:@"com.ipy.cell"];
+        if ( _status == nil ) {
+            // The cell is created from Storyboard.
+            [_cell.layer setValue:@(1) forKeyPath:@"com.ipy.cell"];
+            _isOnCreateNewCell = YES;
+        }
+    }
+    if ( _isOnCreateNewCell ) {
         if ( [_cell respondsToSelector:@selector(setDeleteEventCallback:)] ) {
             __weak UITableManager *_wss = self;
             [(id<PYTableCell>)_cell setDeleteEventCallback:^(id cell, NSIndexPath *indexPath) {
@@ -435,7 +484,7 @@ PYKVO_CHANGED_RESPONSE(_bindTableView, frame)
   willDisplayCell:(UITableViewCell *)cell
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id _item = [self _itemAtIndexPath:indexPath];
+    id _item = [self dataItemAtIndexPath:indexPath];
     [cell tryPerformSelector:@selector(rendCellWithSpecifiedContentItem:) withObject:_item];
     [self invokeTargetWithEvent:PYTableManagerEventWillDisplayCell
                          exInfo:cell
@@ -478,7 +527,16 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     id _cell = [tableView cellForRowAtIndexPath:indexPath];
     [self invokeTargetWithEvent:PYTableManagerEventDeleteCell exInfo:_cell exInfo:indexPath];
     NSMutableArray *_copiedDS = [NSMutableArray arrayWithArray:_contentDataSource];
-    [_copiedDS removeObjectAtIndex:indexPath.row];
+    if ( _flags._isMultipleSection ) {
+        NSMutableArray *_sectionSource =
+        [NSMutableArray arrayWithArray:
+         [_copiedDS safeObjectAtIndex:indexPath.section]];
+        [_sectionSource removeObjectAtIndex:indexPath.row];
+        [_copiedDS removeObjectAtIndex:indexPath.section];
+        [_copiedDS insertObject:_sectionSource atIndex:indexPath.section];
+    } else {
+        [_copiedDS removeObjectAtIndex:indexPath.row];
+    }
     _contentDataSource = _copiedDS;
     [_bindTableView deleteRowsAtIndexPaths:@[indexPath]
                           withRowAnimation:UITableViewRowAnimationFade];
@@ -488,10 +546,26 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Detemine if it's in editing mode
-    if ( _isEditing ) {
+    if ( _flags._isEditing ) {
         return UITableViewCellEditingStyleDelete;
     }
+    NSNumber *_canDeleteFlag = [self
+                                invokeTargetWithEvent:UITableManagerEventCanDeleteCell
+                                exInfo:indexPath];
+    if ( _canDeleteFlag != nil ) {
+        if ( [_canDeleteFlag boolValue] ) return UITableViewCellEditingStyleDelete;
+    }
     return UITableViewCellEditingStyleNone;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSNumber *_canDeleteFlag = [self invokeTargetWithEvent:UITableManagerEventCanDeleteCell
+                                                    exInfo:indexPath];
+    if ( _canDeleteFlag != nil ) {
+        return [_canDeleteFlag boolValue];
+    }
+    return NO;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -502,32 +576,32 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if ( _isUpdating == NO ) {
+    if ( _flags._isUpdating == NO ) {
         if ( scrollView.contentOffset.y < 0 ) { // Will display the pull-down refresh view
             if ( scrollView.contentOffset.y < -44 ) {
                 // Show: "Release to refresh"
-                if ( _canUpdateContent == NO ) {
-                    _canUpdateContent = YES;
+                if ( _flags._canUpdateContent == NO ) {
+                    _flags._canUpdateContent = YES;
                     [self invokeTargetWithEvent:UITableManagerEventWillAllowRefreshList];
                 }
             } else {
                 // Show: "Pull down to refresh"
-                if ( _canUpdateContent == YES ) {
-                    _canUpdateContent = NO;
+                if ( _flags._canUpdateContent == YES ) {
+                    _flags._canUpdateContent = NO;
                     [self invokeTargetWithEvent:UITableManagerEventWillGiveUpRefreshList];
                 }
             }
         } else if ( scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height) ) {
             if ( scrollView.contentOffset.y > (scrollView.contentSize.height + 44 - scrollView.frame.size.height) ) {
                 // Show: "Release to load more"
-                if ( _canUpdateContent == NO ) {
-                    _canUpdateContent = YES;
+                if ( _flags._canUpdateContent == NO ) {
+                    _flags._canUpdateContent = YES;
                     [self invokeTargetWithEvent:UITableManagerEventWillAllowLoadMoreList];
                 }
             } else {
                 // Show: "Pull up to load more"
-                if ( _canUpdateContent == YES ) {
-                    _canUpdateContent = NO;
+                if ( _flags._canUpdateContent == YES ) {
+                    _flags._canUpdateContent = NO;
                     [self invokeTargetWithEvent:UITableManagerEventWillGiveUpLoadMoreList];
                 }
             }
@@ -538,8 +612,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if ( _canUpdateContent ) {
-        if ( _isUpdating == NO ) {
+    if ( _flags._canUpdateContent ) {
+        if ( _flags._isUpdating == NO ) {
             NSNumber *_result = nil;
             if ( scrollView.contentOffset.y < 0 ) {
                 // Refresh
@@ -554,10 +628,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     [self invokeTargetWithEvent:UITableManagerEventBeginToLoadMoreList];
                 }
             }
-            _isUpdating = (_result == nil ? NO : [_result boolValue]);
+            _flags._isUpdating = (_result == nil ? NO : [_result boolValue]);
         }
     }
-    _canUpdateContent = NO;
+    _flags._canUpdateContent = NO;
     if ( decelerate == NO ) {
         [self invokeTargetWithEvent:PYTableManagerEventEndScroll exInfo:scrollView];
     } else {
@@ -588,7 +662,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)finishUpdateContent
 {
     @synchronized( self ) {
-        _isUpdating = NO;
+        _flags._isUpdating = NO;
         [self invokeTargetWithEvent:UITableManagerEventEndUpdateContent];
     }
 }
@@ -596,7 +670,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)cancelUpdateContent
 {
     @synchronized( self ) {
-        _isUpdating = NO;
+        _flags._isUpdating = NO;
         [self invokeTargetWithEvent:UITableManagerEventCancelUpdating];
     }
 }

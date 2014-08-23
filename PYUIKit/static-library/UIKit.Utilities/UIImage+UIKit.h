@@ -57,6 +57,25 @@
 // This method will create a gradient image with specified color.
 + (UIImage *)imageWithOptionString:(NSString *)optionString;
 
+// Draw a check icon(√) within specified size,
+// default background color is clear, icon color is black, line width is 1.f
++ (UIImage *)checkIconWithSize:(CGSize)imgSize;
++ (UIImage *)checkIconWithSize:(CGSize)imgSize
+               backgroundColor:(UIColor *)bkgClr
+                     iconColor:(UIColor *)icnClr
+                     lineWidth:(CGFloat)lineWidth
+                       padding:(CGFloat)padding;
+
+// Draw a menu icon(三) within specified size
++ (UIImage *)menuIconWithSize:(CGSize)imgSize;
++ (UIImage *)menuIconWithSize:(CGSize)imgSize
+              backgroundColor:(UIColor *)bkgClr
+                    iconColor:(UIColor *)icnClr
+                    lineWidth:(CGFloat)lineWidth
+                      padding:(CGFloat)padding;
+
+- (UIImage *)imageWithCornerRadius:(CGFloat)cornerRadius;
+
 @end
 
 // @littlepush

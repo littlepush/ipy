@@ -95,10 +95,11 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
     BOOL                        _supportTouchMoving;
     
     PYGridSeperatorStyle        _seperatorStyle;
+    UIColor                     *_seperatorColor;
 }
 
 // The delegate to receive the event.
-@property (nonatomic, assign)   id< PYGridViewDelegate >    delegate;
+@property (nonatomic, assign)   IBOutlet id< PYGridViewDelegate >    delegate;
 
 // The scale of the grid view. it can only be read.
 // use [initGridViewWithScale] to set the size.
@@ -140,6 +141,7 @@ typedef _GridNode __unsafe_unretained*      _GridRow;
 
 // Seperator
 @property (nonatomic, assign)   PYGridSeperatorStyle    seperatorStyle;
+@property (nonatomic, strong)   UIColor                 *seperatorColor;
 
 // Set the global UI info for different state of the cell item.
 - (void)setItemBackgroundColor:(UIColor *)color forState:(UIControlState)state;

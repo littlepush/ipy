@@ -29,8 +29,13 @@ function InitConfig() {
 }
 
 function CompileVersion() {
-    value=$(date | md5)
-    echo ${value:0:7}
+	v=`git describe --tags 2>/dev/null`
+  	if [ $? -ne 0 ]; then
+		value=$(date | md5)
+		echo ${value:0:7}
+	else
+	    echo $v
+	fi
 }
 
 XCodeSDKs=($(xcodebuild -version -sdk 2>/dev/null | grep -E "^Path:" | grep -v MacOSX | awk '{print $2}' | tr '\n' ' '))

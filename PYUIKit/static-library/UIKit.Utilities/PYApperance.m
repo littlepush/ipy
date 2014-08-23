@@ -61,6 +61,10 @@ PYKVO_CHANGED_RESPONSE(_rootContainer, popState);
 PYSingletonAllocWithZone(_gPYApperance);
 PYSingletonDefaultImplementation;
 
+@synthesize leftMenus = _leftViewControllers;
+@synthesize rightMenus = _rightViewControllers;
+@synthesize mainViews = _mainViewControllers;
+
 - (id)init
 {
     self = [super init];
@@ -73,6 +77,25 @@ PYSingletonDefaultImplementation;
         _rightMenuDisplayWidth = 0.f;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    if ( !_rootContainer ) {
+        PYRemoveObserve(_rootContainer, kUIViewControllerPopState);
+    }
+}
+
+- (void)switchMainViewAtIndex:(NSUInteger)index
+{
+    PYNavigationController *_nav = [_mainViewControllers safeObjectAtIndex:index];
+    if ( _nav == nil ) return;
+    
+    // Already the top one
+    if ( [_rootContainer.view.subviews lastObject] == _nav.view ) return;
+    [_rootContainer.view bringSubviewToFront:_nav.view];
+    [_nav viewWillAppear:NO];
+    [_nav resetViewPosition];
 }
 
 @synthesize leftMenuDisplayWidth = _leftMenuDisplayWidth;
@@ -150,7 +173,7 @@ PYSingletonDefaultImplementation;
             [_nc setViewControllerType:UINavigationControllerTypeMainView];
             [_nc setMaxToLeftMovingSpace:_rightMenuDisplayWidth];
             [_nc setMaxToRightMovingSpace:_leftMenuDisplayWidth];
-            
+        
             [_rootContainer addChildViewController:_nc];
             [_rootContainer.view addSubview:_nc.view];
         }
@@ -163,8 +186,11 @@ PYSingletonDefaultImplementation;
         for ( PYNavigationController *_nc in _rightViewControllers ) {
             _nc.mainNavController = _lastMainView;
         }
-        for ( PYNavigationController *_nc in _mainViewControllers ) {
-            _nc.mainNavController = _lastMainView;
+        for ( UIViewController *_vc in _mainViewControllers ) {
+            if ( [_vc isKindOfClass:[PYNavigationController class]] ) {
+                PYNavigationController *_nc = (PYNavigationController *)_vc;
+                _nc.mainNavController = _lastMainView;
+            }
         }
     }
 }

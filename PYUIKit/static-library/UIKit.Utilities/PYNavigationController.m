@@ -23,6 +23,25 @@
  */
 
 #import "PYNavigationController.h"
+#import "PYApperance.h"
+
+@interface PYApperance (__navigation_controller)
+
+- (void)_keyViewController:(PYNavigationController *)nav changedTransform:(CGAffineTransform)transform;
+
+@end
+
+@implementation PYApperance (__navigation_controller)
+
+- (void)_keyViewController:(PYNavigationController *)nav changedTransform:(CGAffineTransform)transform
+{
+    for ( UINavigationController *_nav in _mainViewControllers ) {
+        if ( _nav == nav ) continue;
+        _nav.view.transform = transform;
+    }
+}
+
+@end
 
 @interface PYNavigationController ()
 
@@ -40,6 +59,7 @@
             _panGesture = [[UIPanGestureRecognizer alloc]
                            initWithTarget:self
                            action:@selector(_gesturePanHandler:)];
+            _panGesture.delegate = self;
         }
         [self.view addGestureRecognizer:_panGesture];
     } else {
@@ -68,6 +88,16 @@
     return _maxToRightMovingSpace == 0;
 }
 
+// Gesture
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ( gestureRecognizer != _panGesture ) return NO;
+    if ( [self.childViewControllers count] > 1 ) return NO;
+    if ( [[PYApperance sharedApperance].leftMenus count] == 0 &&
+        [[PYApperance sharedApperance].rightMenus count] == 0 ) return NO;
+    return YES;
+}
+
 // Pop statue.
 @synthesize isPopedUp = _isPopedUp;
 
@@ -76,6 +106,14 @@
     if ( _maxToLeftMovingSpace == 0.f ) return;
     CGFloat _movingDistance = _maxToLeftMovingSpace * percentage;
     self.view.transform = CGAffineTransformMakeTranslation(-_movingDistance, 0);
+    if ( percentage == 0 ) {
+        [_maskView removeFromSuperview];
+        [_maskView setAlpha:0.f];
+    } else {
+        if ( _maskView.superview == nil ) {
+            [self.view addSubview:_maskView];
+        }
+    }
 }
 
 - (void)mainViewIsMovingToRightWithPercentage:(CGFloat)percentage
@@ -83,6 +121,14 @@
     if ( _maxToRightMovingSpace == 0.f ) return;
     CGFloat _movingDistance = _maxToRightMovingSpace * percentage;
     self.view.transform = CGAffineTransformMakeTranslation(_movingDistance, 0);
+    if ( percentage == 0 ) {
+        [_maskView removeFromSuperview];
+        [_maskView setAlpha:0.f];
+    } else {
+        if ( _maskView.superview == nil ) {
+            [self.view addSubview:_maskView];
+        }
+    }
 }
 
 - (void)moveToLeftWithDistance:(CGFloat)distance animated:(BOOL)animated
@@ -97,9 +143,27 @@
     if ( _currentTransform < -_maxToLeftMovingSpace ) {
         _currentTransform = -_maxToLeftMovingSpace;
     }
-    self.view.transform = CGAffineTransformMakeTranslation(_currentTransform, 0);
-    // Tell the container...
-    
+    CGAffineTransform _t = CGAffineTransformMakeTranslation(_currentTransform, 0);
+    self.view.transform = _t;
+    [[PYApperance sharedApperance] _keyViewController:self changedTransform:_t];
+    if ( _currentTransform == 0.f ) {
+        [_maskView removeFromSuperview];
+        [_maskView setAlpha:0.f];
+    } else {
+        if ( _maskView.superview == nil ) {
+            [self.view addSubview:_maskView];
+        }
+        CGFloat _percentage = 0.f;
+        if ( _currentTransform > 0 ) {
+            // Not return to zero point, calculate with right space
+            _percentage = _currentTransform / _maxToRightMovingSpace;
+        } else {
+            _percentage = PYABSF(_currentTransform) / _maxToLeftMovingSpace;
+        }
+        CGFloat _alpha = _percentage * 0.6;
+        [_maskView setAlpha:_alpha];
+    }
+
     if ( animated ) {
         [UIView commitAnimations];
     }
@@ -117,8 +181,26 @@
     if ( _currentTransform > _maxToRightMovingSpace ) {
         _currentTransform = _maxToRightMovingSpace;
     }
-    self.view.transform = CGAffineTransformMakeTranslation(_currentTransform, 0);
-    // Tell the container...
+    CGAffineTransform _t = CGAffineTransformMakeTranslation(_currentTransform, 0);
+    self.view.transform = _t;
+    [[PYApperance sharedApperance] _keyViewController:self changedTransform:_t];
+    if ( _currentTransform == 0.f ) {
+        [_maskView removeFromSuperview];
+        [_maskView setAlpha:0.f];
+    } else {
+        if ( _maskView.superview == nil ) {
+            [self.view addSubview:_maskView];
+        }
+        CGFloat _percentage = 0;
+        if ( _currentTransform < 0 ) {
+            // Not return zeor point
+            _percentage = PYABSF(_currentTransform) / _maxToLeftMovingSpace;
+        } else {
+            _percentage = _currentTransform / _maxToRightMovingSpace;
+        }
+        CGFloat _alpha = _percentage * 0.6;
+        [_maskView setAlpha:_alpha];
+    }
 
     if ( animated ) {
         [UIView commitAnimations];
@@ -130,7 +212,12 @@
     if ( self.view.transform.tx == 0.f ) return;
     [UIView animateWithDuration:.175 animations:^{
         self.view.transform = CGAffineTransformIdentity;
-        // Tell the container...
+        [[PYApperance sharedApperance]
+         _keyViewController:self
+         changedTransform:CGAffineTransformIdentity];
+        [_maskView setAlpha:0.f];
+    } completion:^(BOOL finished) {
+        [_maskView removeFromSuperview];
     }];
 }
 
@@ -171,6 +258,10 @@
 #pragma mark --
 #pragma mark top bar
 @synthesize topBarHidden = _isTopBarHidden;
+- (void)setTopBarHidden:(BOOL)topBarHidden
+{
+    [self setTopBarHidden:topBarHidden animated:YES];
+}
 @synthesize topBar = _topBarView;
 @synthesize topBarHeight = _topBarHeight;
 - (void)__notifyChildrenForContentSizeChangedCausedByBars
@@ -249,6 +340,10 @@
 #pragma mark --
 #pragma mark Bottom Bar
 @synthesize bottomBarHidden = _isBottomBarHidden;
+- (void)setBottomBarHidden:(BOOL)bottomBarHidden
+{
+    [self setBottomBarHidden:bottomBarHidden animated:YES];
+}
 @synthesize bottomBar = _bottomBarView;
 @synthesize bottomBarHeight = _bottomBarHeight;
 - (void)__notifyChildrenForContentSizeChangedCausedByBottomBar __deprecated
@@ -347,6 +442,29 @@
     [self.view addSubview:_topBarView];
     [self.view addSubview:_bottomBarView];
     _isBottomBarHidden = YES;
+    
+    _maskView = [[UIView alloc] initWithFrame:_containerView.frame];
+    [_maskView setBackgroundColor:[UIColor blackColor]];
+    [_maskView setAlpha:0];
+    UIPanGestureRecognizer *_maskPG = [[UIPanGestureRecognizer alloc]
+                                       initWithTarget:self
+                                       action:@selector(_actionMaskViewPanHandler:)];
+    [_maskView addGestureRecognizer:_maskPG];
+    
+    UITapGestureRecognizer *_maskTG = [[UITapGestureRecognizer alloc]
+                                       initWithTarget:self
+                                       action:@selector(_actionMaskViewTapHandler:)];
+    [_maskView addGestureRecognizer:_maskTG];
+}
+
+- (void)_actionMaskViewTapHandler:(id)sender
+{
+    [self resetViewPosition];
+}
+
+- (void)_actionMaskViewPanHandler:(id)sender
+{
+    [self _gesturePanHandler:sender];
 }
 
 - (void)viewDidLoad
@@ -366,12 +484,13 @@
 
 - (void)_gesturePanHandler:(id)sender
 {
-    CGPoint _touchPoint = [_panGesture locationInView:[UIApplication sharedApplication].keyWindow];
+    UIPanGestureRecognizer *_pg = (UIPanGestureRecognizer *)sender;
+    CGPoint _touchPoint = [_pg locationInView:[UIApplication sharedApplication].keyWindow];
     
-    if ( _panGesture.state == UIGestureRecognizerStateBegan ) {
+    if ( _pg.state == UIGestureRecognizerStateBegan ) {
         // Store the first point.
         _lastTouchPoint = _touchPoint;
-    } else if ( _panGesture.state == UIGestureRecognizerStateChanged ) {
+    } else if ( _pg.state == UIGestureRecognizerStateChanged ) {
         CGFloat _deltaHor = _touchPoint.x - _lastTouchPoint.x;
         if ( _deltaHor > 0 ) {
             [self moveToRightWithDistance:_deltaHor animated:NO];
@@ -380,7 +499,7 @@
         }
         _lastTouchPoint = _touchPoint;
         _lastDelta = _deltaHor;
-    } else if ( _panGesture.state == UIGestureRecognizerStateRecognized ) {
+    } else if ( _pg.state == UIGestureRecognizerStateRecognized ) {
         // Release current object...
         if ( _lastDelta > 0 ) {
             // Move to right stage if current transform is zero.

@@ -108,7 +108,7 @@ extern CGFloat const            PYScrollOverheadRate;
 + (Class)contentViewClass;
 
 // The delegate to get the callback.
-@property (nonatomic, assign)   id<PYScrollViewDelegate>            delegate;
+@property (nonatomic, assign)   IBOutlet id<PYScrollViewDelegate>   delegate;
 
 // Set the decelerate speed.
 @property (nonatomic, assign)   PYDecelerateSpeed                   decelerateSpeed;

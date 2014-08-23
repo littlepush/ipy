@@ -5,7 +5,7 @@ iOS Library support 5.1+, include data process, in-mem cache, file cache, databa
 
 Install
 ===
-## iOS framework install script, version 0.9.2
+## iOS framework install script, version 0.9.5
 #### Usage:
 `install [options]`<br />
 `install --help`

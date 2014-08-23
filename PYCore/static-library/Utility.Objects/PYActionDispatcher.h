@@ -70,7 +70,7 @@
 @end
 
 #define PYEventHandler(dpIdentify, event)               \
-- (void)_py_event_handler_##dpIdentify##_##event:(id)sender exInfo:(id)exInfo
+_py_event_handler_##dpIdentify##_##event:(id)obj1 exInfo:(id)obj2
 
 // @littlepush
 // littlepush@gmail.com
